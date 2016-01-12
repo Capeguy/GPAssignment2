@@ -1,0 +1,291 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="12.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="Debug|Win32">
+      <Configuration>Debug</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|Win32">
+      <Configuration>Release</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="AggressivePluckBehavior.h" />
+    <ClInclude Include="Aidil.h" />
+    <ClInclude Include="AnimatableTile.h" />
+    <ClInclude Include="Armor.h" />
+    <ClInclude Include="ArtifactDisplay.h" />
+    <ClInclude Include="ArtifactLever.h" />
+    <ClInclude Include="AttackBehavior.h" />
+    <ClInclude Include="Behavior.h" />
+    <ClInclude Include="BlacksmithBehavior.h" />
+    <ClInclude Include="BlockRock.h" />
+    <ClInclude Include="BlockRockMineBehavior.h" />
+    <ClInclude Include="Boost.h" />
+    <ClInclude Include="Button.h" />
+    <ClInclude Include="BuyBehavior.h" />
+    <ClInclude Include="ChatData.h" />
+    <ClInclude Include="CookBehavior.h" />
+    <ClInclude Include="Cooker.h" />
+    <ClInclude Include="Dragonfire.h" />
+    <ClInclude Include="DropBehavior.h" />
+    <ClInclude Include="EasterInteractBehavior.h" />
+    <ClInclude Include="EatBehavior.h" />
+    <ClInclude Include="EquipBehavior.h" />
+    <ClInclude Include="FishBehavior.h" />
+    <ClInclude Include="GainXPBehavior.h" />
+    <ClInclude Include="GameEventManager.h" />
+    <ClInclude Include="GameEvent_EntityAction.h" />
+    <ClInclude Include="GameEvent_ItemReceived.h" />
+    <ClInclude Include="GameEvent_RiftClosed.h" />
+    <ClInclude Include="HealBehavior.h" />
+    <ClInclude Include="Interactable.h" />
+    <ClInclude Include="InventoryBoost.h" />
+    <ClInclude Include="InventoryEquipment.h" />
+    <ClInclude Include="KeyFishBehavior.h" />
+    <ClInclude Include="MineBehavior.h" />
+    <ClInclude Include="MusicTile.h" />
+    <ClInclude Include="NoiseManager.h" />
+    <ClInclude Include="OpenBehavior.h" />
+    <ClInclude Include="OptionNotifier.h" />
+    <ClInclude Include="Person.h" />
+    <ClInclude Include="PersonLoader.h" />
+    <ClInclude Include="constants.h" />
+    <ClInclude Include="destination.h" />
+    <ClInclude Include="Enemy.h" />
+    <ClInclude Include="entity.h" />
+    <ClInclude Include="drawManager.h" />
+    <ClInclude Include="Equipment.h" />
+    <ClInclude Include="Food.h" />
+    <ClInclude Include="game.h" />
+    <ClInclude Include="gameError.h" />
+    <ClInclude Include="GameEvent.h" />
+    <ClInclude Include="GameEvent_Damage.h" />
+    <ClInclude Include="globals.h" />
+    <ClInclude Include="graphics.h" />
+    <ClInclude Include="grpg.h" />
+    <ClInclude Include="image.h" />
+    <ClInclude Include="input.h" />
+    <ClInclude Include="Inventory.h" />
+    <ClInclude Include="InventoryFood.h" />
+    <ClInclude Include="InventoryItem.h" />
+    <ClInclude Include="item.h" />
+    <ClInclude Include="itemLoader.h" />
+    <ClInclude Include="List.h" />
+    <ClInclude Include="mapLoader.h" />
+    <ClInclude Include="NPC.h" />
+    <ClInclude Include="PickLockBehavior.h" />
+    <ClInclude Include="PickupBehavior.h" />
+    <ClInclude Include="PlantPatch.h" />
+    <ClInclude Include="PlantPatchDigBehavior.h" />
+    <ClInclude Include="PlantPatchInspectBehavior.h" />
+    <ClInclude Include="PlantPatchPlantBehavior.h" />
+    <ClInclude Include="PlantPatchRakeBehavior.h" />
+    <ClInclude Include="PlantPotPlantSeedBehavior.h" />
+    <ClInclude Include="player.h" />
+    <ClInclude Include="playerSkill.h" />
+    <ClInclude Include="PullArtifactLever.h" />
+    <ClInclude Include="Quest.h" />
+    <ClInclude Include="QuestCondition.h" />
+    <ClInclude Include="QuestData.h" />
+    <ClInclude Include="QuestLoader.h" />
+    <ClInclude Include="QuickPluckBehavior.h" />
+    <ClInclude Include="Resource.h" />
+    <ClInclude Include="RichDoor.h" />
+    <ClInclude Include="Rift.h" />
+    <ClInclude Include="RiftData.h" />
+    <ClInclude Include="RiftEnterBehavior.h" />
+    <ClInclude Include="RiftExitBehavior.h" />
+    <ClInclude Include="SaveCrystal.h" />
+    <ClInclude Include="SaveCrystalLoadBehavior.h" />
+    <ClInclude Include="SaveCrystalQuickSaveBehavior.h" />
+    <ClInclude Include="SaveCrystalUseBehavior.h" />
+    <ClInclude Include="SellBehavior.h" />
+    <ClInclude Include="ShriveledMan.h" />
+    <ClInclude Include="skill.h" />
+    <ClInclude Include="SkillLevelUp.h" />
+    <ClInclude Include="Smithing_Material.h" />
+    <ClInclude Include="Spawner.h" />
+    <ClInclude Include="StealBehavior.h" />
+    <ClInclude Include="StoveMoveBehavior.h" />
+    <ClInclude Include="string_functions.h" />
+    <ClInclude Include="TakeArtifactBehavior.h" />
+    <ClInclude Include="TalkBehavior.h" />
+    <ClInclude Include="TeleportBehavior.h" />
+    <ClInclude Include="textDX.h" />
+    <ClInclude Include="textureManager.h" />
+    <ClInclude Include="tile.h" />
+    <ClInclude Include="TradeBehavior.h" />
+    <ClInclude Include="UI.h" />
+    <ClInclude Include="UpdateQuestsBehavior.h" />
+    <ClInclude Include="ViewBehavior.h" />
+    <ClInclude Include="ViewBehaviorItem.h" />
+    <ClInclude Include="ViewBehaviorNPC.h" />
+    <ClInclude Include="Viewport.h" />
+    <ClInclude Include="Weapon.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="Aidil.cpp" />
+    <ClCompile Include="AggressivePluckBehavior.cpp" />
+    <ClCompile Include="AnimatableTile.cpp" />
+    <ClCompile Include="Armor.cpp" />
+    <ClCompile Include="ArtifactDisplay.cpp" />
+    <ClCompile Include="ArtifactLever.cpp" />
+    <ClCompile Include="AttackBehavior.cpp" />
+    <ClCompile Include="BlockRock.cpp" />
+    <ClCompile Include="BlockRockMineBehavior.cpp" />
+    <ClCompile Include="ChatData.cpp" />
+    <ClCompile Include="CookBehavior.cpp" />
+    <ClCompile Include="BuyBehavior.cpp" />
+    <ClCompile Include="Dragonfire.cpp" />
+    <ClCompile Include="DropBehavior.cpp" />
+    <ClCompile Include="EasterInteractBehavior.cpp" />
+    <ClCompile Include="EatBehavior.cpp" />
+    <ClCompile Include="EquipBehavior.cpp" />
+    <ClCompile Include="FishBehavior.cpp" />
+    <ClCompile Include="GainXPBehavior.cpp" />
+    <ClCompile Include="GameEvent_ItemUsed.h" />
+    <ClCompile Include="HealBehavior.cpp" />
+    <ClCompile Include="InventoryItem.cpp" />
+    <ClCompile Include="KeyFishBehavior.cpp" />
+    <ClCompile Include="MineBehavior.cpp" />
+    <ClCompile Include="MusicTile.cpp" />
+    <ClCompile Include="NPC.cpp" />
+    <ClCompile Include="OpenBehavior.cpp" />
+    <ClCompile Include="Person.cpp" />
+    <ClCompile Include="PersonLoader.cpp" />
+    <ClCompile Include="Enemy.cpp" />
+    <ClCompile Include="entity.cpp" />
+    <ClCompile Include="drawManager.cpp" />
+    <ClCompile Include="Food.cpp" />
+    <ClCompile Include="game.cpp" />
+    <ClCompile Include="graphics.cpp" />
+    <ClCompile Include="grpg.cpp" />
+    <ClCompile Include="image.cpp" />
+    <ClCompile Include="input.cpp" />
+    <ClCompile Include="Inventory.cpp" />
+    <ClCompile Include="itemLoader.cpp" />
+    <ClCompile Include="List.cpp" />
+    <ClCompile Include="mapLoader.cpp" />
+    <ClCompile Include="PickLockBehavior.cpp" />
+    <ClCompile Include="PickupBehavior.cpp" />
+    <ClCompile Include="PlantPatch.cpp" />
+    <ClCompile Include="PlantPatchDigBehavior.cpp" />
+    <ClCompile Include="PlantPatchInspectBehavior.cpp" />
+    <ClCompile Include="PlantPatchPlantBehavior.cpp" />
+    <ClCompile Include="PlantPatchRakeBehavior.cpp" />
+    <ClCompile Include="PlantPotPlantSeedBehavior.cpp" />
+    <ClCompile Include="player.cpp" />
+    <ClCompile Include="playerSkill.cpp" />
+    <ClCompile Include="PullArtifactLever.cpp" />
+    <ClCompile Include="Quest.cpp" />
+    <ClCompile Include="QuestCondition.cpp" />
+    <ClCompile Include="QuestData.cpp" />
+    <ClCompile Include="QuestLoader.cpp" />
+    <ClCompile Include="QuickPluckBehavior.cpp" />
+    <ClCompile Include="Resource.cpp" />
+    <ClCompile Include="RichDoor.cpp" />
+    <ClCompile Include="Rift.cpp" />
+    <ClCompile Include="RiftData.cpp" />
+    <ClCompile Include="RiftEnterBehavior.cpp" />
+    <ClCompile Include="RiftExitBehavior.cpp" />
+    <ClCompile Include="SaveCrystal.cpp" />
+    <ClCompile Include="SaveCrystalLoadBehavior.cpp" />
+    <ClCompile Include="SaveCrystalQuickSaveBehavior.cpp" />
+    <ClCompile Include="SaveCrystalUseBehavior.cpp" />
+    <ClCompile Include="SellBehavior.cpp" />
+    <ClCompile Include="ShriveledMan.cpp" />
+    <ClCompile Include="skill.cpp" />
+    <ClCompile Include="SkillLevelUp.cpp" />
+    <ClCompile Include="SoundManager.cpp" />
+    <ClCompile Include="Spawner.cpp" />
+    <ClCompile Include="StealBehavior.cpp" />
+    <ClCompile Include="StoveMoveBehavior.cpp" />
+    <ClCompile Include="TakeArtifactBehavior.cpp" />
+    <ClCompile Include="TalkBehavior.cpp" />
+    <ClCompile Include="TeleportBehavior.cpp" />
+    <ClCompile Include="textDX.cpp" />
+    <ClCompile Include="textureManager.cpp" />
+    <ClCompile Include="tile.cpp" />
+    <ClCompile Include="TradeBehavior.cpp" />
+    <ClCompile Include="UI.cpp" />
+    <ClCompile Include="updateQuestsBehavior.cpp" />
+    <ClCompile Include="ViewBehavior.cpp" />
+    <ClCompile Include="ViewBehaviorItem.cpp" />
+    <ClCompile Include="ViewBehaviorNPC.cpp" />
+    <ClCompile Include="Weapon.cpp" />
+    <ClCompile Include="winmain.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Smithing_Material.cpp" />
+  </ItemGroup>
+  <PropertyGroup Label="Globals">
+    <ProjectGuid>{6A78524C-B15C-4EAA-994D-AF0B5E1BEBAE}</ProjectGuid>
+    <RootNamespace>GRPG</RootNamespace>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <UseDebugLibraries>true</UseDebugLibraries>
+    <PlatformToolset>v120</PlatformToolset>
+    <CharacterSet>MultiByte</CharacterSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <UseDebugLibraries>false</UseDebugLibraries>
+    <PlatformToolset>v120</PlatformToolset>
+    <WholeProgramOptimization>true</WholeProgramOptimization>
+    <CharacterSet>MultiByte</CharacterSet>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
+  <ImportGroup Label="ExtensionSettings">
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <PropertyGroup Label="UserMacros" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <IncludePath>$(DXSDK_DIR)\Include;$(IncludePath)</IncludePath>
+    <LibraryPath>$(DXSDK_DIR)\Lib\x86;$(LibraryPath)</LibraryPath>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <IncludePath>$(DXSDK_DIR)\Include;$(IncludePath)</IncludePath>
+    <LibraryPath>$(DXSDK_DIR)\Lib\x86;$(LibraryPath)</LibraryPath>
+  </PropertyGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <Optimization>Disabled</Optimization>
+      <SDLCheck>true</SDLCheck>
+      <AdditionalIncludeDirectories>../Includes/;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+    </ClCompile>
+    <Link>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <AdditionalDependencies>d3d9.lib;d3dx9.lib;winmm.lib;xinput.lib;d3dx9.lib;winmm.lib;xinput.lib;%(AdditionalDependencies)</AdditionalDependencies>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <Optimization>MaxSpeed</Optimization>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <IntrinsicFunctions>true</IntrinsicFunctions>
+      <SDLCheck>true</SDLCheck>
+      <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
+      <AdditionalIncludeDirectories>../Includes/;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+    </ClCompile>
+    <Link>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <EnableCOMDATFolding>true</EnableCOMDATFolding>
+      <OptimizeReferences>true</OptimizeReferences>
+      <AdditionalDependencies>d3d9.lib;d3dx9.lib;winmm.lib;xinput.lib;%(AdditionalDependencies)</AdditionalDependencies>
+    </Link>
+  </ItemDefinitionGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+  <ImportGroup Label="ExtensionTargets">
+  </ImportGroup>
+</Project>
