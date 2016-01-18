@@ -21,7 +21,7 @@ class Image
     Graphics *graphics;     // pointer to graphics
     TextureManager *textureManager; // pointer to texture manager
     // spriteData contains the data required to draw the image by Graphics::drawSprite()
-    //SpriteData spriteData;  // SpriteData is defined in "graphics.h"
+    // SpriteData spriteData;  // SpriteData is defined in "graphics.h"
     COLOR_ARGB colorFilter; // applied as a color filter (use WHITE for no change)
     int     cols;           // number of cols (1 to n) in multi-frame sprite
     int     startFrame;     // first frame of current animation

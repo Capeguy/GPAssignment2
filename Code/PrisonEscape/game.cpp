@@ -11,7 +11,7 @@
 //#include "drawManager.h"
 #include "Viewport.h"
 //#include "mapLoader.h"
-#include "PrisonEscape.h"
+#include "prisonEscape.h"
 //#include "PersonLoader.h"
 
 // The primary class should inherit from Game class

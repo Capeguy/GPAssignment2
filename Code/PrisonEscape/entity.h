@@ -44,6 +44,24 @@ class Entity : public Image
     bool    active;         // only active entities may collide
     bool    rotatedBoxReady;    // true when rotated collision box is ready
 
+								// New Entity variables added that are generic
+
+	float	x;				// logical X location
+	float	y;				// logical Y location
+	VECTOR2 oldViewport;	// The old viewport top left location to check if re-drawing are needed
+	VECTOR2 oldLocation;	// The old location this entity was at to check if re-drawing are needed
+	bool anchored;			// Anchored entities don't move when the viewport moves
+	Image	image;			// The image that is drawn on the screen
+	Graphics* graphics = nullptr;		// A pointer to the graphics object
+	TextureManager* textureM = nullptr; //This needs to be set on the entity's creation by any entity inheriting from this
+	//Button* backHealth = nullptr;			//Vertex data for the entirety of the health bar
+	//Button* availableHealth = nullptr;		// Vertex data for only the health that the player has
+	float displayTime;					//How long the health bar is going to be displayed.
+
+	float splatTime;				//How long the hit splat will stay on the screen
+	int damageTaken;				//How many damage this entity took
+
+	Game* theGame;					// Reference to the game so Entity can inform it when it dies
     // --- The following functions are protected because they are not intended to be
     // --- called from outside the class.
     // Circular collision detection 

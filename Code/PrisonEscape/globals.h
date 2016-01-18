@@ -10,6 +10,5 @@
 #include <iostream>
 #include <string>
 
-extern std::ofstream runtimeLog;
 
 #endif

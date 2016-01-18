@@ -1,4 +1,4 @@
-#include "PrisonEscape.h"
+#include "prisonEscape.h"
 
 //#include "drawManager.h"
 //#include "mapLoader.h"
@@ -21,9 +21,11 @@
 //=============================================================================
 PrisonEscape::PrisonEscape()
 {//Mem leak free
+	
 	dragonfireTexture = new TextureManager();
 	uiFont = new TextDX();
 	easterEggCounter = 0;
+
 }
 
 //=============================================================================
@@ -31,16 +33,74 @@ PrisonEscape::PrisonEscape()
 //=============================================================================
 PrisonEscape::~PrisonEscape()
 {
-	
+	return;
 }
-
+LRESULT PrisonEscape::messageHandler(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
+{
+	if (initialized)     // do not process messages if not initialized
+	{
+		switch (msg)
+		{
+		case WM_DESTROY:
+			PostQuitMessage(0);        //tell Windows to kill this program
+			return 0;
+		case WM_KEYDOWN: case WM_SYSKEYDOWN:    // key down
+			input->keyDown(wParam);
+			return 0;
+		case WM_KEYUP: case WM_SYSKEYUP:        // key up
+			input->keyUp(wParam);
+			return 0;
+		case WM_CHAR:                           // character entered
+			input->keyIn(wParam);
+			return 0;
+		case WM_MOUSEMOVE:                      // mouse moved
+			input->mouseIn(lParam);
+			return 0;
+		case WM_INPUT:                          // raw mouse data in
+			input->mouseRawIn(lParam);
+			return 0;
+		case WM_LBUTTONDOWN:                    // left mouse button down
+			input->setMouseLButton(true);
+			input->mouseIn(lParam);             // mouse position
+			return 0;
+		case WM_LBUTTONUP:                      // left mouse button up
+			input->setMouseLButton(false);
+			input->mouseIn(lParam);             // mouse position
+			return 0;
+		case WM_MBUTTONDOWN:                    // middle mouse button down
+			input->setMouseMButton(true);
+			input->mouseIn(lParam);             // mouse position
+			return 0;
+		case WM_MBUTTONUP:                      // middle mouse button up
+			input->setMouseMButton(false);
+			input->mouseIn(lParam);             // mouse position
+			return 0;
+		case WM_RBUTTONDOWN:                    // right mouse button down
+			input->setMouseRButton(true);
+			input->mouseIn(lParam);             // mouse position
+			return 0;
+		case WM_RBUTTONUP:                      // right mouse button up
+			input->setMouseRButton(false);
+			input->mouseIn(lParam);             // mouse position
+			return 0;
+		case WM_XBUTTONDOWN: case WM_XBUTTONUP: // mouse X button down/up
+			input->setMouseXButton(wParam);
+			input->mouseIn(lParam);             // mouse position
+			return 0;
+		case WM_DEVICECHANGE:                   // check for controller insert
+			input->checkControllers();
+			return 0;
+		}
+	}
+	return DefWindowProc(hwnd, msg, wParam, lParam);    // let Windows handle it
+}
 //=============================================================================
 // Initializes the game
 // Throws GameError on error
 //=============================================================================
 void PrisonEscape::initialize(HWND hwnd)
 {
-	Game::initialize(hwnd); // throws GameError
+	//Game::initialize(hwnd); // throws GameError
 
 							/* initialize random seed: */
 	srand(time(NULL));
@@ -93,9 +153,9 @@ void PrisonEscape::releaseAll()
 	uiFont->onLostDevice();
 	//UI is their own class as well, and needs to be told to release their inner children's
 	//textures and text (The entity manager only does it for the texture)
-	ui->onLostDevice();
+	//ui->onLostDevice();
 
-	Game::releaseAll();
+	//Game::releaseAll();
 	return;
 }
 
@@ -109,9 +169,9 @@ void PrisonEscape::resetAll()
 	uiFont->onResetDevice();
 	//UI is their own class as well, and needs to be told to release their inner children's
 	//textures and text (The entity manager only does it for the texture)
-	ui->onResetDevice();
+	//ui->onResetDevice();
 
-	Game::resetAll();
+	//Game::resetAll();
 	return;
 }
 
@@ -124,7 +184,7 @@ bool PrisonEscape::processCommand(std::string command)
 {
 	return true;
 }
-
+/*
 void PrisonEscape::attemptQuestCompletions()
 {
 	
@@ -132,10 +192,30 @@ void PrisonEscape::attemptQuestCompletions()
 
 Entity* PrisonEscape::dropEasterEgg()
 {
-	
+	return new Entity();
 }
 
 void PrisonEscape::saveAnalyticsData()
 {
 	
+}
+*/
+void PrisonEscape::run(HWND x) {
+
+}
+void PrisonEscape::deleteAll() {
+
+}
+
+// Render game items.
+void PrisonEscape::renderGame() {
+
+}
+
+// Handle lost graphics device
+void PrisonEscape::handleLostGraphicsDevice() {
+
+}
+void PrisonEscape::deleteEntity(Entity* e) {
+
 }

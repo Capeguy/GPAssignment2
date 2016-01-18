@@ -75,7 +75,7 @@ public:
 	PrisonEscape();
 
 	// Destructor
-	virtual ~PrisonEscape();
+	~PrisonEscape();
 
 	// Initialize the game
 	void initialize(HWND hwnd);
@@ -86,14 +86,23 @@ public:
 	void releaseAll();
 	void resetAll();
 
+	void run(HWND x);
+	void deleteAll();
+
+	// Render game items.
+	void renderGame();
+
+	// Handle lost graphics device
+	void handleLostGraphicsDevice();
 	bool processCommand(std::string command);
+	LRESULT messageHandler(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam);
 
 	//UI* getUI() { return ui; }
 	// Player* getPlayer() { return player; }
 	//ItemLoader* getItemLoader() { return itemLoader; }
 	//QuestLoader* getQuestLoader() { return questLoader; }
 	// GameEventManager* getGameEventManager() { return gameEventManager; }
-	TextureManager* getDragonfireTexture() { return dragonfireTexture; }
+	//TextureManager* getDragonfireTexture() { return dragonfireTexture; }
 	//RiftData* getRiftData() { return riftData; }
 
 	//Attempt to finish all the quests that have all their required conditions completed, as long as they
@@ -101,13 +110,14 @@ public:
 	//Will display the quest complete popup if required, as well as awarding any rewards that should be given
 	//to the player's inventory. Since the quest complete popup is shown, any window headers already displayed
 	//will be removed.
-	void attemptQuestCompletions();
+	//void attemptQuestCompletions();
 
 	//Attempt to drop an easter egg for an entity. Generates a new easter egg object and returns it.
-	Entity* dropEasterEgg();
+	//Entity* dropEasterEgg();
 
 	//Print an analytics text into analytics.txt
-	void saveAnalyticsData();
+	//void saveAnalyticsData();
+	void deleteEntity(Entity* e);
 };
 
 #endif

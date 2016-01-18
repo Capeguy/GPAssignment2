@@ -11,7 +11,7 @@
 #include <stdlib.h>             // for detecting memory leaks
 #include <crtdbg.h>             // for detecting memory leaks
 #include "globals.h"
-#include "PrisonEscape.h"
+#include "prisonEscape.h"
 
 
 // Function prototypes
@@ -20,7 +20,7 @@ bool CreateMainWindow(HWND &, HINSTANCE, int);
 LRESULT WINAPI WinProc(HWND, UINT, WPARAM, LPARAM);
 
 // Game pointer
-Grpg *game = NULL;
+PrisonEscape *game = NULL;
 HWND hwnd = NULL;
 
 //std::ofstream runtimeLog;
@@ -41,7 +41,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance,
 	MSG msg;
 
 	// Create the game, sets up message handler
-	game = new Grpg;
+	game = new PrisonEscape;
 
 	// Create the window
 	if (!CreateMainWindow(hwnd, hInstance, nCmdShow))
@@ -85,7 +85,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance,
 
 	SAFE_DELETE(game);     // free memory before exit
 
-	runtimeLog.close();
+	//runtimeLog.close();
 	return 0;
 }
 
