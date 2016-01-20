@@ -48,7 +48,7 @@ void Elevations::initialize(HWND hwnd)
     tree.setFrames(TREE0_FRAME, TREE0_FRAME);
     tree.setCurrentFrame(TREE0_FRAME);
 
-	dxFont.initialize(graphics, 14, false, false, "Courier New");
+	dxFont.initialize(graphics, 12, false, false, "Courier New");
 	dxFont.setFontColor(SETCOLOR_ARGB(192, 255, 255, 255));
 }
 
@@ -80,6 +80,7 @@ void Elevations::render()
     graphics->spriteBegin();
 	mapTile.draw();
 	int padding = 2;
+	string buffer;
     // Draw map in Isometric Diamond
     for(int row=0; row<MAP_SIZE_X; row++)
     {
@@ -98,7 +99,11 @@ void Elevations::render()
             mapTile.draw();
 			// dxFont.print(to_string(tileMap[col][row]), textRect, DT_CALCRECT);
 			if (drawTileNo) {
-				dxFont.print(to_string(tileMap[col][row]), row * TEXTURE_SIZE, col * TEXTURE_SIZE);
+				buffer = "";
+				buffer += to_string(tileMap[col][row]);
+				buffer += ":";
+				buffer += to_string(tileSolid[tileMap[col][row]][1]);
+				dxFont.print(buffer, row * TEXTURE_SIZE, col * TEXTURE_SIZE);
 			}
         }
     }

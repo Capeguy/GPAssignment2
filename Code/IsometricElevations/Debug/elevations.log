@@ -1,17 +1,14 @@
-﻿Build started 20/1/16 5:20:19 pm.
-     1>Project "\\psf\Dropbox\GP Shared\IsometricElevations\IsometricElevations\elevations.vcxproj" on node 2 (Build target(s)).
+﻿Build started 1/20/2016 10:13:51 PM.
+     1>Project "C:\Users\ben\Documents\GPAssignment2\Code\IsometricElevations\elevations.vcxproj" on node 2 (Build target(s)).
      1>ClCompile:
-         C:\Program Files (x86)\Microsoft Visual Studio 14.0\VC\bin\CL.exe /c /I"C:\Program Files (x86)\Microsoft DirectX SDK (June 2010)\\Include" /ZI /nologo /W3 /WX- /Od /Oy- /D _MBCS /Gm /EHsc /RTC1 /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Zc:inline /Fo"Debug\\" /Fd"Debug\vc140.pdb" /Gd /TP /analyze- /errorReport:prompt elevations.cpp game.cpp winmain.cpp
-         game.cpp
-         elevations.cpp
-     1>\\psf\dropbox\gp shared\isometricelevations\isometricelevations\elevations.cpp(89): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
-     1>\\psf\dropbox\gp shared\isometricelevations\isometricelevations\elevations.cpp(90): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
-         Generating Code...
-         Compiling...
+         D:\Program Files (x86)\Microsoft Visual Studio 12.0\VC\bin\CL.exe /c /I"C:\Program Files (x86)\Microsoft DirectX SDK (June 2010)\\Include" /ZI /nologo /W3 /WX- /Od /Oy- /D _MBCS /Gm /EHsc /RTC1 /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Fo"Debug\\" /Fd"Debug\vc120.pdb" /Gd /TP /analyze- /errorReport:prompt elevations.cpp winmain.cpp
          winmain.cpp
+         elevations.cpp
+     1>c:\users\ben\documents\gpassignment2\code\isometricelevations\elevations.cpp(90): warning C4244: 'argument' : conversion from 'const int' to 'float', possible loss of data
+     1>c:\users\ben\documents\gpassignment2\code\isometricelevations\elevations.cpp(91): warning C4244: 'argument' : conversion from 'const int' to 'float', possible loss of data
          Generating Code...
        Link:
-         C:\Program Files (x86)\Microsoft Visual Studio 14.0\VC\bin\link.exe /ERRORREPORT:PROMPT /OUT:"\\psf\Dropbox\GP Shared\IsometricElevations\IsometricElevations\Debug\elevations.exe" /NOLOGO /LIBPATH:"C:\Program Files (x86)\Microsoft DirectX SDK (June 2010)\\Lib\x86" d3d9.lib d3dx9.lib winmm.lib xinput.lib kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib /MANIFEST /MANIFESTUAC:"level='asInvoker' uiAccess='false'" /manifest:embed /Debug /PDB:"\\psf\Dropbox\GP Shared\IsometricElevations\IsometricElevations\Debug\elevations.pdb" /TLBID:1 /DYNAMICBASE /NXCOMPAT /IMPLIB:"\\psf\Dropbox\GP Shared\IsometricElevations\IsometricElevations\Debug\elevations.lib" /MACHINE:X86 /SAFESEH Debug\audio.obj
+         D:\Program Files (x86)\Microsoft Visual Studio 12.0\VC\bin\link.exe /ERRORREPORT:PROMPT /OUT:"C:\Users\ben\Documents\GPAssignment2\Code\IsometricElevations\Debug\elevations.exe" /NOLOGO /LIBPATH:"C:\Program Files (x86)\Microsoft DirectX SDK (June 2010)\\Lib\x86" d3d9.lib d3dx9.lib winmm.lib xinput.lib kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib /MANIFEST /MANIFESTUAC:"level='asInvoker' uiAccess='false'" /manifest:embed /DEBUG /PDB:"C:\Users\ben\Documents\GPAssignment2\Code\IsometricElevations\Debug\elevations.pdb" /TLBID:1 /DYNAMICBASE /NXCOMPAT /IMPLIB:"C:\Users\ben\Documents\GPAssignment2\Code\IsometricElevations\Debug\elevations.lib" /MACHINE:X86 /SAFESEH Debug\audio.obj
          Debug\console.obj
          Debug\elevations.obj
          Debug\game.obj
@@ -23,9 +20,9 @@
          Debug\image.obj
          Debug\textDX.obj
          Debug\winmain.obj
-         elevations.vcxproj -> \\psf\Dropbox\GP Shared\IsometricElevations\IsometricElevations\Debug\elevations.exe
-     1>Done Building Project "\\psf\Dropbox\GP Shared\IsometricElevations\IsometricElevations\elevations.vcxproj" (Build target(s)).
+         elevations.vcxproj -> C:\Users\ben\Documents\GPAssignment2\Code\IsometricElevations\Debug\elevations.exe
+     1>Done Building Project "C:\Users\ben\Documents\GPAssignment2\Code\IsometricElevations\elevations.vcxproj" (Build target(s)).
 
 Build succeeded.
 
-Time Elapsed 00:00:05.93
+Time Elapsed 00:00:01.60
