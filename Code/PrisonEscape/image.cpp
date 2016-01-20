@@ -1,9 +1,3 @@
-//  Module:             Games Programming
-//  Assignment2:        GRPG
-//  Student Name:       Jeremy Choo
-//  Student Number:     S10132161H
-//  Student Name:       Jeremy Lim
-//  Student Number:     s10122326F
 
 #include "image.h"
 #include "Viewport.h"

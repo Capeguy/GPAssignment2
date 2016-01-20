@@ -1,8 +1,3 @@
-// Module: Games Programming
-// Assignment 2: GRPG
-// Student Name: Jeremy Lim
-// Student Number: S10122326F
-
 #include "tile.h"
 #include "prisonEscape.h"
 //#include "StoveMoveBehavior.h"
@@ -40,8 +35,8 @@ bool Tile::initialize(Game *gamePtr, TextureManager* tm)
 	if (id == 'b')
 	{
 		/*
-		stoveBehavior = new StoveMoveBehavior(((Grpg*)gamePtr)->getPlayer(), this, ((Grpg*)gamePtr)->getUI());
-		viewBehavior = new ViewBehavior("Stove", "Matt's Favourite stove", ((Grpg*)gamePtr)->getUI());
+		stoveBehavior = new StoveMoveBehavior(((PrisonEscape*)gamePtr)->getPlayer(), this, ((Grpg*)gamePtr)->getUI());
+		viewBehavior = new ViewBehavior("Stove", "Clarence's Favourite stove", ((PrisonEscape*)gamePtr)->getUI());
 		setupVectorActiveBehaviors();
 		*/
 	}

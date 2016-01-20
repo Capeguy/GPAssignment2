@@ -1,13 +1,3 @@
-//  Module:             Games Programming
-//  Assignment2:        GRPG
-//  Student Name:       Jeremy Choo
-//  Student Number:     S10132161H
-//  Student Name:       Jeremy Lim
-//  Student Number:     s10122326F
-//  Student Name:       Matthew Lee
-//  Student Number:     s10128677
-
-
 //#include "drawManager.h"
 #include "Viewport.h"
 #include "game.h"
@@ -37,7 +27,7 @@ Game::~Game()
 {
 	deleteAll();                // free all reserved memory
 	ShowCursor(true);           // show cursor
-								//Try not to delete anything here, delete at grpg.cpp
+								//Try not to delete anything here, delete at cpp
 }
 
 //=============================================================================

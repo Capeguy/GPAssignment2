@@ -1,21 +1,22 @@
-﻿Build started 20/1/16 11:45:53 am.
+﻿Build started 20/1/16 4:22:14 pm.
      1>Project "\\psf\Home\Documents\GPAssignment2\Code\PrisonEscape\PrisonEscape.vcxproj" on node 2 (Build target(s)).
      1>ClCompile:
-         C:\Program Files (x86)\Microsoft Visual Studio 14.0\VC\bin\CL.exe /c /I../Includes/ /ZI /nologo /W3 /WX- /sdl /Od /Oy- /D _MBCS /Gm /EHsc /RTC1 /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Zc:inline /Fo"Debug\\" /Fd"Debug\vc140.pdb" /Gd /TP /analyze- /errorReport:prompt game.cpp game.h prisonEscape.cpp tile.cpp winmain.cpp
+         C:\Program Files (x86)\Microsoft Visual Studio 14.0\VC\bin\CL.exe /c /I../Includes/ /ZI /nologo /W3 /WX- /sdl /Od /Oy- /D _MBCS /Gm /EHsc /RTC1 /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Zc:inline /Fo"Debug\\" /Fd"Debug\vc140.pdb" /Gd /TP /analyze- /errorReport:prompt game.cpp game.h image.cpp prisonEscape.cpp tile.cpp winmain.cpp
          winmain.cpp
+         tile.cpp
+         image.cpp
+     1>\\psf\home\documents\gpassignment2\code\prisonescape\image.cpp(94): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
+         game.h
          game.cpp
-     1>\\psf\home\documents\gpassignment2\code\prisonescape\game.cpp(275): warning C4150: deletion of pointer to incomplete type 'Entity'; no destructor called
-         \\psf\home\documents\gpassignment2\code\prisonescape\game.h(24): note: see declaration of 'Entity'
-     1>\\psf\home\documents\gpassignment2\code\prisonescape\game.cpp(280): warning C4150: deletion of pointer to incomplete type 'Entity'; no destructor called
-         \\psf\home\documents\gpassignment2\code\prisonescape\game.h(24): note: see declaration of 'Entity'
+     1>\\psf\home\documents\gpassignment2\code\prisonescape\game.cpp(265): warning C4150: deletion of pointer to incomplete type 'Entity'; no destructor called
+         \\psf\home\documents\gpassignment2\code\prisonescape\game.h(15): note: see declaration of 'Entity'
+     1>\\psf\home\documents\gpassignment2\code\prisonescape\game.cpp(270): warning C4150: deletion of pointer to incomplete type 'Entity'; no destructor called
+         \\psf\home\documents\gpassignment2\code\prisonescape\game.h(15): note: see declaration of 'Entity'
          Generating Code...
          Compiling...
-         tile.cpp
          prisonEscape.cpp
      1>\\psf\home\documents\gpassignment2\code\prisonescape\prisonescape.cpp(105): warning C4244: 'argument': conversion from 'time_t' to 'unsigned int', possible loss of data
          Generating Code...
-         Skipping... (no relevant changes detected)
-         game.h
        Link:
          C:\Program Files (x86)\Microsoft Visual Studio 14.0\VC\bin\link.exe /ERRORREPORT:PROMPT /OUT:"\\psf\Home\Documents\GPAssignment2\Code\PrisonEscape\Debug\PrisonEscape.exe" /INCREMENTAL /NOLOGO d3d9.lib d3dx9.lib winmm.lib xinput.lib kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib /MANIFEST /MANIFESTUAC:"level='asInvoker' uiAccess='false'" /manifest:embed /Debug /PDB:"\\psf\Home\Documents\GPAssignment2\Code\PrisonEscape\Debug\PrisonEscape.pdb" /TLBID:1 /DYNAMICBASE /NXCOMPAT /IMPLIB:"\\psf\Home\Documents\GPAssignment2\Code\PrisonEscape\Debug\PrisonEscape.lib" /MACHINE:X86 Debug\entity.obj
          Debug\game.obj
@@ -29,9 +30,12 @@
          Debug\textureManager.obj
          Debug\tile.obj
          Debug\winmain.obj
-         PrisonEscape.vcxproj -> \\psf\Home\Documents\GPAssignment2\Code\PrisonEscape\Debug\PrisonEscape.exe
-     1>Done Building Project "\\psf\Home\Documents\GPAssignment2\Code\PrisonEscape\PrisonEscape.vcxproj" (Build target(s)).
+     1>Debug\game.obj : warning LNK4042: object specified more than once; extras ignored
+     1>prisonEscape.obj : error LNK2019: unresolved external symbol "public: __thiscall Game::Game(void)" (??0Game@@QAE@XZ) referenced in function "public: __thiscall PrisonEscape::PrisonEscape(void)" (??0PrisonEscape@@QAE@XZ)
+     1>prisonEscape.obj : error LNK2019: unresolved external symbol "public: virtual __thiscall Game::~Game(void)" (??1Game@@UAE@XZ) referenced in function __unwindfunclet$??0PrisonEscape@@QAE@XZ$0
+     1>\\psf\Home\Documents\GPAssignment2\Code\PrisonEscape\Debug\PrisonEscape.exe : fatal error LNK1120: 2 unresolved externals
+     1>Done Building Project "\\psf\Home\Documents\GPAssignment2\Code\PrisonEscape\PrisonEscape.vcxproj" (Build target(s)) -- FAILED.
 
-Build succeeded.
+Build FAILED.
 
-Time Elapsed 00:00:06.78
+Time Elapsed 00:00:08.31

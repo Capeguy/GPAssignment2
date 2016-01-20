@@ -1,18 +1,9 @@
-//  Module:             Games Programming
-//  Assignment2:        PrisonEscape
-//  Student Name:       Jeremy Choo
-//  Student Number:     S10132161H
-//  Student Name:       Jeremy Lim
-//  Student Number:     s10122326F
-//  Student Name:       Matthew Lee
-//  Student Number:     s10128677
-
 #ifndef _PrisonEscape_H			         // Prevent multiple definitions if this 
 #define _PrisonEscape_H		             // file is included in more than one place
 #define WIN32_LEAN_AND_MEAN
 
 
-#include "textureManager.h"
+#include "textureManager.h"	
 //#include "itemLoader.h"
 //#include "QuestLoader.h"
 //#include "player.h"
