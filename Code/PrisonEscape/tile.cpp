@@ -4,7 +4,7 @@
 // Student Number: S10122326F
 
 #include "tile.h"
-#include "PrisonEscape.h"
+#include "prisonEscape.h"
 //#include "StoveMoveBehavior.h"
 
 //=============================================================================

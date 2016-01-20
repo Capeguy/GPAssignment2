@@ -7,12 +7,13 @@
 //  Student Name:       Matthew Lee
 //  Student Number:     s10128677
 
-#include "game.h"
+
 //#include "drawManager.h"
 #include "Viewport.h"
+#include "game.h"
 //#include "mapLoader.h"
-#include "prisonEscape.h"
 //#include "PersonLoader.h"
+
 
 // The primary class should inherit from Game class
 

@@ -11,7 +11,7 @@
 #define _PrisonEscape_H		             // file is included in more than one place
 #define WIN32_LEAN_AND_MEAN
 
-#include "game.h"
+
 #include "textureManager.h"
 //#include "itemLoader.h"
 //#include "QuestLoader.h"
@@ -23,6 +23,7 @@
 //#include "ChatData.h"
 #include <stdlib.h>     /* srand, rand */
 #include <time.h>       /* time */
+#include "game.h"
 
 namespace PrisonEscapeNS
 {

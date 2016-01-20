@@ -1,15 +1,18 @@
-﻿Build started 18/1/16 10:55:18 pm.
+﻿Build started 20/1/16 11:45:53 am.
      1>Project "\\psf\Home\Documents\GPAssignment2\Code\PrisonEscape\PrisonEscape.vcxproj" on node 2 (Build target(s)).
      1>ClCompile:
-         C:\Program Files (x86)\Microsoft Visual Studio 14.0\VC\bin\CL.exe /c /I../Includes/ /ZI /nologo /W3 /WX- /sdl /Od /Oy- /D _MBCS /Gm /EHsc /RTC1 /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Zc:inline /Fo"Debug\\" /Fd"Debug\vc140.pdb" /Gd /TP /analyze- /errorReport:prompt game.cpp game.h prisonEscape.cpp winmain.cpp
+         C:\Program Files (x86)\Microsoft Visual Studio 14.0\VC\bin\CL.exe /c /I../Includes/ /ZI /nologo /W3 /WX- /sdl /Od /Oy- /D _MBCS /Gm /EHsc /RTC1 /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Zc:inline /Fo"Debug\\" /Fd"Debug\vc140.pdb" /Gd /TP /analyze- /errorReport:prompt game.cpp game.h prisonEscape.cpp tile.cpp winmain.cpp
          winmain.cpp
-         prisonEscape.cpp
-     1>\\psf\home\documents\gpassignment2\code\prisonescape\prisonescape.cpp(106): warning C4244: 'argument': conversion from 'time_t' to 'unsigned int', possible loss of data
          game.cpp
-     1>\\psf\home\documents\gpassignment2\code\prisonescape\game.cpp(274): warning C4150: deletion of pointer to incomplete type 'Entity'; no destructor called
+     1>\\psf\home\documents\gpassignment2\code\prisonescape\game.cpp(275): warning C4150: deletion of pointer to incomplete type 'Entity'; no destructor called
          \\psf\home\documents\gpassignment2\code\prisonescape\game.h(24): note: see declaration of 'Entity'
-     1>\\psf\home\documents\gpassignment2\code\prisonescape\game.cpp(279): warning C4150: deletion of pointer to incomplete type 'Entity'; no destructor called
+     1>\\psf\home\documents\gpassignment2\code\prisonescape\game.cpp(280): warning C4150: deletion of pointer to incomplete type 'Entity'; no destructor called
          \\psf\home\documents\gpassignment2\code\prisonescape\game.h(24): note: see declaration of 'Entity'
+         Generating Code...
+         Compiling...
+         tile.cpp
+         prisonEscape.cpp
+     1>\\psf\home\documents\gpassignment2\code\prisonescape\prisonescape.cpp(105): warning C4244: 'argument': conversion from 'time_t' to 'unsigned int', possible loss of data
          Generating Code...
          Skipping... (no relevant changes detected)
          game.h
@@ -26,10 +29,9 @@
          Debug\textureManager.obj
          Debug\tile.obj
          Debug\winmain.obj
-     1>Debug\game.obj : warning LNK4042: object specified more than once; extras ignored
          PrisonEscape.vcxproj -> \\psf\Home\Documents\GPAssignment2\Code\PrisonEscape\Debug\PrisonEscape.exe
      1>Done Building Project "\\psf\Home\Documents\GPAssignment2\Code\PrisonEscape\PrisonEscape.vcxproj" (Build target(s)).
 
 Build succeeded.
 
-Time Elapsed 00:00:07.39
+Time Elapsed 00:00:06.78
