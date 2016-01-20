@@ -40,11 +40,14 @@ void Elevations::initialize(HWND hwnd)
 	//player texture
 	if (!playerTexture.initialize(graphics, TEXTURE_PLAYER))
 		throw(GameError(gameErrorNS::FATAL_ERROR, "Error initializing player texture"));
-
 	//player image
-	player.initialize(this, 64, 64, 1, &playerTexture); // to change
-	player.setFrames(0, 0);
-	player.setCurrentFrame(0);
+	
+	player.initialize(this, 64, 64, 32, &playerTexture); // to change
+	player.setFrames(952, 955);
+	player.setCurrentFrame(952);
+	player.setX(0);
+	player.setY(0);
+	player.setColorFilter(graphicsNS::MAGENTA);
     // map tile image
     mapTile.initialize(graphics,TEXTURE_SIZE,TEXTURE_SIZE,TEXTURE_COLS,&textures);
     mapTile.setFrames(0, 0);
@@ -55,8 +58,9 @@ void Elevations::initialize(HWND hwnd)
     tree.setFrames(TREE0_FRAME, TREE0_FRAME);
     tree.setCurrentFrame(TREE0_FRAME);
 
-	dxFont.initialize(graphics, 14, false, false, "Courier New");
-	dxFont.setFontColor(SETCOLOR_ARGB(192, 255, 255, 255));
+	dxFont.initialize(graphics, 12, false, false, "Courier New");
+	//dxFont.setFontColor(SETCOLOR_ARGB(192, 255, 255, 255));
+	dxFont.setFontColor(SETCOLOR_ARGB(192, 0, 0, 0));
 }
 
 //=============================================================================
@@ -65,6 +69,7 @@ void Elevations::initialize(HWND hwnd)
 void Elevations::update()
 {
     mapTile.update(frameTime);
+	player.update(frameTime);
 }
 
 //=============================================================================
@@ -85,28 +90,33 @@ void Elevations::collisions()
 void Elevations::render()
 {
     graphics->spriteBegin();
-	mapTile.draw();
-	player.draw();
+	//mapTile.draw();
+	//player.draw();
 	int padding = 2;
+	string buffer;
     // Draw map in Isometric Diamond
     for(int row=0; row<MAP_SIZE_X; row++)
     {
 		for (int col = 0; col < MAP_SIZE_Y; col++)
         {
-            mapTile.setCurrentFrame(tileMap[col][row]);
-			mapTile.setX(row * TEXTURE_SIZE);
-			mapTile.setY(col * TEXTURE_SIZE);
 			/*
-            mapTile.setX((float)( SCREEN_X - (row*TEXTURE_SIZE/2) + (col*TEXTURE_SIZE/2) ));
-            mapTile.setY((float)( SCREEN_Y + (row*TEXTURE_SIZE/4) + (col*TEXTURE_SIZE/4) -
-                                  heightMap[row][col] * HEIGHT_CHANGE));
+			mapTile.setX((float)( SCREEN_X - (row*TEXTURE_SIZE/2) + (col*TEXTURE_SIZE/2) ));
+			mapTile.setY((float)( SCREEN_Y + (row*TEXTURE_SIZE/4) + (col*TEXTURE_SIZE/4) -
+			heightMap[row][col] * HEIGHT_CHANGE));
 			*/
-			textRect.left = row * TEXTURE_SIZE;
-			textRect.top = col * TEXTURE_SIZE;
+            mapTile.setCurrentFrame(tileMap[col][row]);
+			mapTile.setX(row * TEXTURE2_SIZE);
+			mapTile.setY(col * TEXTURE2_SIZE);
             mapTile.draw();
+			
+			player.draw();
 			// dxFont.print(to_string(tileMap[col][row]), textRect, DT_CALCRECT);
-			if (drawTileNo) {
-				dxFont.print(to_string(tileMap[col][row]), row * TEXTURE_SIZE, col * TEXTURE_SIZE);
+			if (true) {
+				buffer = "";
+				buffer += to_string(tileMap[col][row]);
+				buffer += ":";
+				buffer += to_string(tileSolid[tileMap[col][row]][1]);
+				dxFont.print(buffer, row * TEXTURE2_SIZE, col * TEXTURE2_SIZE);
 			}
         }
     }

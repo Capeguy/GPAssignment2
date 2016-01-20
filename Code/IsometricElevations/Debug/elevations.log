@@ -1,20 +1,10 @@
-﻿  audio.cpp
+﻿  elevations.cpp
+c:\users\samsung\documents\gpassignment2\code\isometricelevations\elevations.cpp(108): warning C4244: 'argument' : conversion from 'const int' to 'float', possible loss of data
+c:\users\samsung\documents\gpassignment2\code\isometricelevations\elevations.cpp(109): warning C4244: 'argument' : conversion from 'const int' to 'float', possible loss of data
   Generating Code...
-  Compiling...
+  Skipping... (no relevant changes detected)
   winmain.cpp
-  textureManager.cpp
-  textDX.cpp
   player.cpp
-  messageDialog.cpp
-  inputDialog.cpp
-  input.cpp
   image.cpp
-  graphics.cpp
-  game.cpp
   entity.cpp
-  elevations.cpp
-c:\users\samsung\documents\gpassignment2\code\isometricelevations\elevations.cpp(97): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
-c:\users\samsung\documents\gpassignment2\code\isometricelevations\elevations.cpp(98): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
-  console.cpp
-  Generating Code...
   elevations.vcxproj -> C:\Users\Samsung\Documents\GPAssignment2\Code\IsometricElevations\Debug\elevations.exe

@@ -51,7 +51,7 @@ protected:
     bool    initialized;
     std::string  command;           // command from console
 
-	bool drawTileNo = false;
+	bool drawTileNo = true;
 
 public:
     // Constructor
