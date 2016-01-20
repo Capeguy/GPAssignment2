@@ -12,7 +12,7 @@
 #include "game.h"
 #include "textureManager.h"
 #include "image.h"
-
+#include "player.h"
 namespace elevationsNS
 {
     // Map textures
@@ -147,11 +147,13 @@ private:
     // game items
     TextureManager textures;    // textures
     TextureManager textures2;   // object texture
+	TextureManager playerTexture; // player texture
     Image   mapTile;
     Image   tree;
 	TextDX	dxFont;
 	COLOR_ARGB fontColor;
 	RECT	textRect;
+	Player player;
 
 public:
 	// Constructor

@@ -37,7 +37,14 @@ void Elevations::initialize(HWND hwnd)
     // object textures
     if (!textures2.initialize(graphics,TEXTURES2_IMAGE))
         throw(GameError(gameErrorNS::FATAL_ERROR, "Error initializing textures2"));
+	//player texture
+	if (!playerTexture.initialize(graphics, TEXTURE_PLAYER))
+		throw(GameError(gameErrorNS::FATAL_ERROR, "Error initializing player texture"));
 
+	//player image
+	player.initialize(this, 64, 64, 1, &playerTexture); // to change
+	player.setFrames(0, 0);
+	player.setCurrentFrame(0);
     // map tile image
     mapTile.initialize(graphics,TEXTURE_SIZE,TEXTURE_SIZE,TEXTURE_COLS,&textures);
     mapTile.setFrames(0, 0);
@@ -79,6 +86,7 @@ void Elevations::render()
 {
     graphics->spriteBegin();
 	mapTile.draw();
+	player.draw();
 	int padding = 2;
     // Draw map in Isometric Diamond
     for(int row=0; row<MAP_SIZE_X; row++)

@@ -47,7 +47,7 @@ const float FULL_HEALTH = 100;
 const char TEXTURES_IMAGE[] = "pictures\\tileset.png"; // game textures
 //const char TEXTURES_IMAGE[] = "pictures\\textures3.png"; // game textures
 const char TEXTURES2_IMAGE[] = "pictures\\textures2.png"; // game textures
-
+const char TEXTURE_PLAYER[] = "pictures\\player.jpg";
 // audio files required by audio.cpp
 // WAVE_BANK must be location of .xwb file.
 const char WAVE_BANK[]  = "";
@@ -61,6 +61,11 @@ const UCHAR CONSOLE_KEY  = VK_OEM_3;    // `~ key for U.S.
 const UCHAR ESC_KEY      = VK_ESCAPE;   // escape key
 const UCHAR ALT_KEY      = VK_MENU;     // Alt key
 const UCHAR ENTER_KEY    = VK_RETURN;   // Enter key
+const UCHAR PLAYER_LEFT = 'A';
+const UCHAR PLAYER_RIGHT = 'D';
+const UCHAR PLAYER_UP = 'W';
+const UCHAR PLAYER_DOWN = 'S';
+const UCHAR PLAYER_JUMP = VK_SPACE;
 
 
 

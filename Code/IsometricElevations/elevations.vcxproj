@@ -91,10 +91,12 @@
     <ClCompile Include="audio.cpp" />
     <ClCompile Include="console.cpp" />
     <ClCompile Include="elevations.cpp" />
+    <ClCompile Include="entity.cpp" />
     <ClCompile Include="game.cpp" />
     <ClCompile Include="graphics.cpp" />
     <ClCompile Include="inputDialog.cpp" />
     <ClCompile Include="messageDialog.cpp" />
+    <ClCompile Include="player.cpp" />
     <ClCompile Include="textureManager.cpp" />
     <ClCompile Include="input.cpp" />
     <ClCompile Include="image.cpp" />
@@ -106,11 +108,13 @@
     <ClInclude Include="console.h" />
     <ClInclude Include="constants.h" />
     <ClInclude Include="elevations.h" />
+    <ClInclude Include="entity.h" />
     <ClInclude Include="game.h" />
     <ClInclude Include="gameError.h" />
     <ClInclude Include="graphics.h" />
     <ClInclude Include="inputDialog.h" />
     <ClInclude Include="messageDialog.h" />
+    <ClInclude Include="player.h" />
     <ClInclude Include="textureManager.h" />
     <ClInclude Include="input.h" />
     <ClInclude Include="image.h" />
