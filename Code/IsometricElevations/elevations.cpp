@@ -41,13 +41,13 @@ void Elevations::initialize(HWND hwnd)
 	if (!playerTexture.initialize(graphics, TEXTURE_PLAYER))
 		throw(GameError(gameErrorNS::FATAL_ERROR, "Error initializing player texture"));
 	//player image
-	
+	player.setColorFilter(graphicsNS::MAGENTA);
 	player.initialize(this, 64, 64, 32, &playerTexture); // to change
 	player.setFrames(952, 955);
 	player.setCurrentFrame(952);
-	player.setX(0);
-	player.setY(0);
-	player.setColorFilter(graphicsNS::MAGENTA);
+	player.setX(GAME_WIDTH / TEXTURE_SIZE);
+	player.setY(GAME_HEIGHT - GAME_HEIGHT / TEXTURE_SIZE - 2 * TEXTURE_SIZE);
+	
     // map tile image
     mapTile.initialize(graphics,TEXTURE_SIZE,TEXTURE_SIZE,TEXTURE_COLS,&textures);
     mapTile.setFrames(0, 0);
@@ -108,10 +108,9 @@ void Elevations::render()
 			mapTile.setX(row * TEXTURE2_SIZE);
 			mapTile.setY(col * TEXTURE2_SIZE);
             mapTile.draw();
-			
+			player.setColorFilter(graphicsNS::MAGENTA);
 			player.draw();
-			// dxFont.print(to_string(tileMap[col][row]), textRect, DT_CALCRECT);
-			if (true) {
+			if (drawTileNo) {
 				buffer = "";
 				buffer += to_string(tileMap[col][row]);
 				buffer += ":";

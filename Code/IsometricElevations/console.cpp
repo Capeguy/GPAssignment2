@@ -28,6 +28,7 @@ Console::Console()
 
     rows = 0;
     scrollAmount = 0;
+	//Console::setInstance(this);
 }
 
 //=============================================================================
@@ -247,3 +248,6 @@ void Console::onResetDevice()
     dxFont.onResetDevice();
 }
 
+Console* Console::getInstance() {
+	return nullptr;
+}

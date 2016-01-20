@@ -48,6 +48,7 @@ private:
     int         scrollAmount;           // number of lines to scroll the display up
     bool        initialized;            // true when initialized successfully
     bool        visible;                // true to display
+	static Console *Instance;
 
 public:
     // Constructor
@@ -94,6 +95,8 @@ public:
 
     // Call when graphics device is reset.
     void onResetDevice();
+
+	static Console* getInstance();
 };
 
 #endif
