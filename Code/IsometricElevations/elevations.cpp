@@ -69,7 +69,21 @@ void Elevations::initialize(HWND hwnd)
 void Elevations::update()
 {
     mapTile.update(frameTime);
+	int playerBottomLeftX = player.getX();
+	int playerBottomLeftY = player.getY() + playerNS::PLAYER_HEIGHT + 1;
+	int playerBottomRightX = player.getX() + playerNS::PLAYER_WIDTH;
+	int playerBottomRightY = player.getY() + playerNS::PLAYER_HEIGHT + 1;
+	int bottomLeftRow = (int)(floor((double)playerBottomLeftX / TEXTURE_SIZE));
+	int bottomLeftCol = (int)(floor((double)playerBottomLeftY / TEXTURE_SIZE));
+	int bottomRightRow = (int)(floor((double)playerBottomRightX / TEXTURE_SIZE));
+	int bottomRightCol = (int)(floor((double)playerBottomRightY / TEXTURE_SIZE));
+	int tileAtPlayerBottomLeft = tileMap[bottomLeftCol - 1][bottomLeftRow];
+	int tileAtPlayerBottomRight = tileMap[bottomRightCol - 1][bottomRightRow - 1];
+	if (tileSolid[tileAtPlayerBottomLeft][1] == 0 && tileSolid[tileAtPlayerBottomRight][1] == 0) {
+		player.setFalling(true);
+	}
 	player.update(frameTime);
+
 }
 
 //=============================================================================
@@ -95,6 +109,7 @@ void Elevations::render()
 	int padding = 2;
 	string buffer;
     // Draw map in Isometric Diamond
+
     for(int row=0; row<MAP_SIZE_X; row++)
     {
 		for (int col = 0; col < MAP_SIZE_Y; col++)

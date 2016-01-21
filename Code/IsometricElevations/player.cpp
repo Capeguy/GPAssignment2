@@ -82,8 +82,9 @@ void Player::update(float frameTime)
 		// Get Bottom left bottom right
 		// Get Tile at that location y + 1 pixel
 		// If Tile is not solid
-		if (true) {
-			//spriteData.y += frameTime * playerNS::SPEED; // Use trajectory
+		if (falling) {
+			falling = false;
+			spriteData.y += frameTime * playerNS::FALLING_SPEED; // Use trajectory
 			orientation = down;
 		}
 	}
@@ -142,4 +143,7 @@ void Player::update(float frameTime)
 	}
 	*/
 
+}
+void Player::setFalling(bool f) {
+	falling = f;
 }

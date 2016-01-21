@@ -10,9 +10,10 @@ namespace playerNS
 {
 	const int X = 0;   // location on screen
 	const int Y = 0;
-	const float SPEED = 800;                // 100 pixels per second
+	const float SPEED = 64;                // 100 pixels per second
+	const float FALLING_SPEED = 32;                // 100 pixels per second
 	const float MASS = 300.0f;              // mass
-	const float JUMP_HEIGHT = 800.0;
+	const float JUMP_HEIGHT = 64;
 
 	const int   TEXTURE_SIZE = 64;           // texture has 8 columns
 	const int   TEXTURE_COLS = 32;           // texture has 8 columns
@@ -32,6 +33,7 @@ private:
 	bool jump = false;
 	bool doubleJump = false;
 	int orientation = right;
+	bool falling = false;
 
 public:
 	// constructor
@@ -41,6 +43,7 @@ public:
 	virtual void draw();
 	virtual bool initialize(Game *gamePtr, int width, int height, int ncols, TextureManager *textureM);
 	void update(float frameTime);
+	void setFalling(bool f);
 
 };
 #endif
