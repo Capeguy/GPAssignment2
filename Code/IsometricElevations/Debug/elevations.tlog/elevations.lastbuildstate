@@ -1,2 +1,2 @@
-#TargetFrameworkVersion=v4.0:PlatformToolSet=v140:EnableManagedIncrementalBuild=false:VCToolArchitecture=Native32Bit
-Debug|Win32|\\psf\Home\Documents\GPAssignment2\Code\IsometricElevations\|
+#TargetFrameworkVersion=v4.0:PlatformToolSet=v140:EnableManagedIncrementalBuild=false:VCToolArchitecture=Native32Bit:WindowsTargetPlatformVersion=8.1
+Debug|Win32|C:\Users\IsaacHong\Desktop\ICT\Sem 3.2\GP\Assignment 2\Assignment2\Code\IsometricElevations\|
