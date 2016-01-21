@@ -24,39 +24,20 @@ Player::~Player()
 
 }
 
-//=============================================================================
-// Initialize the Ship.
-// Post: returns true if successful, false if failed
-//=============================================================================
-bool Player::initialize(Game *gamePtr, int width, int height, int ncols,
-	TextureManager *textureM)
+bool Player::initialize(Game *gamePtr, int width, int height, int ncols, TextureManager *textureM)
 {
 
 	return(Entity::initialize(gamePtr, width, height, ncols, textureM));
 }
-
-//=============================================================================
-// draw the ship
-//=============================================================================
 void Player::draw()
 {
 
 	//spriteData.scale = 0.5;
 	Image::draw();              // draw ship
 }
-
-//=============================================================================
-// update
-// typically called once per frame
-// frameTime is used to regulate the speed of movement and animation
-//=============================================================================
 void Player::update(float frameTime)
-{
-	
+{	
 	Entity::update(frameTime);
-	//spriteData.x += frameTime * velocity.x;         // move ship along X 
-	//spriteData.y += frameTime * velocity.y;         // move ship along Y
-
 	if (input->isKeyDown(PLAYER_RIGHT))
 	{
 		spriteData.x += frameTime * playerNS::SPEED;
@@ -88,7 +69,6 @@ void Player::update(float frameTime)
 			orientation = down;
 		}
 	}
-		
 	switch (orientation) {
 	case right:
 		currentFrame = 953;
@@ -118,32 +98,27 @@ void Player::update(float frameTime)
 		spriteData.y = 32;
 	if (spriteData.y > GAME_HEIGHT - playerNS::TEXTURE_SIZE)
 		spriteData.y = GAME_HEIGHT - playerNS::TEXTURE_SIZE;
-
 	Entity::update(frameTime);
-	/*												// Bounce off walls
-	if (spriteData.x > GAME_WIDTH - playerNS::WIDTH*spriteData.scale)    // if hit right screen edge
-	{
-		spriteData.x = GAME_WIDTH - playerNS::WIDTH*spriteData.scale;    // position at right screen edge
-		velocity.x = -velocity.x;                   // reverse X direction
-	}
-	else if (spriteData.x < 0)                    // else if hit left screen edge
-	{
-		spriteData.x = 0;                           // position at left screen edge
-		velocity.x = -velocity.x;                   // reverse X direction
-	}
-	if (spriteData.y > GAME_HEIGHT - playerNS::HEIGHT*spriteData.scale)  // if hit bottom screen edge
-	{
-		spriteData.y = GAME_HEIGHT - playerNS::HEIGHT*spriteData.scale;  // position at bottom screen edge
-		velocity.y = -velocity.y;                   // reverse Y direction
-	}
-	else if (spriteData.y < 0)                    // else if hit top screen edge
-	{
-		spriteData.y = 0;                           // position at top screen edge
-		velocity.y = -velocity.y;                   // reverse Y direction
-	}
-	*/
-
 }
 void Player::setFalling(bool f) {
 	falling = f;
+}
+void Player::damage(float amt) {
+	hp -= amt;
+	healthUpdate();
+}
+void Player::damage(Weapon w) {
+
+}
+void Player::damage(Projectile p) {
+
+}
+void Player::healthUpdate() {
+	if (hp < 0) {
+		healthStatus = Dead;
+		die();
+	}
+}
+void Player::die() {
+
 }

@@ -95,13 +95,24 @@
     <ClCompile Include="entity.cpp" />
     <ClCompile Include="game.cpp" />
     <ClCompile Include="graphics.cpp" />
+    <ClCompile Include="gun.cpp" />
     <ClCompile Include="inputDialog.cpp" />
+    <ClCompile Include="inventoryController.cpp" />
+    <ClCompile Include="inventoryItem.cpp" />
+    <ClCompile Include="item.cpp" />
+    <ClCompile Include="list.cpp" />
+    <ClCompile Include="machineGun.cpp" />
     <ClCompile Include="messageDialog.cpp" />
+    <ClCompile Include="npc.cpp" />
+    <ClCompile Include="pistol.cpp" />
     <ClCompile Include="player.cpp" />
+    <ClCompile Include="projectile.cpp" />
+    <ClCompile Include="shotgun.cpp" />
     <ClCompile Include="textureManager.cpp" />
     <ClCompile Include="input.cpp" />
     <ClCompile Include="image.cpp" />
     <ClCompile Include="textDX.cpp" />
+    <ClCompile Include="weapon.cpp" />
     <ClCompile Include="winmain.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -113,13 +124,27 @@
     <ClInclude Include="game.h" />
     <ClInclude Include="gameError.h" />
     <ClInclude Include="graphics.h" />
+    <ClInclude Include="gun.h" />
     <ClInclude Include="inputDialog.h" />
+    <ClInclude Include="inventoryController.h" />
+    <ClInclude Include="inventoryItem.h" />
+    <ClInclude Include="item.h" />
+    <ClInclude Include="list.h" />
+    <ClInclude Include="machineGun.h" />
     <ClInclude Include="messageDialog.h" />
+    <ClInclude Include="npc.h" />
+    <ClInclude Include="pistol.h" />
     <ClInclude Include="player.h" />
+    <ClInclude Include="projectile.h" />
+    <ClInclude Include="shotgun.h" />
     <ClInclude Include="textureManager.h" />
     <ClInclude Include="input.h" />
     <ClInclude Include="image.h" />
     <ClInclude Include="textDX.h" />
+    <ClInclude Include="weapon.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="ClassDiagram.cd" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
