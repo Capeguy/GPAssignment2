@@ -42,7 +42,7 @@ void Elevations::initialize(HWND hwnd)
 		throw(GameError(gameErrorNS::FATAL_ERROR, "Error initializing player texture"));
 	//player image
 	player.setColorFilter(graphicsNS::MAGENTA);
-	player.initialize(this, 64, 64, 32, &playerTexture); // to change
+	player.initialize(this, playerNS::PLAYER_WIDTH, playerNS::PLAYER_HEIGHT, 32, &playerTexture); // to change
 	player.setFrames(952, 955);
 	player.setCurrentFrame(952);
 	player.setX(GAME_WIDTH / TEXTURE_SIZE);

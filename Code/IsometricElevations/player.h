@@ -20,6 +20,8 @@ namespace playerNS
 	const int   PLAYER_END_FRAME = 955;        // playership animation frames 4,5,6,7
 
 	const float PLAYER_ANIMATION_DELAY = 0.2f;    // time between frames
+	const float PLAYER_WIDTH = 64.0;
+	const float PLAYER_HEIGHT = 64.0;
 }
 
 // inherits from Entity class
