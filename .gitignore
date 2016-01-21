@@ -22,7 +22,18 @@
 *.a
 *.lib
 
+#Visual C++ cache files
+*.sdf
+
 # Executables
 *.exe
 *.out
 *.app
+*.suo
+*.ilk
+*.log
+*.pdb
+*.tlog
+*.lastbuildstate
+*.idb
+*.opendb
