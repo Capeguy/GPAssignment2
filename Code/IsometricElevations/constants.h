@@ -1,7 +1,3 @@
-// Programming 2D Games
-// Copyright (c) 2011 by: 
-// Charles Kelly
-// Elevations constants.h v1.0
 
 #ifndef _CONSTANTS_H            // Prevent multiple definitions if this 
 #define _CONSTANTS_H            // file is included in more than one place
@@ -29,8 +25,8 @@
 //-----------------------------------------------
 
 // window
-const char CLASS_NAME[] = "Elevations";
-const char GAME_TITLE[] = "Elevations Demo";
+const char CLASS_NAME[] = "BreakoutJack";
+const char GAME_TITLE[] = "BreakoutJack Demo";
 const bool FULLSCREEN = false;              // windowed or fullscreen
 const UINT GAME_WIDTH =  1280;               // width of game in pixels
 const UINT GAME_HEIGHT = 800;               // height of game in pixels

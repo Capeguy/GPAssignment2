@@ -1,7 +1,3 @@
-// Programming 2D Games
-// Copyright (c) 2011 by:
-// Charles Kelly
-// Elevations winmain.cpp v1.0
 
 #define _CRTDBG_MAP_ALLOC       // for detecting memory leaks
 #define WIN32_LEAN_AND_MEAN
@@ -9,7 +5,7 @@
 #include <Windows.h>
 #include <stdlib.h>             // for detecting memory leaks
 #include <crtdbg.h>             // for detecting memory leaks
-#include "Elevations.h"
+#include "BreakoutJack.h"
 
 // Function prototypes
 int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int); 
@@ -17,7 +13,7 @@ bool CreateMainWindow(HWND &, HINSTANCE, int);
 LRESULT WINAPI WinProc(HWND, UINT, WPARAM, LPARAM); 
 
 // Game pointer
-Elevations *game = NULL;
+BreakoutJack *game = NULL;
 HWND hwnd = NULL;
 
 //=============================================================================
@@ -34,7 +30,7 @@ int WINAPI WinMain( HINSTANCE hInstance, HINSTANCE hPrevInstance,
     MSG msg;
 
     // Create the game, sets up message handler
-    game = new Elevations;
+    game = new BreakoutJack;
 
     // Create the window
     if (!CreateMainWindow(hwnd, hInstance, nCmdShow))
