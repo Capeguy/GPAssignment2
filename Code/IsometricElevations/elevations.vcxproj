@@ -100,6 +100,7 @@
     <ClCompile Include="inventoryController.cpp" />
     <ClCompile Include="inventoryItem.cpp" />
     <ClCompile Include="item.cpp" />
+    <ClCompile Include="levelController.cpp" />
     <ClCompile Include="list.cpp" />
     <ClCompile Include="machineGun.cpp" />
     <ClCompile Include="messageDialog.cpp" />
@@ -112,6 +113,7 @@
     <ClCompile Include="input.cpp" />
     <ClCompile Include="image.cpp" />
     <ClCompile Include="textDX.cpp" />
+    <ClCompile Include="tile.cpp" />
     <ClCompile Include="weapon.cpp" />
     <ClCompile Include="winmain.cpp" />
   </ItemGroup>
@@ -129,6 +131,7 @@
     <ClInclude Include="inventoryController.h" />
     <ClInclude Include="inventoryItem.h" />
     <ClInclude Include="item.h" />
+    <ClInclude Include="levelController.h" />
     <ClInclude Include="list.h" />
     <ClInclude Include="machineGun.h" />
     <ClInclude Include="messageDialog.h" />
@@ -141,6 +144,7 @@
     <ClInclude Include="input.h" />
     <ClInclude Include="image.h" />
     <ClInclude Include="textDX.h" />
+    <ClInclude Include="tile.h" />
     <ClInclude Include="weapon.h" />
   </ItemGroup>
   <ItemGroup>

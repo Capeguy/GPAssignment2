@@ -13,6 +13,7 @@
 #include "textureManager.h"
 #include "image.h"
 #include "player.h"
+#include "levelController.h"
 namespace elevationsNS
 {
     // Map textures
@@ -193,6 +194,7 @@ private:
 	COLOR_ARGB fontColor;
 	RECT	textRect;
 	Player player;
+	LevelController* levelController;
 
 public:
 	// Constructor

@@ -50,6 +50,7 @@ protected:
     bool    paused;                 // true if game is paused
     bool    initialized;
     std::string  command;           // command from console
+	
 
 	bool drawTileNo = true;
 
@@ -60,7 +61,6 @@ public:
     virtual ~Game();
 
     // Member functions
-
     // Window message handler
     LRESULT messageHandler( HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam );
 

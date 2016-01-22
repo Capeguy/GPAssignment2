@@ -12,7 +12,9 @@ using namespace elevationsNS;
 // Constructor
 //=============================================================================
 Elevations::Elevations()
-{}
+{
+	
+}
 
 //=============================================================================
 // Destructor
@@ -45,22 +47,24 @@ void Elevations::initialize(HWND hwnd)
 	player.initialize(this, playerNS::PLAYER_WIDTH, playerNS::PLAYER_HEIGHT, 32, &playerTexture); // to change
 	player.setFrames(952, 955);
 	player.setCurrentFrame(952);
-	player.setX(GAME_WIDTH / TEXTURE_SIZE);
-	player.setY(GAME_HEIGHT - GAME_HEIGHT / TEXTURE_SIZE - 2 * TEXTURE_SIZE);
+	player.setX(GAME_WIDTH / elevationsNS::TEXTURE_SIZE);
+	player.setY(GAME_HEIGHT - GAME_HEIGHT / elevationsNS::TEXTURE_SIZE - 2 * elevationsNS::TEXTURE_SIZE);
 	
     // map tile image
-    mapTile.initialize(graphics,TEXTURE_SIZE,TEXTURE_SIZE,TEXTURE_COLS,&textures);
+    mapTile.initialize(graphics, elevationsNS::TEXTURE_SIZE, elevationsNS::TEXTURE_SIZE, elevationsNS::TEXTURE_COLS,&textures);
     mapTile.setFrames(0, 0);
     mapTile.setCurrentFrame(0);
 
     //// Tree image
-    tree.initialize(graphics,TEXTURE2_SIZE,TEXTURE2_SIZE,TEXTURE2_COLS,&textures2);
+    tree.initialize(graphics, elevationsNS::TEXTURE2_SIZE, elevationsNS::TEXTURE2_SIZE, elevationsNS::TEXTURE2_COLS,&textures2);
     tree.setFrames(TREE0_FRAME, TREE0_FRAME);
     tree.setCurrentFrame(TREE0_FRAME);
 
 	dxFont.initialize(graphics, 12, false, false, "Courier New");
 	//dxFont.setFontColor(SETCOLOR_ARGB(192, 255, 255, 255));
 	dxFont.setFontColor(SETCOLOR_ARGB(192, 0, 0, 0));
+	levelController = new LevelController(graphics, this);
+	levelController->loadTiles();
 }
 
 //=============================================================================
@@ -68,7 +72,10 @@ void Elevations::initialize(HWND hwnd)
 //=============================================================================
 void Elevations::update()
 {
-    mapTile.update(frameTime);
+
+    //mapTile.update(frameTime);
+	//levelController->update(frameTime);
+	/*
 	int playerBottomLeftX = player.getX();
 	int playerBottomLeftY = player.getY() + playerNS::PLAYER_HEIGHT + 1;
 	int playerBottomRightX = player.getX() + playerNS::PLAYER_WIDTH;
@@ -82,6 +89,7 @@ void Elevations::update()
 	if (tileSolid[tileAtPlayerBottomLeft][1] == 0 && tileSolid[tileAtPlayerBottomRight][1] == 0) {
 		player.setFalling(true);
 	}
+	*/
 	player.update(frameTime);
 
 }
@@ -104,36 +112,36 @@ void Elevations::collisions()
 void Elevations::render()
 {
     graphics->spriteBegin();
-	//mapTile.draw();
-	//player.draw();
-	int padding = 2;
+	player.draw();
 	string buffer;
     // Draw map in Isometric Diamond
-
-    for(int row=0; row<MAP_SIZE_X; row++)
+    for(int row=0; row<levelControllerNS::MAP_SIZE_X; row++)
     {
-		for (int col = 0; col < MAP_SIZE_Y; col++)
+		for (int col = 0; col < levelControllerNS::MAP_SIZE_Y; col++)
         {
-			/*
-			mapTile.setX((float)( SCREEN_X - (row*TEXTURE_SIZE/2) + (col*TEXTURE_SIZE/2) ));
-			mapTile.setY((float)( SCREEN_Y + (row*TEXTURE_SIZE/4) + (col*TEXTURE_SIZE/4) -
-			heightMap[row][col] * HEIGHT_CHANGE));
-			*/
-            mapTile.setCurrentFrame(tileMap[col][row]);
-			mapTile.setX(row * TEXTURE2_SIZE);
-			mapTile.setY(col * TEXTURE2_SIZE);
+            mapTile.setCurrentFrame(levelControllerNS::tileMap[col][row]);
+			mapTile.setX(row * levelControllerNS::TEXTURE2_SIZE);
+			mapTile.setY(col * levelControllerNS::TEXTURE2_SIZE);
             mapTile.draw();
 			player.setColorFilter(graphicsNS::MAGENTA);
 			player.draw();
 			if (drawTileNo) {
 				buffer = "";
-				buffer += to_string(tileMap[col][row]);
+				buffer += to_string(levelControllerNS::tileMap[col][row]);
 				buffer += ":";
-				buffer += to_string(tileSolid[tileMap[col][row]][1]);
-				dxFont.print(buffer, row * TEXTURE2_SIZE, col * TEXTURE2_SIZE);
+				buffer += to_string(levelControllerNS::tileSolid[levelControllerNS::tileMap[col][row]][1]);
+				dxFont.print(buffer, row * levelControllerNS::TEXTURE2_SIZE, col * levelControllerNS::TEXTURE2_SIZE);
 			}
         }
+		/*
+		for (int row = 0; row<levelControllerNS::MAP_SIZE_X; row++) {
+			for (int col = 0; col < levelControllerNS::MAP_SIZE_Y; col++) {
+				levelController->mapTile[col][row].draw();
+			}
+		}
+		*/
     }
+	
 	/*
     // Draw Objects,  0=empty, 1=Tree0, 2=Tree1
     float treeX = 0, treeY = 0;

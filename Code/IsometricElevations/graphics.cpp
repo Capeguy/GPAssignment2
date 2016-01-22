@@ -402,8 +402,8 @@ HRESULT Graphics::reset()
 {
     result = E_FAIL;    // default to fail, replace on success
     initD3Dpp();                        // init D3D presentation parameters
-    sprite->OnLostDevice();
-    result = device3d->Reset(&d3dpp);   // attempt to reset graphics device
+		sprite->OnLostDevice();
+		result = device3d->Reset(&d3dpp);   // attempt to reset graphics device
 
     // Configure for alpha blend of primitives
     device3d->SetRenderState(D3DRS_BLENDOP, D3DBLENDOP_ADD);

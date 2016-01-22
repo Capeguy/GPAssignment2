@@ -23,6 +23,7 @@ Game::Game()
     fps = 100;
     fpsOn = false;              // default to fps display off
     initialized = false;
+
 }
 
 //=============================================================================
