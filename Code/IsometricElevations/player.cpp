@@ -103,6 +103,7 @@ void Player::update(float frameTime)
 	buffer += " -> ";
 	buffer += currentFrame;
 	//Console::getInstance()->print(buffer);
+	/*
 	if (spriteData.x < 32) // tileNS::TEXTURE_SIZE
 		spriteData.x = 32;
 	if (spriteData.x > GAME_WIDTH - playerNS::TEXTURE_SIZE)
@@ -111,6 +112,7 @@ void Player::update(float frameTime)
 		spriteData.y = 32;
 	if (spriteData.y > GAME_HEIGHT - playerNS::TEXTURE_SIZE)
 		spriteData.y = GAME_HEIGHT - playerNS::TEXTURE_SIZE;
+	*/
 	Entity::update(frameTime);
 }
 void Player::setFalling(bool f) {
