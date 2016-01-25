@@ -26,7 +26,7 @@ Player::~Player()
 
 bool Player::initialize(Game *gamePtr, int width, int height, int ncols, TextureManager *textureM)
 {
-
+	gameptr = gamePtr;
 	return(Entity::initialize(gamePtr, width, height, ncols, textureM));
 }
 void Player::draw()
@@ -37,23 +37,33 @@ void Player::draw()
 }
 void Player::update(float frameTime)
 {	
+
 	Entity::update(frameTime);
-	if (input->isKeyDown(PLAYER_RIGHT))
+	if (input->isKeyDown(PLAYER_RIGHT) && canMoveRight)
 	{
 		spriteData.x += frameTime * playerNS::SPEED;
+		while (gameptr->tileIsSolid(spriteData.x + 31, spriteData.y) || gameptr->tileIsSolid(spriteData.x + 31, spriteData.y + 31)) {
+			spriteData.x -= frameTime * playerNS::FALLING_SPEED;
+		}
 		orientation = right;
 	}
-	if (input->isKeyDown(PLAYER_LEFT))
+	if (input->isKeyDown(PLAYER_LEFT) && canMoveLeft)
 	{
 		spriteData.x -= frameTime * playerNS::SPEED;
+		while (gameptr->tileIsSolid(spriteData.x, spriteData.y) || gameptr->tileIsSolid(spriteData.x, spriteData.y + 31	)) {
+			spriteData.x += frameTime * playerNS::FALLING_SPEED;
+		}
 		orientation = left;
 	}
-	if (input->isKeyDown(PLAYER_JUMP) || input->isKeyDown(PLAYER_UP))
+	if ((input->isKeyDown(PLAYER_JUMP) || input->isKeyDown(PLAYER_UP)) && canMoveUp)
 	{
 		spriteData.y -= frameTime * playerNS::JUMP_HEIGHT;
+		while (gameptr->tileIsSolid(spriteData.x, spriteData.y) || gameptr->tileIsSolid(spriteData.x + 31, spriteData.y)) {
+			spriteData.y += frameTime * playerNS::FALLING_SPEED;
+		}
 		orientation = up;
 	}
-	if (input->isKeyDown(PLAYER_DOWN))
+	if (input->isKeyDown(PLAYER_DOWN) && canMoveDown)
 	{
 		spriteData.y += frameTime * playerNS::JUMP_HEIGHT;
 		orientation = down;
@@ -63,9 +73,12 @@ void Player::update(float frameTime)
 		// Get Bottom left bottom right
 		// Get Tile at that location y + 1 pixel
 		// If Tile is not solid
-		if (falling) {
+		if (canMoveDown) {
 			falling = false;
 			spriteData.y += frameTime * playerNS::FALLING_SPEED; // Use trajectory
+			while (gameptr->tileIsSolid(spriteData.x, spriteData.y + 31) || gameptr->tileIsSolid(spriteData.x + 31, spriteData.y + 31)) {
+				spriteData.y -= frameTime * playerNS::FALLING_SPEED;
+			}
 			orientation = down;
 		}
 	}

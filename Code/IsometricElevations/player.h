@@ -37,8 +37,15 @@ private:
 	int		healthStatus = Alive;
 	float	hp;
 	float	hpMax;
+	Game*	gameptr;
+	
 
 public:
+	bool canMoveLeft = true;
+	bool canMoveRight = true;
+	bool canMoveUp = true;
+	bool canMoveDown = true;
+
 	Player();
 	~Player();
 	virtual void draw();

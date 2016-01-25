@@ -9,8 +9,12 @@
 #include "textureManager.h"
 #include "image.h"
 #include "player.h"
+<<<<<<< HEAD:Code/IsometricElevations/elevations.h
 #include "levelController.h"
+namespace elevationsNS
+=======
 namespace breakoutJackNS
+>>>>>>> e2cc80784f6071ab2988f84bec1679d8c10230e7:Code/IsometricElevations/BreakoutJack.h
 {
     // Map textures
     const int TEXTURE_COLS = 19;
@@ -205,8 +209,6 @@ public:
     void render();      // "
     void releaseAll();
     void resetAll();
-	bool tileIsSolid(int x, int y);
-	void consoleCommand();
 };
 
 #endif

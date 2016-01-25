@@ -1,6 +1,10 @@
+// Programming 2D Games
+// Copyright (c) 2011 by: 
+// Charles Kelly
+// Elevations.h Isometric Diamond Demo v1.0
 
-#ifndef _BREAKOUTJACK_H           // Prevent multiple definitions if this 
-#define _BREAKOUTJACK_H           // file is included in more than one place
+#ifndef _ELEVATIONS_H           // Prevent multiple definitions if this 
+#define _ELEVATIONS_H           // file is included in more than one place
 #define WIN32_LEAN_AND_MEAN
 
 #include <string>
@@ -10,7 +14,7 @@
 #include "image.h"
 #include "player.h"
 #include "levelController.h"
-namespace breakoutJackNS
+namespace elevationsNS
 {
     // Map textures
     const int TEXTURE_COLS = 19;
@@ -176,8 +180,8 @@ namespace breakoutJackNS
     };
 }
 
-// BreakoutJack is the class we create, it inherits from the Game class
-class BreakoutJack : public Game
+// Elevations is the class we create, it inherits from the Game class
+class Elevations : public Game
 {
 private:
     // game items
@@ -194,9 +198,9 @@ private:
 
 public:
 	// Constructor
-	BreakoutJack();
+    Elevations();
     // Destructor
-    virtual ~BreakoutJack();
+    virtual ~Elevations();
     // Initialize the game
     void initialize(HWND hwnd);
     void update();      // must override pure virtual from Game
@@ -205,8 +209,6 @@ public:
     void render();      // "
     void releaseAll();
     void resetAll();
-	bool tileIsSolid(int x, int y);
-	void consoleCommand();
 };
 
 #endif

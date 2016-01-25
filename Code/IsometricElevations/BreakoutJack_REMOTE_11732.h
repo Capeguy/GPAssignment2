@@ -9,7 +9,6 @@
 #include "textureManager.h"
 #include "image.h"
 #include "player.h"
-#include "levelController.h"
 namespace breakoutJackNS
 {
     // Map textures
@@ -190,7 +189,6 @@ private:
 	COLOR_ARGB fontColor;
 	RECT	textRect;
 	Player player;
-	LevelController* levelController;
 
 public:
 	// Constructor
@@ -205,8 +203,6 @@ public:
     void render();      // "
     void releaseAll();
     void resetAll();
-	bool tileIsSolid(int x, int y);
-	void consoleCommand();
 };
 
 #endif

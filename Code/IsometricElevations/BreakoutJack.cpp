@@ -40,20 +40,20 @@ void BreakoutJack::initialize(HWND hwnd)
 	player.initialize(this, playerNS::PLAYER_WIDTH, playerNS::PLAYER_HEIGHT, 32, &playerTexture); // to change
 	player.setFrames(952, 955);
 	player.setCurrentFrame(952);
-	player.setX(GAME_WIDTH / elevationsNS::TEXTURE_SIZE);
-	player.setY(GAME_HEIGHT - GAME_HEIGHT / elevationsNS::TEXTURE_SIZE - 2 * elevationsNS::TEXTURE_SIZE);
+	player.setX(GAME_WIDTH / breakoutJackNS::TEXTURE_SIZE);
+	player.setY(GAME_HEIGHT - GAME_HEIGHT / breakoutJackNS::TEXTURE_SIZE - 2 * breakoutJackNS::TEXTURE_SIZE);
 	
     // map tile image
-    mapTile.initialize(graphics, elevationsNS::TEXTURE_SIZE, elevationsNS::TEXTURE_SIZE, elevationsNS::TEXTURE_COLS,&textures);
+    mapTile.initialize(graphics, breakoutJackNS::TEXTURE_SIZE, breakoutJackNS::TEXTURE_SIZE, breakoutJackNS::TEXTURE_COLS,&textures);
     mapTile.setFrames(0, 0);
     mapTile.setCurrentFrame(0);
 
     //// Tree image
-    tree.initialize(graphics, elevationsNS::TEXTURE2_SIZE, elevationsNS::TEXTURE2_SIZE, elevationsNS::TEXTURE2_COLS,&textures2);
+    tree.initialize(graphics, breakoutJackNS::TEXTURE2_SIZE, breakoutJackNS::TEXTURE2_SIZE, breakoutJackNS::TEXTURE2_COLS,&textures2);
     tree.setFrames(TREE0_FRAME, TREE0_FRAME);
     tree.setCurrentFrame(TREE0_FRAME);
 
-	dxFont.initialize(graphics, 12, false, false, "Courier New");
+	dxFont.initialize(graphics, 20, false, false, "Courier New");
 	//dxFont.setFontColor(SETCOLOR_ARGB(192, 255, 255, 255));
 	dxFont.setFontColor(SETCOLOR_ARGB(192, 0, 0, 0));
 	levelController = new LevelController(graphics, this);
@@ -70,21 +70,54 @@ void BreakoutJack::update()
 	//levelController->update(frameTime);
 	
 	int playerBottomLeftX = player.getX();
-	int playerBottomLeftY = player.getY() + playerNS::PLAYER_HEIGHT + 1;
-	int playerBottomRightX = player.getX() + playerNS::PLAYER_WIDTH;
-	int playerBottomRightY = player.getY() + playerNS::PLAYER_HEIGHT + 1;
-	int bottomLeftRow = (int)(floor((double)playerBottomLeftX / TEXTURE_SIZE));
-	int bottomLeftCol = (int)(floor((double)playerBottomLeftY / TEXTURE_SIZE));
-	int bottomRightRow = (int)(floor((double)playerBottomRightX / TEXTURE_SIZE));
-	int bottomRightCol = (int)(floor((double)playerBottomRightY / TEXTURE_SIZE));
-	int tileAtPlayerBottomLeft = tileMap[bottomLeftCol - 1][bottomLeftRow];
-	int tileAtPlayerBottomRight = tileMap[bottomRightCol - 1][bottomRightRow - 1];
-	if (tileSolid[tileAtPlayerBottomLeft][1] == 0 && tileSolid[tileAtPlayerBottomRight][1] == 0) {
-		player.setFalling(true);
+	int playerBottomLeftY = player.getY() + playerNS::PLAYER_HEIGHT * 0.5;
+	int playerBottomRightX = player.getX() + playerNS::PLAYER_WIDTH * 0.5;
+	int playerBottomRightY = player.getY() + playerNS::PLAYER_HEIGHT * 0.5;
+	int playerTopLeftX = player.getX();
+	int playerTopLeftY = player.getY();
+	int playerTopRightX = player.getX() + playerNS::PLAYER_WIDTH * 0.5;
+	int playerTopRightY = player.getY();
+
+	/*
+	if (!tileIsSolid(playerBottomLeftX, playerBottomLeftY + 1) && !tileIsSolid(playerBottomRightX, playerBottomRightY + 1)) {
+		player.canMoveDown = true;
+	}
+	else {
+		player.canMoveDown = false;
 	}
 	
+	if (!tileIsSolid(playerTopLeftX, playerTopLeftY - 1) && !tileIsSolid(playerTopRightX, playerTopRightY - 1)) {
+		player.canMoveUp = true;
+	}
+	else {
+		player.canMoveUp = false;
+	}
+	
+	if (!tileIsSolid(playerBottomLeftX - 1, playerBottomLeftY) && !tileIsSolid(playerTopLeftX - 1, playerTopRightY)) {
+		player.canMoveLeft = true;
+	}
+	else {
+		player.canMoveLeft = false;
+	}
+	
+	if (!tileIsSolid(playerTopLeftX + 1, playerTopLeftY) && !tileIsSolid(playerBottomRightX + 1, playerBottomRightY)) {
+		player.canMoveRight = true;
+	}
+	else {
+		player.canMoveRight = false;
+	}
+	*/
 	player.update(frameTime);
+}
 
+bool BreakoutJack::tileIsSolid(int x, int y) {
+	int tileX = (int)(floor((double)x / breakoutJackNS::TEXTURE_SIZE));
+	int tileY = (int)(floor((double)y / breakoutJackNS::TEXTURE_SIZE));
+	int tile = breakoutJackNS::tileMap[tileY][tileX];
+	if (breakoutJackNS::tileSolid[tile][1] == 0) {
+		return false;
+	}
+	return true;
 }
 
 //=============================================================================
@@ -123,7 +156,7 @@ void BreakoutJack::render()
 				buffer += to_string(levelControllerNS::tileMap[col][row]);
 				buffer += ":";
 				buffer += to_string(levelControllerNS::tileSolid[levelControllerNS::tileMap[col][row]][1]);
-				dxFont.print(buffer, row * levelControllerNS::TEXTURE2_SIZE, col * levelControllerNS::TEXTURE2_SIZE);
+				//dxFont.print(buffer, row * levelControllerNS::TEXTURE2_SIZE, col * levelControllerNS::TEXTURE2_SIZE);
 			}
         }
 		/*
@@ -134,66 +167,21 @@ void BreakoutJack::render()
 		}
 		*/
     }
-	
-	/*
-    // Draw Objects,  0=empty, 1=Tree0, 2=Tree1
-    float treeX = 0, treeY = 0;
-    for(int row=0; row<MAP_SIZE; row++)
-    {
-        for(int col=0; col<MAP_SIZE; col++)
-        {
-            switch(objectMap[row][col])
-            {
-            case 1:     // Tree0
-                tree.setX((float)( SCREEN_X - (row*TEXTURE_SIZE/2) + (col*TEXTURE_SIZE/2) ) +
-                                    TREE_OFFSET_X);
-                tree.setY((float)( SCREEN_Y + (row*TEXTURE_SIZE/4) + (col*TEXTURE_SIZE/4) -
-                                   heightMap[row][col] * HEIGHT_CHANGE) + TREE_OFFSET_Y);
-                if(col%2)
-                    tree.flipHorizontal(true);
-                // draw shadow
-                tree.setCurrentFrame(TREE0_SHADOW);
-                tree.setDegrees(TREE_SHADOW_DEGREES);
-                treeX = tree.getX();
-                treeY = tree.getY();
-                tree.setX(treeX + TREE_SHADOW_X);
-                tree.setY(treeY + TREE_SHADOW_Y);
-                tree.draw(graphicsNS::ALPHA25 & graphicsNS::BLACK);
-                tree.setX(treeX);   // restore X
-                tree.setY(treeY);   // restore Y
-                // draw tree
-                tree.setDegrees(0);
-                tree.setCurrentFrame(TREE0_FRAME);
-                tree.draw();
-                tree.flipHorizontal(false);
-                break;
-            case 2:     // Tree1
-                tree.setX((float)( SCREEN_X - (row*TEXTURE_SIZE/2) + (col*TEXTURE_SIZE/2) ) +
-                                    TREE_OFFSET_X);
-                tree.setY((float)( SCREEN_Y + (row*TEXTURE_SIZE/4) + (col*TEXTURE_SIZE/4) -
-                                   heightMap[row][col] * HEIGHT_CHANGE) + TREE_OFFSET_Y);
-                if(col%2)
-                    tree.flipHorizontal(true);
-                // draw shadow
-                tree.setCurrentFrame(TREE1_SHADOW);
-                tree.setDegrees(TREE_SHADOW_DEGREES);   // rotate shadow
-                treeX = tree.getX();                    // save tree x,y
-                treeY = tree.getY();
-                tree.setX(treeX + TREE_SHADOW_X);       // position shadow
-                tree.setY(treeY + TREE_SHADOW_Y);
-                tree.draw(graphicsNS::ALPHA25 & graphicsNS::BLACK); // draw shadow
-                tree.setX(treeX);                       // restore tree x,y
-                tree.setY(treeY);
-                // draw tree
-                tree.setDegrees(0);
-                tree.setCurrentFrame(TREE1_FRAME);
-                tree.draw();
-                tree.flipHorizontal(false);
-                break;
-            }
-        }
-    }
-	*/
+	//print player position
+	int playerBottomLeftX = player.getX();
+	int playerBottomLeftY = player.getY() + playerNS::PLAYER_HEIGHT * 0.5;
+	int playerBottomRightX = player.getX() + playerNS::PLAYER_WIDTH * 0.5;
+	int playerBottomRightY = player.getY() + playerNS::PLAYER_HEIGHT * 0.5;
+	int playerTopLeftX = player.getX();
+	int playerTopLeftY = player.getY();
+	int playerTopRightX = player.getX() + playerNS::PLAYER_WIDTH * 0.5;
+	int playerTopRightY = player.getY();
+	string text = "Player is at (" + to_string(player.getX()) + ", " + to_string(player.getY()) + ")" + "\n";
+	text += "(" + to_string(playerTopLeftX) + ", " + to_string(playerTopLeftY) + ") ---- (" + to_string(playerTopRightX) + ", " + to_string(playerTopRightY) + ")" + "\n";
+	text += "  |   ----   |  \n";
+	text += "(" + to_string(playerBottomLeftX) + ", " + to_string(playerBottomLeftY) + ") ---- (" + to_string(playerBottomRightX) + ", " + to_string(playerBottomRightY) + ")";
+	dxFont.print(text, 0, 0);
+
     graphics->spriteEnd();
 }
 
@@ -219,4 +207,44 @@ void BreakoutJack::resetAll()
 
     Game::resetAll();
     return;
+}
+void BreakoutJack::consoleCommand()
+{
+	command = console->getCommand();    // get command from console
+	if (command == "")                   // if no command
+		return;
+
+	if (command == "help")              // if "help" command
+	{
+		console->print("Console Commands:");
+		console->print("fps - toggle display of frames per second");
+		return;
+	}
+
+	if (command == "fps")
+	{
+		fpsOn = !fpsOn;                 // toggle display of fps
+		if (fpsOn)
+			console->print("fps On");
+		else
+			console->print("fps Off");
+	}
+	else if (command == "tile") {
+		drawTileNo = !drawTileNo;
+	}
+	else if (command == "p") {
+		int playerBottomLeftX = player.getX();
+		int playerBottomLeftY = player.getY() + playerNS::PLAYER_HEIGHT * 0.5;
+		int playerBottomRightX = player.getX() + playerNS::PLAYER_WIDTH * 0.5;
+		int playerBottomRightY = player.getY() + playerNS::PLAYER_HEIGHT * 0.5;
+		int playerTopLeftX = player.getX();
+		int playerTopLeftY = player.getY();
+		int playerTopRightX = player.getX() + playerNS::PLAYER_WIDTH;
+		int playerTopRightY = player.getY();
+		console->print("Player is at (" + to_string(player.getX()) + ", " + to_string(player.getY()) + ")");
+		console->print("(" + to_string(playerTopLeftX) + ", " + to_string(playerTopLeftY) + ") ---- (" + to_string(playerTopRightX) + ", " + to_string(playerTopRightY) + ")");
+		console->print("  |   ----   |  ");
+		console->print("(" + to_string(playerBottomLeftX) + ", " + to_string(playerBottomLeftY) + ") ---- (" + to_string(playerBottomRightX) + ", " + to_string(playerBottomRightY) + ")");
+	}
+
 }
