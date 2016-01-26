@@ -260,5 +260,11 @@ void BreakoutJack::consoleCommand()
 		console->print("  |   ----   |  ");
 		console->print("(" + to_string(playerBottomLeftX) + ", " + to_string(playerBottomLeftY) + ") ---- (" + to_string(playerBottomRightX) + ", " + to_string(playerBottomRightY) + ")");
 	}
-
+	else if (command == "mouse") {
+		mouseOn = !mouseOn;                 // toggle display of fps
+		if (mouseOn)
+			console->print("mouse position On");
+		else
+			console->print("mouse position Off");
+	}
 }
