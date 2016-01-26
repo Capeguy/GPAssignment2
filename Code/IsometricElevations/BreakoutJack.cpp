@@ -16,7 +16,6 @@ BreakoutJack::~BreakoutJack()
 {
     releaseAll();           // call onLostDevice() for every graphics item
 }
-
 //=============================================================================
 // initializes the game
 // Throws GameError on error
@@ -35,6 +34,9 @@ void BreakoutJack::initialize(HWND hwnd)
 	//player texture
 	if (!playerTexture.initialize(graphics, TEXTURE_PLAYER))
 		throw(GameError(gameErrorNS::FATAL_ERROR, "Error initializing player texture"));
+	// item texture
+	if (!itemTexture.initialize(graphics, TEXTURE_ITEM))
+		throw(GameError(gameErrorNS::FATAL_ERROR, "Error initializing item texture"));
 	//player image
 	player.setColorFilter(graphicsNS::MAGENTA);
 	player.initialize(this, playerNS::PLAYER_WIDTH, playerNS::PLAYER_HEIGHT, 32, &playerTexture); // to change
@@ -42,7 +44,7 @@ void BreakoutJack::initialize(HWND hwnd)
 	player.setCurrentFrame(952);
 	player.setX(GAME_WIDTH / breakoutJackNS::TEXTURE_SIZE);
 	player.setY(GAME_HEIGHT - GAME_HEIGHT / breakoutJackNS::TEXTURE_SIZE - 2 * breakoutJackNS::TEXTURE_SIZE);
-	
+	player.setVelocity(VECTOR2(playerNS::SPEED, playerNS::SPEED));
     // map tile image
     mapTile.initialize(graphics, breakoutJackNS::TEXTURE_SIZE, breakoutJackNS::TEXTURE_SIZE, breakoutJackNS::TEXTURE_COLS,&textures);
     mapTile.setFrames(0, 0);
@@ -52,6 +54,10 @@ void BreakoutJack::initialize(HWND hwnd)
     tree.initialize(graphics, breakoutJackNS::TEXTURE2_SIZE, breakoutJackNS::TEXTURE2_SIZE, breakoutJackNS::TEXTURE2_COLS,&textures2);
     tree.setFrames(TREE0_FRAME, TREE0_FRAME);
     tree.setCurrentFrame(TREE0_FRAME);
+	
+	// crate image
+	if (!crate.initialize(this, crateNS::WIDTH, crateNS::HEIGHT, 2, &itemTexture))
+		throw(GameError(gameErrorNS::FATAL_ERROR, "Error initializing crate"));
 
 	dxFont.initialize(graphics, 20, false, false, "Courier New");
 	//dxFont.setFontColor(SETCOLOR_ARGB(192, 255, 255, 255));
@@ -107,6 +113,7 @@ void BreakoutJack::update()
 		player.canMoveRight = false;
 	}
 	*/
+	crate.update(frameTime);
 	player.update(frameTime);
 }
 
@@ -130,7 +137,16 @@ void BreakoutJack::ai()
 // Handle collisions
 //=============================================================================
 void BreakoutJack::collisions()
-{}
+{
+	VECTOR2 collisionVector;
+	// collision between player and crate
+	if (player.collidesWith(crate, collisionVector))
+	{
+		player.bounce(collisionVector, crate);
+		//crate.setX(60.0);
+		//crate.setY(60.0);
+	}
+}
 
 //=============================================================================
 // Render game items
@@ -181,7 +197,7 @@ void BreakoutJack::render()
 	text += "  |   ----   |  \n";
 	text += "(" + to_string(playerBottomLeftX) + ", " + to_string(playerBottomLeftY) + ") ---- (" + to_string(playerBottomRightX) + ", " + to_string(playerBottomRightY) + ")";
 	dxFont.print(text, 0, 0);
-
+	crate.draw();
     graphics->spriteEnd();
 }
 
@@ -192,7 +208,7 @@ void BreakoutJack::render()
 void BreakoutJack::releaseAll()
 {
     textures.onLostDevice();
-
+	itemTexture.onLostDevice();
     Game::releaseAll();
     return;
 }
@@ -204,7 +220,7 @@ void BreakoutJack::releaseAll()
 void BreakoutJack::resetAll()
 {
     textures.onResetDevice();
-
+	itemTexture.onResetDevice();
     Game::resetAll();
     return;
 }

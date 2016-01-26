@@ -90,6 +90,18 @@
     <ClCompile Include="BreakoutJack.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="levelController.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="tile.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="crate.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="itemController.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="constants.h">
@@ -168,6 +180,18 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="BreakoutJack.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="levelController.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="tile.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="crate.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="itemController.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

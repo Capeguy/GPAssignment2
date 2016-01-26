@@ -92,6 +92,7 @@
     <ClCompile Include="audio.cpp" />
     <ClCompile Include="console.cpp" />
     <ClCompile Include="BreakoutJack.cpp" />
+    <ClCompile Include="crate.cpp" />
     <ClCompile Include="entity.cpp" />
     <ClCompile Include="game.cpp" />
     <ClCompile Include="graphics.cpp" />
@@ -100,6 +101,7 @@
     <ClCompile Include="inventoryController.cpp" />
     <ClCompile Include="inventoryItem.cpp" />
     <ClCompile Include="item.cpp" />
+    <ClCompile Include="itemController.cpp" />
     <ClCompile Include="levelController.cpp" />
     <ClCompile Include="list.cpp" />
     <ClCompile Include="machineGun.cpp" />
@@ -122,6 +124,7 @@
     <ClInclude Include="console.h" />
     <ClInclude Include="constants.h" />
     <ClInclude Include="BreakoutJack.h" />
+    <ClInclude Include="crate.h" />
     <ClInclude Include="entity.h" />
     <ClInclude Include="game.h" />
     <ClInclude Include="gameError.h" />
@@ -131,6 +134,7 @@
     <ClInclude Include="inventoryController.h" />
     <ClInclude Include="inventoryItem.h" />
     <ClInclude Include="item.h" />
+    <ClInclude Include="itemController.h" />
     <ClInclude Include="levelController.h" />
     <ClInclude Include="list.h" />
     <ClInclude Include="machineGun.h" />

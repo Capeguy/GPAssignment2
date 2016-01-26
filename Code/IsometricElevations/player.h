@@ -23,6 +23,8 @@ namespace playerNS
 	const float PLAYER_ANIMATION_DELAY = 0.2f;
 	const float PLAYER_WIDTH = 64.0;
 	const float PLAYER_HEIGHT = 64.0;
+	const int WIDTH = 32;
+	const int HEIGHT = 32;
 }
 
 class Player : public Entity
