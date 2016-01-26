@@ -27,18 +27,23 @@ Player::~Player()
 bool Player::initialize(Game *gamePtr, int width, int height, int ncols, TextureManager *textureM)
 {
 	gameptr = gamePtr;
+	if (!gunTexture.initialize(gamePtr->getGraphics(), TEXTURE_GUNS))
+		throw(GameError(gameErrorNS::FATAL_ERROR, "Error initializing gun texture"));
+	machineGun.initialize(gameptr, 136, 41, 2, &gunTexture);
+	machineGun.setCurrentFrame(0);
 	return(Entity::initialize(gamePtr, width, height, ncols, textureM));
 }
 void Player::draw()
 {
 
 	//spriteData.scale = 0.5;
+	machineGun.draw();
 	Image::draw();              // draw ship
 }
 void Player::update(float frameTime)
 {	
-
-	Entity::update(frameTime);
+	
+	
 	if (input->isKeyDown(PLAYER_RIGHT) && canMoveRight)
 	{
 		spriteData.x += frameTime * playerNS::SPEED;
@@ -79,9 +84,12 @@ void Player::update(float frameTime)
 			while (gameptr->tileIsSolid(spriteData.x, spriteData.y + 31) || gameptr->tileIsSolid(spriteData.x + 31, spriteData.y + 31)) {
 				spriteData.y -= frameTime * playerNS::FALLING_SPEED;
 			}
-			orientation = down;
+			//orientation = down;
 		}
+		machineGun.update(frameTime, orientation, spriteData.x, spriteData.y);
 	}
+
+
 	switch (orientation) {
 	case right:
 		currentFrame = 953;
@@ -114,6 +122,8 @@ void Player::update(float frameTime)
 		spriteData.y = GAME_HEIGHT - playerNS::TEXTURE_SIZE;
 	*/
 	Entity::update(frameTime);
+	//update gun
+	machineGun.update(frameTime, orientation, spriteData.x, spriteData.y);
 }
 void Player::setFalling(bool f) {
 	falling = f;

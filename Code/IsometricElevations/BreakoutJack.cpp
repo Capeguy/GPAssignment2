@@ -24,7 +24,7 @@ BreakoutJack::~BreakoutJack()
 void BreakoutJack::initialize(HWND hwnd)
 {
     Game::initialize(hwnd);
-
+	tileTexture = new TextureManager();
     // map textures
     if (!textures.initialize(graphics,TEXTURES_IMAGE))
         throw(GameError(gameErrorNS::FATAL_ERROR, "Error initializing textures"));
@@ -35,6 +35,12 @@ void BreakoutJack::initialize(HWND hwnd)
 	//player texture
 	if (!playerTexture.initialize(graphics, TEXTURE_PLAYER))
 		throw(GameError(gameErrorNS::FATAL_ERROR, "Error initializing player texture"));
+	if (!tileTexture->initialize(graphics, TEXTURES_IMAGE))
+		throw(GameError(gameErrorNS::FATAL_ERROR, "Error initializing tile texture"));
+	/*
+	if(!gunTexture.initialize(graphics, TEXTURE_GUNS))
+		throw(GameError(gameErrorNS::FATAL_ERROR, "Error initializing gun texture"));
+	*/
 	//player image
 	player.setColorFilter(graphicsNS::MAGENTA);
 	player.initialize(this, playerNS::PLAYER_WIDTH, playerNS::PLAYER_HEIGHT, 32, &playerTexture); // to change
@@ -56,8 +62,17 @@ void BreakoutJack::initialize(HWND hwnd)
 	dxFont.initialize(graphics, 20, false, false, "Courier New");
 	//dxFont.setFontColor(SETCOLOR_ARGB(192, 255, 255, 255));
 	dxFont.setFontColor(SETCOLOR_ARGB(192, 0, 0, 0));
-	levelController = new LevelController(graphics, this);
-	levelController->loadTiles();
+	//Load level controller
+	levelController = new LevelController(graphics, this, tileTexture);
+	levelController->loadTiles(tileTexture, this);
+
+	//Test machine gun image
+	/*
+	machineGun.initialize(this, 136, 41, 2, &gunTexture);
+	machineGun.setCurrentFrame(1);
+	machineGun.setX(player.getX());
+	machineGun.setY(player.getY());
+	*/
 }
 
 //=============================================================================
@@ -67,7 +82,7 @@ void BreakoutJack::update()
 {
 
     //mapTile.update(frameTime);
-	//levelController->update(frameTime);
+	levelController->update(frameTime);
 	
 	int playerBottomLeftX = player.getX();
 	int playerBottomLeftY = player.getY() + playerNS::PLAYER_HEIGHT * 0.5;
@@ -107,6 +122,7 @@ void BreakoutJack::update()
 		player.canMoveRight = false;
 	}
 	*/
+	//machineGun.update(frameTime);
 	player.update(frameTime);
 }
 
@@ -139,8 +155,10 @@ void BreakoutJack::render()
 {
     graphics->spriteBegin();
 	player.draw();
+	
 	string buffer;
     // Draw map in Isometric Diamond
+	/*
     for(int row=0; row<levelControllerNS::MAP_SIZE_X; row++)
     {
 		for (int col = 0; col < levelControllerNS::MAP_SIZE_Y; col++)
@@ -159,14 +177,10 @@ void BreakoutJack::render()
 				//dxFont.print(buffer, row * levelControllerNS::TEXTURE2_SIZE, col * levelControllerNS::TEXTURE2_SIZE);
 			}
         }
-		/*
-		for (int row = 0; row<levelControllerNS::MAP_SIZE_X; row++) {
-			for (int col = 0; col < levelControllerNS::MAP_SIZE_Y; col++) {
-				levelController->mapTile[col][row].draw();
-			}
-		}
-		*/
     }
+	*/
+	levelController->renderTiles(graphics);
+	//machineGun.draw();
 	//print player position
 	int playerBottomLeftX = player.getX();
 	int playerBottomLeftY = player.getY() + playerNS::PLAYER_HEIGHT * 0.5;

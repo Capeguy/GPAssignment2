@@ -135,14 +135,15 @@ private:
 	//vector<vector<Tile>> mapTile[levelControllerNS::MAP_SIZE_Y][levelControllerNS::MAP_SIZE_X];
 	TextureManager* tileTexture;
 	Game* gameptr;
+	TextDX dxFont;
 
 public:
 	Tile mapTile[levelControllerNS::MAP_SIZE_Y][levelControllerNS::MAP_SIZE_X];
 	LevelController();
-	LevelController(Graphics* g, Game* gp);
+	LevelController(Graphics*& g, Game* gp, TextureManager*& tt);
 	~LevelController();
-	void loadTiles();
-	void renderTiles();
+	void loadTiles(TextureManager*& tt, Game* gameptr);
+	void renderTiles(Graphics*& graphics);
 	void update(float frameTime);
 };
 #endif

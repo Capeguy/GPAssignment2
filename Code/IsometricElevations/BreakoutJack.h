@@ -10,6 +10,7 @@
 #include "image.h"
 #include "player.h"
 #include "levelController.h"
+//#include "machineGun.h"
 namespace breakoutJackNS
 {
     // Map textures
@@ -184,6 +185,8 @@ private:
     TextureManager textures;    // textures
     TextureManager textures2;   // object texture
 	TextureManager playerTexture; // player texture
+	TextureManager* tileTexture;
+	TextureManager gunTexture;
     Image   mapTile;
     Image   tree;
 	TextDX	dxFont;
@@ -191,6 +194,7 @@ private:
 	RECT	textRect;
 	Player player;
 	LevelController* levelController;
+	//MachineGun machineGun;
 
 public:
 	// Constructor

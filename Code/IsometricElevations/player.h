@@ -7,6 +7,7 @@
 #include "weapon.h"
 #include "projectile.h"
 #include "constants.h"
+#include "machineGun.h"
 
 namespace playerNS
 {
@@ -38,7 +39,8 @@ private:
 	float	hp;
 	float	hpMax;
 	Game*	gameptr;
-	
+	TextureManager gunTexture;
+	MachineGun machineGun;
 
 public:
 	bool canMoveLeft = true;
