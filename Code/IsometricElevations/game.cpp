@@ -22,6 +22,7 @@ Game::Game()
     inputDialog = NULL;
     fps = 100;
     fpsOn = false;              // default to fps display off
+	mouseOn = false;			// default to mouse display off
     initialized = false;
 
 }
@@ -160,7 +161,7 @@ void Game::initialize(HWND hw)
 //=============================================================================
 void Game::renderGame()
 {
-    const int BUF_SIZE = 20;
+    const int BUF_SIZE = 50;
     static char buffer[BUF_SIZE];
 
     //start rendering
@@ -175,6 +176,27 @@ void Game::renderGame()
             _snprintf_s(buffer, BUF_SIZE, "fps %d ", (int)fps);
             dxFont.print(buffer,GAME_WIDTH-100,GAME_HEIGHT-28);
         }
+		if (mouseOn)           // if mouse position display requested
+		{
+			POINT cursorPos;
+			GetCursorPos(&cursorPos);
+			float x = 0;
+			x = cursorPos.x;
+			float y = 0;
+			y = cursorPos.y;
+
+			//char msg[50];
+
+			//sprintf(msg, "x: %.2f\n"
+				//"y : %.2f\n", x, y);
+			//char buffer1 = 50;
+			//MessageBox(0, msg, "Mouse Position", 0);
+			// convert fps to string
+			_snprintf_s(buffer, BUF_SIZE, "x: %.2f\n", float(x));
+			dxFont.print(buffer, GAME_WIDTH - 100, 5);
+			_snprintf_s(buffer, BUF_SIZE, "y: %.2f\n", float(y));
+			dxFont.print(buffer, GAME_WIDTH - 100, 15);
+		}
         graphics->spriteEnd();      // end drawing sprites
 
         console->draw();    // console is drawn here so it appears on top of game
