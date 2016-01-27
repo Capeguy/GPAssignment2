@@ -62,7 +62,7 @@ void BreakoutJack::initialize(HWND hwnd)
     tree.setCurrentFrame(TREE0_FRAME);
 
 	// crate image
-	if (!crate.initialize(this, &itemTexture))
+	// if (!crate.initialize(this, &itemTexture))  // Fuck you isaac. You commented out the next line, making my dxFont to not initialize. - Ben
 	//	throw(GameError(gameErrorNS::FATAL_ERROR, "Error initializing crate"));
 
 	dxFont.initialize(graphics, 20, false, false, "Courier New");
@@ -205,14 +205,14 @@ void BreakoutJack::render()
 	//machineGun.draw();
 	//print player position
 	int playerBottomLeftX = player.getX();
-	int playerBottomLeftY = player.getY() + playerNS::PLAYER_HEIGHT * 0.5;
-	int playerBottomRightX = player.getX() + playerNS::PLAYER_WIDTH * 0.5;
-	int playerBottomRightY = player.getY() + playerNS::PLAYER_HEIGHT * 0.5;
+	int playerBottomLeftY = player.getY() - 1 + playerNS::PLAYER_HEIGHT * 0.5;
+	int playerBottomRightX = player.getX() - 1 + playerNS::PLAYER_WIDTH * 0.5;
+	int playerBottomRightY = player.getY() - 1 + playerNS::PLAYER_HEIGHT * 0.5;
 	int playerTopLeftX = player.getX();
 	int playerTopLeftY = player.getY();
-	int playerTopRightX = player.getX() + playerNS::PLAYER_WIDTH * 0.5;
+	int playerTopRightX = player.getX() - 1 + playerNS::PLAYER_WIDTH * 0.5;
 	int playerTopRightY = player.getY();
-	string text = "Player is at (" + to_string(player.getX()) + ", " + to_string(player.getY()) + ")" + "\n";
+	string text = "Player is at (" + to_string(player.getX()) + ", " + to_string(player.getY()) + ") Can Jump: " + to_string(player.canJump) + " | Can Fall: " + to_string(player.canFall) + " | Jumping: " + to_string(player.jumping) + " | Falling: " + to_string(player.falling) + "\n";
 	text += "(" + to_string(playerTopLeftX) + ", " + to_string(playerTopLeftY) + ") ---- (" + to_string(playerTopRightX) + ", " + to_string(playerTopRightY) + ")" + "\n";
 	text += "  |   ----   |  \n";
 	text += "(" + to_string(playerBottomLeftX) + ", " + to_string(playerBottomLeftY) + ") ---- (" + to_string(playerBottomRightX) + ", " + to_string(playerBottomRightY) + ")";
@@ -266,7 +266,7 @@ void BreakoutJack::consoleCommand()
 			console->print("fps Off");
 	}
 	else if (command == "tile") {
-		drawTileNo = !drawTileNo;
+		levelController->debugInfo = !levelController->debugInfo;
 	}
 	else if (command == "p") {
 		int playerBottomLeftX = player.getX();

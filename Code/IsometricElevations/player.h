@@ -18,10 +18,11 @@ namespace playerNS
 {
 	const int	X = 0;   
 	const int	Y = 0;
-	const float SPEED = 64;                
-	const float FALLING_SPEED = 32;        
+	const float SPEED = 200;                
+	const float FALLING_SPEED = 120;        
 	const float MASS = 300.0f;             
-	const float JUMP_HEIGHT = 400;
+	const float JUMP_HEIGHT = 32;
+	const float JUMP_SPEED = 200;
 	const int   TEXTURE_SIZE = 64;          
 	const int   TEXTURE_COLS = 32;          
 	const int   PLAYER_START_FRAME = 952;   
@@ -39,9 +40,9 @@ class Player : public Entity
 	enum PlayerOrientation { right, down, left, up };
 	enum PlayerHealthStatus { Alive, Dead };
 private:
-	bool	jump = false;
+	
 	bool	doubleJump = false;
-	bool	falling = false;
+	
 	int		orientation = right;
 	int		healthStatus = Alive;
 	float	hp;
@@ -52,12 +53,27 @@ private:
 	Pistol	pistol;
 	Shotgun shotgun;
 	Inventory inventory;
+	float	jumpdistance = 0;
 
 public:
+	bool canJump = true;
+	bool jumping = false;
+	bool canFall = true;
+	bool falling = false;
 	bool canMoveLeft = true;
 	bool canMoveRight = true;
 	bool canMoveUp = true;
 	bool canMoveDown = true;
+	float playerBottomLeftX; 
+	float playerBottomLeftY; 
+	float playerBottomRightX;
+	float playerBottomRightY;
+	float playerTopLeftX; 
+	float playerTopLeftY; 
+	float playerTopRightX;
+	float playerTopRightY;
+
+
 
 	Player();
 	~Player();
@@ -70,5 +86,6 @@ public:
 	void damage(Projectile p);
 	void healthUpdate();
 	void die();
+	void updateCoords();
 };
 #endif

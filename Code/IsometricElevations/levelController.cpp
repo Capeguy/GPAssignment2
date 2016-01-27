@@ -8,7 +8,6 @@ LevelController::LevelController(Graphics*& graphics, Game* gp, TextureManager* 
 {
 	tileTexture = tt;
 	gameptr = gp;
-
 	dxFont.initialize(graphics, 12, false, false, "Courier New");
 	dxFont.setFontColor(SETCOLOR_ARGB(192, 255, 255, 255));
 }
@@ -18,8 +17,8 @@ LevelController::~LevelController()
 }
 
 Tile* LevelController::getTile(float x, float y) {
-	int tileX = (int)(floor(x / levelControllerNS::TEXTURE_SIZE));
-	int tileY = (int)(floor(y / levelControllerNS::TEXTURE_SIZE));
+	int tileX = (int)(floor(x) / levelControllerNS::TEXTURE_SIZE);
+	int tileY = (int)(floor(y) / levelControllerNS::TEXTURE_SIZE);
 	return mapTile[tileY][tileX];
 }
 void LevelController::loadTiles(TextureManager* tt, Game* gameptr)
@@ -53,21 +52,22 @@ void LevelController :: renderTiles(Graphics* graphics) {
 		for (int row = 0; row < MAP_SIZE_X; row++)
 		{
 			mapTile[col][row]->draw();
-			buffer = "";
-			buffer += to_string(mapTile[col][row]->getId());
-			buffer += ":";
-			buffer += to_string(mapTile[col][row]->isSolid());
-			dxFont.print(buffer, row * levelControllerNS::TEXTURE2_SIZE, col * levelControllerNS::TEXTURE2_SIZE);
-			buffer = "(" + to_string(row);
-			buffer += "," + to_string(col);
-			buffer += ")";
-			dxFont.print(buffer, row * levelControllerNS::TEXTURE2_SIZE, col * levelControllerNS::TEXTURE2_SIZE + 14);
-
+			if (debugInfo) {
+				buffer = to_string(mapTile[col][row]->getId());
+				buffer += ":";
+				buffer += to_string(mapTile[col][row]->isSolid());
+				dxFont.print(buffer, row * levelControllerNS::TEXTURE2_SIZE, col * levelControllerNS::TEXTURE2_SIZE);
+				buffer = "(" + to_string(row);
+				buffer += "," + to_string(col);
+				buffer += ")";
+				dxFont.print(buffer, row * levelControllerNS::TEXTURE2_SIZE, col * levelControllerNS::TEXTURE2_SIZE + 14);
+			}
 		}
 	}
 }
 
 void LevelController::update(float frameTime) {
+	
 	for (int col = 0; col < MAP_SIZE_Y; col++)
 	{
 		for (int row = 0; row < MAP_SIZE_X; row++)
@@ -75,4 +75,5 @@ void LevelController::update(float frameTime) {
 			mapTile[col][row]->update(frameTime);
 		}
 	}
+	
 }

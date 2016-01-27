@@ -24,6 +24,15 @@ Player::Player() : Entity()
 	e.top = -playerNS::HEIGHT / 2;
 	setEdge(e);
 	inventory = Inventory();
+
+	playerBottomLeftX = getX();
+	playerBottomLeftY = getY() - 1 + playerNS::PLAYER_HEIGHT * 0.5;
+	playerBottomRightX = getX() - 1 + playerNS::PLAYER_WIDTH * 0.5;
+	playerBottomRightY = getY() - 1 + playerNS::PLAYER_HEIGHT * 0.5;
+	playerTopLeftX = getX();
+	playerTopLeftY = getY();
+	playerTopRightX = getX() - 1 + playerNS::PLAYER_WIDTH * 0.5;
+	playerTopRightY = getY();
 }
 
 Player::~Player()
@@ -59,15 +68,21 @@ void Player::draw()
 }
 void Player::update(float frameTime, LevelController* lc)
 {	
-	Tile* leftTile = lc->getTile(spriteData.x, spriteData.y + 32);
-	Tile* rightTile = lc->getTile(spriteData.x + 32, spriteData.y + 32);
+	updateCoords();
+
+	Tile* leftTile = lc->getTile(playerBottomLeftX, playerBottomLeftY + 1);
+	Tile* rightTile = lc->getTile(playerBottomRightX, playerBottomRightY + 1);
 	if (leftTile->isSolid() || rightTile->isSolid())
 	{
-		jump = true;
+		if (!input->isKeyDown(PLAYER_UP) && !input->isKeyDown(PLAYER_JUMP))
+			canJump = true;
+		canFall = false;
+		falling = false;
 	}
 	else
 	{
-		jump = false;
+		canFall;
+		falling = true;
 	}
 	if (input->isKeyDown(PLAYER_RIGHT) && canMoveRight)
 	{
@@ -85,13 +100,27 @@ void Player::update(float frameTime, LevelController* lc)
 		}
 		orientation = left;
 	}
-	if ((input->isKeyDown(PLAYER_JUMP) || input->isKeyDown(PLAYER_UP)) && canMoveUp && jump)
+	if (jumping || ((input->isKeyDown(PLAYER_JUMP) || input->isKeyDown(PLAYER_UP)) && canMoveUp && canJump))
 	{
-		spriteData.y -= frameTime * playerNS::JUMP_HEIGHT;
-		while (lc->getTile(spriteData.x, spriteData.y)->isSolid() || lc->getTile(spriteData.x + 31, spriteData.y)->isSolid()) {
-			spriteData.y += frameTime * playerNS::FALLING_SPEED;
+		if (!jumping && canJump)
+			jumpdistance = 0;
+		if (jumpdistance > playerNS::JUMP_HEIGHT) {
+			jumping = false;
+			canJump = false;
+			falling = true;
 		}
-		orientation = up;
+		else {
+			jumping = true;
+			canJump = false;
+			jumpdistance += frameTime * playerNS::JUMP_SPEED;
+			spriteData.y -= frameTime * playerNS::JUMP_SPEED;
+			while (lc->getTile(spriteData.x, spriteData.y)->isSolid() || lc->getTile(spriteData.x + 31, spriteData.y)->isSolid()) {
+				spriteData.y += frameTime * playerNS::FALLING_SPEED;
+			}
+			orientation = up;
+		}
+
+		
 	}
 	if (spriteData.y > 0 && !input->isKeyDown(PLAYER_JUMP) && !input->isKeyDown(PLAYER_UP) && !input->isKeyDown(PLAYER_LEFT) && !input->isKeyDown(PLAYER_RIGHT)) {
 		// Get Bottom left bottom right
@@ -101,17 +130,21 @@ void Player::update(float frameTime, LevelController* lc)
 			//orientation = down;
 		machineGun.update(frameTime, orientation, spriteData.x, spriteData.y);
 	}
-	if (canMoveDown) {
-		falling = false;
-		spriteData.y += frameTime * playerNS::FALLING_SPEED; // Use trajectory
-		while (lc->getTile(spriteData.x, spriteData.y + 31)->isSolid() || lc->getTile(spriteData.x + 31, spriteData.y + 31)->isSolid()) {
+	if (falling && !jumping) {
+		Tile* tileA = lc->getTile(playerBottomLeftX, playerBottomLeftY + 1);
+		Tile* tileB = lc->getTile(playerBottomRightX, playerBottomRightY + 1);
+		if (!tileA->isSolid() && !tileB->isSolid()) {
+			spriteData.y += frameTime * playerNS::FALLING_SPEED; // Use trajectory
+		}
+		tileA = lc->getTile(playerBottomLeftX, playerBottomLeftY + 1);
+		tileB = lc->getTile(playerBottomRightX, playerBottomRightY + 1);
+		while (tileA->isSolid() || tileB->isSolid()) {
+			updateCoords();
 			spriteData.y--;
 		}
 	}
-	spriteData.y = (int)spriteData.y;
+	// spriteData.y = (int)spriteData.y;
 	
-
-
 	switch (orientation) {
 	case right:
 		currentFrame = 953;
@@ -143,6 +176,16 @@ void Player::update(float frameTime, LevelController* lc)
 	Entity::update(frameTime);
 	//update gun
 	
+}
+void Player::updateCoords() {
+	playerBottomLeftX = getX();
+	playerBottomLeftY = getY() - 1 + playerNS::PLAYER_HEIGHT * 0.5;
+	playerBottomRightX = getX() - 1 + playerNS::PLAYER_WIDTH * 0.5;
+	playerBottomRightY = getY() - 1 + playerNS::PLAYER_HEIGHT * 0.5;
+	playerTopLeftX = getX();
+	playerTopLeftY = getY();
+	playerTopRightX = getX() - 1 + playerNS::PLAYER_WIDTH * 0.5;
+	playerTopRightY = getY();
 }
 void Player::setFalling(bool f) {
 	falling = f;
