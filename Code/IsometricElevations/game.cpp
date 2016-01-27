@@ -350,9 +350,6 @@ void Game::consoleCommand()
 	}
 
 }
-bool Game::tileIsSolid(int x, int y) {
-	return true;
-}
 //=============================================================================
 // The graphics device was lost.
 // Release all reserved video memory so graphics device may be reset.

@@ -99,7 +99,7 @@
     <ClCompile Include="gun.cpp" />
     <ClCompile Include="healthPack.cpp" />
     <ClCompile Include="inputDialog.cpp" />
-    <ClCompile Include="inventoryController.cpp" />
+    <ClCompile Include="inventory.cpp" />
     <ClCompile Include="inventoryItem.cpp" />
     <ClCompile Include="item.cpp" />
     <ClCompile Include="itemController.cpp" />
@@ -133,7 +133,7 @@
     <ClInclude Include="gun.h" />
     <ClInclude Include="healthPack.h" />
     <ClInclude Include="inputDialog.h" />
-    <ClInclude Include="inventoryController.h" />
+    <ClInclude Include="inventory.h" />
     <ClInclude Include="inventoryItem.h" />
     <ClInclude Include="item.h" />
     <ClInclude Include="itemController.h" />

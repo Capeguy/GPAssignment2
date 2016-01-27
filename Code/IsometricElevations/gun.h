@@ -7,6 +7,7 @@
 #include "item.h"
 
 using namespace std;
+
 /*
 namespace gunNS
 {
@@ -15,16 +16,21 @@ namespace gunNS
 	int TEXTURE_COLS = 2;
 }
 */
+
 class Gun : public Item // Still an abstract class
 {
+	
 protected:
 	int ammo = 10;
 	int maxAmmo = 10;
 	float cooldown = 0.2f;
 public:
+
 	//explicit
 	Gun();
 	~Gun();
+	bool initialize(Game * gamePtr, int width, int height, int ncols, TextureManager * textureM);
 	bool Shoot();
+	void update(float frametime, int orientation, float x, float y);
 };
 #endif

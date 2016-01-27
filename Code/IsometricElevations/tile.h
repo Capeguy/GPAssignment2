@@ -34,6 +34,8 @@ public:
 	Tile();
 	Tile(int id, bool solid);
 	~Tile();
+	int getId();
+	bool isSolid();
 	virtual void draw();
 	virtual bool initialize(Game *gamePtr, int width, int height, int ncols, TextureManager *textureM);
 };

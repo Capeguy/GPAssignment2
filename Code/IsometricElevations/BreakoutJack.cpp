@@ -23,7 +23,7 @@ BreakoutJack::~BreakoutJack()
 void BreakoutJack::initialize(HWND hwnd)
 {
     Game::initialize(hwnd);
-	tileTexture = new TextureManager();
+	tileTexture = TextureManager();
     // map textures
     if (!textures.initialize(graphics,TEXTURES_IMAGE))
         throw(GameError(gameErrorNS::FATAL_ERROR, "Error initializing textures"));
@@ -37,7 +37,7 @@ void BreakoutJack::initialize(HWND hwnd)
 	// item texture
 	if (!itemTexture.initialize(graphics, TEXTURE_ITEM))
 		throw(GameError(gameErrorNS::FATAL_ERROR, "Error initializing item texture"));
-	if (!tileTexture->initialize(graphics, TEXTURES_IMAGE))
+	if (!tileTexture.initialize(graphics, TEXTURES_IMAGE))
 		throw(GameError(gameErrorNS::FATAL_ERROR, "Error initializing tile texture"));
 	/*
 	if(!gunTexture.initialize(graphics, TEXTURE_GUNS))
@@ -69,8 +69,9 @@ void BreakoutJack::initialize(HWND hwnd)
 	//dxFont.setFontColor(SETCOLOR_ARGB(192, 255, 255, 255));
 	dxFont.setFontColor(SETCOLOR_ARGB(192, 0, 0, 0));
 	//Load level controller
-	levelController = new LevelController(graphics, this, tileTexture);
-	levelController->loadTiles(tileTexture, this);
+	levelController = new LevelController(graphics, this, &tileTexture);
+	levelController->initialize(this, 0, 0, 0, &tileTexture);
+	levelController->loadTiles(&tileTexture, this);
 
 	//Test machine gun image
 	/*
@@ -130,14 +131,14 @@ void BreakoutJack::update()
 	*/
 	crate.update(frameTime);
 	//machineGun.update(frameTime);
-	player.update(frameTime);
+	player.update(frameTime, levelController);
 }
 
 bool BreakoutJack::tileIsSolid(int x, int y) {
 	int tileX = (int)(floor((double)x / breakoutJackNS::TEXTURE_SIZE));
 	int tileY = (int)(floor((double)y / breakoutJackNS::TEXTURE_SIZE));
-	int tile = breakoutJackNS::tileMap[tileY][tileX];
-	if (breakoutJackNS::tileSolid[tile][1] == 0) {
+	int tile = levelControllerNS::tileMap[tileY][tileX];
+	if (levelControllerNS::tileSolid[tile][1] == 0) {
 		return false;
 	}
 	return true;
@@ -159,7 +160,7 @@ void BreakoutJack::collisions()
 	if (player.collidesWith(crate, collisionVector))
 	{
 		//player.setX(playerNS::X * frameTime);
-		player.setVelocity(-collisionVector);
+		//player.setVelocity(-collisionVector);
 		
 		//player.bounce(collisionVector, crate);
 		//crate.setX(60.0);
@@ -173,7 +174,6 @@ void BreakoutJack::collisions()
 void BreakoutJack::render()
 {
     graphics->spriteBegin();
-	player.draw();
 	
 	string buffer;
     // Draw map in Isometric Diamond
@@ -198,7 +198,10 @@ void BreakoutJack::render()
         }
     }
 	*/
-	levelController->renderTiles(graphics);
+	//levelController->renderTiles(graphics);
+	levelController->draw(graphics);
+	player.draw();
+
 	//machineGun.draw();
 	//print player position
 	int playerBottomLeftX = player.getX();

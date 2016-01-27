@@ -24,3 +24,9 @@ void Tile::draw()
 	//spriteData.scale = 0.5;
 	Entity::draw();              // draw ship
 }
+int Tile::getId() {
+	return id;
+}
+bool Tile::isSolid() {
+	return solid;
+}
