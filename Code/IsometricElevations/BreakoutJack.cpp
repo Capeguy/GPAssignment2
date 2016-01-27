@@ -60,10 +60,10 @@ void BreakoutJack::initialize(HWND hwnd)
     tree.initialize(graphics, breakoutJackNS::TEXTURE2_SIZE, breakoutJackNS::TEXTURE2_SIZE, breakoutJackNS::TEXTURE2_COLS,&textures2);
     tree.setFrames(TREE0_FRAME, TREE0_FRAME);
     tree.setCurrentFrame(TREE0_FRAME);
-	
+
 	// crate image
-	if (!crate.initialize(this, crateNS::WIDTH, crateNS::HEIGHT, 2, &itemTexture))
-		throw(GameError(gameErrorNS::FATAL_ERROR, "Error initializing crate"));
+	if (!crate.initialize(this, &itemTexture))
+	//	throw(GameError(gameErrorNS::FATAL_ERROR, "Error initializing crate"));
 
 	dxFont.initialize(graphics, 20, false, false, "Courier New");
 	//dxFont.setFontColor(SETCOLOR_ARGB(192, 255, 255, 255));
@@ -158,7 +158,10 @@ void BreakoutJack::collisions()
 	// collision between player and crate
 	if (player.collidesWith(crate, collisionVector))
 	{
-		player.bounce(collisionVector, crate);
+		//player.setX(playerNS::X * frameTime);
+		player.setVelocity(-collisionVector);
+		
+		//player.bounce(collisionVector, crate);
 		//crate.setX(60.0);
 		//crate.setY(60.0);
 	}

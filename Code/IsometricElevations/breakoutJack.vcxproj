@@ -97,6 +97,7 @@
     <ClCompile Include="game.cpp" />
     <ClCompile Include="graphics.cpp" />
     <ClCompile Include="gun.cpp" />
+    <ClCompile Include="healthPack.cpp" />
     <ClCompile Include="inputDialog.cpp" />
     <ClCompile Include="inventoryController.cpp" />
     <ClCompile Include="inventoryItem.cpp" />
@@ -130,6 +131,7 @@
     <ClInclude Include="gameError.h" />
     <ClInclude Include="graphics.h" />
     <ClInclude Include="gun.h" />
+    <ClInclude Include="healthPack.h" />
     <ClInclude Include="inputDialog.h" />
     <ClInclude Include="inventoryController.h" />
     <ClInclude Include="inventoryItem.h" />

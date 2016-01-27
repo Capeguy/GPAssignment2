@@ -1,17 +1,17 @@
 #pragma once
-#ifndef _CRATE_H                 // Prevent multiple definitions if this 
-#define _CRATE_H                 // file is included in more than one place
+#ifndef _HEALTHPACK_H                 // Prevent multiple definitions if this 
+#define _HEALTHPACK_H                 // file is included in more than one place
 #define WIN32_LEAN_AND_MEAN
 
 #include "constants.h"
 #include "item.h"
 #include "entity.h"
-#include <vector>
+
 using namespace std;
 
-namespace crateNS
+namespace healthPackNS
 {
-	const int	TEXTURE_COLS = 2;
+	//const int	TEXTURE_COLS = 2;
 	const int	WIDTH = 64;
 	const int	HEIGHT = 64;
 	const int   START_FRAME = 0;        // starts at frame 1
@@ -21,13 +21,9 @@ namespace crateNS
 	const int   COLLISION_RADIUS = 120 / 2;   // for circular collision
 }
 
-class Crate : public Entity
+class HealthPack : public Item
 {
-private:
-	vector<Entity> itemList;
 public:
-	Crate();
-	void spawnItem();
-	bool initialize(Game *gamePtr, TextureManager *itemTexture);
+	HealthPack();
 };
-#endif
+#endif#pragma once

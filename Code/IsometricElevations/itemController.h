@@ -7,6 +7,7 @@
 #include "item.h"
 #include "entity.h"
 #include "crate.h"
+#include <vector>
 using namespace std;
 namespace itemControllerNS
 {
@@ -14,9 +15,14 @@ namespace itemControllerNS
 
 class ItemController : public Entity
 {
+private:
+	vector<VECTOR2> levelCrateLoc[NUM_LEVEL];
+	vector<Crate> crateList;
 public:
 	ItemController();
-	void initializeItems();
-	void spawnCrates();
+	void spawnCrates(int, Game*, TextureManager *itemTexture);
+	void update(float);
+	void render();
+	
 };
 #endif

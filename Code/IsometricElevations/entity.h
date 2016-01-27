@@ -179,6 +179,9 @@ public:
 
 	// Adds the gravitational force to the velocity vector of this entity
 	void gravityForce(Entity *other, float frameTime);
+
+	// Set edge
+	void setEdge(RECT e) { edge = e; }
 };
 
 #endif

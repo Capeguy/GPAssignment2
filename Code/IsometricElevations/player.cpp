@@ -15,8 +15,14 @@ Player::Player() : Entity()
 	startFrame = playerNS::PLAYER_START_FRAME;     // first frame of ship animation
 	endFrame = playerNS::PLAYER_END_FRAME;     // last frame of ship animation
 	currentFrame = startFrame;
-	collisionType = entityNS::CIRCLE;
+	collisionType = entityNS::BOX;
 	spriteData.scale = 0.5;
+	RECT e;
+	e.right = playerNS::WIDTH / 2;
+	e.left = -playerNS::WIDTH / 2;
+	e.bottom = playerNS::HEIGHT / 2;
+	e.top = -playerNS::HEIGHT / 2;
+	setEdge(e);
 }
 
 Player::~Player()

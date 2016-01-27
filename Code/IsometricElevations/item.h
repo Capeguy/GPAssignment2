@@ -23,9 +23,10 @@ protected:
 	string name;
 	string desc;
 	int type;
+	TextureManager textureManager;
 public:
 	Item();
 	~Item();
-	virtual bool initialize(Game *gamePtr, int width, int height, int ncols, TextureManager *textureM);
+	virtual bool initialize(Game *gamePtr, int width, int height, int ncols, string);
 };
 #endif

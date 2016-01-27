@@ -9,9 +9,24 @@ Crate::Crate() : Entity()
 	setCurrentFrame(startFrame);
 	spriteData.rect.bottom = crateNS::HEIGHT;    // rectangle to select parts of an image
 	spriteData.rect.right = crateNS::WIDTH;
-	radius = crateNS::COLLISION_RADIUS;
+	collisionType = entityNS::BOX;
+	itemList = vector<Entity>();
+	//itemList.push_back(new healh)
+	RECT e;
+	e.right = crateNS::WIDTH / 2;
+	e.left = -crateNS::WIDTH / 2;
+	e.bottom = crateNS::HEIGHT / 2;
+	e.top = -crateNS::HEIGHT / 2;
+	setEdge(e);
 }
 
 void Crate::spawnItem()
 {
+	//Entity spawn = 
+}
+
+bool Crate::initialize(Game *gamePtr, TextureManager *itemTexture)
+{
+	textureManager = itemTexture;
+	return Entity::initialize(gamePtr, crateNS::WIDTH, crateNS::HEIGHT, crateNS::TEXTURE_COLS, textureManager);
 }
