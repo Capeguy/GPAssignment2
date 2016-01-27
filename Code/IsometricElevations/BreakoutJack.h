@@ -12,6 +12,7 @@
 #include "levelController.h"
 #include "crate.h"
 #include "itemController.h"
+//#include "machineGun.h"
 namespace breakoutJackNS
 {
     // Map textures
@@ -183,9 +184,11 @@ class BreakoutJack : public Game
 {
 private:
     // game items
-    TextureManager textures;		// textures
-    TextureManager textures2;		// object texture
-	TextureManager playerTexture;	// player texture
+    TextureManager textures;    // textures
+    TextureManager textures2;   // object texture
+	TextureManager playerTexture; // player texture
+	TextureManager* tileTexture;
+	TextureManager gunTexture;
 	TextureManager itemTexture;		// item texture
     Image   mapTile;
     Image   tree;
@@ -195,6 +198,7 @@ private:
 	RECT	textRect;
 	Player player;
 	LevelController* levelController;
+	//MachineGun machineGun;
 
 public:
 	// Constructor

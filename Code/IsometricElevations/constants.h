@@ -45,6 +45,7 @@ const char TEXTURES_IMAGE[] = "pictures\\tileset.png"; // game textures
 const char TEXTURES2_IMAGE[] = "pictures\\textures2.png"; // game textures
 const char TEXTURE_PLAYER[] = "pictures\\player.png";
 const char TEXTURE_ITEM[] = "pictures\\crate.png";
+const char TEXTURE_GUNS[] = "pictures\\gun.png";
 // audio files required by audio.cpp
 // WAVE_BANK must be location of .xwb file.
 const char WAVE_BANK[]  = "";

@@ -9,3 +9,8 @@ Item::~Item()
 {
 
 }
+
+bool Item::initialize(Game * gamePtr, int width, int height, int ncols, TextureManager * textureM)
+{
+	return false;
+}
