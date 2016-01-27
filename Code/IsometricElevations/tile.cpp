@@ -1,32 +1,25 @@
 #include "Tile.h"
 
-Tile::Tile()
-{
-}
+Tile::Tile () {}
 
-Tile::Tile(int i, bool s)
-{
+Tile::Tile (int i, bool s) {
 	id = i;
 	solid = s;
 }
 
-Tile::~Tile()
-{
-}
+Tile::~Tile () {}
 
-bool Tile::initialize(Game *gamePtr, int width, int height, int ncols, TextureManager *textureM)
-{
-	return(Entity::initialize(gamePtr, width, height, ncols, textureM));
+bool Tile::initialize (Game *gamePtr, int width, int height, int ncols, TextureManager *textureM) {
+	return(Entity::initialize (gamePtr, width, height, ncols, textureM));
 }
-void Tile::draw()
-{
+void Tile::draw () {
 
 	//spriteData.scale = 0.5;
-	Entity::draw();              // draw ship
+	Entity::draw ();              // draw ship
 }
-int Tile::getId() {
+int Tile::getId () {
 	return id;
 }
-bool Tile::isSolid() {
+bool Tile::isSolid () {
 	return solid;
 }

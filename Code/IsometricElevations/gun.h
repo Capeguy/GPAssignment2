@@ -19,7 +19,7 @@ namespace gunNS
 
 class Gun : public Item // Still an abstract class
 {
-	
+
 protected:
 	int ammo = 10;
 	int maxAmmo = 10;
@@ -27,10 +27,10 @@ protected:
 public:
 
 	//explicit
-	Gun();
-	~Gun();
-	bool initialize(Game * gamePtr, int width, int height, int ncols, TextureManager * textureM);
-	bool Shoot();
-	void update(float frametime, int orientation, float x, float y);
+	Gun ();
+	~Gun ();
+	bool initialize (Game * gamePtr, int width, int height, int ncols, TextureManager * textureM);
+	bool Shoot ();
+	void update (float frametime, int orientation, float x, float y);
 };
 #endif

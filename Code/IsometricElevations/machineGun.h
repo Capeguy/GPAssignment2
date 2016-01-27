@@ -7,13 +7,12 @@
 
 using namespace std;
 
-class MachineGun : public Gun
-{
+class MachineGun : public Gun {
 private:
 
 public:
 	//explict
-	MachineGun();
-	~MachineGun();
+	MachineGun ();
+	~MachineGun ();
 };
 #endif

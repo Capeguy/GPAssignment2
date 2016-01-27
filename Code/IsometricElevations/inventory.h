@@ -14,19 +14,18 @@ namespace inventoryControllerNS
 
 }
 
-class Inventory
-{
+class Inventory {
 private:
 	vector<InventoryItem>	*InventoryItems;
 public:
-	Inventory();
-	~Inventory();
+	Inventory ();
+	~Inventory ();
 
-	void update(float frameTime);
+	void update (float frameTime);
 
-	vector<InventoryItem>* getItems();
-	bool addItem(InventoryItem item);
-	bool addItems(vector<InventoryItem> items);
+	vector<InventoryItem>* getItems ();
+	bool addItem (InventoryItem item);
+	bool addItems (vector<InventoryItem> items);
 
 };
 #endif

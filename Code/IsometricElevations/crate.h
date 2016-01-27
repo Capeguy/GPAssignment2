@@ -21,13 +21,12 @@ namespace crateNS
 	const int   COLLISION_RADIUS = 120 / 2;   // for circular collision
 }
 
-class Crate : public Entity
-{
+class Crate : public Entity {
 private:
 	vector<Entity> itemList;
 public:
-	Crate();
-	void spawnItem();
-	bool initialize(Game *gamePtr, TextureManager *itemTexture);
+	Crate ();
+	void spawnItem ();
+	bool initialize (Game *gamePtr, TextureManager *itemTexture);
 };
 #endif

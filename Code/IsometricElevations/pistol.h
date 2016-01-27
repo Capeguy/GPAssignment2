@@ -13,14 +13,13 @@ namespace pistolNS
 
 }
 
-class Pistol : public Gun
-{
+class Pistol : public Gun {
 private:
 
 public:
 	//explict
-	Pistol();
-	~Pistol();
-	bool Shoot();
+	Pistol ();
+	~Pistol ();
+	bool Shoot ();
 };
 #endif

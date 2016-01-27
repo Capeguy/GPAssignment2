@@ -126,9 +126,8 @@ namespace levelControllerNS
 }
 using namespace levelControllerNS;
 
-class LevelController : public Entity
-{
-	
+class LevelController : public Entity {
+
 private:
 	//std::vector<Tile> mapTile;
 	//Tile mapTile[levelControllerNS::MAP_SIZE_Y][levelControllerNS::MAP_SIZE_X];
@@ -140,13 +139,13 @@ private:
 public:
 	bool debugInfo = false;
 	Tile* mapTile[levelControllerNS::MAP_SIZE_Y][levelControllerNS::MAP_SIZE_X];
-	LevelController();
-	LevelController(Graphics*& g, Game* gp, TextureManager* tt);
-	~LevelController();
-	Tile* getTile(float x, float y);
-	void loadTiles(TextureManager* tt, Game* gameptr);
-	void draw(Graphics* graphics);
-	void renderTiles(Graphics* graphics);
-	void update(float frameTime);
+	LevelController ();
+	LevelController (Graphics*& g, Game* gp, TextureManager* tt);
+	~LevelController ();
+	Tile* getTile (float x, float y);
+	void loadTiles (TextureManager* tt, Game* gameptr);
+	void draw (Graphics* graphics);
+	void renderTiles (Graphics* graphics);
+	void update (float frameTime);
 };
 #endif

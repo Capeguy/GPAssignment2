@@ -11,15 +11,14 @@ namespace projectileNS
 
 }
 
-class Projectile : public Entity
-{
+class Projectile : public Entity {
 private:
 
 public:
-	Projectile();
-	~Projectile();
-	virtual void draw();
-	virtual bool initialize(Game *gamePtr, int width, int height, int ncols, TextureManager *textureM);
-	void update(float frameTime);
+	Projectile ();
+	~Projectile ();
+	virtual void draw ();
+	virtual bool initialize (Game *gamePtr, int width, int height, int ncols, TextureManager *textureM);
+	void update (float frameTime);
 };
 #endif

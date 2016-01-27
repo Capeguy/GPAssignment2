@@ -20,7 +20,7 @@ protected:
 
 public:
 	//explicit
-	NPC();
-	~NPC();
+	NPC ();
+	~NPC ();
 };
 #endif

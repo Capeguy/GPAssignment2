@@ -21,9 +21,8 @@ namespace healthPackNS
 	const int   COLLISION_RADIUS = 120 / 2;   // for circular collision
 }
 
-class HealthPack : public Item
-{
+class HealthPack : public Item {
 public:
-	HealthPack();
+	HealthPack ();
 };
 #endif#pragma once

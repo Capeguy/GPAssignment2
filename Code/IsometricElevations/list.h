@@ -7,11 +7,9 @@
 using namespace std;
 
 template<class ItemType>
-class List
-{
+class List {
 private:
-	struct Node
-	{
+	struct Node {
 		ItemType item;
 		Node *next;
 	};
@@ -19,15 +17,15 @@ private:
 	Node *firstNode;
 	int size;
 public:
-	List();
-	bool add(ItemType newItem);
-	bool add(int index, ItemType newItem);
-	ItemType get(int index);
-	void remove(int index);
-	void clear();
-	int getLength();
-	bool isEmpty();
-	void print();
+	List ();
+	bool add (ItemType newItem);
+	bool add (int index, ItemType newItem);
+	ItemType get (int index);
+	void remove (int index);
+	void clear ();
+	int getLength ();
+	bool isEmpty ();
+	void print ();
 };
 
 #endif

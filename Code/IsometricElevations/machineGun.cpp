@@ -1,14 +1,12 @@
 #include "machineGun.h"
 
 using namespace std;
-MachineGun::MachineGun() :  Gun()
-{
+MachineGun::MachineGun () : Gun () {
 	ammo = 150;
 	maxAmmo = 150;
-	Gun();
+	Gun ();
 }
 
-MachineGun::~MachineGun()
-{
+MachineGun::~MachineGun () {
 
 }

@@ -8,14 +8,13 @@
 
 using namespace std;
 
-class Shotgun : public Gun
-{
+class Shotgun : public Gun {
 private:
 
 public:
 	//explict
-	Shotgun();
-	~Shotgun();
-	bool Shoot();
+	Shotgun ();
+	~Shotgun ();
+	bool Shoot ();
 };
 #endif

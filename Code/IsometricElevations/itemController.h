@@ -13,16 +13,15 @@ namespace itemControllerNS
 {
 }
 
-class ItemController : public Entity
-{
+class ItemController : public Entity {
 private:
 	vector<VECTOR2> levelCrateLoc[NUM_LEVEL];
 	vector<Crate> crateList;
 public:
-	ItemController();
-	void spawnCrates(int, Game*, TextureManager *itemTexture);
-	void update(float);
-	void render();
-	
+	ItemController ();
+	void spawnCrates (int, Game*, TextureManager *itemTexture);
+	void update (float);
+	void render ();
+
 };
 #endif
