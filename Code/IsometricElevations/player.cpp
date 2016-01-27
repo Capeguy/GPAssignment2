@@ -17,6 +17,7 @@ Player::Player() : Entity()
 	currentFrame = startFrame;
 	collisionType = entityNS::CIRCLE;
 	spriteData.scale = 0.5;
+	inventory = Inventory();
 }
 
 Player::~Player()
@@ -29,25 +30,43 @@ bool Player::initialize(Game *gamePtr, int width, int height, int ncols, Texture
 	gameptr = gamePtr;
 	if (!gunTexture.initialize(gamePtr->getGraphics(), TEXTURE_GUNS))
 		throw(GameError(gameErrorNS::FATAL_ERROR, "Error initializing gun texture"));
+	pistol.initialize(gameptr, 136, 41, 2, &gunTexture);
+	pistol.setCurrentFrame(8);
 	machineGun.initialize(gameptr, 136, 41, 2, &gunTexture);
 	machineGun.setCurrentFrame(0);
+	shotgun.initialize(gameptr, 136, 41, 2, &gunTexture);
+	shotgun.setCurrentFrame(6);
+	InventoryItem* iItem = new InventoryItem(machineGun);
+	inventory.addItem(*iItem);
+	// Give default pistol
+	Pistol pistol = Pistol();
+
+
 	return(Entity::initialize(gamePtr, width, height, ncols, textureM));
 }
 void Player::draw()
 {
 
 	//spriteData.scale = 0.5;
-	machineGun.draw();
 	Image::draw();              // draw ship
+	pistol.draw();
 }
-void Player::update(float frameTime)
+void Player::update(float frameTime, LevelController* lc)
 {	
-	
-	
+	Tile* leftTile = lc->getTile(spriteData.x, spriteData.y + 32);
+	Tile* rightTile = lc->getTile(spriteData.x + 32, spriteData.y + 32);
+	if (leftTile->isSolid() || rightTile->isSolid())
+	{
+		jump = true;
+	}
+	else
+	{
+		jump = false;
+	}
 	if (input->isKeyDown(PLAYER_RIGHT) && canMoveRight)
 	{
 		spriteData.x += frameTime * playerNS::SPEED;
-		while (gameptr->tileIsSolid(spriteData.x + 31, spriteData.y) || gameptr->tileIsSolid(spriteData.x + 31, spriteData.y + 31)) {
+		while (lc->getTile(spriteData.x + 31, spriteData.y)->isSolid() || lc->getTile(spriteData.x + 31, spriteData.y + 31)->isSolid()) {
 			spriteData.x -= frameTime * playerNS::FALLING_SPEED;
 		}
 		orientation = right;
@@ -55,39 +74,36 @@ void Player::update(float frameTime)
 	if (input->isKeyDown(PLAYER_LEFT) && canMoveLeft)
 	{
 		spriteData.x -= frameTime * playerNS::SPEED;
-		while (gameptr->tileIsSolid(spriteData.x, spriteData.y) || gameptr->tileIsSolid(spriteData.x, spriteData.y + 31	)) {
+		while (lc->getTile(spriteData.x, spriteData.y)->isSolid() || lc->getTile(spriteData.x, spriteData.y + 31)->isSolid()) {
 			spriteData.x += frameTime * playerNS::FALLING_SPEED;
 		}
 		orientation = left;
 	}
-	if ((input->isKeyDown(PLAYER_JUMP) || input->isKeyDown(PLAYER_UP)) && canMoveUp)
+	if ((input->isKeyDown(PLAYER_JUMP) || input->isKeyDown(PLAYER_UP)) && canMoveUp && jump)
 	{
 		spriteData.y -= frameTime * playerNS::JUMP_HEIGHT;
-		while (gameptr->tileIsSolid(spriteData.x, spriteData.y) || gameptr->tileIsSolid(spriteData.x + 31, spriteData.y)) {
+		while (lc->getTile(spriteData.x, spriteData.y)->isSolid() || lc->getTile(spriteData.x + 31, spriteData.y)->isSolid()) {
 			spriteData.y += frameTime * playerNS::FALLING_SPEED;
 		}
 		orientation = up;
 	}
-	if (input->isKeyDown(PLAYER_DOWN) && canMoveDown)
-	{
-		spriteData.y += frameTime * playerNS::JUMP_HEIGHT;
-		orientation = down;
-	}
-
 	if (spriteData.y > 0 && !input->isKeyDown(PLAYER_JUMP) && !input->isKeyDown(PLAYER_UP) && !input->isKeyDown(PLAYER_LEFT) && !input->isKeyDown(PLAYER_RIGHT)) {
 		// Get Bottom left bottom right
 		// Get Tile at that location y + 1 pixel
 		// If Tile is not solid
-		if (canMoveDown) {
-			falling = false;
-			spriteData.y += frameTime * playerNS::FALLING_SPEED; // Use trajectory
-			while (gameptr->tileIsSolid(spriteData.x, spriteData.y + 31) || gameptr->tileIsSolid(spriteData.x + 31, spriteData.y + 31)) {
-				spriteData.y -= frameTime * playerNS::FALLING_SPEED;
-			}
+	
 			//orientation = down;
-		}
 		machineGun.update(frameTime, orientation, spriteData.x, spriteData.y);
 	}
+	if (canMoveDown) {
+		falling = false;
+		spriteData.y += frameTime * playerNS::FALLING_SPEED; // Use trajectory
+		while (lc->getTile(spriteData.x, spriteData.y + 31)->isSolid() || lc->getTile(spriteData.x + 31, spriteData.y + 31)->isSolid()) {
+			spriteData.y--;
+		}
+	}
+	spriteData.y = (int)spriteData.y;
+	
 
 
 	switch (orientation) {
@@ -106,10 +122,6 @@ void Player::update(float frameTime)
 		currentFrame = 952;
 		break;
 	}
-	string buffer;
-	buffer = to_string(orientation);
-	buffer += " -> ";
-	buffer += currentFrame;
 	//Console::getInstance()->print(buffer);
 	/*
 	if (spriteData.x < 32) // tileNS::TEXTURE_SIZE
@@ -121,9 +133,10 @@ void Player::update(float frameTime)
 	if (spriteData.y > GAME_HEIGHT - playerNS::TEXTURE_SIZE)
 		spriteData.y = GAME_HEIGHT - playerNS::TEXTURE_SIZE;
 	*/
+	pistol.update(frameTime, orientation, spriteData.x, spriteData.y);
 	Entity::update(frameTime);
 	//update gun
-	machineGun.update(frameTime, orientation, spriteData.x, spriteData.y);
+	
 }
 void Player::setFalling(bool f) {
 	falling = f;

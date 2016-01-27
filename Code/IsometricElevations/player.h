@@ -7,7 +7,12 @@
 #include "weapon.h"
 #include "projectile.h"
 #include "constants.h"
+#include "inventory.h"
+#include "gun.h"
 #include "machineGun.h"
+#include "shotgun.h"
+#include "pistol.h"
+#include "levelController.h"
 
 namespace playerNS
 {
@@ -16,7 +21,7 @@ namespace playerNS
 	const float SPEED = 64;                
 	const float FALLING_SPEED = 32;        
 	const float MASS = 300.0f;             
-	const float JUMP_HEIGHT = 64;
+	const float JUMP_HEIGHT = 400;
 	const int   TEXTURE_SIZE = 64;          
 	const int   TEXTURE_COLS = 32;          
 	const int   PLAYER_START_FRAME = 952;   
@@ -27,6 +32,7 @@ namespace playerNS
 	const int WIDTH = 32;
 	const int HEIGHT = 32;
 }
+
 
 class Player : public Entity
 {
@@ -43,6 +49,9 @@ private:
 	Game*	gameptr;
 	TextureManager gunTexture;
 	MachineGun machineGun;
+	Pistol	pistol;
+	Shotgun shotgun;
+	Inventory inventory;
 
 public:
 	bool canMoveLeft = true;
@@ -54,7 +63,7 @@ public:
 	~Player();
 	virtual void draw();
 	virtual bool initialize(Game *gamePtr, int width, int height, int ncols, TextureManager *textureM);
-	void update(float frameTime);
+	void update(float frameTime, LevelController* lc);
 	void setFalling(bool f);
 	void damage(float amt);
 	void damage(Weapon w);

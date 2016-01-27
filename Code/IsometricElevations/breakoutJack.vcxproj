@@ -98,7 +98,7 @@
     <ClCompile Include="graphics.cpp" />
     <ClCompile Include="gun.cpp" />
     <ClCompile Include="inputDialog.cpp" />
-    <ClCompile Include="inventoryController.cpp" />
+    <ClCompile Include="inventory.cpp" />
     <ClCompile Include="inventoryItem.cpp" />
     <ClCompile Include="item.cpp" />
     <ClCompile Include="itemController.cpp" />
@@ -131,7 +131,7 @@
     <ClInclude Include="graphics.h" />
     <ClInclude Include="gun.h" />
     <ClInclude Include="inputDialog.h" />
-    <ClInclude Include="inventoryController.h" />
+    <ClInclude Include="inventory.h" />
     <ClInclude Include="inventoryItem.h" />
     <ClInclude Include="item.h" />
     <ClInclude Include="itemController.h" />

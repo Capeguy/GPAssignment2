@@ -60,9 +60,6 @@
     <ClCompile Include="projectile.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="inventoryController.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="inventoryItem.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -100,6 +97,9 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="itemController.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="inventory.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -152,9 +152,6 @@
     <ClInclude Include="projectile.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="inventoryController.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="inventoryItem.h">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -192,6 +189,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="itemController.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="inventory.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

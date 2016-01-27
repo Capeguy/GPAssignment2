@@ -65,7 +65,6 @@ public:
     // Window message handler
     LRESULT messageHandler( HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam );
 
-	virtual bool tileIsSolid(int x, int y);
     // Initialize the game
     // Pre: hwnd is handle to window
     virtual void initialize(HWND hwnd);
