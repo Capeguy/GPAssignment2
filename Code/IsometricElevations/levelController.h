@@ -126,7 +126,7 @@ namespace levelControllerNS
 }
 using namespace levelControllerNS;
 
-class LevelController : public Entity {
+class LevelController {
 
 private:
 	//std::vector<Tile> mapTile;
@@ -144,7 +144,6 @@ public:
 	~LevelController ();
 	Tile* getTile (float x, float y);
 	void loadTiles (TextureManager* tt, Game* gameptr);
-	void draw (Graphics* graphics);
 	void renderTiles (Graphics* graphics);
 	void update (float frameTime);
 };

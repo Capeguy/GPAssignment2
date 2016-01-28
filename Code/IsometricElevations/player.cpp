@@ -23,6 +23,7 @@ Player::Player() : Entity() {
 	e.top = -playerNS::HEIGHT / 2;
 	setEdge(e);
 	inventory = new Inventory();
+	
 }
 
 Player::~Player() {
@@ -32,36 +33,32 @@ Player::~Player() {
 bool Player::initialize(Game *gamePtr, int width, int height, int ncols, TextureManager *textureM) {
 
 	gameptr = gamePtr;
-	if (!gunTexture.initialize(gamePtr->getGraphics(), TEXTURE_GUNS))
+	gameptr->console->print("THIS CAME FROM PLAYER");
+	gunTexture = new TextureManager();
+	if (!gunTexture->initialize(gamePtr->getGraphics(), TEXTURE_GUNS))
 		throw(GameError(gameErrorNS::FATAL_ERROR, "Error initializing gun texture"));
 	// We should move this elsewhere - Ben
 	machineGun = new MachineGun();
-	machineGun->initialize(gameptr, 136, 41, 2, &gunTexture);
+	machineGun->initialize(gameptr, 136, 41, 2, gunTexture);
 	machineGun->setCurrentFrame(0);
+
+	pistol = new Pistol();
+	pistol->initialize(gameptr, 136, 41, 2, gunTexture);
+	pistol->setCurrentFrame(8);
+
 	// End
-	InventoryItem iItem = InventoryItem(machineGun);
-	inventory->addItem(&iItem);
+	defaultItem = new InventoryItem(pistol);
+	inventory->addItem(defaultItem);
 	updateCoords();
 	return(Entity::initialize(gamePtr, width, height, ncols, textureM));
 }
 void Player::draw() {
-
-	//spriteData.scale = 0.5;
-	Image::draw();              // draw ship
-	// Draw active item (Weapon)
-	//
-	/* FUCK THIS
-	Item* activeItem = &inventory.getActiveItem()->getItem();
-	if (activeItem->getItemType() == Item::Equipable) {
-		activeItem->draw();
-	}
-	*/
+	Image::draw();
 	Item* activeItem = inventory->getActiveItem()->getItem();
 	if (activeItem->getItemType() == Item::Equipable) {
 		Gun* gun = (Gun*)activeItem;
 		gun->draw();
 	}
-	//pistol.draw();
 }
 void Player::update(float frameTime, LevelController* lc) {
 	updateCoords();
@@ -130,8 +127,6 @@ void Player::update(float frameTime, LevelController* lc) {
 			spriteData.y--;
 		}
 	}
-	// spriteData.y = (int)spriteData.y;
-
 	switch (orientation) {
 		case right:
 			currentFrame = 953;
@@ -148,31 +143,14 @@ void Player::update(float frameTime, LevelController* lc) {
 			currentFrame = 952;
 			break;
 	}
-	//Console::getInstance()->print(buffer);
-	/*
-	if (spriteData.x < 32) // tileNS::TEXTURE_SIZE
-		spriteData.x = 32;
-	if (spriteData.x > GAME_WIDTH - playerNS::TEXTURE_SIZE)
-		spriteData.x = GAME_WIDTH - playerNS::TEXTURE_SIZE;
-	if (spriteData.y < 32)
-		spriteData.y = 32;
-	if (spriteData.y > GAME_HEIGHT - playerNS::TEXTURE_SIZE)
-		spriteData.y = GAME_HEIGHT - playerNS::TEXTURE_SIZE;
-	*/
 	Item* activeItem = inventory->getActiveItem()->getItem();
-	if (activeItem->getItemType() == Item::Equipable) {
+	if (inventory->getActiveItem()->getItem()->getItemType() == Item::Equipable) {
 		Gun* gun = dynamic_cast<Gun*>(activeItem);
 		if (gun != 0) {
-			// Success
 			gun->update(frameTime, orientation, spriteData.x, spriteData.y);
 		}
-		//Gun* gun = (Gun*)activeItem;
-		
-		//activeItem->update(frameTime, orientation, spriteData.x, spriteData.y);
 	}
 	Entity::update(frameTime);
-	//update gun
-
 }
 void Player::updateCoords() {
 	playerBottomLeftX = getX();

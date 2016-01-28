@@ -21,7 +21,7 @@ BreakoutJack::~BreakoutJack () {
 void BreakoutJack::initialize (HWND hwnd) {
 	Game::initialize (hwnd);
 	player = new Player();
-	tileTexture = TextureManager ();
+	tileTexture = new TextureManager ();
 	// map textures
 	if (!textures.initialize (graphics, TEXTURES_IMAGE))
 		throw(GameError (gameErrorNS::FATAL_ERROR, "Error initializing textures"));
@@ -30,20 +30,17 @@ void BreakoutJack::initialize (HWND hwnd) {
 	if (!textures2.initialize (graphics, TEXTURES2_IMAGE))
 		throw(GameError (gameErrorNS::FATAL_ERROR, "Error initializing textures2"));
 	//player texture
-	if (!playerTexture.initialize (graphics, TEXTURE_PLAYER))
+	playerTexture = new TextureManager();
+	if (!playerTexture->initialize (graphics, TEXTURE_PLAYER))
 		throw(GameError (gameErrorNS::FATAL_ERROR, "Error initializing player texture"));
 	// item texture
 	if (!itemTexture.initialize (graphics, TEXTURE_ITEM))
 		throw(GameError (gameErrorNS::FATAL_ERROR, "Error initializing item texture"));
-	if (!tileTexture.initialize (graphics, TEXTURES_IMAGE))
+	if (!tileTexture->initialize (graphics, TEXTURES_IMAGE))
 		throw(GameError (gameErrorNS::FATAL_ERROR, "Error initializing tile texture"));
-	/*
-	if(!gunTexture.initialize(graphics, TEXTURE_GUNS))
-		throw(GameError(gameErrorNS::FATAL_ERROR, "Error initializing gun texture"));
-	*/
 	//player image
 	player->setColorFilter (graphicsNS::MAGENTA);
-	player->initialize (this, playerNS::PLAYER_WIDTH, playerNS::PLAYER_HEIGHT, 32, &playerTexture); // to change
+	player->initialize (this, playerNS::PLAYER_WIDTH, playerNS::PLAYER_HEIGHT, 32, playerTexture); // to change
 	player->setFrames (952, 955);
 	player->setCurrentFrame (952);
 	player->setX (GAME_WIDTH / breakoutJackNS::TEXTURE_SIZE);
@@ -54,11 +51,6 @@ void BreakoutJack::initialize (HWND hwnd) {
 	mapTile.setFrames (0, 0);
 	mapTile.setCurrentFrame (0);
 
-	//// Tree image
-	tree.initialize (graphics, breakoutJackNS::TEXTURE2_SIZE, breakoutJackNS::TEXTURE2_SIZE, breakoutJackNS::TEXTURE2_COLS, &textures2);
-	tree.setFrames (TREE0_FRAME, TREE0_FRAME);
-	tree.setCurrentFrame (TREE0_FRAME);
-
 	// crate image
 	// if (!crate.initialize(this, &itemTexture))  // Fuck you isaac. You commented out the next line, making my dxFont to not initialize. - Ben
 	//	throw(GameError(gameErrorNS::FATAL_ERROR, "Error initializing crate"));
@@ -67,17 +59,9 @@ void BreakoutJack::initialize (HWND hwnd) {
 	//dxFont.setFontColor(SETCOLOR_ARGB(192, 255, 255, 255));
 	dxFont.setFontColor (SETCOLOR_ARGB (192, 0, 0, 0));
 	//Load level controller
-	levelController = new LevelController (graphics, this, &tileTexture);
-	levelController->initialize (this, 0, 0, 0, &tileTexture);
-	levelController->loadTiles (&tileTexture, this);
+	levelController = new LevelController (graphics, this, tileTexture);
+	levelController->loadTiles (tileTexture, this);
 
-	//Test machine gun image
-	/*
-	machineGun.initialize(this, 136, 41, 2, &gunTexture);
-	machineGun.setCurrentFrame(1);
-	machineGun.setX(player->getX());
-	machineGun.setY(player->getY());
-	*/
 }
 
 //=============================================================================
@@ -127,7 +111,6 @@ void BreakoutJack::update () {
 	}
 	*/
 	crate.update (frameTime);
-	//machineGun.update(frameTime);
 	player->update (frameTime, levelController);
 }
 
@@ -167,7 +150,7 @@ void BreakoutJack::collisions () {
 //=============================================================================
 void BreakoutJack::render () {
 	graphics->spriteBegin ();
-
+	levelController->renderTiles(graphics);
 	string buffer;
 	// Draw map in Isometric Diamond
 	/*
@@ -192,10 +175,8 @@ void BreakoutJack::render () {
 	}
 	*/
 	//levelController->renderTiles(graphics);
-	levelController->draw (graphics);
 	player->draw ();
 
-	//machineGun.draw();
 	//print player position
 	int playerBottomLeftX = player->getX ();
 	int playerBottomLeftY = player->getY () - 1 + playerNS::PLAYER_HEIGHT * 0.5;

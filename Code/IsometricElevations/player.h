@@ -47,10 +47,13 @@ private:
 	float	hp;
 	float	hpMax;
 	Game*	gameptr;
-	TextureManager gunTexture;
+	TextureManager* gunTexture;
 	MachineGun* machineGun;
 	Inventory* inventory;
 	float	jumpdistance = 0;
+
+	Pistol* pistol;
+	InventoryItem* defaultItem;
 
 public:
 	bool canJump = true;

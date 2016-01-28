@@ -33,7 +33,7 @@ protected:
 	Graphics *graphics;             // pointer to Graphics
 	Input   *input;                 // pointer to Input
 	Audio   *audio;                 // pointer to Audio
-	Console *console;               // pointer to Console
+	               // pointer to Console
 	MessageDialog *messageDialog;   // pointer to MessageDialog
 	InputDialog *inputDialog;       // pointer to InputDialog
 	HWND    hwnd;                   // window handle
@@ -55,6 +55,7 @@ protected:
 	bool drawTileNo = true;
 
 public:
+	Console *console;
 	// Constructor
 	Game ();
 	// Destructor
