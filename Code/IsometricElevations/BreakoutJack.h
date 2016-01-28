@@ -10,6 +10,7 @@
 #include "image.h"
 #include "player.h"
 #include "levelController.h"
+#include "npc.h"
 namespace breakoutJackNS
 {
     // Map textures
@@ -184,12 +185,14 @@ private:
     TextureManager textures;    // textures
     TextureManager textures2;   // object texture
 	TextureManager playerTexture; // player texture
+	TextureManager npcTexture;	// npc texture
     Image   mapTile;
     Image   tree;
 	TextDX	dxFont;
 	COLOR_ARGB fontColor;
 	RECT	textRect;
 	Player player;
+	NPC npc;
 	LevelController* levelController;
 
 public:

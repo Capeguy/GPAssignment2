@@ -35,6 +35,11 @@ void BreakoutJack::initialize(HWND hwnd)
 	//player texture
 	if (!playerTexture.initialize(graphics, TEXTURE_PLAYER))
 		throw(GameError(gameErrorNS::FATAL_ERROR, "Error initializing player texture"));
+
+	//npc texture
+	if (!npcTexture.initialize(graphics, TEXTURE_NPC))
+		throw(GameError(gameErrorNS::FATAL_ERROR, "Error initializing npc texture"));
+
 	//player image
 	player.setColorFilter(graphicsNS::MAGENTA);
 	player.initialize(this, playerNS::PLAYER_WIDTH, playerNS::PLAYER_HEIGHT, 32, &playerTexture); // to change
@@ -43,6 +48,14 @@ void BreakoutJack::initialize(HWND hwnd)
 	player.setX(GAME_WIDTH / breakoutJackNS::TEXTURE_SIZE);
 	player.setY(GAME_HEIGHT - GAME_HEIGHT / breakoutJackNS::TEXTURE_SIZE - 2 * breakoutJackNS::TEXTURE_SIZE);
 	
+	//npc image
+	npc.setColorFilter(graphicsNS::MAGENTA);
+	npc.initialize(this, npcNS::NPC_WIDTH, npcNS::NPC_HEIGHT, 32, &npcTexture); // to change
+	npc.setFrames(952, 955);
+	npc.setCurrentFrame(952);
+	npc.setX(GAME_WIDTH / breakoutJackNS::TEXTURE_SIZE + 500);
+	npc.setY(GAME_HEIGHT - GAME_HEIGHT / breakoutJackNS::TEXTURE_SIZE - 2 * breakoutJackNS::TEXTURE_SIZE);
+
     // map tile image
     mapTile.initialize(graphics, breakoutJackNS::TEXTURE_SIZE, breakoutJackNS::TEXTURE_SIZE, breakoutJackNS::TEXTURE_COLS,&textures);
     mapTile.setFrames(0, 0);
@@ -108,6 +121,7 @@ void BreakoutJack::update()
 	}
 	*/
 	player.update(frameTime);
+	npc.update(frameTime);
 }
 
 bool BreakoutJack::tileIsSolid(int x, int y) {
@@ -139,6 +153,7 @@ void BreakoutJack::render()
 {
     graphics->spriteBegin();
 	player.draw();
+	npc.draw();
 	string buffer;
     // Draw map in Isometric Diamond
     for(int row=0; row<levelControllerNS::MAP_SIZE_X; row++)
@@ -151,6 +166,7 @@ void BreakoutJack::render()
             mapTile.draw();
 			player.setColorFilter(graphicsNS::MAGENTA);
 			player.draw();
+			npc.draw();
 			if (drawTileNo) {
 				buffer = "";
 				buffer += to_string(levelControllerNS::tileMap[col][row]);

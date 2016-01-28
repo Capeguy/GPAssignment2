@@ -185,13 +185,6 @@ void Game::renderGame()
 			float y = 0;
 			y = cursorPos.y;
 
-			//char msg[50];
-
-			//sprintf(msg, "x: %.2f\n"
-				//"y : %.2f\n", x, y);
-			//char buffer1 = 50;
-			//MessageBox(0, msg, "Mouse Position", 0);
-			// convert fps to string
 			_snprintf_s(buffer, BUF_SIZE, "x: %.2f\n", float(x));
 			dxFont.print(buffer, GAME_WIDTH - 100, 5);
 			_snprintf_s(buffer, BUF_SIZE, "y: %.2f\n", float(y));
