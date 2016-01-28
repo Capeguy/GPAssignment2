@@ -1,28 +1,32 @@
 #include "inventory.h"
 using namespace std;
-Inventory::Inventory () {
-	InventoryItems = new vector<InventoryItem> (); // new List<InventoryItem*>();
+Inventory::Inventory() {
+	InventoryItems = new vector<InventoryItem*>(); // new List<InventoryItem*>();
 	//inventoryItems = List<InventoryItem>();
 }
-Inventory::~Inventory () {
+Inventory::~Inventory() {
 
 }
-void Inventory::update (float frameTime) {
+void Inventory::update(float frameTime) {
 
 }
 
-vector<InventoryItem>* Inventory::getItems () {
+vector<InventoryItem*>* Inventory::getItems() {
 	return InventoryItems;
 }
-bool Inventory::addItem (InventoryItem item) {
-	InventoryItems->push_back (item);
+bool Inventory::addItem(InventoryItem *item) {
+	InventoryItems->push_back(item);
+	activeItem = item;
 	return true;
 }
-bool Inventory::addItems (vector<InventoryItem> items) {
+bool Inventory::addItems(vector<InventoryItem> items) {
 	/*
-	for each(InventoryItem* item in items) {
+	for each(InventoryItem item in items) {
 		InventoryItems->add(item);
 	}
 	*/
 	return true;
+}
+InventoryItem* Inventory::getActiveItem() {
+	return activeItem;
 }

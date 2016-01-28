@@ -59,7 +59,7 @@ private:
 	TextDX	dxFont;
 	COLOR_ARGB fontColor;
 	RECT	textRect;
-	Player player;
+	Player* player;
 	//MachineGun machineGun;
 
 public:

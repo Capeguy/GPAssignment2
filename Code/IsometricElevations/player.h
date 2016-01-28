@@ -48,10 +48,8 @@ private:
 	float	hpMax;
 	Game*	gameptr;
 	TextureManager gunTexture;
-	MachineGun machineGun;
-	Pistol	pistol;
-	Shotgun shotgun;
-	Inventory inventory;
+	MachineGun* machineGun;
+	Inventory* inventory;
 	float	jumpdistance = 0;
 
 public:

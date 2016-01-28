@@ -20,6 +20,7 @@ BreakoutJack::~BreakoutJack () {
 //=============================================================================
 void BreakoutJack::initialize (HWND hwnd) {
 	Game::initialize (hwnd);
+	player = new Player();
 	tileTexture = TextureManager ();
 	// map textures
 	if (!textures.initialize (graphics, TEXTURES_IMAGE))
@@ -41,13 +42,13 @@ void BreakoutJack::initialize (HWND hwnd) {
 		throw(GameError(gameErrorNS::FATAL_ERROR, "Error initializing gun texture"));
 	*/
 	//player image
-	player.setColorFilter (graphicsNS::MAGENTA);
-	player.initialize (this, playerNS::PLAYER_WIDTH, playerNS::PLAYER_HEIGHT, 32, &playerTexture); // to change
-	player.setFrames (952, 955);
-	player.setCurrentFrame (952);
-	player.setX (GAME_WIDTH / breakoutJackNS::TEXTURE_SIZE);
-	player.setY (GAME_HEIGHT - GAME_HEIGHT / breakoutJackNS::TEXTURE_SIZE - 2 * breakoutJackNS::TEXTURE_SIZE);
-	player.setVelocity (VECTOR2 (playerNS::SPEED, playerNS::SPEED));
+	player->setColorFilter (graphicsNS::MAGENTA);
+	player->initialize (this, playerNS::PLAYER_WIDTH, playerNS::PLAYER_HEIGHT, 32, &playerTexture); // to change
+	player->setFrames (952, 955);
+	player->setCurrentFrame (952);
+	player->setX (GAME_WIDTH / breakoutJackNS::TEXTURE_SIZE);
+	player->setY (GAME_HEIGHT - GAME_HEIGHT / breakoutJackNS::TEXTURE_SIZE - 2 * breakoutJackNS::TEXTURE_SIZE);
+	player->setVelocity (VECTOR2 (playerNS::SPEED, playerNS::SPEED));
 	// map tile image
 	mapTile.initialize (graphics, breakoutJackNS::TEXTURE_SIZE, breakoutJackNS::TEXTURE_SIZE, breakoutJackNS::TEXTURE_COLS, &textures);
 	mapTile.setFrames (0, 0);
@@ -74,8 +75,8 @@ void BreakoutJack::initialize (HWND hwnd) {
 	/*
 	machineGun.initialize(this, 136, 41, 2, &gunTexture);
 	machineGun.setCurrentFrame(1);
-	machineGun.setX(player.getX());
-	machineGun.setY(player.getY());
+	machineGun.setX(player->getX());
+	machineGun.setY(player->getY());
 	*/
 }
 
@@ -87,47 +88,47 @@ void BreakoutJack::update () {
 	//mapTile.update(frameTime);
 	levelController->update (frameTime);
 
-	int playerBottomLeftX = player.getX ();
-	int playerBottomLeftY = player.getY () + playerNS::PLAYER_HEIGHT * 0.5;
-	int playerBottomRightX = player.getX () + playerNS::PLAYER_WIDTH * 0.5;
-	int playerBottomRightY = player.getY () + playerNS::PLAYER_HEIGHT * 0.5;
-	int playerTopLeftX = player.getX ();
-	int playerTopLeftY = player.getY ();
-	int playerTopRightX = player.getX () + playerNS::PLAYER_WIDTH * 0.5;
-	int playerTopRightY = player.getY ();
+	int playerBottomLeftX = player->getX ();
+	int playerBottomLeftY = player->getY () + playerNS::PLAYER_HEIGHT * 0.5;
+	int playerBottomRightX = player->getX () + playerNS::PLAYER_WIDTH * 0.5;
+	int playerBottomRightY = player->getY () + playerNS::PLAYER_HEIGHT * 0.5;
+	int playerTopLeftX = player->getX ();
+	int playerTopLeftY = player->getY ();
+	int playerTopRightX = player->getX () + playerNS::PLAYER_WIDTH * 0.5;
+	int playerTopRightY = player->getY ();
 
 	/*
 	if (!tileIsSolid(playerBottomLeftX, playerBottomLeftY + 1) && !tileIsSolid(playerBottomRightX, playerBottomRightY + 1)) {
-		player.canMoveDown = true;
+		player->canMoveDown = true;
 	}
 	else {
-		player.canMoveDown = false;
+		player->canMoveDown = false;
 	}
 
 	if (!tileIsSolid(playerTopLeftX, playerTopLeftY - 1) && !tileIsSolid(playerTopRightX, playerTopRightY - 1)) {
-		player.canMoveUp = true;
+		player->canMoveUp = true;
 	}
 	else {
-		player.canMoveUp = false;
+		player->canMoveUp = false;
 	}
 
 	if (!tileIsSolid(playerBottomLeftX - 1, playerBottomLeftY) && !tileIsSolid(playerTopLeftX - 1, playerTopRightY)) {
-		player.canMoveLeft = true;
+		player->canMoveLeft = true;
 	}
 	else {
-		player.canMoveLeft = false;
+		player->canMoveLeft = false;
 	}
 
 	if (!tileIsSolid(playerTopLeftX + 1, playerTopLeftY) && !tileIsSolid(playerBottomRightX + 1, playerBottomRightY)) {
-		player.canMoveRight = true;
+		player->canMoveRight = true;
 	}
 	else {
-		player.canMoveRight = false;
+		player->canMoveRight = false;
 	}
 	*/
 	crate.update (frameTime);
 	//machineGun.update(frameTime);
-	player.update (frameTime, levelController);
+	player->update (frameTime, levelController);
 }
 
 bool BreakoutJack::tileIsSolid (int x, int y) {
@@ -151,11 +152,11 @@ void BreakoutJack::ai () {}
 void BreakoutJack::collisions () {
 	VECTOR2 collisionVector;
 	// collision between player and crate
-	if (player.collidesWith (crate, collisionVector)) {
-		//player.setX(playerNS::X * frameTime);
-		//player.setVelocity(-collisionVector);
+	if (player->collidesWith (crate, collisionVector)) {
+		//player->setX(playerNS::X * frameTime);
+		//player->setVelocity(-collisionVector);
 
-		//player.bounce(collisionVector, crate);
+		//player->bounce(collisionVector, crate);
 		//crate.setX(60.0);
 		//crate.setY(60.0);
 	}
@@ -178,8 +179,8 @@ void BreakoutJack::render () {
 			mapTile.setX(row * levelControllerNS::TEXTURE2_SIZE);
 			mapTile.setY(col * levelControllerNS::TEXTURE2_SIZE);
 			mapTile.draw();
-			player.setColorFilter(graphicsNS::MAGENTA);
-			player.draw();
+			player->setColorFilter(graphicsNS::MAGENTA);
+			player->draw();
 			if (drawTileNo) {
 				buffer = "";
 				buffer += to_string(levelControllerNS::tileMap[col][row]);
@@ -192,19 +193,19 @@ void BreakoutJack::render () {
 	*/
 	//levelController->renderTiles(graphics);
 	levelController->draw (graphics);
-	player.draw ();
+	player->draw ();
 
 	//machineGun.draw();
 	//print player position
-	int playerBottomLeftX = player.getX ();
-	int playerBottomLeftY = player.getY () - 1 + playerNS::PLAYER_HEIGHT * 0.5;
-	int playerBottomRightX = player.getX () - 1 + playerNS::PLAYER_WIDTH * 0.5;
-	int playerBottomRightY = player.getY () - 1 + playerNS::PLAYER_HEIGHT * 0.5;
-	int playerTopLeftX = player.getX ();
-	int playerTopLeftY = player.getY ();
-	int playerTopRightX = player.getX () - 1 + playerNS::PLAYER_WIDTH * 0.5;
-	int playerTopRightY = player.getY ();
-	string text = "Player is at (" + to_string (player.getX ()) + ", " + to_string (player.getY ()) + ") Can Jump: " + to_string (player.canJump) + " | Can Fall: " + to_string (player.canFall) + " | Jumping: " + to_string (player.jumping) + " | Falling: " + to_string (player.falling) + "\n";
+	int playerBottomLeftX = player->getX ();
+	int playerBottomLeftY = player->getY () - 1 + playerNS::PLAYER_HEIGHT * 0.5;
+	int playerBottomRightX = player->getX () - 1 + playerNS::PLAYER_WIDTH * 0.5;
+	int playerBottomRightY = player->getY () - 1 + playerNS::PLAYER_HEIGHT * 0.5;
+	int playerTopLeftX = player->getX ();
+	int playerTopLeftY = player->getY ();
+	int playerTopRightX = player->getX () - 1 + playerNS::PLAYER_WIDTH * 0.5;
+	int playerTopRightY = player->getY ();
+	string text = "Player is at (" + to_string (player->getX ()) + ", " + to_string (player->getY ()) + ") Can Jump: " + to_string (player->canJump) + " | Can Fall: " + to_string (player->canFall) + " | Jumping: " + to_string (player->jumping) + " | Falling: " + to_string (player->falling) + "\n";
 	text += "(" + to_string (playerTopLeftX) + ", " + to_string (playerTopLeftY) + ") ---- (" + to_string (playerTopRightX) + ", " + to_string (playerTopRightY) + ")" + "\n";
 	text += "  |   ----   |  \n";
 	text += "(" + to_string (playerBottomLeftX) + ", " + to_string (playerBottomLeftY) + ") ---- (" + to_string (playerBottomRightX) + ", " + to_string (playerBottomRightY) + ")";
@@ -255,15 +256,15 @@ void BreakoutJack::consoleCommand () {
 	} else if (command == "tile") {
 		levelController->debugInfo = !levelController->debugInfo;
 	} else if (command == "p") {
-		int playerBottomLeftX = player.getX ();
-		int playerBottomLeftY = player.getY () + playerNS::PLAYER_HEIGHT * 0.5;
-		int playerBottomRightX = player.getX () + playerNS::PLAYER_WIDTH * 0.5;
-		int playerBottomRightY = player.getY () + playerNS::PLAYER_HEIGHT * 0.5;
-		int playerTopLeftX = player.getX ();
-		int playerTopLeftY = player.getY ();
-		int playerTopRightX = player.getX () + playerNS::PLAYER_WIDTH;
-		int playerTopRightY = player.getY ();
-		console->print ("Player is at (" + to_string (player.getX ()) + ", " + to_string (player.getY ()) + ")");
+		int playerBottomLeftX = player->getX ();
+		int playerBottomLeftY = player->getY () + playerNS::PLAYER_HEIGHT * 0.5;
+		int playerBottomRightX = player->getX () + playerNS::PLAYER_WIDTH * 0.5;
+		int playerBottomRightY = player->getY () + playerNS::PLAYER_HEIGHT * 0.5;
+		int playerTopLeftX = player->getX ();
+		int playerTopLeftY = player->getY ();
+		int playerTopRightX = player->getX () + playerNS::PLAYER_WIDTH;
+		int playerTopRightY = player->getY ();
+		console->print ("Player is at (" + to_string (player->getX ()) + ", " + to_string (player->getY ()) + ")");
 		console->print ("(" + to_string (playerTopLeftX) + ", " + to_string (playerTopLeftY) + ") ---- (" + to_string (playerTopRightX) + ", " + to_string (playerTopRightY) + ")");
 		console->print ("  |   ----   |  ");
 		console->print ("(" + to_string (playerBottomLeftX) + ", " + to_string (playerBottomLeftY) + ") ---- (" + to_string (playerBottomRightX) + ", " + to_string (playerBottomRightY) + ")");
