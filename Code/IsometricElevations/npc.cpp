@@ -47,18 +47,6 @@ bool NPC::initialize(Game *gamePtr, int width, int height, int ncols, TextureMan
 	endPoint = VECTOR2(GAME_WIDTH / 2, GAME_HEIGHT / 2);
 	if (!gunTexture.initialize(gamePtr->getGraphics(), TEXTURE_GUNS))
 		throw(GameError(gameErrorNS::FATAL_ERROR, "Error initializing gun texture"));
-	pistol.initialize(gameptr, 136, 41, 2, &gunTexture);
-	pistol.setCurrentFrame(8);
-	machineGun.initialize(gameptr, 136, 41, 2, &gunTexture);
-	machineGun.setCurrentFrame(0);
-	shotgun.initialize(gameptr, 136, 41, 2, &gunTexture);
-	shotgun.setCurrentFrame(6);
-	InventoryItem* iItem = new InventoryItem(machineGun);
-	inventory.addItem(*iItem);
-	// Give default pistol
-	Pistol pistol = Pistol();
-
-
 	return(Entity::initialize(gamePtr, width, height, ncols, textureM));
 }
 void NPC::draw()
