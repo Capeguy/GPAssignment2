@@ -5,6 +5,8 @@ LevelController::LevelController () {}
 LevelController::LevelController (Graphics*& graphics, Game* gp, TextureManager* tt) {
 	tileTexture = tt;
 	gameptr = gp;
+	iController = new ItemController(graphics);
+	iController->spawnCrates(1, gp);
 	dxFont.initialize (graphics, 12, false, false, "Courier New");
 	dxFont.setFontColor (SETCOLOR_ARGB (192, 255, 255, 255));
 }
@@ -35,6 +37,7 @@ void LevelController::loadTiles (TextureManager* tt, Game* gameptr) {
 }
 void LevelController::draw (Graphics* graphics) {
 	renderTiles (graphics);
+	iController->draw();
 }
 
 void LevelController::renderTiles (Graphics* graphics) {
@@ -54,6 +57,7 @@ void LevelController::renderTiles (Graphics* graphics) {
 			}
 		}
 	}
+	iController->render();
 }
 
 void LevelController::update (float frameTime) {
@@ -63,5 +67,11 @@ void LevelController::update (float frameTime) {
 			mapTile[col][row]->update (frameTime);
 		}
 	}
+	iController->update(frameTime);
 
 }
+
+/*void LevelController::collisions()
+{
+//	iController->collisions();
+}*/

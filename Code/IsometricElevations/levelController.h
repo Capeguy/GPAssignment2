@@ -12,7 +12,7 @@
 #include "graphics.h"
 #include "game.h"
 #include <vector>
-
+#include "itemController.h"
 using namespace std;
 
 namespace levelControllerNS
@@ -126,7 +126,7 @@ namespace levelControllerNS
 }
 using namespace levelControllerNS;
 
-class LevelController : public Entity {
+class LevelController{
 
 private:
 	//std::vector<Tile> mapTile;
@@ -135,7 +135,7 @@ private:
 	TextureManager* tileTexture;
 	Game* gameptr;
 	TextDX dxFont;
-
+	ItemController* iController;
 public:
 	bool debugInfo = false;
 	Tile* mapTile[levelControllerNS::MAP_SIZE_Y][levelControllerNS::MAP_SIZE_X];
@@ -147,5 +147,6 @@ public:
 	void draw (Graphics* graphics);
 	void renderTiles (Graphics* graphics);
 	void update (float frameTime);
+	//void collisions();
 };
 #endif

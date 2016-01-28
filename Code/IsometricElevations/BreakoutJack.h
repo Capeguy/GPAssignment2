@@ -55,7 +55,6 @@ private:
 	TextureManager itemTexture;		// item texture
 	Image   mapTile;
 	Image   tree;
-	Crate crate;
 	TextDX	dxFont;
 	COLOR_ARGB fontColor;
 	RECT	textRect;
