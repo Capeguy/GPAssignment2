@@ -4,7 +4,6 @@
 #define WIN32_LEAN_AND_MEAN
 
 #include "list.h"
-#include "player.h"
 #include "item.h"
 #include "constants.h"
 
@@ -21,7 +20,9 @@ private:
 	Item item;
 
 public:
-	InventoryItem();
+	InventoryItem(Item i);
+	InventoryItem(Item i, int cnt);
+
 	~InventoryItem();
 
 	void update(float frameTime);

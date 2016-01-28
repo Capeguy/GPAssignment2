@@ -24,17 +24,18 @@ namespace tileNS
 	const float PLAYER_HEIGHT = 64.0;
 }
 
-class Tile : public Entity
-{
+class Tile : public Entity {
 private:
 	int id;
 	bool solid;
 
 public:
-	Tile();
-	Tile(int id, bool solid);
-	~Tile();
-	virtual void draw();
-	virtual bool initialize(Game *gamePtr, int width, int height, int ncols, TextureManager *textureM);
+	Tile ();
+	Tile (int id, bool solid);
+	~Tile ();
+	int getId ();
+	bool isSolid ();
+	virtual void draw ();
+	virtual bool initialize (Game *gamePtr, int width, int height, int ncols, TextureManager *textureM);
 };
 #endif

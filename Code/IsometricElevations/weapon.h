@@ -11,17 +11,16 @@ namespace weaponNS
 
 }
 
-class Weapon : public Entity
-{
+class Weapon : public Entity {
 	enum PlayerOrientation { right, down, left, up };
 	enum PlayerHealthStatus { Alive, Dead };
 private:
 
 public:
-	Weapon();
-	~Weapon();
-	virtual void draw();
-	virtual bool initialize(Game *gamePtr, int width, int height, int ncols, TextureManager *textureM);
-	void update(float frameTime);
+	Weapon ();
+	~Weapon ();
+	virtual void draw ();
+	virtual bool initialize (Game *gamePtr, int width, int height, int ncols, TextureManager *textureM);
+	void update (float frameTime);
 };
 #endif

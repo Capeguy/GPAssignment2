@@ -60,9 +60,6 @@
     <ClCompile Include="projectile.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="inventoryController.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="inventoryItem.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -88,6 +85,21 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="BreakoutJack.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="levelController.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="tile.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="crate.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="itemController.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="inventory.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -140,9 +152,6 @@
     <ClInclude Include="projectile.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="inventoryController.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="inventoryItem.h">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -168,6 +177,21 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="BreakoutJack.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="levelController.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="tile.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="crate.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="itemController.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="inventory.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

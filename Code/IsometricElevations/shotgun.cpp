@@ -1,17 +1,14 @@
 #include "shotgun.h"
 
 using namespace std;
-Shotgun::Shotgun()
-{
+Shotgun::Shotgun () {
 	ammo = 10;
 	maxAmmo = 10;
 }
 
-Shotgun::~Shotgun()
-{
+Shotgun::~Shotgun () {
 
 }
-bool Shotgun::Shoot()
-{
+bool Shotgun::Shoot () {
 	return false;
 }

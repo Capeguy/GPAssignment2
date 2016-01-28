@@ -1,8 +1,7 @@
 #include "projectile.h"
 
 using namespace std;
-Projectile::Projectile() : Entity()
-{
+Projectile::Projectile () : Entity () {
 	//spriteData.width = playerNS::WIDTH;           // size of player ship
 	//spriteData.height = playerNS::HEIGHT;
 	//spriteData.x = playerNS::X;                   // location on screen
@@ -19,20 +18,16 @@ Projectile::Projectile() : Entity()
 	spriteData.scale = 0.5;
 }
 
-Projectile::~Projectile()
-{
+Projectile::~Projectile () {
 
 }
 
-bool Projectile::initialize(Game *gamePtr, int width, int height, int ncols, TextureManager *textureM)
-{
-	return(Entity::initialize(gamePtr, width, height, ncols, textureM));
+bool Projectile::initialize (Game *gamePtr, int width, int height, int ncols, TextureManager *textureM) {
+	return(Entity::initialize (gamePtr, width, height, ncols, textureM));
 }
-void Projectile::draw()
-{
-	Image::draw();              // draw ship
+void Projectile::draw () {
+	Image::draw ();              // draw ship
 }
-void Projectile::update(float frameTime)
-{
-	Entity::update(frameTime);
+void Projectile::update (float frameTime) {
+	Entity::update (frameTime);
 }

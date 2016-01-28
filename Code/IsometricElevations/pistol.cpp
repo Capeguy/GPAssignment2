@@ -1,17 +1,14 @@
 #include "pistol.h"
 
 using namespace std;
-Pistol::Pistol()
-{
+Pistol::Pistol () {
 	ammo = -1;
 	maxAmmo = -1;
 }
 
-Pistol::~Pistol()
-{
+Pistol::~Pistol () {
 
 }
-bool Pistol::Shoot()
-{
+bool Pistol::Shoot () {
 	return false;
 }
