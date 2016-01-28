@@ -45,6 +45,7 @@ const char TEXTURES_IMAGE[] = "pictures\\tileset.png"; // game textures
 //const char TEXTURES_IMAGE[] = "pictures\\textures3.png"; // game textures
 const char TEXTURES2_IMAGE[] = "pictures\\textures2.png"; // game textures
 const char TEXTURE_PLAYER[] = "pictures\\player.png";
+const char TEXTURE_NPC[] = "pictures\\player.png";
 const char TEXTURE_ITEM[] = "pictures\\crate.png";
 const char TEXTURE_GUNS[] = "pictures\\gun.png";
 // audio files required by audio.cpp
@@ -67,5 +68,11 @@ const UCHAR PLAYER_DOWN = 'S';
 const UCHAR PLAYER_JUMP = VK_SPACE;
 
 
+//NPC Test
+const UCHAR NPC_LEFT = VK_LEFT;
+const UCHAR NPC_RIGHT = VK_RIGHT;
+const UCHAR NPC_UP = VK_UP;
+const UCHAR NPC_DOWN = VK_DOWN;
+const UCHAR NPC_JUMP = VK_UP;
 
 #endif

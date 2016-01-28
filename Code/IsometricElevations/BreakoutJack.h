@@ -10,6 +10,7 @@
 #include "image.h"
 #include "player.h"
 #include "levelController.h"
+#include "npc.h"
 #include "crate.h"
 #include "itemController.h"
 //#include "machineGun.h"
@@ -50,19 +51,21 @@ private:
 	TextureManager textures;    // textures
 	TextureManager textures2;   // object texture
 	TextureManager playerTexture; // player texture
+	TextureManager npcTexture;	// npc texture
+    Image   mapTile;
+    Image   tree;
 	TextureManager tileTexture;
 	TextureManager gunTexture;
 	TextureManager itemTexture;		// item texture
-	Image   mapTile;
-	Image   tree;
+	Crate crate;
 	TextDX	dxFont;
 	COLOR_ARGB fontColor;
 	RECT	textRect;
 	Player player;
-	//MachineGun machineGun;
+	NPC npc;
+	LevelController* levelController;
 
 public:
-	LevelController* levelController;
 	// Constructor
 	BreakoutJack ();
 	// Destructor

@@ -31,15 +31,12 @@ void BreakoutJack::initialize(HWND hwnd) {
 	//player texture
 	if (!playerTexture.initialize(graphics, TEXTURE_PLAYER))
 		throw(GameError(gameErrorNS::FATAL_ERROR, "Error initializing player texture"));
-	// item texture
-	if (!itemTexture.initialize(graphics, TEXTURE_ITEM))
-		throw(GameError(gameErrorNS::FATAL_ERROR, "Error initializing item texture"));
-	if (!tileTexture.initialize(graphics, TEXTURES_IMAGE))
-		throw(GameError(gameErrorNS::FATAL_ERROR, "Error initializing tile texture"));
-	/*
-	if(!gunTexture.initialize(graphics, TEXTURE_GUNS))
-		throw(GameError(gameErrorNS::FATAL_ERROR, "Error initializing gun texture"));
-	*/
+	if (!tileTexture.initialize (graphics, TEXTURES_IMAGE))
+		throw(GameError (gameErrorNS::FATAL_ERROR, "Error initializing tile texture"));
+	//npc texture
+	if (!npcTexture.initialize(graphics, TEXTURE_NPC))
+		throw(GameError(gameErrorNS::FATAL_ERROR, "Error initializing npc texture"));
+
 	//player image
 	player.setColorFilter(graphicsNS::MAGENTA);
 	player.initialize(this, playerNS::PLAYER_WIDTH, playerNS::PLAYER_HEIGHT, 32, &playerTexture); // to change
@@ -47,12 +44,25 @@ void BreakoutJack::initialize(HWND hwnd) {
 	player.setCurrentFrame(952);
 	player.setX(GAME_WIDTH / breakoutJackNS::TEXTURE_SIZE);
 	player.setY(GAME_HEIGHT - GAME_HEIGHT / breakoutJackNS::TEXTURE_SIZE - 2 * breakoutJackNS::TEXTURE_SIZE);
+
 	player.setVelocity(VECTOR2(playerNS::SPEED, playerNS::SPEED));
 	// map tile image
 	mapTile.initialize(graphics, breakoutJackNS::TEXTURE_SIZE, breakoutJackNS::TEXTURE_SIZE, breakoutJackNS::TEXTURE_COLS, &textures);
 	mapTile.setFrames(0, 0);
 	mapTile.setCurrentFrame(0);
+	//npc image
+	npc.setColorFilter(graphicsNS::MAGENTA);
+	npc.initialize(this, npcNS::NPC_WIDTH, npcNS::NPC_HEIGHT, 32, &npcTexture); // to change
+	npc.setFrames(952, 955);
+	npc.setCurrentFrame(952);
+	npc.setX(GAME_WIDTH / breakoutJackNS::TEXTURE_SIZE + 500);
+	npc.setY(GAME_HEIGHT - GAME_HEIGHT / breakoutJackNS::TEXTURE_SIZE - 2 * breakoutJackNS::TEXTURE_SIZE);
 
+
+    // map tile image
+    mapTile.initialize(graphics, breakoutJackNS::TEXTURE_SIZE, breakoutJackNS::TEXTURE_SIZE, breakoutJackNS::TEXTURE_COLS,&textures);
+    mapTile.setFrames(0, 0);
+    mapTile.setCurrentFrame(0);
 	//// Tree image
 	tree.initialize(graphics, breakoutJackNS::TEXTURE2_SIZE, breakoutJackNS::TEXTURE2_SIZE, breakoutJackNS::TEXTURE2_COLS, &textures2);
 	tree.setFrames(TREE0_FRAME, TREE0_FRAME);
@@ -126,6 +136,8 @@ void BreakoutJack::update() {
 	}
 	*/
 
+	npc.update(frameTime, levelController);
+	crate.update (frameTime);
 	//machineGun.update(frameTime);
 	player.update(frameTime, levelController);
 }
@@ -166,7 +178,8 @@ void BreakoutJack::collisions() {
 //=============================================================================
 void BreakoutJack::render() {
 	graphics->spriteBegin();
-
+	player.draw();
+	npc.draw();
 	string buffer;
 	// Draw map in Isometric Diamond
 	/*
@@ -180,6 +193,7 @@ void BreakoutJack::render() {
 			mapTile.draw();
 			player.setColorFilter(graphicsNS::MAGENTA);
 			player.draw();
+			npc.draw();
 			if (drawTileNo) {
 				buffer = "";
 				buffer += to_string(levelControllerNS::tileMap[col][row]);
@@ -192,8 +206,8 @@ void BreakoutJack::render() {
 	*/
 	//levelController->renderTiles(graphics);
 	levelController->draw(graphics);
-	player.draw();
-
+	player.draw ();
+	npc.draw();
 	//machineGun.draw();
 	//print player position
 	int playerBottomLeftX = player.getX();

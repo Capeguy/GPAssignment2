@@ -64,7 +64,6 @@ void Player::draw () {
 }
 void Player::update (float frameTime, LevelController* lc) {
 	updateCoords ();
-
 	Tile* leftTile = lc->getTile (playerBottomLeftX, playerBottomLeftY + 1);
 	Tile* rightTile = lc->getTile (playerBottomRightX, playerBottomRightY + 1);
 	if (leftTile->isSolid () || rightTile->isSolid ()) {
