@@ -13,7 +13,12 @@ ItemController::ItemController(Graphics *graphics)
 	crateList = vector<Crate*>();
 	levelCrateLoc[0].push_back(VECTOR2(321, 508));
 	levelCrateLoc[0].push_back(VECTOR2(652, 704));
-};
+}
+
+ItemController::~ItemController()
+{}
+
+
 
 void ItemController::spawnCrates(int level, Game *gamePtr)
 {
@@ -25,6 +30,23 @@ void ItemController::spawnCrates(int level, Game *gamePtr)
 		c->setX(crateLoc.at(i).x);
 		c->setY(crateLoc.at(i).y);
 		crateList.push_back(c);
+	}
+}
+
+void ItemController::spawnItem(Game *gamePtr, int x, int y)
+{
+	//int itemId = 0 + (std::rand() % (2 - 0 + 1));
+	int itemId = 0;
+	Item item;
+	switch (itemId)
+	{
+		case healthPack:
+			HealthPack* hp = new HealthPack();
+			hp->initialize(gamePtr, itemTexture);
+			hp->setX(x);
+			hp->setY(y);
+			
+			
 	}
 }
 
@@ -45,17 +67,8 @@ void ItemController::render()
 	}
 }
 
-/*void ItemController::collisions(Player *player)
+vector<Crate*> ItemController::getCrateList()
 {
-	VECTOR2 collisionVector;
-	/*for (int i = 0; i < crateList.size(); i++)
-	{
-		Crate* c = crateList.at(i);
-		if (player->collidesWith(c, collisionVector)) 
-		{
-			player->bounce(collisionVector, c);
-		}
-	}
-	
-	}
-}*/
+
+	return crateList;
+}

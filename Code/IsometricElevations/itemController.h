@@ -5,6 +5,7 @@
 
 #include "constants.h"
 #include "item.h"
+#include "healthPack.h"
 #include "entity.h"
 #include "crate.h"
 #include <vector>
@@ -19,12 +20,15 @@ private:
 	vector<VECTOR2> levelCrateLoc[NUM_LEVEL];
 	vector<Crate*> crateList;
 	TextureManager* itemTexture;
+	enum ItemType{healthPack};
 public:
 	ItemController();
 	ItemController(Graphics*);
+	virtual ~ItemController();
 	void spawnCrates(int, Game*);
+	void spawnItem(Game*, int x, int y);
 	void update(float);
 	void render();
-	//void collisions();
+	vector<Crate*> getCrateList();
 };
 #endif

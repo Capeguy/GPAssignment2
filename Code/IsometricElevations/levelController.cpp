@@ -71,7 +71,7 @@ void LevelController::update (float frameTime) {
 
 }
 
-/*void LevelController::collisions()
+ItemController* LevelController::getIController()
 {
-//	iController->collisions();
-}*/
+	return iController;
+}

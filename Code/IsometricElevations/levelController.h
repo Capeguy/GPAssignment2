@@ -147,6 +147,6 @@ public:
 	void draw (Graphics* graphics);
 	void renderTiles (Graphics* graphics);
 	void update (float frameTime);
-	//void collisions();
+	ItemController* getIController();
 };
 #endif

@@ -162,15 +162,21 @@ void BreakoutJack::ai() {}
 //=============================================================================
 void BreakoutJack::collisions() {
 	VECTOR2 collisionVector;
-	//levelController->collisions();
-	// collision between player and crate
-	/*if (player.collidesWith (crate, collisionVector)) {
-		//player.setX(playerNS::X * frameTime);
-		//player.setVelocity(-collisionVector);
-		player.bounce(collisionVector, crate);
-		//crate.setX(60.0);
-		//crate.setY(60.0);
-	}*/
+	// Collision between player and crates
+	ItemController* iController = levelController->getIController();
+	vector<Crate*> crateList = iController->getCrateList();
+	for (int i = 0; i < crateList.size(); i++)
+	{
+		Crate* c = crateList.at(i);
+		if (player.collidesWith(*c, collisionVector)) 
+		{
+			//c->spawnItem();
+			//player.setX(playerNS::X * frameTime);
+			//player.setVelocity(-collisionVector);
+			//player.bounce(collisionVector, crate);
+
+		}
+	}
 }
 
 //=============================================================================
