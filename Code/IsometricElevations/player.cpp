@@ -38,6 +38,7 @@ bool Player::initialize(Game *gamePtr, int width, int height, int ncols, Texture
 	if (!gunTexture->initialize(gamePtr->getGraphics(), TEXTURE_GUNS))
 		throw(GameError(gameErrorNS::FATAL_ERROR, "Error initializing gun texture"));
 	// We should move this elsewhere - Ben
+	
 	machineGun = new MachineGun();
 	machineGun->initialize(gameptr, 136, 41, 2, gunTexture);
 	machineGun->setCurrentFrame(0);
@@ -46,7 +47,14 @@ bool Player::initialize(Game *gamePtr, int width, int height, int ncols, Texture
 	pistol->initialize(gameptr, 136, 41, 2, gunTexture);
 	pistol->setCurrentFrame(8);
 
+	shotgun = new Shotgun();
+	shotgun->initialize(gameptr, 136, 41, 2, gunTexture);
+	shotgun->setCurrentFrame(6);
 	// End
+	defaultItem = new InventoryItem(machineGun);
+	inventory->addItem(defaultItem);
+	defaultItem = new InventoryItem(shotgun);
+	inventory->addItem(defaultItem);
 	defaultItem = new InventoryItem(pistol);
 	inventory->addItem(defaultItem);
 	updateCoords();
@@ -62,7 +70,7 @@ void Player::draw() {
 }
 void Player::update(float frameTime, LevelController* lc) {
 	updateCoords();
-
+	inventory->update(frameTime, input);
 	Tile* leftTile = lc->getTile(playerBottomLeftX, playerBottomLeftY + 1);
 	Tile* rightTile = lc->getTile(playerBottomRightX, playerBottomRightY + 1);
 	if (leftTile->isSolid() || rightTile->isSolid()) {

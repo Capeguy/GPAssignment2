@@ -18,11 +18,13 @@ class Inventory {
 private:
 	vector<InventoryItem*>	*InventoryItems;
 	InventoryItem* activeItem;
+	int activeItemIndex;
+	bool updating = false;
 public:
 	Inventory();
 	~Inventory();
 
-	void update(float frameTime);
+	void update(float frameTime, Input* input);
 
 	vector<InventoryItem*>* getItems();
 	bool addItem(InventoryItem *item);
