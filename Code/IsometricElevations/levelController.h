@@ -31,7 +31,7 @@ namespace levelControllerNS
 	// Object textures
 	const int TEXTURE2_COLS = 32;
 	const int TEXTURE2_SIZE = 32;
-
+	// TODO: Design a proper level to be used
 	const int tileMap[levelControllerNS::MAP_SIZE_Y][levelControllerNS::MAP_SIZE_X] = {
 		228, 228, 228, 228, 228, 228, 228, 228, 228, 228, 228, 228, 228, 228, 228, 228, 228, 228, 228, 228, 228, 228, 228, 228, 228, 228, 228, 228, 228, 228, 228, 228, 228, 228, 228, 228, 228, 228, 228, 228,
 		228, 229, 229, 229, 229, 229, 229, 229, 229, 229, 229, 229, 229, 229, 229, 229, 229, 229, 229, 229, 229, 229, 229, 229, 229, 229, 229, 229, 229, 229, 229, 229, 229, 229, 229, 229, 229, 229, 229, 228,
@@ -126,7 +126,7 @@ namespace levelControllerNS
 }
 using namespace levelControllerNS;
 
-class LevelController{
+class LevelController {
 
 private:
 	//std::vector<Tile> mapTile;
@@ -135,7 +135,7 @@ private:
 	TextureManager* tileTexture;
 	Game* gameptr;
 	TextDX dxFont;
-	ItemController* iController;
+	ItemController *iController;
 public:
 	bool debugInfo = false;
 	Tile* mapTile[levelControllerNS::MAP_SIZE_Y][levelControllerNS::MAP_SIZE_X];
@@ -144,9 +144,9 @@ public:
 	~LevelController ();
 	Tile* getTile (float x, float y);
 	void loadTiles (TextureManager* tt, Game* gameptr);
-	void draw (Graphics* graphics);
 	void renderTiles (Graphics* graphics);
 	void update (float frameTime);
 	ItemController* getIController();
+
 };
 #endif

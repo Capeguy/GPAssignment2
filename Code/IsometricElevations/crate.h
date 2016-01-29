@@ -8,7 +8,8 @@
 #include "entity.h"
 #include <vector>
 using namespace std;
-
+// TODO: Handle collision between Crate and Player --> Should give item in crate to player and destory crate
+// TODO: Get ItemController / LevelController to spawn the crates
 namespace crateNS
 {
 	const int	TEXTURE_COLS = 2;

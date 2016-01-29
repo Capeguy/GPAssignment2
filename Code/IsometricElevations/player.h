@@ -47,12 +47,15 @@ private:
 	float	hp;
 	float	hpMax;
 	Game*	gameptr;
-	TextureManager gunTexture;
-	MachineGun machineGun;
-	Pistol	pistol;
-	Shotgun shotgun;
-	Inventory inventory;
+	TextureManager* gunTexture;
+	Inventory* inventory;
 	float	jumpdistance = 0;
+
+
+	MachineGun* machineGun;
+	Pistol* pistol;
+	Shotgun * shotgun;
+	InventoryItem* defaultItem;
 
 public:
 	bool canJump = true;
@@ -79,6 +82,7 @@ public:
 	virtual void draw ();
 	virtual bool initialize (Game *gamePtr, int width, int height, int ncols, TextureManager *textureM);
 	void update (float frameTime, LevelController* lc);
+	// TODO: Make player jumping and falling non-linear
 	void setFalling (bool f);
 	void damage (float amt);
 	void damage (Weapon w);

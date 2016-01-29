@@ -18,15 +18,18 @@ class Item : public Entity // Abstract class
 {
 	
 protected:
-	enum ItemType { Equipable, Usable };
+	
 	int id;
 	string name;
 	string desc;
 	int type;
 	TextureManager textureManager;
 public:
+	enum ItemType { Equipable, Usable };
 	Item();
-	~Item();
+	virtual ~Item();
 	virtual bool initialize(Game *gamePtr, int width, int height, int ncols, string);
+	virtual void update(float frametime, int orientation, float x, float y);
+	int getItemType();
 };
 #endif

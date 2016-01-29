@@ -13,3 +13,9 @@ bool Item::initialize (Game * gamePtr, int width, int height, int ncols, std::st
 	textureManager.initialize (gamePtr->getGraphics (), file.c_str ());
 	return false;
 }
+void Item::update(float frametime, int orientation, float x, float y) {
+	//Entity::update(frametime);
+}
+int Item::getItemType() {
+	return type;
+}

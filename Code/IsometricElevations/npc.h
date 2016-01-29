@@ -16,7 +16,7 @@
 #include "shotgun.h"
 #include "pistol.h"
 #include "levelController.h"
-
+// TODO: Create an NPCController to control the spawning of NPCs
 using namespace std;
 
 namespace npcNS
@@ -89,6 +89,7 @@ public:
 	void moveUp(float frameTime);
 	void moveDown(float frameTime);
 	void ai(float frameTime, Entity & ent);
+	// TODO: Make NPC AI walk between 2 points / cycle between points in a vector array
 	void setFalling(bool f);
 	void damage(float amt);
 	void damage(Weapon w);
