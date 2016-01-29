@@ -31,7 +31,7 @@ namespace levelControllerNS
 	// Object textures
 	const int TEXTURE2_COLS = 32;
 	const int TEXTURE2_SIZE = 32;
-
+	// TODO: Design a proper level to be used
 	const int tileMap[levelControllerNS::MAP_SIZE_Y][levelControllerNS::MAP_SIZE_X] = {
 		228, 228, 228, 228, 228, 228, 228, 228, 228, 228, 228, 228, 228, 228, 228, 228, 228, 228, 228, 228, 228, 228, 228, 228, 228, 228, 228, 228, 228, 228, 228, 228, 228, 228, 228, 228, 228, 228, 228, 228,
 		228, 229, 229, 229, 229, 229, 229, 229, 229, 229, 229, 229, 229, 229, 229, 229, 229, 229, 229, 229, 229, 229, 229, 229, 229, 229, 229, 229, 229, 229, 229, 229, 229, 229, 229, 229, 229, 229, 229, 228,

@@ -82,6 +82,7 @@ public:
 	virtual void draw ();
 	virtual bool initialize (Game *gamePtr, int width, int height, int ncols, TextureManager *textureM);
 	void update (float frameTime, LevelController* lc);
+	// TODO: Make player jumping and falling non-linear
 	void setFalling (bool f);
 	void damage (float amt);
 	void damage (Weapon w);
