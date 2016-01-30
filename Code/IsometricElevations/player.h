@@ -21,7 +21,7 @@ namespace playerNS
 	const float SPEED = 200;
 	const float FALLING_SPEED = 120;
 	const float MASS = 300.0f;
-	const float JUMP_HEIGHT = 32;
+	const float JUMP_HEIGHT = 32 + 16;
 	const float JUMP_SPEED = 200;
 	const int   TEXTURE_SIZE = 64;
 	const int   TEXTURE_COLS = 32;
@@ -41,7 +41,6 @@ class Player : public Entity {
 private:
 
 	bool	doubleJump = false;
-
 	int		orientation = right;
 	int		healthStatus = Alive;
 	float	hp;

@@ -106,6 +106,7 @@ void NPC::update(float frameTime, LevelController* lc)
 			orientation = up;
 		}
 	}
+	/*
 	if (spriteData.y > 0 && !input->isKeyDown(NPC_JUMP) && !input->isKeyDown(NPC_UP) && !input->isKeyDown(NPC_LEFT) && !input->isKeyDown(NPC_RIGHT)) {
 		// Get Bottom left bottom right
 		// Get Tile at that location y + 1 pixel
@@ -114,6 +115,7 @@ void NPC::update(float frameTime, LevelController* lc)
 		//orientation = down;
 		machineGun.update(frameTime, orientation, spriteData.x, spriteData.y);
 	}
+	*/
 	if (falling && !jumping) {
 		Tile* tileA = lc->getTile(npcBottomLeftX, npcBottomLeftY + 1);
 		Tile* tileB = lc->getTile(npcBottomRightX, npcBottomRightY + 1);
@@ -156,7 +158,7 @@ void NPC::update(float frameTime, LevelController* lc)
 	if (spriteData.y > GAME_HEIGHT - playerNS::TEXTURE_SIZE)
 	spriteData.y = GAME_HEIGHT - playerNS::TEXTURE_SIZE;
 	*/
-	pistol.update(frameTime, orientation, spriteData.x, spriteData.y);
+	//pistol.update(frameTime, orientation, spriteData.x, spriteData.y);
 	Entity::update(frameTime);
 	//update gun
 }

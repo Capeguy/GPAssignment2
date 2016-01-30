@@ -11,7 +11,7 @@
 
 namespace inventoryControllerNS
 {
-
+	const int MAX_INVENTORY_SIZE = 5;
 }
 
 class Inventory {

@@ -9,6 +9,7 @@
 #include "entity.h"
 #include "crate.h"
 #include <vector>
+#include <list>
 using namespace std;
 namespace itemControllerNS
 {
@@ -17,8 +18,8 @@ namespace itemControllerNS
 class ItemController : public Entity
 {
 private:
-	vector<VECTOR2> levelCrateLoc[NUM_LEVEL];
-	vector<Crate*> crateList;
+	list<VECTOR2> levelCrateLoc[NUM_LEVEL];
+	list<Crate*>* crateList;
 	TextureManager* itemTexture;
 	enum ItemType{healthPack};
 public:
@@ -29,6 +30,7 @@ public:
 	void spawnItem(Game*, int x, int y);
 	void update(float);
 	void render();
-	vector<Crate*> getCrateList();
+	void collisions();
+	list<Crate*>* getCrateList();
 };
 #endif
