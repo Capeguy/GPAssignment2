@@ -48,6 +48,7 @@ const char TEXTURE_PLAYER[] = "pictures\\player.png";
 const char TEXTURE_NPC[] = "pictures\\player.png";
 const char TEXTURE_ITEM[] = "pictures\\crate.png";
 const char TEXTURE_GUNS[] = "pictures\\gun.png";
+const char TEXTURE_BULLETS[] = "pictures\\bullet.png";
 // audio files required by audio.cpp
 // WAVE_BANK must be location of .xwb file.
 const char WAVE_BANK[] = "";
@@ -66,6 +67,8 @@ const UCHAR PLAYER_RIGHT = 'D';
 const UCHAR PLAYER_UP = 'W';
 const UCHAR PLAYER_DOWN = 'S';
 const UCHAR PLAYER_JUMP = VK_SPACE;
+const UCHAR PLAYER_INVENT_CYCLE_LEFT = 0x51; // Q
+const UCHAR PLAYER_INVENT_CYCLE_RIGHT = 0x45; // E
 
 
 //NPC Test

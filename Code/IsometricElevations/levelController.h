@@ -13,6 +13,9 @@
 #include "game.h"
 #include <vector>
 #include "itemController.h"
+#include "projectile.h"
+// #include "list.h"
+#include <list>
 using namespace std;
 
 namespace levelControllerNS
@@ -137,6 +140,7 @@ private:
 	TextDX dxFont;
 	ItemController *iController;
 public:
+	std::list<Projectile*> projectiles;
 	bool debugInfo = false;
 	Tile* mapTile[levelControllerNS::MAP_SIZE_Y][levelControllerNS::MAP_SIZE_X];
 	LevelController ();
@@ -145,8 +149,12 @@ public:
 	Tile* getTile (float x, float y);
 	void loadTiles (TextureManager* tt, Game* gameptr);
 	void renderTiles (Graphics* graphics);
+	void render(Graphics* graphics);
+	void renderProjectiles(Graphics* graphics);
 	void update (float frameTime);
 	ItemController* getIController();
+	void collisions();
+	void addProjectile(Projectile* p);
 
 };
 #endif
