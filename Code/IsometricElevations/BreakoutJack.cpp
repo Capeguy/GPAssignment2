@@ -44,7 +44,7 @@ void BreakoutJack::initialize(HWND hwnd) {
 	player->setFrames(952, 955);
 	player->setCurrentFrame(952);
 	player->setX(GAME_WIDTH / breakoutJackNS::TEXTURE_SIZE);
-	player->setY(GAME_HEIGHT - GAME_HEIGHT / breakoutJackNS::TEXTURE_SIZE - 2 * breakoutJackNS::TEXTURE_SIZE);
+	player->setY((GAME_HEIGHT - GAME_HEIGHT / breakoutJackNS::TEXTURE_SIZE - 2 * breakoutJackNS::TEXTURE_SIZE) - 100);
 	player->setVelocity(VECTOR2(playerNS::SPEED, playerNS::SPEED));
 	// map tile image
 	mapTile.initialize(graphics, breakoutJackNS::TEXTURE_SIZE, breakoutJackNS::TEXTURE_SIZE, breakoutJackNS::TEXTURE_COLS, &textures);
@@ -59,14 +59,9 @@ void BreakoutJack::initialize(HWND hwnd) {
 	//dxFont.setFontColor(SETCOLOR_ARGB(192, 255, 255, 255));
 	dxFont.setFontColor(SETCOLOR_ARGB(192, 0, 0, 0));
 	//Load level controller
-<<<<<<< HEAD
-	levelController = new LevelController (graphics, this, tileTexture);
-	levelController->loadTiles (tileTexture, this);
-	hud = new HUD(graphics);
-=======
 	levelController = new LevelController(graphics, this, tileTexture);
 	levelController->loadTiles(tileTexture, this);
->>>>>>> 3eaf24dac7fa302c3734884001eae0069dd8eb66
+	hud = new HUD(graphics);
 
 }
 
@@ -116,14 +111,11 @@ void BreakoutJack::update() {
 		player->canMoveRight = false;
 	}
 	*/
-<<<<<<< HEAD
-	crate.update (frameTime);
+	crate.update(frameTime);
 	player->update (frameTime, levelController);
 	hud->update(frameTime, player->getInventory()->getActiveItem());
-=======
 	crate.update(frameTime);
 	player->update(frameTime, levelController);
->>>>>>> 3eaf24dac7fa302c3734884001eae0069dd8eb66
 }
 
 bool BreakoutJack::tileIsSolid(int x, int y) {
@@ -183,18 +175,11 @@ void BreakoutJack::render() {
 	string text = "Player is at (" + to_string(player->getX()) + ", " + to_string(player->getY()) + ") Can Jump: " + to_string(player->canJump) + " | Can Fall: " + to_string(player->canFall) + " | Jumping: " + to_string(player->jumping) + " | Falling: " + to_string(player->falling) + "\n";
 	text += "(" + to_string(playerTopLeftX) + ", " + to_string(playerTopLeftY) + ") ---- (" + to_string(playerTopRightX) + ", " + to_string(playerTopRightY) + ")" + "\n";
 	text += "  |   ----   |  \n";
-<<<<<<< HEAD
-	text += "(" + to_string (playerBottomLeftX) + ", " + to_string (playerBottomLeftY) + ") ---- (" + to_string (playerBottomRightX) + ", " + to_string (playerBottomRightY) + ")";
-	dxFont.print (text, 0, 0);
-	crate.draw ();
-	hud->draw();
-	graphics->spriteEnd ();
-=======
 	text += "(" + to_string(playerBottomLeftX) + ", " + to_string(playerBottomLeftY) + ") ---- (" + to_string(playerBottomRightX) + ", " + to_string(playerBottomRightY) + ")";
 	dxFont.print(text, 0, 0);
 	crate.draw();
+	hud->draw();
 	graphics->spriteEnd();
->>>>>>> 3eaf24dac7fa302c3734884001eae0069dd8eb66
 }
 
 //=============================================================================
