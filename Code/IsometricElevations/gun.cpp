@@ -104,3 +104,9 @@ void Gun::collision() {
 bool Gun::hasAmmo() {
 	return ammo > 0 || ammo == -1;
 }
+string Gun::getAmmoDisplay() {
+	if (ammo == -1) {
+		return "?";
+	} else
+		return to_string(ammo);
+}

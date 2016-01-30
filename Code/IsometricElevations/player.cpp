@@ -87,14 +87,14 @@ void Player::update(float frameTime, LevelController* lc) {
 		while (lc->getTile(spriteData.x + 31, spriteData.y)->isSolid() || lc->getTile(spriteData.x + 31, spriteData.y + 31)->isSolid()) {
 			spriteData.x -= frameTime * playerNS::FALLING_SPEED;
 		}
-		orientation = right;
+		orientation = Right;
 	}
 	if (input->isKeyDown(PLAYER_LEFT) && canMoveLeft) {
 		spriteData.x -= frameTime * playerNS::SPEED;
 		while (lc->getTile(spriteData.x, spriteData.y)->isSolid() || lc->getTile(spriteData.x, spriteData.y + 31)->isSolid()) {
 			spriteData.x += frameTime * playerNS::FALLING_SPEED;
 		}
-		orientation = left;
+		orientation = Left;
 	}
 	if (jumping || ((input->isKeyDown(PLAYER_JUMP) || input->isKeyDown(PLAYER_UP)) && canMoveUp && canJump)) {
 		if (!jumping && canJump)
@@ -111,7 +111,7 @@ void Player::update(float frameTime, LevelController* lc) {
 			while (lc->getTile(spriteData.x, spriteData.y)->isSolid() || lc->getTile(spriteData.x + 31, spriteData.y)->isSolid()) {
 				spriteData.y += frameTime * playerNS::FALLING_SPEED;
 			}
-			orientation = up;
+			orientation = Up;
 		}
 	}
 	if (spriteData.y > 0 && !input->isKeyDown(PLAYER_JUMP) && !input->isKeyDown(PLAYER_UP) && !input->isKeyDown(PLAYER_LEFT) && !input->isKeyDown(PLAYER_RIGHT)) {
@@ -136,18 +136,18 @@ void Player::update(float frameTime, LevelController* lc) {
 		}
 	}
 	switch (orientation) {
-		case right:
+		case Right:
 			currentFrame = 953;
 			spriteData.flipHorizontal = true;
 			break;
-		case down:
+		case Down:
 			currentFrame = 954;
 			break;
-		case left:
+		case Left:
 			currentFrame = 953;
 			spriteData.flipHorizontal = false;
 			break;
-		case up:
+		case Up:
 			currentFrame = 952;
 			break;
 	}

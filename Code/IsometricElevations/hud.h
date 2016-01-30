@@ -6,6 +6,7 @@
 #include "textureManager.h"
 #include "image.h"
 #include "inventoryItem.h"
+#include "gun.h"
 
 namespace hudNS
 {
@@ -17,10 +18,11 @@ private:
 	TextureManager* itemTexture;
 	TextureManager* hpTexture;
 	TextureManager* gunHUDTexture;
-	Image* currentItem;
+	Image* currentItemImage;
 	Image* hp;
 	Image* gunHud;
 	TextDX* ammoFont;
+	Item* currentItem;
 	
 public:
 	HUD(Graphics*& graphics);

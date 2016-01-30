@@ -43,5 +43,6 @@ public:
 	void draw();
 	void collision();
 	bool hasAmmo();
+	string getAmmoDisplay();
 };
 #endif

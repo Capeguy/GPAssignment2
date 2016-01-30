@@ -78,14 +78,14 @@ void NPC::update(float frameTime, LevelController* lc)
 		while (lc->getTile(spriteData.x + 31, spriteData.y)->isSolid() || lc->getTile(spriteData.x + 31, spriteData.y + 31)->isSolid()) {
 			spriteData.x -= frameTime * npcNS::FALLING_SPEED;
 		}
-		orientation = right;
+		orientation = Right;
 	}
 	if (input->isKeyDown(NPC_LEFT) && canMoveLeft) {
 		spriteData.x -= frameTime * npcNS::SPEED;
 		while (lc->getTile(spriteData.x, spriteData.y)->isSolid() || lc->getTile(spriteData.x, spriteData.y + 31)->isSolid()) {
 			spriteData.x += frameTime * npcNS::FALLING_SPEED;
 		}
-		orientation = left;
+		orientation = Left;
 	}
 	if (jumping || ((input->isKeyDown(NPC_JUMP) || input->isKeyDown(NPC_UP)) && canMoveUp && canJump)) {
 		if (!jumping && canJump)
@@ -103,7 +103,7 @@ void NPC::update(float frameTime, LevelController* lc)
 			while (lc->getTile(spriteData.x, spriteData.y)->isSolid() || lc->getTile(spriteData.x + 31, spriteData.y)->isSolid()) {
 				spriteData.y += frameTime * npcNS::FALLING_SPEED;
 			}
-			orientation = up;
+			orientation = Up;
 		}
 	}
 	/*
@@ -132,18 +132,18 @@ void NPC::update(float frameTime, LevelController* lc)
 	// spriteData.y = (int)spriteData.y;
 
 	switch (orientation) {
-	case right:
+	case Right:
 		currentFrame = 953;
 		spriteData.flipHorizontal = true;
 		break;
-	case down:
+	case Down:
 		currentFrame = 954;
 		break;
-	case left:
+	case Left:
 		currentFrame = 953;
 		spriteData.flipHorizontal = false;
 		break;
-	case up:
+	case Up:
 		currentFrame = 952;
 		break;
 	}

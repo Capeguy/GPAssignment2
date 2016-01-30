@@ -39,12 +39,12 @@ namespace npcNS
 
 class NPC : public Entity // Still an abstract class
 {
-	enum NPCOrientation { right, down, left, up };
+	enum NPCOrientation { Right, Down, Left, Up };
 	enum NPCHealthStatus { Alive, Dead };
 protected:
 	bool	jump = false;
 	bool	doubleJump = false;
-	int		orientation = right;
+	int		orientation = Right;
 	int		healthStatus = Alive;
 	float	hp;
 	float	hpMax;

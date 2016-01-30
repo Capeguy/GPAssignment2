@@ -3,7 +3,6 @@
 ItemController::ItemController() {}
 
 ItemController::ItemController(Graphics *graphics) {
-	// item texture initialize
 	itemTexture = new TextureManager();
 	if (!itemTexture->initialize(graphics, TEXTURE_ITEM))
 		throw(GameError(gameErrorNS::FATAL_ERROR, "Error initializing item texture"));
@@ -14,16 +13,13 @@ ItemController::ItemController(Graphics *graphics) {
 
 ItemController::~ItemController() {}
 
-
-
 void ItemController::spawnCrates(int level, Game *gamePtr) {
-	list<VECTOR2> crateLoc = levelCrateLoc[level - 1];
-	for (list<VECTOR2>::iterator it = crateLoc.begin(); it != crateLoc.end(); ++it) {
-
+	list<VECTOR2> crateLocations = levelCrateLoc[level - 1];
+	for (list<VECTOR2>::iterator crateLocationIter = crateLocations.begin(); crateLocationIter != crateLocations.end(); ++crateLocationIter) {
 		Crate* c = new Crate();
 		c->initialize(gamePtr, itemTexture);
-		c->setX((*it).x);
-		c->setY((*it).y);
+		c->setX((*crateLocationIter).x);
+		c->setY((*crateLocationIter).y);
 		crateList->push_back(c);
 	}
 }
@@ -38,8 +34,6 @@ void ItemController::spawnItem(Game *gamePtr, int x, int y) {
 			hp->initialize(gamePtr, itemTexture);
 			hp->setX(x);
 			hp->setY(y);
-
-
 	}
 }
 
@@ -59,5 +53,5 @@ list<Crate*>* ItemController::getCrateList() {
 	return crateList;
 }
 void ItemController::collisions() {
-	
+
 }
