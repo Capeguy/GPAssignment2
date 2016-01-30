@@ -100,6 +100,7 @@
     <ClCompile Include="graphics.cpp" />
     <ClCompile Include="gun.cpp" />
     <ClCompile Include="healthPack.cpp" />
+    <ClCompile Include="hud.cpp" />
     <ClCompile Include="inputDialog.cpp" />
     <ClCompile Include="inventory.cpp" />
     <ClCompile Include="inventoryItem.cpp" />
@@ -134,6 +135,7 @@
     <ClInclude Include="graphics.h" />
     <ClInclude Include="gun.h" />
     <ClInclude Include="healthPack.h" />
+    <ClInclude Include="hud.h" />
     <ClInclude Include="inputDialog.h" />
     <ClInclude Include="inventory.h" />
     <ClInclude Include="inventoryItem.h" />

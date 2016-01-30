@@ -12,6 +12,7 @@
 #include "levelController.h"
 #include "crate.h"
 #include "itemController.h"
+#include "hud.h"
 //#include "machineGun.h"
 namespace breakoutJackNS
 {
@@ -58,6 +59,7 @@ private:
 	COLOR_ARGB fontColor;
 	RECT	textRect;
 	Player* player;
+	HUD* hud;
 	//MachineGun machineGun;
 
 public:

@@ -10,11 +10,11 @@ Inventory::~Inventory() {
 }
 void Inventory::update(float frameTime, Input* input) {
 	if (!updating) {
-		if (input->isKeyDown(0x51) || input->isKeyDown(0x45)) {
+		if (input->isKeyDown(PLAYER_SWITCH_ITEM_BACK) || input->isKeyDown(PLAYER_SWITCH_ITEM_FORWARD)) {
 			updating = true;
-			if (input->isKeyDown(0x51)) // Q
+			if (input->isKeyDown(PLAYER_SWITCH_ITEM_BACK)) // Q
 				activeItemIndex--;
-			else if (input->isKeyDown(0x45)) // E
+			else if (input->isKeyDown(PLAYER_SWITCH_ITEM_FORWARD)) // E
 				activeItemIndex++;
 			if (activeItemIndex < 0)
 				activeItemIndex = InventoryItems->size() - 1;
@@ -23,7 +23,7 @@ void Inventory::update(float frameTime, Input* input) {
 			activeItem = InventoryItems->at(activeItemIndex);
 		}
 	} else {
-		if (!input->isKeyDown(0x51) && !input->isKeyDown(0x45)) { // TODO: Softcode this keys into constants.h
+		if (!input->isKeyDown(PLAYER_SWITCH_ITEM_BACK) && !input->isKeyDown(PLAYER_SWITCH_ITEM_FORWARD)) { // TODO: Softcode this keys into constants.h - Done
 			updating = false;
 		}
 	}

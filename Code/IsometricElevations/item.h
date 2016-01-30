@@ -31,5 +31,7 @@ public:
 	virtual bool initialize(Game *gamePtr, int width, int height, int ncols, string);
 	virtual void update(float frametime, int orientation, float x, float y);
 	int getItemType();
+	string getItemName();
+
 };
 #endif

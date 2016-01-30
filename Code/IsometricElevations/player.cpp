@@ -170,6 +170,10 @@ void Player::updateCoords() {
 	playerTopRightX = getX() - 1 + playerNS::PLAYER_WIDTH * 0.5;
 	playerTopRightY = getY();
 }
+Inventory* Player::getInventory()
+{
+	return inventory;
+}
 void Player::setFalling(bool f) {
 	falling = f;
 }

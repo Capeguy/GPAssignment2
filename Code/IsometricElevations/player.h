@@ -90,5 +90,6 @@ public:
 	void healthUpdate ();
 	void die ();
 	void updateCoords ();
+	Inventory* getInventory();
 };
 #endif

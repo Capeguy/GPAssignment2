@@ -61,6 +61,7 @@ void BreakoutJack::initialize (HWND hwnd) {
 	//Load level controller
 	levelController = new LevelController (graphics, this, tileTexture);
 	levelController->loadTiles (tileTexture, this);
+	hud = new HUD(graphics);
 
 }
 
@@ -112,6 +113,7 @@ void BreakoutJack::update () {
 	*/
 	crate.update (frameTime);
 	player->update (frameTime, levelController);
+	hud->update(frameTime, player->getInventory()->getActiveItem());
 }
 
 bool BreakoutJack::tileIsSolid (int x, int y) {
@@ -199,6 +201,7 @@ void BreakoutJack::render () {
 	text += "(" + to_string (playerBottomLeftX) + ", " + to_string (playerBottomLeftY) + ") ---- (" + to_string (playerBottomRightX) + ", " + to_string (playerBottomRightY) + ")";
 	dxFont.print (text, 0, 0);
 	crate.draw ();
+	hud->draw();
 	graphics->spriteEnd ();
 }
 

@@ -19,3 +19,8 @@ void Item::update(float frametime, int orientation, float x, float y) {
 int Item::getItemType() {
 	return type;
 }
+
+string Item::getItemName()
+{
+	return name;
+}
