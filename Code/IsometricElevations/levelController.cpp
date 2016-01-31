@@ -9,6 +9,7 @@ LevelController::LevelController(Graphics*& graphics, Game* gp, TextureManager* 
 	dxFont.setFontColor(SETCOLOR_ARGB(192, 255, 255, 255));
 	iController = new ItemController(graphics);
 	projectiles = list<Projectile*>();
+	crateCollided = 0;
 }
 
 LevelController::~LevelController() {}
@@ -97,6 +98,7 @@ void LevelController::collisions() {
 		while (!crateList->empty() && crateIter != crateList->end() && !removed) {
 			if ((*projectileIter)->collidesWith(**crateIter, collisionVector)) {
 				// TODO: Handle giving of items from crate to player here @Isaac
+				setCrateCollided(1);
 				crateIter = crateList->erase(crateIter);
 				projectileIter = projectiles.erase(projectileIter);
 				removed = true;
@@ -111,5 +113,15 @@ void LevelController::collisions() {
 
 void LevelController::addProjectile(Projectile* p) {
 	projectiles.push_back(p);
+}
+
+int LevelController::collidedWithCrate()
+{
+	return crateCollided;
+}
+
+void LevelController::setCrateCollided(int col)
+{
+	crateCollided = col;
 }
 

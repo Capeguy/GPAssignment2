@@ -7,8 +7,9 @@ ItemController::ItemController(Graphics *graphics) {
 	if (!itemTexture->initialize(graphics, TEXTURE_ITEM))
 		throw(GameError(gameErrorNS::FATAL_ERROR, "Error initializing item texture"));
 	crateList = new list<Crate*>();
-	levelCrateLoc[0].push_back(VECTOR2(321, 508));
-	levelCrateLoc[0].push_back(VECTOR2(652, 704));
+	itemList = vector<Item*>();
+	levelCrateLoc[0].push_back(VECTOR2(321, 535));
+	levelCrateLoc[0].push_back(VECTOR2(652, 725));
 }
 
 ItemController::~ItemController() {}
@@ -25,16 +26,6 @@ void ItemController::spawnCrates(int level, Game *gamePtr) {
 }
 
 void ItemController::spawnItem(Game *gamePtr, int x, int y) {
-	//int itemId = 0 + (std::rand() % (2 - 0 + 1));
-	int itemId = 0;
-	Item item;
-	switch (itemId) {
-		case healthPack:
-			HealthPack* hp = new HealthPack();
-			hp->initialize(gamePtr, itemTexture);
-			hp->setX(x);
-			hp->setY(y);
-	}
 }
 
 void ItemController::update(float frameTime) {

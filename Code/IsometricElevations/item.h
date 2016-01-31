@@ -2,7 +2,7 @@
 #ifndef _ITEM_H                 // Prevent multiple definitions if this 
 #define _ITEM_H                 // file is included in more than one place
 #define WIN32_LEAN_AND_MEAN
-
+#define _CRTDBG_MAP_ALLOC
 #include "entity.h"
 #include "constants.h"
 #include "list.h"

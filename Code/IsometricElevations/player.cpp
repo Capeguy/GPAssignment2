@@ -170,6 +170,56 @@ void Player::update(float frameTime, LevelController* lc) {
 			gun->update(frameTime, orientation, spriteData.x, spriteData.y, input, lc);
 		}
 	}
+
+	if (lc->collidedWithCrate() == 1)
+	{
+		int id = rand() % 2 + 1;
+		InventoryItem *invItem;
+		vector<InventoryItem*>* itemList = inventory->getItems();
+		switch (id)
+		{
+		case 1:
+			shotgun = new Shotgun();
+			shotgun->initialize(gameptr, 136, 41, 2, gunTexture);
+			shotgun->setCurrentFrame(6);
+			invItem = new InventoryItem(shotgun);
+			break;
+		case 2:
+			machineGun = new MachineGun();
+			machineGun->initialize(gameptr, 136, 41, 2, gunTexture);
+			machineGun->setCurrentFrame(0);
+			invItem = new InventoryItem(machineGun);
+			break;
+		case 3:
+			/*hp = new HealthPack();
+			invItem = new InventoryItem(hp);*/
+			break;
+		}
+		for (int i = 0; i < itemList->size(); i++)
+		{
+			InventoryItem *iItem = itemList->at(i);
+			Item* item = iItem->getItem();
+			Item* newItem = invItem->getItem();
+			if (item->getItemType() == Item::Equipable && newItem->getItemType() == Item::Equipable)
+			{
+				Gun* gunInvItem = dynamic_cast<Gun*>(item);
+				Gun* gunNewItem = dynamic_cast<Gun*>(newItem);
+				if (gunInvItem->getGunId() == gunNewItem->getGunId())
+				{
+					gunInvItem->addAmmo();
+					lc->setCrateCollided(0);
+					return;
+				}
+			}
+			else if (item->getItemType() == Item::Usable && newItem->getItemType() == Item::Usable)
+			{
+				lc->setCrateCollided(0);
+				return;
+			}
+		}
+		inventory->addItem(invItem);
+		lc->setCrateCollided(0);
+	}
 	Entity::update(frameTime);
 }
 void Player::updateCoords() {
@@ -185,6 +235,14 @@ void Player::updateCoords() {
 Inventory* Player::getInventory()
 {
 	return inventory;
+}
+Game * Player::getGamePtr()
+{
+	return gameptr;
+}
+TextureManager * Player::getTexture()
+{
+	return gunTexture;
 }
 void Player::setFalling(bool f) {
 	falling = f;
