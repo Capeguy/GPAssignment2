@@ -23,6 +23,11 @@ private:
 	Image* gunHud;
 	TextDX* ammoFont;
 	Item* currentItem;
+	Graphics* graphics;
+	COLOR_ARGB  backColor;              // background color (a,r,g,b)
+	VertexC vtx[4];                     // vertex data for background
+	LP_VERTEXBUFFER vertexBuffer;       // buffer to hold vertex data
+	float x, y;
 	
 public:
 	HUD(Graphics*& graphics);

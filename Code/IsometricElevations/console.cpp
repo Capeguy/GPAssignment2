@@ -142,7 +142,8 @@ const void Console::draw() {
 	prompt += input->getTextIn();
 	dxFont.print(prompt, textRect, DT_LEFT);      // display prompt and command
 
-	graphics->spriteEnd();                      // End drawing sprites
+	graphics->spriteEnd ();                      // End drawing sprites
+	
 }
 
 //=============================================================================

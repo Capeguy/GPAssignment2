@@ -96,7 +96,15 @@ void Player::update(float frameTime, LevelController* lc) {
 		}
 		orientation = Left;
 	}
-	if (jumping || ((input->isKeyDown(PLAYER_JUMP) || input->isKeyDown(PLAYER_UP)) && canMoveUp && canJump)) {
+	if(input->isKeyDown(PLAYER_UP))
+	{
+		orientation = Up;
+	}
+	if (input->isKeyDown(PLAYER_DOWN))
+	{
+		orientation = Down;
+	}
+	if (jumping || ((input->isKeyDown(PLAYER_JUMP) && canMoveUp && canJump))) {
 		if (!jumping && canJump)
 			jumpdistance = 0;
 		if (jumpdistance > playerNS::JUMP_HEIGHT) {
@@ -111,7 +119,6 @@ void Player::update(float frameTime, LevelController* lc) {
 			while (lc->getTile(spriteData.x, spriteData.y)->isSolid() || lc->getTile(spriteData.x + 31, spriteData.y)->isSolid()) {
 				spriteData.y += frameTime * playerNS::FALLING_SPEED;
 			}
-			orientation = Up;
 		}
 	}
 	if (spriteData.y > 0 && !input->isKeyDown(PLAYER_JUMP) && !input->isKeyDown(PLAYER_UP) && !input->isKeyDown(PLAYER_LEFT) && !input->isKeyDown(PLAYER_RIGHT)) {

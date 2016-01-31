@@ -42,11 +42,25 @@ void Gun::update(float frametime, int orientation, float x, float y, Input* inpu
 			bullet->setCurrentFrame(1);
 			bullet->setX(getX());
 			bullet->setY(getY());
-			if (orientation == 0) {
+			if (orientation == Right) 
+			{
 				bullet->setVelocity(D3DXVECTOR2(100, 0));
-			} else {
+			} 
+			else if (orientation == Left)
+			{
 				bullet->setVelocity(D3DXVECTOR2(-100, 0));
 			}
+			else if (orientation == Up)
+			{
+				bullet->setVelocity(D3DXVECTOR2(0, -100));
+				bullet->spriteData.angle = -PI / 2;
+			}
+			else if (orientation == Down)
+			{
+				bullet->setVelocity(D3DXVECTOR2(0, 100));
+				bullet->spriteData.angle = PI / 2;
+			}
+
 			lc->addProjectile(bullet);
 			bullets.push_back(bullet);
 		} else {
@@ -63,33 +77,40 @@ void Gun::update(float frametime, int orientation, float x, float y, Input* inpu
 		bullet->update(frametime);
 	}
 	*/
-	if (orientation == 0) // right
+	if (orientation == Up) { // up
+		//spriteData.x = x;
+		//spriteData.y = y;
+		setX(x- 16);
+		setY(y- 16);
+		if (previousOreintation == Right)
+			spriteData.angle = -PI / 2;
+		else if (previousOreintation == Left)
+			spriteData.angle = PI / 2;
+	}
+	if (orientation == Right) // right
 	{
 		flipHorizontal(false);
 		setX(x + 16);
 		setY(y);
-		spriteData.flipHorizontal = false;
-		spriteData.x = x + 16;
-		spriteData.y = y;
+		spriteData.angle = 0;
 	}
-	if (orientation == 1) {
-
+	if (orientation == Down) { //down
+		setX(x - 16);
+		setY(y + 16);
+		if (previousOreintation == Right)
+			spriteData.angle = -3 * PI / 2;
+		else if (previousOreintation == Left)
+			spriteData.angle = 3 * PI / 2;
 	}
-	if (orientation == 2) //left 
+	if (orientation == Left) //left 
 	{
-		flipHorizontal(false);
+		flipHorizontal(true);
 		setX(x - 48);
 		setY(y);
-		spriteData.flipHorizontal = true;
-		spriteData.x = x - 48;
-		spriteData.y = y;
+		spriteData.angle = 0;
 	}
-	if (orientation == 3) {
-		spriteData.x = x;
-		spriteData.y = y;
-		setX(x);
-		setY(y);
-	}
+	
+	previousOreintation = orientation;
 	Entity::update(frametime);
 }
 void Gun::draw() {
