@@ -14,5 +14,6 @@ public:
 	//explict
 	MachineGun ();
 	~MachineGun ();
+	void draw();
 };
 #endif

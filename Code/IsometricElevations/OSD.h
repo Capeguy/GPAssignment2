@@ -13,11 +13,16 @@ class OSD {
 private:
 	int currLine = 0;
 	TextDX	dxFont;
-	list<string> displayList;
+	
+	
 public:
-	OSD::OSD(Graphics* graphics);
-	~OSD();
-	void addLine(string text);
+	list<string> displayList;
+	static OSD& instance() {
+		static OSD INSTANCE;
+		return INSTANCE;
+	}
+	void setGraphics(Graphics* graphics);
+	static void addLine(string text);
 	int getLine();
 	void draw();
 

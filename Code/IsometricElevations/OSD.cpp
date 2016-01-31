@@ -2,14 +2,6 @@
 
 using namespace std;
 
-OSD::OSD(Graphics* graphics) {
-	dxFont.initialize(graphics, 20, false, false, "Courier New");
-	dxFont.setFontColor(SETCOLOR_ARGB(192, 0, 0, 0));
-}
-
-OSD::~OSD() {
-
-}
 
 int OSD::getLine() {
 	currLine++;
@@ -17,7 +9,7 @@ int OSD::getLine() {
 }
 
 void OSD::addLine(string text) {
-	displayList.push_back(text);
+	// OSD::instance.displayList.push_back(text);
 }
 
 void OSD::draw() {
@@ -27,4 +19,8 @@ void OSD::draw() {
 	}
 	dxFont.print(output, 0, 0);
 	displayList.clear();
+}
+void OSD::setGraphics(Graphics* graphics) {
+	dxFont.initialize(graphics, 20, false, false, "Courier New");
+	dxFont.setFontColor(SETCOLOR_ARGB(192, 0, 0, 0));
 }

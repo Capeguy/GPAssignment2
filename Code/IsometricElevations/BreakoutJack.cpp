@@ -64,7 +64,8 @@ void BreakoutJack::initialize(HWND hwnd) {
 	levelController = new LevelController(graphics, this, tileTexture);
 	levelController->loadTiles(tileTexture, this);
 	hud = new HUD(graphics);
-	osd = new OSD(graphics);
+	osd = new OSD();
+	osd->setGraphics(graphics);
 }
 
 //=============================================================================
