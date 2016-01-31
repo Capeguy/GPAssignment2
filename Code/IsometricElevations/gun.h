@@ -28,12 +28,13 @@ protected:
 	int maxAmmo = 10;
 	float cooldown = 0.2f;
 	float cooldowncurrent = 0;
+	int previousOreintation = -1;
 	Projectile* bullet;
 	vector<Projectile*> bullets;
 	Game* gameptr;
 	TextureManager* bulletTexture;
 public:
-
+	enum Orientation { Right, Down, Left, Up };;
 	//explicit
 	Gun ();
 	~Gun ();
