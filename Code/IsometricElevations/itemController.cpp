@@ -9,7 +9,7 @@ ItemController::ItemController(Graphics *graphics) {
 	crateList = new list<Crate*>();
 	itemList = vector<Item*>();
 	levelCrateLoc[0].push_back(VECTOR2(321, 535));
-	levelCrateLoc[0].push_back(VECTOR2(652, 725));
+	levelCrateLoc[0].push_back(VECTOR2(1152, 250));
 }
 
 ItemController::~ItemController() {}
