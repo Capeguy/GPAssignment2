@@ -111,6 +111,7 @@
     <ClCompile Include="machineGun.cpp" />
     <ClCompile Include="messageDialog.cpp" />
     <ClCompile Include="npc.cpp" />
+    <ClCompile Include="OSD.cpp" />
     <ClCompile Include="pistol.cpp" />
     <ClCompile Include="player.cpp" />
     <ClCompile Include="projectile.cpp" />
@@ -146,6 +147,7 @@
     <ClInclude Include="machineGun.h" />
     <ClInclude Include="messageDialog.h" />
     <ClInclude Include="npc.h" />
+    <ClInclude Include="OSD.h" />
     <ClInclude Include="pistol.h" />
     <ClInclude Include="player.h" />
     <ClInclude Include="projectile.h" />

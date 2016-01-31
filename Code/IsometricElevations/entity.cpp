@@ -60,6 +60,10 @@ void Entity::update (float frameTime) {
 	
 	Image::update (frameTime);
 	rotatedBoxReady = false;    // for rotatedBox collision detection
+	bottomLeft = VECTOR2(getX(), getY() - 1 + getHeight() * getScale());
+	bottomRight = VECTOR2(getX() - 1 + getWidth() * 0.5, getY() - 1 + getHeight() * getScale());
+	topLeft = VECTOR2(getX(), getY());
+	topRight = VECTOR2(getX() - 1 + getWidth() * getScale(), getY());
 }
 
 //=============================================================================

@@ -6,7 +6,9 @@ using namespace breakoutJackNS;
 //=============================================================================
 // Constructor
 //=============================================================================
-BreakoutJack::BreakoutJack() {}
+BreakoutJack::BreakoutJack() {
+	
+}
 
 //=============================================================================
 // Destructor
@@ -62,7 +64,7 @@ void BreakoutJack::initialize(HWND hwnd) {
 	levelController = new LevelController(graphics, this, tileTexture);
 	levelController->loadTiles(tileTexture, this);
 	hud = new HUD(graphics);
-
+	osd = new OSD(graphics);
 }
 
 //=============================================================================
@@ -155,7 +157,6 @@ void BreakoutJack::collisions() {
 	*/
 	levelController->collisions();
 }
-
 //=============================================================================
 // Render game items
 //=============================================================================
@@ -163,22 +164,9 @@ void BreakoutJack::render() {
 	graphics->spriteBegin();
 	levelController->render(graphics);
 	player->draw();
-	//print player position
-	int playerBottomLeftX = player->getX();
-	int playerBottomLeftY = player->getY() - 1 + playerNS::PLAYER_HEIGHT * 0.5;
-	int playerBottomRightX = player->getX() - 1 + playerNS::PLAYER_WIDTH * 0.5;
-	int playerBottomRightY = player->getY() - 1 + playerNS::PLAYER_HEIGHT * 0.5;
-	int playerTopLeftX = player->getX();
-	int playerTopLeftY = player->getY();
-	int playerTopRightX = player->getX() - 1 + playerNS::PLAYER_WIDTH * 0.5;
-	int playerTopRightY = player->getY();
-	string text = "Player is at (" + to_string(player->getX()) + ", " + to_string(player->getY()) + ") Can Jump: " + to_string(player->canJump) + " | Can Fall: " + to_string(player->canFall) + " | Jumping: " + to_string(player->jumping) + " | Falling: " + to_string(player->falling) + "\n";
-	text += "(" + to_string(playerTopLeftX) + ", " + to_string(playerTopLeftY) + ") ---- (" + to_string(playerTopRightX) + ", " + to_string(playerTopRightY) + ")" + "\n";
-	text += "  |   ----   |  \n";
-	text += "(" + to_string(playerBottomLeftX) + ", " + to_string(playerBottomLeftY) + ") ---- (" + to_string(playerBottomRightX) + ", " + to_string(playerBottomRightY) + ")";
-	dxFont.print(text, 0, 0);
 	crate.draw();
 	hud->draw();
+	osd->draw();
 	graphics->spriteEnd();
 }
 

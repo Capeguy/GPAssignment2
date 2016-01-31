@@ -13,6 +13,7 @@
 #include "crate.h"
 #include "itemController.h"
 #include "hud.h"
+#include "OSD.h"
 //#include "machineGun.h"
 namespace breakoutJackNS
 {
@@ -65,19 +66,19 @@ private:
 public:
 	LevelController* levelController;
 	// Constructor
-	BreakoutJack ();
+	BreakoutJack();
 	// Destructor
-	virtual ~BreakoutJack ();
+	virtual ~BreakoutJack();
 	// Initialize the game
-	void initialize (HWND hwnd);
-	void update ();      // must override pure virtual from Game
-	void ai ();          // "
-	void collisions ();  // "
-	void render ();      // "
-	void releaseAll ();
-	void resetAll ();
-	bool tileIsSolid (int x, int y);
-	void consoleCommand ();
+	void initialize(HWND hwnd);
+	void update();      // must override pure virtual from Game
+	void ai();          // "
+	void collisions();  // "
+	void render();      // "
+	void releaseAll();
+	void resetAll();
+	bool tileIsSolid(int x, int y);
+	void consoleCommand();
 };
 
 #endif

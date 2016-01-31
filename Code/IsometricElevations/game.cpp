@@ -367,3 +367,6 @@ void Game::deleteAll () {
 	SAFE_DELETE (inputDialog);
 	initialized = false;
 }
+OSD* Game::getOSD() {
+	return osd;
+}
