@@ -16,6 +16,7 @@ Projectile::Projectile() : Entity() {
 	startFrame = 0;
 	currentFrame = startFrame;
 	collisionType = entityNS::BOX;
+	spriteData.scale = 0.5;
 }
 
 Projectile::~Projectile() {

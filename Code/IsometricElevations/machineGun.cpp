@@ -2,8 +2,9 @@
 
 using namespace std;
 MachineGun::MachineGun () : Gun () {
-	ammo = 150;
+	ammo = 100;
 	maxAmmo = 150;
+	id = machineGun;
 	name = "machineGun";
 	Gun ();
 }

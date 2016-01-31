@@ -139,6 +139,7 @@ private:
 	Game* gameptr;
 	TextDX dxFont;
 	ItemController *iController;
+	int crateCollided;
 public:
 	std::list<Projectile*> projectiles;
 	bool debugInfo = false;
@@ -155,6 +156,8 @@ public:
 	ItemController* getIController();
 	void collisions();
 	void addProjectile(Projectile* p);
+	int collidedWithCrate();
+	void setCrateCollided(int col);
 
 };
 #endif

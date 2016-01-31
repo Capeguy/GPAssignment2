@@ -24,6 +24,7 @@ class Gun : public Item // Still an abstract class
 {
 
 protected:
+	int id = 0;
 	int ammo = 10;
 	int maxAmmo = 10;
 	float cooldown = 0.2f;
@@ -44,5 +45,8 @@ public:
 	void collision();
 	bool hasAmmo();
 	string getAmmoDisplay();
+	void addAmmo();
+	int getGunId();
+	enum ItemType { machineGun, shotGun, pistol };
 };
 #endif

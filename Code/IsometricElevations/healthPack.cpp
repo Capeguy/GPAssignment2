@@ -1,6 +1,7 @@
 #include "healthPack.h"
 
 HealthPack::HealthPack () : Item () {
+	type = Usable;
 	spriteData.x = healthPackNS::X;              // location on screen
 	spriteData.y = healthPackNS::Y;
 	startFrame = healthPackNS::START_FRAME;    // first frame of crate animation

@@ -39,14 +39,14 @@ const float MIN_FRAME_TIME = 1.0f / FRAME_RATE;   // minimum desired time for 1 
 const float MAX_FRAME_TIME = 1.0f / MIN_FRAME_RATE; // maximum time used in calculations
 const float FULL_HEALTH = 100;
 const int	NUM_LEVEL = 3;
-
+const int	NUM_ITEMS = 4;
 // graphic images
 const char TEXTURES_IMAGE[] = "pictures\\tileset.png"; // game textures
 //const char TEXTURES_IMAGE[] = "pictures\\textures3.png"; // game textures
 const char TEXTURES2_IMAGE[] = "pictures\\textures2.png"; // game textures
 const char TEXTURE_PLAYER[] = "pictures\\player.png";
 const char TEXTURE_NPC[] = "pictures\\player.png";
-const char TEXTURE_ITEM[] = "pictures\\crate.png";
+const char TEXTURE_ITEM[] = "pictures\\item.png";
 const char TEXTURE_GUNS[] = "pictures\\gun.png";
 const char TEXTURE_HUD_GUN[] = "pictures\\hud_gun.png";
 const char TEXTURE_BULLETS[] = "pictures\\bullet.png";

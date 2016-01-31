@@ -110,3 +110,21 @@ string Gun::getAmmoDisplay() {
 	} else
 		return to_string(ammo);
 }
+void Gun::addAmmo()
+{
+	double a = (double(maxAmmo) / 100.0) * 20.0;
+	int add = (int)(a);
+	if (ammo < maxAmmo)
+	{
+		ammo += add;
+	}
+	if (ammo > maxAmmo)
+	{
+		ammo = maxAmmo;
+	}
+}
+
+int Gun::getGunId()
+{
+	return id;
+}

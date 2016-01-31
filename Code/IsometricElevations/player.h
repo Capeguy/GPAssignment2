@@ -90,5 +90,7 @@ public:
 	void die ();
 	void updateCoords ();
 	Inventory* getInventory();
+	Game* getGamePtr();
+	TextureManager* getTexture();
 };
 #endif
