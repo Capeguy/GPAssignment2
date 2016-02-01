@@ -2,6 +2,7 @@
 
 using namespace std;
 using namespace npcNS;
+#include	<list>
 NPC::NPC() : Entity()
 {
 	//spriteData.width = playerNS::WIDTH;           // size of player ship
@@ -221,9 +222,29 @@ void NPC::moveDown(float frameTime) {
 
 void NPC::ai(float frameTime, Entity &ent) {
 	// MAgic begins
+
+	vector <VECTOR2> pathList = vector<VECTOR2>();;
+	pathList.push_back(VECTOR2(0, 0));
+	pathList.push_back(VECTOR2(50, 50));
+	pathList.push_back(VECTOR2(100, 100));
+
+	VECTOR2 currentLoc;
+	currentLoc = startPoint;
+	VECTOR2 endingPoint;
+	// move
+
+	for (int i = 0; i < pathList.size(); i++)
+	{
+		endingPoint = pathList.at(i);
+		//move
+		currentLoc = endingPoint;
+	}
+
+	//flip and move back
 	if ((int)spriteData.x == (int)endPoint.x && (int)spriteData.y == (int)endPoint.y) {
 		// Awesome!
 		// Popup
+		// move back to original
 	}
 	else {
 		if (spriteData.x > endPoint.x) {
