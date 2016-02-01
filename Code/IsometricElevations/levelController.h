@@ -14,7 +14,7 @@
 #include <vector>
 #include "itemController.h"
 #include "projectile.h"
-// #include "list.h"
+//#include "npcController.h"
 #include <list>
 using namespace std;
 
@@ -145,6 +145,7 @@ private:
 	Game* gameptr;
 	TextDX dxFont;
 	ItemController *iController;
+	// NPCController *npcController;
 	int crateCollided;
 public:
 	std::list<Projectile*> projectiles;
@@ -154,6 +155,7 @@ public:
 	LevelController (Graphics*& g, Game* gp, TextureManager* tt);
 	~LevelController ();
 	Tile* getTile (float x, float y);
+	Tile* getTile(VECTOR2 v);
 	void loadTiles (TextureManager* tt, Game* gameptr);
 	void renderTiles (Graphics* graphics);
 	void render(Graphics* graphics);

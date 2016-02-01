@@ -49,7 +49,7 @@ protected:
 	float	hp;
 	float	hpMax;
 	Game*	gameptr;
-	TextureManager gunTexture;
+	TextureManager npcTexture;
 	MachineGun machineGun;
 	Pistol	pistol;
 	Shotgun shotgun;
@@ -57,6 +57,10 @@ protected:
 	float	jumpdistance = 0;
 	VECTOR2 startPoint;
 	VECTOR2 endPoint;
+	VECTOR2 currLoc;
+	VECTOR2 currDest;
+	int pathCount;
+
 
 public:
 	bool canJump = true;
@@ -67,15 +71,6 @@ public:
 	bool canMoveRight = true;
 	bool canMoveUp = true;
 	bool canMoveDown = true;
-
-	float npcBottomLeftX;
-	float npcBottomLeftY;
-	float npcBottomRightX;
-	float npcBottomRightY;
-	float npcTopLeftX;
-	float npcTopLeftY;
-	float npcTopRightX;
-	float npcTopRightY;
 	//explicit
 	NPC();
 	~NPC();
@@ -96,6 +91,5 @@ public:
 	void damage(Projectile p);
 	void healthUpdate();
 	void die();
-	void updateCoords();
 };
 #endif

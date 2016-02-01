@@ -8,6 +8,7 @@ LevelController::LevelController(Graphics*& graphics, Game* gp, TextureManager* 
 	dxFont.initialize(graphics, 12, false, false, "Courier New");
 	dxFont.setFontColor(SETCOLOR_ARGB(192, 255, 255, 255));
 	iController = new ItemController(graphics);
+	//npcController = new NPCController(graphics);
 	projectiles = list<Projectile*>();
 	crateCollided = 0;
 }
@@ -17,6 +18,12 @@ LevelController::~LevelController() {}
 Tile* LevelController::getTile(float x, float y) {
 	int tileX = (int)(floor(x) / TEXTURE_SIZE);
 	int tileY = (int)(floor(y) / TEXTURE_SIZE);
+	return mapTile[tileY][tileX];
+}
+
+Tile* LevelController::getTile(VECTOR2 v) {
+	int tileX = (int)(floor(v.x) / TEXTURE_SIZE);	
+	int tileY = (int)(floor(v.y) / TEXTURE_SIZE);
 	return mapTile[tileY][tileX];
 }
 
@@ -39,6 +46,7 @@ void LevelController::loadTiles(TextureManager* tt, Game* gameptr) {
 void LevelController::render(Graphics* graphics) {
 	renderTiles(graphics);
 	renderProjectiles(graphics);
+	//npcController->render();
 }
 
 void LevelController::renderProjectiles(Graphics* graphics) {
@@ -80,6 +88,7 @@ void LevelController::update(float frameTime) {
 		bullet->update(frameTime);
 	}
 	iController->update(frameTime);
+	//npcController->update(frameTime);
 }
 
 ItemController* LevelController::getIController() {
