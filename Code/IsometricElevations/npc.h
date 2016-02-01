@@ -16,7 +16,7 @@
 #include "shotgun.h"
 #include "pistol.h"
 #include "levelController.h"
-
+// TODO: Create an NPCController to control the spawning of NPCs
 using namespace std;
 
 namespace npcNS
@@ -39,12 +39,12 @@ namespace npcNS
 
 class NPC : public Entity // Still an abstract class
 {
-	enum NPCOrientation { right, down, left, up };
+	enum NPCOrientation { Right, Down, Left, Up };
 	enum NPCHealthStatus { Alive, Dead };
 protected:
 	bool	jump = false;
 	bool	doubleJump = false;
-	int		orientation = right;
+	int		orientation = Right;
 	int		healthStatus = Alive;
 	float	hp;
 	float	hpMax;
@@ -89,6 +89,7 @@ public:
 	void moveUp(float frameTime);
 	void moveDown(float frameTime);
 	void ai(float frameTime, Entity & ent);
+	// TODO: Make NPC AI walk between 2 points / cycle between points in a vector array
 	void setFalling(bool f);
 	void damage(float amt);
 	void damage(Weapon w);

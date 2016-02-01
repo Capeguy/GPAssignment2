@@ -5,7 +5,10 @@
 
 #include "constants.h"
 #include "item.h"
-
+#include <vector>
+#include "projectile.h"
+#include "list.h"
+#include "levelController.h"
 using namespace std;
 
 /*
@@ -21,16 +24,30 @@ class Gun : public Item // Still an abstract class
 {
 
 protected:
+	int id = 0;
 	int ammo = 10;
 	int maxAmmo = 10;
 	float cooldown = 0.2f;
+	float cooldowncurrent = 0;
+	int previousOreintation = -1;
+	Projectile* bullet;
+	vector<Projectile*> bullets;
+	Game* gameptr;
+	TextureManager* bulletTexture;
 public:
-
+	enum Orientation { Right, Down, Left, Up };;
 	//explicit
 	Gun ();
 	~Gun ();
 	bool initialize (Game * gamePtr, int width, int height, int ncols, TextureManager * textureM);
-	bool Shoot ();
-	void update (float frametime, int orientation, float x, float y);
+	bool Shoot(); // Deprecated
+	void update (float frametime, int orientation, float x, float y, Input* input, LevelController* lc);
+	void draw();
+	void collision();
+	bool hasAmmo();
+	string getAmmoDisplay();
+	void addAmmo();
+	int getGunId();
+	enum ItemType { machineGun, shotGun, pistol };
 };
 #endif

@@ -10,9 +10,10 @@
 #include "image.h"
 #include "player.h"
 #include "levelController.h"
-#include "npc.h"
 #include "crate.h"
 #include "itemController.h"
+#include "hud.h"
+#include "OSD.h"
 //#include "machineGun.h"
 namespace breakoutJackNS
 {
@@ -50,36 +51,35 @@ private:
 	// game items
 	TextureManager textures;    // textures
 	TextureManager textures2;   // object texture
-	TextureManager playerTexture; // player texture
-	TextureManager npcTexture;	// npc texture
-    Image   mapTile;
-    Image   tree;
-	TextureManager tileTexture;
-	TextureManager gunTexture;
+	TextureManager* playerTexture; // player texture
+	TextureManager* tileTexture;
 	TextureManager itemTexture;		// item texture
+	Image   mapTile;
 	Crate crate;
 	TextDX	dxFont;
 	COLOR_ARGB fontColor;
 	RECT	textRect;
-	Player player;
-	NPC npc;
-	LevelController* levelController;
+	Player* player;
+	HUD* hud;
+	//MachineGun machineGun;
 
 public:
+	LevelController* levelController;
 	// Constructor
-	BreakoutJack ();
+	BreakoutJack();
 	// Destructor
-	virtual ~BreakoutJack ();
+	virtual ~BreakoutJack();
 	// Initialize the game
-	void initialize (HWND hwnd);
-	void update ();      // must override pure virtual from Game
-	void ai ();          // "
-	void collisions ();  // "
-	void render ();      // "
-	void releaseAll ();
-	void resetAll ();
-	bool tileIsSolid (int x, int y);
-	void consoleCommand ();
+	void initialize(HWND hwnd);
+	void update();      // must override pure virtual from Game
+	void ai();          // "
+	void collisions();  // "
+	void render();      // "
+	void releaseAll();
+	void resetAll();
+	bool tileIsSolid(int x, int y);
+	void consoleCommand();
 };
 
 #endif
+// TODO: Ensure all classes have proper memory deallocation in destructor

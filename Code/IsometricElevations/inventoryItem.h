@@ -17,14 +17,16 @@ class InventoryItem
 {
 private:
 	int count;
-	Item item;
+	Item* item;
 
 public:
-	InventoryItem(Item i);
-	InventoryItem(Item i, int cnt);
+	InventoryItem();
+	InventoryItem(Item* i);
+	InventoryItem(Item*& i, int cnt);
 
 	~InventoryItem();
 
 	void update(float frameTime);
+	Item* getItem();
 };
 #endif

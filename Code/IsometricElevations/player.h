@@ -18,11 +18,11 @@ namespace playerNS
 {
 	const int	X = 0;
 	const int	Y = 0;
-	const float SPEED = 200;
-	const float FALLING_SPEED = 120;
+	const float SPEED = 32 * 4;
+	const float FALLING_SPEED = 32 * 2;
 	const float MASS = 300.0f;
-	const float JUMP_HEIGHT = 32;
-	const float JUMP_SPEED = 200;
+	const float JUMP_HEIGHT = 32 * 1.5;
+	const float JUMP_SPEED = 32 * 4;
 	const int   TEXTURE_SIZE = 64;
 	const int   TEXTURE_COLS = 32;
 	const int   PLAYER_START_FRAME = 952;
@@ -36,23 +36,25 @@ namespace playerNS
 
 
 class Player : public Entity {
-	enum PlayerOrientation { right, down, left, up };
+	enum PlayerOrientation { Right, Down, Left, Up };
 	enum PlayerHealthStatus { Alive, Dead };
 private:
 
 	bool	doubleJump = false;
-
-	int		orientation = right;
+	int		orientation = Right;
 	int		healthStatus = Alive;
 	float	hp;
 	float	hpMax;
 	Game*	gameptr;
-	TextureManager gunTexture;
-	MachineGun machineGun;
-	Pistol	pistol;
-	Shotgun shotgun;
-	Inventory inventory;
+	TextureManager* gunTexture;
+	Inventory* inventory;
 	float	jumpdistance = 0;
+
+
+	MachineGun* machineGun;
+	Pistol* pistol;
+	Shotgun * shotgun;
+	InventoryItem* defaultItem;
 
 public:
 	bool canJump = true;
@@ -79,6 +81,7 @@ public:
 	virtual void draw ();
 	virtual bool initialize (Game *gamePtr, int width, int height, int ncols, TextureManager *textureM);
 	void update (float frameTime, LevelController* lc);
+	// TODO: Make player jumping and falling non-linear
 	void setFalling (bool f);
 	void damage (float amt);
 	void damage (Weapon w);
@@ -86,5 +89,8 @@ public:
 	void healthUpdate ();
 	void die ();
 	void updateCoords ();
+	Inventory* getInventory();
+	Game* getGamePtr();
+	TextureManager* getTexture();
 };
 #endif

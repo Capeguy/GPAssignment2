@@ -48,18 +48,6 @@ bool NPC::initialize(Game *gamePtr, int width, int height, int ncols, TextureMan
 	endPoint = VECTOR2(GAME_WIDTH / 2, GAME_HEIGHT / 2);
 	if (!gunTexture.initialize(gamePtr->getGraphics(), TEXTURE_GUNS))
 		throw(GameError(gameErrorNS::FATAL_ERROR, "Error initializing gun texture"));
-	pistol.initialize(gameptr, 136, 41, 2, &gunTexture);
-	pistol.setCurrentFrame(8);
-	machineGun.initialize(gameptr, 136, 41, 2, &gunTexture);
-	machineGun.setCurrentFrame(0);
-	shotgun.initialize(gameptr, 136, 41, 2, &gunTexture);
-	shotgun.setCurrentFrame(6);
-	InventoryItem* iItem = new InventoryItem(machineGun);
-	inventory.addItem(*iItem);
-	// Give default pistol
-	Pistol pistol = Pistol();
-
-
 	return(Entity::initialize(gamePtr, width, height, ncols, textureM));
 }
 void NPC::draw()
@@ -91,14 +79,14 @@ void NPC::update(float frameTime, LevelController* lc)
 		while (lc->getTile(spriteData.x + 31, spriteData.y)->isSolid() || lc->getTile(spriteData.x + 31, spriteData.y + 31)->isSolid()) {
 			spriteData.x -= frameTime * npcNS::FALLING_SPEED;
 		}
-		orientation = right;
+		orientation = Right;
 	}
 	if (input->isKeyDown(NPC_LEFT) && canMoveLeft) {
 		spriteData.x -= frameTime * npcNS::SPEED;
 		while (lc->getTile(spriteData.x, spriteData.y)->isSolid() || lc->getTile(spriteData.x, spriteData.y + 31)->isSolid()) {
 			spriteData.x += frameTime * npcNS::FALLING_SPEED;
 		}
-		orientation = left;
+		orientation = Left;
 	}
 	if (jumping || ((input->isKeyDown(NPC_JUMP) || input->isKeyDown(NPC_UP)) && canMoveUp && canJump)) {
 		if (!jumping && canJump)
@@ -116,9 +104,10 @@ void NPC::update(float frameTime, LevelController* lc)
 			while (lc->getTile(spriteData.x, spriteData.y)->isSolid() || lc->getTile(spriteData.x + 31, spriteData.y)->isSolid()) {
 				spriteData.y += frameTime * npcNS::FALLING_SPEED;
 			}
-			orientation = up;
+			orientation = Up;
 		}
 	}
+	/*
 	if (spriteData.y > 0 && !input->isKeyDown(NPC_JUMP) && !input->isKeyDown(NPC_UP) && !input->isKeyDown(NPC_LEFT) && !input->isKeyDown(NPC_RIGHT)) {
 		// Get Bottom left bottom right
 		// Get Tile at that location y + 1 pixel
@@ -127,6 +116,7 @@ void NPC::update(float frameTime, LevelController* lc)
 		//orientation = down;
 		machineGun.update(frameTime, orientation, spriteData.x, spriteData.y);
 	}
+	*/
 	if (falling && !jumping) {
 		Tile* tileA = lc->getTile(npcBottomLeftX, npcBottomLeftY + 1);
 		Tile* tileB = lc->getTile(npcBottomRightX, npcBottomRightY + 1);
@@ -143,18 +133,18 @@ void NPC::update(float frameTime, LevelController* lc)
 	// spriteData.y = (int)spriteData.y;
 
 	switch (orientation) {
-	case right:
+	case Right:
 		currentFrame = 953;
 		spriteData.flipHorizontal = true;
 		break;
-	case down:
+	case Down:
 		currentFrame = 954;
 		break;
-	case left:
+	case Left:
 		currentFrame = 953;
 		spriteData.flipHorizontal = false;
 		break;
-	case up:
+	case Up:
 		currentFrame = 952;
 		break;
 	}
@@ -169,7 +159,7 @@ void NPC::update(float frameTime, LevelController* lc)
 	if (spriteData.y > GAME_HEIGHT - playerNS::TEXTURE_SIZE)
 	spriteData.y = GAME_HEIGHT - playerNS::TEXTURE_SIZE;
 	*/
-	pistol.update(frameTime, orientation, spriteData.x, spriteData.y);
+	//pistol.update(frameTime, orientation, spriteData.x, spriteData.y);
 	Entity::update(frameTime);
 	//update gun
 }

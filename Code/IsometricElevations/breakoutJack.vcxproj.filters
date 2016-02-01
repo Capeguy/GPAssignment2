@@ -106,6 +106,10 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="npcController.cpp">
+    <ClCompile Include="hud.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="OSD.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -204,6 +208,10 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="npcController.h">
+    <ClInclude Include="hud.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="OSD.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

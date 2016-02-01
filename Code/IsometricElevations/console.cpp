@@ -8,7 +8,7 @@
 //=============================================================================
 // Constructor
 //=============================================================================
-Console::Console () {
+Console::Console() {
 	initialized = false;                // set true when successfully initialized
 	graphics = NULL;
 	visible = false;                    // not visible
@@ -33,14 +33,14 @@ Console::Console () {
 //=============================================================================
 // Destructor
 //=============================================================================
-Console::~Console () {
-	onLostDevice ();            // call onLostDevice() for every graphics item
+Console::~Console() {
+	onLostDevice();            // call onLostDevice() for every graphics item
 }
 
 //=============================================================================
 // Initialize the console
 //=============================================================================
-bool Console::initialize (Graphics *g, Input *in) {
+bool Console::initialize(Graphics *g, Input *in) {
 	try {
 		graphics = g;                    // the graphics system
 		input = in;
@@ -73,13 +73,13 @@ bool Console::initialize (Graphics *g, Input *in) {
 		vtx[3].rhw = 1.0f;
 		vtx[3].color = backColor;
 
-		graphics->createVertexBuffer (vtx, sizeof vtx, vertexBuffer);
+		graphics->createVertexBuffer(vtx, sizeof vtx, vertexBuffer);
 
 		// initialize DirectX font
-		if (dxFont.initialize (graphics, consoleNS::FONT_HEIGHT, false,
-							   false, consoleNS::FONT) == false)
+		if (dxFont.initialize(graphics, consoleNS::FONT_HEIGHT, false,
+							  false, consoleNS::FONT) == false)
 			return false;      // if failed
-		dxFont.setFontColor (fontColor);
+		dxFont.setFontColor(fontColor);
 
 	} catch (...) {
 		return false;
@@ -93,22 +93,22 @@ bool Console::initialize (Graphics *g, Input *in) {
 // draw console
 // Pre: Inside BeginScene/EndScene
 //=============================================================================
-const void Console::draw () {
+const void Console::draw() {
 	if (!visible || graphics == NULL || !initialized)
 		return;
 
-	graphics->drawQuad (vertexBuffer);       // draw backdrop
-	if (text.size () == 0)
+	graphics->drawQuad(vertexBuffer);       // draw backdrop
+	if (text.size() == 0)
 		return;
 
-	graphics->spriteBegin ();                // Begin drawing sprites
+	graphics->spriteBegin();                // Begin drawing sprites
 
 	// display text on console
 	textRect.left = 0;
 	textRect.top = 0;
 
 	// sets textRect bottom to height of 1 row
-	dxFont.print ("|", textRect, DT_CALCRECT);
+	dxFont.print("|", textRect, DT_CALCRECT);
 	int rowHeight = textRect.bottom + 2;    // height of 1 row (+2 is row spacing)
 	if (rowHeight <= 0)                      // this should never be true
 		rowHeight = 20;                     // force a workable result
@@ -125,11 +125,11 @@ const void Console::draw () {
 	// -2*rowHeight is room for input prompt
 	textRect.bottom = (long)(y + consoleNS::HEIGHT - 2 * consoleNS::MARGIN - 2 * rowHeight);
 	// for all rows (max text.size()) from bottom to top
-	for (int r = scrollAmount; r < rows + scrollAmount && r < (int)(text.size ()); r++) {
+	for (int r = scrollAmount; r < rows + scrollAmount && r < (int)(text.size()); r++) {
 		// set text display rect top for this row
 		textRect.top = textRect.bottom - rowHeight;
 		// display one row of text
-		dxFont.print (text[r], textRect, DT_LEFT);
+		dxFont.print(text[r], textRect, DT_LEFT);
 		// adjust text display rect bottom for next row
 		textRect.bottom -= rowHeight;
 	}
@@ -139,20 +139,21 @@ const void Console::draw () {
 	textRect.bottom = (long)(y + consoleNS::HEIGHT - consoleNS::MARGIN);
 	textRect.top = textRect.bottom - rowHeight;
 	std::string prompt = ">";                   // build prompt string
-	prompt += input->getTextIn ();
-	dxFont.print (prompt, textRect, DT_LEFT);      // display prompt and command
+	prompt += input->getTextIn();
+	dxFont.print(prompt, textRect, DT_LEFT);      // display prompt and command
 
 	graphics->spriteEnd ();                      // End drawing sprites
+	
 }
 
 //=============================================================================
 // show/hide console
 //=============================================================================
-void Console::showHide () {
+void Console::showHide() {
 	if (!initialized)
 		return;
 	visible = !visible;
-	input->clear (inputNS::KEYS_PRESSED | inputNS::TEXT_IN);    // erase old input
+	input->clear(inputNS::KEYS_PRESSED | inputNS::TEXT_IN);    // erase old input
 }
 
 
@@ -160,13 +161,13 @@ void Console::showHide () {
 // Add text to console
 // Only the first line of text in str will be displayed.
 //=============================================================================
-void Console::print (const std::string &str)     // add text to console
+void Console::print(const std::string &str)     // add text to console
 {
 	if (!initialized)
 		return;
-	text.push_front (str);                       // add str to deque of text
-	if (text.size () > consoleNS::MAX_LINES)
-		text.pop_back ();                        // delete oldest line
+	text.push_front(str);                       // add str to deque of text
+	if (text.size() > consoleNS::MAX_LINES)
+		text.pop_back();                        // delete oldest line
 }
 
 //=============================================================================
@@ -174,46 +175,46 @@ void Console::print (const std::string &str)     // add text to console
 // Handles console single key commands.
 // Returns all other commands to game.
 //=============================================================================
-std::string Console::getCommand () {
+std::string Console::getCommand() {
 	// if console not initialized or not visible
 	if (!initialized || !visible)
 		return "";
 
 	//check for console key
-	if (input->wasKeyPressed (CONSOLE_KEY))
-		hide ();                                 // turn off console
+	if (input->wasKeyPressed(CONSOLE_KEY))
+		hide();                                 // turn off console
 
 	//check for Esc key
-	if (input->wasKeyPressed (ESC_KEY))
+	if (input->wasKeyPressed(ESC_KEY))
 		return "";
 
 	// check for scroll
-	if (input->wasKeyPressed (VK_UP))            // if up arrow
+	if (input->wasKeyPressed(VK_UP))            // if up arrow
 		scrollAmount++;
-	else if (input->wasKeyPressed (VK_DOWN))     // if down arrow
+	else if (input->wasKeyPressed(VK_DOWN))     // if down arrow
 		scrollAmount--;
-	else if (input->wasKeyPressed (VK_PRIOR))    // if page up
+	else if (input->wasKeyPressed(VK_PRIOR))    // if page up
 		scrollAmount += rows;
-	else if (input->wasKeyPressed (VK_NEXT))     // if page down
+	else if (input->wasKeyPressed(VK_NEXT))     // if page down
 		scrollAmount -= rows;
 	if (scrollAmount < 0)
 		scrollAmount = 0;
 	if (scrollAmount > consoleNS::MAX_LINES - 1)
 		scrollAmount = consoleNS::MAX_LINES - 1;
-	if (scrollAmount > (int)(text.size ()) - 1)
-		scrollAmount = (int)(text.size ()) - 1;
+	if (scrollAmount > (int)(text.size()) - 1)
+		scrollAmount = (int)(text.size()) - 1;
 
-	commandStr = input->getTextIn ();            // get user entered text
+	commandStr = input->getTextIn();            // get user entered text
 	// do not pass keys through to game
-	input->clear (inputNS::KEYS_DOWN | inputNS::KEYS_PRESSED | inputNS::MOUSE);
+	input->clear(inputNS::KEYS_DOWN | inputNS::KEYS_PRESSED | inputNS::MOUSE);
 
-	if (commandStr.length () == 0)               // if no command entered
+	if (commandStr.length() == 0)               // if no command entered
 		return "";
-	if (commandStr.at (commandStr.length () - 1) != '\r')   // if 'Enter' key not pressed
+	if (commandStr.at(commandStr.length() - 1) != '\r')   // if 'Enter' key not pressed
 		return "";                              // return, can't be command
 
-	commandStr.erase (commandStr.length () - 1);    // erase '\r' from end of command string
-	input->clearTextIn ();                       // clear input line
+	commandStr.erase(commandStr.length() - 1);    // erase '\r' from end of command string
+	input->clearTextIn();                       // clear input line
 	inputStr = commandStr;                      // save input text
 	return commandStr;                          // return command
 }
@@ -222,23 +223,23 @@ std::string Console::getCommand () {
 //=============================================================================
 // called when graphics device is lost
 //=============================================================================
-void Console::onLostDevice () {
+void Console::onLostDevice() {
 	if (!initialized)
 		return;
-	dxFont.onLostDevice ();
-	SAFE_RELEASE (vertexBuffer);
+	dxFont.onLostDevice();
+	SAFE_RELEASE(vertexBuffer);
 }
 
 //=============================================================================
 // called when graphics device is reset
 //=============================================================================
-void Console::onResetDevice () {
+void Console::onResetDevice() {
 	if (!initialized)
 		return;
-	graphics->createVertexBuffer (vtx, sizeof vtx, vertexBuffer);
-	dxFont.onResetDevice ();
+	graphics->createVertexBuffer(vtx, sizeof vtx, vertexBuffer);
+	dxFont.onResetDevice();
 }
 
-Console* Console::getInstance () {
+Console* Console::getInstance() {
 	return nullptr;
 }

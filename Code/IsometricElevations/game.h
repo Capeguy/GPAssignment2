@@ -18,6 +18,7 @@
 #include "gameError.h"
 #include "messageDialog.h"
 #include "inputDialog.h"
+#include "OSD.h"
 
 
 namespace gameNS
@@ -33,7 +34,7 @@ protected:
 	Graphics *graphics;             // pointer to Graphics
 	Input   *input;                 // pointer to Input
 	Audio   *audio;                 // pointer to Audio
-	Console *console;               // pointer to Console
+	               // pointer to Console
 	MessageDialog *messageDialog;   // pointer to MessageDialog
 	InputDialog *inputDialog;       // pointer to InputDialog
 	HWND    hwnd;                   // window handle
@@ -52,14 +53,17 @@ protected:
 	std::string  command;           // command from console
 
 
+	OSD* osd;
 	bool drawTileNo = true;
 
 public:
+	Console *console;
 	// Constructor
 	Game ();
 	// Destructor
 	virtual ~Game ();
 
+	OSD* getOSD();
 	// Member functions
 	// Window message handler
 	LRESULT messageHandler (HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam);

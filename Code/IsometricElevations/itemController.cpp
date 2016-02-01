@@ -1,61 +1,48 @@
 #include "itemController.h"
 
-ItemController::ItemController()
-{
-}
+ItemController::ItemController() {}
 
-ItemController::ItemController(Graphics *graphics)
-{
-	// item texture initialize
+ItemController::ItemController(Graphics *graphics) {
 	itemTexture = new TextureManager();
 	if (!itemTexture->initialize(graphics, TEXTURE_ITEM))
 		throw(GameError(gameErrorNS::FATAL_ERROR, "Error initializing item texture"));
-	crateList = vector<Crate*>();
-	levelCrateLoc[0].push_back(VECTOR2(321, 508));
-	levelCrateLoc[0].push_back(VECTOR2(652, 704));
-};
+	crateList = new list<Crate*>();
+	itemList = vector<Item*>();
+	levelCrateLoc[0].push_back(VECTOR2(321, 535));
+	levelCrateLoc[0].push_back(VECTOR2(1152, 250));
+}
 
-void ItemController::spawnCrates(int level, Game *gamePtr)
-{
-	vector<VECTOR2> crateLoc = levelCrateLoc[level - 1];
-	for (int i = 0; i < crateLoc.size(); i++)
-	{
+ItemController::~ItemController() {}
+
+void ItemController::spawnCrates(int level, Game *gamePtr) {
+	list<VECTOR2> crateLocations = levelCrateLoc[level - 1];
+	for (list<VECTOR2>::iterator crateLocationIter = crateLocations.begin(); crateLocationIter != crateLocations.end(); ++crateLocationIter) {
 		Crate* c = new Crate();
 		c->initialize(gamePtr, itemTexture);
-		c->setX(crateLoc.at(i).x);
-		c->setY(crateLoc.at(i).y);
-		crateList.push_back(c);
+		c->setX((*crateLocationIter).x);
+		c->setY((*crateLocationIter).y);
+		crateList->push_back(c);
 	}
 }
 
-void ItemController::update(float frameTime)
-{
-	for (int i = 0; i < crateList.size(); i++)
-	{
-		crateList.at(i)->update(frameTime);
+void ItemController::spawnItem(Game *gamePtr, int x, int y) {
+}
+
+void ItemController::update(float frameTime) {
+	for (list<Crate*>::iterator it = crateList->begin(); it != crateList->end(); ++it) {
+		(*it)->update(frameTime);
 	}
 }
 
-void ItemController::render()
-{
-	for (int i = 0; i < crateList.size(); i++)
-	{
-		Crate* c = crateList.at(i);
-		c->draw();
+void ItemController::render() {
+	for (list<Crate*>::iterator it = crateList->begin(); it != crateList->end(); ++it) {
+		(*it)->draw();
 	}
 }
 
-/*void ItemController::collisions(Player *player)
-{
-	VECTOR2 collisionVector;
-	/*for (int i = 0; i < crateList.size(); i++)
-	{
-		Crate* c = crateList.at(i);
-		if (player->collidesWith(c, collisionVector)) 
-		{
-			player->bounce(collisionVector, c);
-		}
-	}
-	
-	}
-}*/
+list<Crate*>* ItemController::getCrateList() {
+	return crateList;
+}
+void ItemController::collisions() {
+
+}

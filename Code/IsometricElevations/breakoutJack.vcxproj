@@ -60,6 +60,7 @@
       <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
       <WarningLevel>Level3</WarningLevel>
       <DebugInformationFormat>EditAndContinue</DebugInformationFormat>
+      <RuntimeTypeInfo>true</RuntimeTypeInfo>
     </ClCompile>
     <Link>
       <AdditionalDependencies>d3d9.lib;d3dx9.lib;winmm.lib;xinput.lib;%(AdditionalDependencies)</AdditionalDependencies>
@@ -77,6 +78,7 @@
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <WarningLevel>Level3</WarningLevel>
       <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
+      <RuntimeTypeInfo>true</RuntimeTypeInfo>
     </ClCompile>
     <Link>
       <AdditionalDependencies>d3d9.lib;d3dx9.lib;winmm.lib;xinput.lib;%(AdditionalDependencies)</AdditionalDependencies>
@@ -98,6 +100,7 @@
     <ClCompile Include="graphics.cpp" />
     <ClCompile Include="gun.cpp" />
     <ClCompile Include="healthPack.cpp" />
+    <ClCompile Include="hud.cpp" />
     <ClCompile Include="inputDialog.cpp" />
     <ClCompile Include="inventory.cpp" />
     <ClCompile Include="inventoryItem.cpp" />
@@ -109,6 +112,7 @@
     <ClCompile Include="messageDialog.cpp" />
     <ClCompile Include="npc.cpp" />
     <ClCompile Include="npcController.cpp" />
+    <ClCompile Include="OSD.cpp" />
     <ClCompile Include="pistol.cpp" />
     <ClCompile Include="player.cpp" />
     <ClCompile Include="projectile.cpp" />
@@ -133,6 +137,7 @@
     <ClInclude Include="graphics.h" />
     <ClInclude Include="gun.h" />
     <ClInclude Include="healthPack.h" />
+    <ClInclude Include="hud.h" />
     <ClInclude Include="inputDialog.h" />
     <ClInclude Include="inventory.h" />
     <ClInclude Include="inventoryItem.h" />
@@ -144,6 +149,7 @@
     <ClInclude Include="messageDialog.h" />
     <ClInclude Include="npc.h" />
     <ClInclude Include="npcController.h" />
+    <ClInclude Include="OSD.h" />
     <ClInclude Include="pistol.h" />
     <ClInclude Include="player.h" />
     <ClInclude Include="projectile.h" />

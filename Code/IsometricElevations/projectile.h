@@ -4,6 +4,7 @@
 #define WIN32_LEAN_AND_MEAN
 
 #include "entity.h"
+#include "list.h"
 #include "constants.h"
 
 namespace projectileNS
@@ -20,5 +21,6 @@ public:
 	virtual void draw ();
 	virtual bool initialize (Game *gamePtr, int width, int height, int ncols, TextureManager *textureM);
 	void update (float frameTime);
+	void collision();
 };
 #endif
