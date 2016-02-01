@@ -14,13 +14,14 @@ namespace projectileNS
 
 class Projectile : public Entity {
 private:
-
+	double damage;
 public:
 	Projectile ();
 	~Projectile ();
 	virtual void draw ();
-	virtual bool initialize (Game *gamePtr, int width, int height, int ncols, TextureManager *textureM);
+	virtual bool initialize (Game *gamePtr, int width, int height, int ncols, TextureManager *textureM, double dmg = 0);
 	void update (float frameTime);
 	void collision();
+	double getDamage();
 };
 #endif

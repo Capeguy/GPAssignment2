@@ -12,18 +12,17 @@ namespace npcControllerNS
 {
 }
 
-class NPCController: public Entity
+class NPCController
 {
 private:
-	//vector<VECTOR2> levelCrateLoc[NUM_LEVEL];
-	//vector<Crate*> crateList;
 	TextureManager* npcTexture;
+	//list<Entity*> npcs;
 public:
 	NPCController();
 	NPCController(Graphics*);
 	void spawnNPCs(int, Game*);
 	void update(float);
 	void render();
-	//void collisions();
+	void collisions();
 };
 #endif

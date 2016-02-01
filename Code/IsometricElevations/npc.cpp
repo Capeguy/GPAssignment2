@@ -3,8 +3,7 @@
 using namespace std;
 using namespace npcNS;
 #include	<list>
-NPC::NPC() : Entity()
-{
+NPC::NPC() : Entity() {
 	//spriteData.width = playerNS::WIDTH;           // size of player ship
 	//spriteData.height = playerNS::HEIGHT;
 	spriteData.x = npcNS::X;                   // location on screen
@@ -27,50 +26,34 @@ NPC::NPC() : Entity()
 	e.bottom = npcNS::NPC_HEIGHT / 2;
 	e.top = -npcNS::NPC_HEIGHT / 2;
 	setEdge(e);
-
-	npcBottomLeftX = getX();
-	npcBottomLeftY = getY() - 1 + npcNS::NPC_HEIGHT * 0.5;
-	npcBottomRightX = getX() - 1 + npcNS::NPC_WIDTH * 0.5;
-	npcBottomRightY = getY() - 1 + npcNS::NPC_HEIGHT * 0.5;
-	npcTopLeftX = getX();
-	npcTopLeftY = getY();
-	npcTopRightX = getX() - 1 + npcNS::NPC_WIDTH * 0.5;
-	npcTopRightY = getY();
 }
 
-NPC::~NPC () {
+NPC::~NPC() {
 
 }
-bool NPC::initialize(Game *gamePtr, int width, int height, int ncols, TextureManager *textureM)
-{
+bool NPC::initialize(Game *gamePtr, int width, int height, int ncols, TextureManager *textureM) {
 	gameptr = gamePtr;
-	startPoint = VECTOR2(spriteData.x, spriteData.y);
-	endPoint = VECTOR2(GAME_WIDTH / 2, GAME_HEIGHT / 2);
-	if (!gunTexture.initialize(gamePtr->getGraphics(), TEXTURE_GUNS))
-		throw(GameError(gameErrorNS::FATAL_ERROR, "Error initializing gun texture"));
+	if (!npcTexture.initialize(gamePtr->getGraphics(), TEXTURE_NPC))
+		throw(GameError(gameErrorNS::FATAL_ERROR, "Error initializing npc texture"));
+	currDest = VECTOR2(-1, -1);
 	return(Entity::initialize(gamePtr, width, height, ncols, textureM));
 }
-void NPC::draw()
-{
+void NPC::draw() {
 
 	//spriteData.scale = 0.5;
 	Image::draw();              // draw ship
 	pistol.draw();
 }
-void NPC::update(float frameTime, LevelController* lc)
-{
+void NPC::update(float frameTime, LevelController* lc) {
 	ai(frameTime, *this);
-	
-	updateCoords();
-	Tile* leftTile = lc->getTile(npcBottomLeftX, npcBottomLeftY + 1);
-	Tile* rightTile = lc->getTile(npcBottomRightX, npcBottomRightY + 1);
+	Tile* leftTile = lc->getTile(bottomLeft.x, bottomLeft.y + 1);
+	Tile* rightTile = lc->getTile(bottomRight.x, bottomRight.y + 1);
 	if (leftTile->isSolid() || rightTile->isSolid()) {
 		if (!input->isKeyDown(NPC_UP) && !input->isKeyDown(NPC_JUMP))
 			canJump = true;
 		canFall = false;
 		falling = false;
-	}
-	else {
+	} else {
 		canFall;
 		falling = true;
 	}
@@ -95,8 +78,7 @@ void NPC::update(float frameTime, LevelController* lc)
 			jumping = false;
 			canJump = false;
 			falling = true;
-		}
-		else {
+		} else {
 			jumping = true;
 			canJump = false;
 			jumpdistance += frameTime * npcNS::JUMP_SPEED;
@@ -107,61 +89,35 @@ void NPC::update(float frameTime, LevelController* lc)
 			orientation = Up;
 		}
 	}
-	/*
-	if (spriteData.y > 0 && !input->isKeyDown(NPC_JUMP) && !input->isKeyDown(NPC_UP) && !input->isKeyDown(NPC_LEFT) && !input->isKeyDown(NPC_RIGHT)) {
-		// Get Bottom left bottom right
-		// Get Tile at that location y + 1 pixel
-		// If Tile is not solid
-
-		//orientation = down;
-		machineGun.update(frameTime, orientation, spriteData.x, spriteData.y);
-	}
-	*/
 	if (falling && !jumping) {
-		Tile* tileA = lc->getTile(npcBottomLeftX, npcBottomLeftY + 1);
-		Tile* tileB = lc->getTile(npcBottomRightX, npcBottomRightY + 1);
+		Tile* tileA = lc->getTile(bottomLeft.x, bottomLeft.y + 1);
+		Tile* tileB = lc->getTile(bottomRight.x, bottomRight.y + 1);
 		if (!tileA->isSolid() && !tileB->isSolid()) {
 			spriteData.y += frameTime * npcNS::FALLING_SPEED; // Use trajectory
 		}
-		tileA = lc->getTile(npcBottomLeftX, npcBottomLeftY + 1);
-		tileB = lc->getTile(npcBottomRightX, npcBottomRightY + 1);
+		tileA = lc->getTile(bottomLeft.x, bottomLeft.y + 1);
+		tileB = lc->getTile(bottomRight.x, bottomRight.y + 1);
 		while (tileA->isSolid() || tileB->isSolid()) {
-			updateCoords();
 			spriteData.y--;
 		}
 	}
-	// spriteData.y = (int)spriteData.y;
-
 	switch (orientation) {
-	case Right:
-		currentFrame = 953;
-		spriteData.flipHorizontal = true;
-		break;
-	case Down:
-		currentFrame = 954;
-		break;
-	case Left:
-		currentFrame = 953;
-		spriteData.flipHorizontal = false;
-		break;
-	case Up:
-		currentFrame = 952;
-		break;
+		case Right:
+			currentFrame = 953;
+			spriteData.flipHorizontal = true;
+			break;
+		case Down:
+			currentFrame = 954;
+			break;
+		case Left:
+			currentFrame = 953;
+			spriteData.flipHorizontal = false;
+			break;
+		case Up:
+			currentFrame = 952;
+			break;
 	}
-	//Console::getInstance()->print(buffer);
-	/*
-	if (spriteData.x < 32) // tileNS::TEXTURE_SIZE
-	spriteData.x = 32;
-	if (spriteData.x > GAME_WIDTH - playerNS::TEXTURE_SIZE)
-	spriteData.x = GAME_WIDTH - playerNS::TEXTURE_SIZE;
-	if (spriteData.y < 32)
-	spriteData.y = 32;
-	if (spriteData.y > GAME_HEIGHT - playerNS::TEXTURE_SIZE)
-	spriteData.y = GAME_HEIGHT - playerNS::TEXTURE_SIZE;
-	*/
-	//pistol.update(frameTime, orientation, spriteData.x, spriteData.y);
 	Entity::update(frameTime);
-	//update gun
 }
 void NPC::setFalling(bool f) {
 	falling = f;
@@ -185,15 +141,6 @@ void NPC::healthUpdate() {
 void NPC::die() {
 
 }
-
-/*void Entity::ai(float frameTime, Entity &ent){
-	float startX = 0;
-	float startY = 0;
-	float endX = 0;
-	float endY = 0;
-}
-*/
-
 void NPC::moveLeft(float frameTime) {
 	spriteData.x -= frameTime * npcNS::SPEED;
 }
@@ -211,70 +158,28 @@ void NPC::moveDown(float frameTime) {
 }
 
 void NPC::ai(float frameTime, Entity &ent) {
-	// MAgic begins
-
 	vector <VECTOR2> pathList = vector<VECTOR2>();;
-	pathList.push_back(VECTOR2(0, 0));
+	pathList.push_back(VECTOR2(25, 25));
 	pathList.push_back(VECTOR2(50, 50));
-	pathList.push_back(VECTOR2(100, 100));
-
-	VECTOR2 currentLoc;
-	currentLoc = startPoint;
-	VECTOR2 endingPoint;
-	// move
-
-	for (int i = 0; i < pathList.size(); i++)
-	{
-		endingPoint = pathList.at(i);
-		//move
-		currentLoc = endingPoint;
+	//pathList.push_back(VECTOR2(25, 25));
+	if (currDest == VECTOR2(-1, -1)) { // No destination
+		pathCount++;
+		if (pathCount >= pathList.size())
+			pathCount = 0;
+		currDest = pathList.at(pathCount);
 	}
-
-	//flip and move back
-	if ((int)spriteData.x == (int)endPoint.x && (int)spriteData.y == (int)endPoint.y) {
-		// Awesome!
-		// Popup
-		// move back to original
-	}
-	else {
-		if (spriteData.x > endPoint.x) {
+	if ((int)spriteData.x == (int)currDest.x && (int)spriteData.y == (int)currDest.y) {
+		currDest = VECTOR2(-1, -1);
+	} else {
+		if (spriteData.x > currDest.x) {
 			moveLeft(frameTime);
-		}
-		else if (spriteData.x < endPoint.x) {
+		} else if (spriteData.x < currDest.x) {
 			moveRight(frameTime);
-		} 
-		if (spriteData.y > endPoint.y) {
-			moveUp(frameTime);
 		}
-		else if (spriteData.y < endPoint.y) {
+		if (spriteData.y > currDest.y) {
+			moveUp(frameTime);
+		} else if (spriteData.y < currDest.y) {
 			moveDown(frameTime);
 		}
 	}
-	/*int x = rand() % 4;
-	switch (x) {
-	case 0:
-		moveUp(frameTime);
-		break;
-	case 1:
-		moveDown(frameTime);
-		break;
-	case 2: 
-		moveLeft(frameTime);
-		break;
-	case 3: 
-		moveRight(frameTime);
-		break;
-	}
-	*/
-}
-
-void NPC::updateCoords() {
-	npcBottomLeftX = getX();
-	npcBottomLeftY = getY() - 1 + npcNS::NPC_HEIGHT * 0.5;
-	npcBottomRightX = getX() - 1 + npcNS::NPC_WIDTH * 0.5;
-	npcBottomRightY = getY() - 1 + npcNS::NPC_HEIGHT * 0.5;
-	npcTopLeftX = getX();
-	npcTopLeftY = getY();
-	npcTopRightX = getX() - 1 + npcNS::NPC_WIDTH * 0.5;
-	npcTopRightY = getY();
 }
