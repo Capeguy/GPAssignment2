@@ -17,6 +17,7 @@ Projectile::Projectile() : Entity() {
 	currentFrame = startFrame;
 	collisionType = entityNS::BOX;
 	spriteData.scale = 0.5;
+	speed = 100.0f;
 }
 
 Projectile::~Projectile() {
@@ -42,4 +43,14 @@ void Projectile::collision() {
 }
 double Projectile::getDamage() {
 	return damage;
+}
+
+float Projectile::getSpeed()
+{
+	return speed;
+}
+
+void Projectile::setSpeed(float s)
+{
+	speed = s;
 }

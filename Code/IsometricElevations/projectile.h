@@ -15,6 +15,7 @@ namespace projectileNS
 class Projectile : public Entity {
 private:
 	double damage;
+	float speed;
 public:
 	Projectile ();
 	~Projectile ();
@@ -23,5 +24,7 @@ public:
 	void update (float frameTime);
 	void collision();
 	double getDamage();
+	float getSpeed();
+	void setSpeed(float s);
 };
 #endif
