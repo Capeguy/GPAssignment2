@@ -66,6 +66,14 @@ void BreakoutJack::initialize(HWND hwnd) {
 	hud = new HUD(graphics);
 	osd = new OSD();
 	osd->setGraphics(graphics);
+	npcController = new NPCController(graphics);
+	NPC* npc = npcController->spawnNPCs(1, this, 725, 544);
+	npc->addPath(VECTOR2(725, 544));
+	npc->addPath(VECTOR2(1200, 544));
+
+	npc = npcController->spawnNPCs(1, this, 325, 320);
+	npc->addPath(VECTOR2(325, 320));
+	npc->addPath(VECTOR2(900, 320));
 }
 
 //=============================================================================
@@ -75,7 +83,7 @@ void BreakoutJack::update() {
 
 	//mapTile.update(frameTime);
 	levelController->update(frameTime);
-
+	npcController->update(frameTime);
 	int playerBottomLeftX = player->getX();
 	int playerBottomLeftY = player->getY() + playerNS::PLAYER_HEIGHT * 0.5;
 	int playerBottomRightX = player->getX() + playerNS::PLAYER_WIDTH * 0.5;
@@ -164,6 +172,7 @@ void BreakoutJack::collisions() {
 void BreakoutJack::render() {
 	graphics->spriteBegin();
 	levelController->render(graphics);
+	npcController->render();
 	player->draw();
 	crate.draw();
 	hud->draw();

@@ -14,6 +14,7 @@
 #include "itemController.h"
 #include "hud.h"
 #include "OSD.h"
+#include "npcController.h"
 //#include "machineGun.h"
 namespace breakoutJackNS
 {
@@ -61,6 +62,7 @@ private:
 	RECT	textRect;
 	Player* player;
 	HUD* hud;
+	NPCController* npcController;
 	//MachineGun machineGun;
 
 public:

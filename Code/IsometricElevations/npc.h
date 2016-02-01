@@ -37,7 +37,7 @@ namespace npcNS
 	const float NPC_HEIGHT = 64.0;
 }
 
-class NPC : public Entity // Still an abstract class
+class NPC : public Entity 
 {
 	enum NPCOrientation { Right, Down, Left, Up };
 	enum NPCHealthStatus { Alive, Dead };
@@ -60,6 +60,7 @@ protected:
 	VECTOR2 currLoc;
 	VECTOR2 currDest;
 	int pathCount;
+	vector <VECTOR2> pathList;
 
 
 public:
@@ -78,7 +79,7 @@ public:
 	//	inherited member functions
 	virtual void draw();
 	virtual bool initialize(Game *gamePtr, int width, int height, int ncols, TextureManager *textureM);
-	void update(float frameTime, LevelController* lc);
+	void update(float frameTime); // , LevelController* lc);
 	void moveLeft(float frameTime);
 	void moveRight(float frameTime);
 	void moveUp(float frameTime);
@@ -91,5 +92,6 @@ public:
 	void damage(Projectile p);
 	void healthUpdate();
 	void die();
+	void addPath(VECTOR2 v);
 };
 #endif

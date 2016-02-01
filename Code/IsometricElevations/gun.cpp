@@ -163,7 +163,7 @@ void Gun::update(float frametime, int orientation, float x, float y, Input* inpu
 void Gun::draw() {
 	string text = "Player x: " + to_string(playerX) + " | Player Y: " + to_string(playerY) + " | Mouse x: " + to_string(mouseX) + " |  Mouse Y: " + to_string(mouseY) + "\n";
 	text += "Adjacent = " + to_string(adjacent) + " | Opposite = " + to_string(opposite) + " | Angle = " + to_string(angle);
-	debug->print(text, 0, 0);
+	//debug->print(text, 0, 0);
 	Entity::draw();
 }
 void Gun::collision() {

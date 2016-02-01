@@ -16,11 +16,11 @@ class NPCController
 {
 private:
 	TextureManager* npcTexture;
-	//list<Entity*> npcs;
+	list<NPC*> npcs;
 public:
 	NPCController();
 	NPCController(Graphics*);
-	void spawnNPCs(int, Game*);
+	NPC* spawnNPCs(int, Game*, float, float);
 	void update(float);
 	void render();
 	void collisions();

@@ -26,6 +26,7 @@ NPC::NPC() : Entity() {
 	e.bottom = npcNS::NPC_HEIGHT / 2;
 	e.top = -npcNS::NPC_HEIGHT / 2;
 	setEdge(e);
+	pathList = vector<VECTOR2>();
 }
 
 NPC::~NPC() {
@@ -44,8 +45,9 @@ void NPC::draw() {
 	Image::draw();              // draw ship
 	pistol.draw();
 }
-void NPC::update(float frameTime, LevelController* lc) {
+void NPC::update(float frameTime) {//, LevelController* lc) {
 	ai(frameTime, *this);
+	/*
 	Tile* leftTile = lc->getTile(bottomLeft.x, bottomLeft.y + 1);
 	Tile* rightTile = lc->getTile(bottomRight.x, bottomRight.y + 1);
 	if (leftTile->isSolid() || rightTile->isSolid()) {
@@ -101,6 +103,7 @@ void NPC::update(float frameTime, LevelController* lc) {
 			spriteData.y--;
 		}
 	}
+	*/
 	switch (orientation) {
 		case Right:
 			currentFrame = 953;
@@ -117,6 +120,7 @@ void NPC::update(float frameTime, LevelController* lc) {
 			currentFrame = 952;
 			break;
 	}
+	
 	Entity::update(frameTime);
 }
 void NPC::setFalling(bool f) {
@@ -142,25 +146,28 @@ void NPC::die() {
 
 }
 void NPC::moveLeft(float frameTime) {
+	orientation = Left;
 	spriteData.x -= frameTime * npcNS::SPEED;
 }
 
 void NPC::moveRight(float frameTime) {
+	orientation = Right;
 	spriteData.x += frameTime * npcNS::SPEED;
 }
 
 void NPC::moveUp(float frameTime) {
+	orientation = Up;
 	spriteData.y -= frameTime * npcNS::SPEED;
 }
 
 void NPC::moveDown(float frameTime) {
+	orientation = Down;
 	spriteData.y += frameTime * npcNS::SPEED;
 }
 
 void NPC::ai(float frameTime, Entity &ent) {
-	vector <VECTOR2> pathList = vector<VECTOR2>();;
-	pathList.push_back(VECTOR2(25, 25));
-	pathList.push_back(VECTOR2(50, 50));
+	if (pathList.size() == 0)
+		return;
 	//pathList.push_back(VECTOR2(25, 25));
 	if (currDest == VECTOR2(-1, -1)) { // No destination
 		pathCount++;
@@ -171,15 +178,18 @@ void NPC::ai(float frameTime, Entity &ent) {
 	if ((int)spriteData.x == (int)currDest.x && (int)spriteData.y == (int)currDest.y) {
 		currDest = VECTOR2(-1, -1);
 	} else {
-		if (spriteData.x > currDest.x) {
+		if ((int)spriteData.x > (int)currDest.x) {
 			moveLeft(frameTime);
-		} else if (spriteData.x < currDest.x) {
+		} else if ((int)spriteData.x < (int)currDest.x) {
 			moveRight(frameTime);
 		}
-		if (spriteData.y > currDest.y) {
+		if ((int)spriteData.y >(int)currDest.y) {
 			moveUp(frameTime);
-		} else if (spriteData.y < currDest.y) {
+		} else if ((int)spriteData.y < (int)currDest.y) {
 			moveDown(frameTime);
 		}
 	}
+}
+void NPC::addPath(VECTOR2 v) {
+	pathList.push_back(v);
 }
