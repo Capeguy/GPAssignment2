@@ -14,7 +14,7 @@ namespace projectileNS
 
 class Projectile : public Entity {
 private:
-
+	float speed;
 public:
 	Projectile ();
 	~Projectile ();
@@ -22,5 +22,7 @@ public:
 	virtual bool initialize (Game *gamePtr, int width, int height, int ncols, TextureManager *textureM);
 	void update (float frameTime);
 	void collision();
+	float getSpeed();
+	void setSpeed(float s);
 };
 #endif

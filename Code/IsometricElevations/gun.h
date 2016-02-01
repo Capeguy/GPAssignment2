@@ -11,14 +11,13 @@
 #include "levelController.h"
 using namespace std;
 
-/*
+
 namespace gunNS
 {
-	int TEXTURE_WIDTH = 67;
-	int TEXTURE_HEIGHT = 41;
-	int TEXTURE_COLS = 2;
+	const int TEXTURE_WIDTH = 67;
+	const int TEXTURE_HEIGHT = 41;
+	const int TEXTURE_COLS = 2;
 }
-*/
 
 class Gun : public Item // Still an abstract class
 {
@@ -34,6 +33,10 @@ protected:
 	vector<Projectile*> bullets;
 	Game* gameptr;
 	TextureManager* bulletTexture;
+	double opposite, adjacent, angle;
+	TextDX* debug; // to be taken out
+	float playerX, playerY; // to be taken out 
+	double mouseX, mouseY;
 public:
 	enum Orientation { Right, Down, Left, Up };;
 	//explicit

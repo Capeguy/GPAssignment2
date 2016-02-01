@@ -75,8 +75,8 @@ void LevelController::update(float frameTime) {
 	}
 	for (list<Projectile*>::iterator it = projectiles.begin(); it != projectiles.end(); ++it) {
 		Projectile* bullet = (*it);
-		bullet->setX(bullet->getX() + bullet->getVelocity().x * frameTime);
-		bullet->setY(bullet->getY() + bullet->getVelocity().y * frameTime);
+		bullet->setX(bullet->getX() + bullet->getVelocity().x * frameTime * bullet->getSpeed());
+		bullet->setY(bullet->getY() + bullet->getVelocity().y * frameTime * bullet->getSpeed());
 		bullet->update(frameTime);
 	}
 	iController->update(frameTime);
