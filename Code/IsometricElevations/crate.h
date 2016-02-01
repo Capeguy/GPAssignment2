@@ -15,10 +15,10 @@ using namespace std;
 namespace crateNS
 {
 	const int	TEXTURE_COLS = 2;
-	const int	WIDTH = 136;
+	const int	WIDTH = 32;
 	const int	HEIGHT = 41;
-	const int   START_FRAME = 12;        // starts at frame 1
-	const int   END_FRAME = 12;
+	const int   START_FRAME = 13;        // starts at frame 1
+	const int   END_FRAME = 13;
 	const int   X = GAME_WIDTH / 2 - WIDTH / 2; // location on screen
 	const int   Y = GAME_HEIGHT / 2 - HEIGHT / 2;
 

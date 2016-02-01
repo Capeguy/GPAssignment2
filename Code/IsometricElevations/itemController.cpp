@@ -8,7 +8,7 @@ ItemController::ItemController(Graphics *graphics) {
 		throw(GameError(gameErrorNS::FATAL_ERROR, "Error initializing item texture"));
 	crateList = new list<Crate*>();
 	itemList = vector<Item*>();
-	levelCrateLoc[0].push_back(VECTOR2(321, 535));
+	levelCrateLoc[0].push_back(VECTOR2(321, 568));
 	levelCrateLoc[0].push_back(VECTOR2(1152, 250));
 }
 
