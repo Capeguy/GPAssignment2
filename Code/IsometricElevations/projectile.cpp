@@ -17,14 +17,14 @@ Projectile::Projectile() : Entity() {
 	currentFrame = startFrame;
 	collisionType = entityNS::BOX;
 	spriteData.scale = 0.5;
-	speed = 100;
 }
 
 Projectile::~Projectile() {
 
 }
 
-bool Projectile::initialize(Game *gamePtr, int width, int height, int ncols, TextureManager *textureM) {
+bool Projectile::initialize(Game *gamePtr, int width, int height, int ncols, TextureManager *textureM, double dmg) {
+	damage = dmg;
 	return(Entity::initialize(gamePtr, width, height, ncols, textureM));
 }
 void Projectile::draw() {
@@ -40,13 +40,6 @@ void Projectile::update(float frameTime) {
 void Projectile::collision() {
 
 }
-
-float Projectile::getSpeed()
-{
-	return speed;
-}
-
-void Projectile::setSpeed(float s)
-{
-	speed = s;
+double Projectile::getDamage() {
+	return damage;
 }
