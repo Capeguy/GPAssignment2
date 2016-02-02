@@ -59,7 +59,13 @@ void LevelController::renderTiles(Graphics* graphics) {
 	string buffer;
 	for (int col = 0; col < MAP_SIZE_Y; col++) {
 		for (int row = 0; row < MAP_SIZE_X; row++) {
-			mapTile[col][row]->draw();
+			// Scroll map according to mapX
+			Tile* tile = mapTile[col][row];
+			float x = (float)((row * (tileNS::TEXTURE_SIZE / 2)) + mapX);
+			float y = (float)(col * (tileNS::TEXTURE_SIZE / 2));
+			tile->setY(y);
+			tile->setX(x);
+			tile->draw();
 			if (debugInfo) {
 				buffer = to_string(mapTile[col][row]->getId());
 				buffer += ":";
@@ -72,7 +78,7 @@ void LevelController::renderTiles(Graphics* graphics) {
 			}
 		}
 	}
-	iController->render();
+	iController->render(mapX);
 }
 
 void LevelController::update(float frameTime) {
@@ -132,5 +138,15 @@ int LevelController::collidedWithCrate()
 void LevelController::setCrateCollided(int col)
 {
 	crateCollided = col;
+}
+
+void LevelController::setMapX(float x)
+{
+	mapX -= x;
+}
+
+float LevelController::getMapX()
+{
+	return mapX;
 }
 

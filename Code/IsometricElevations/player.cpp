@@ -76,32 +76,36 @@ void Player::draw() {
 void Player::update(float frameTime, LevelController* lc) {
 	updateCoords();
 	inventory->update(frameTime, input);
-	Tile* leftTile = lc->getTile(playerBottomLeftX, playerBottomLeftY + 1);
-	Tile* rightTile = lc->getTile(playerBottomRightX, playerBottomRightY + 1);
+	float mapx = lc->getMapX() * -1.0;
+	Tile* leftTile = lc->getTile(playerBottomLeftX + mapx, playerBottomLeftY + 1);
+	Tile* rightTile = lc->getTile(playerBottomRightX + mapx, playerBottomRightY + 1);
 	if (leftTile->isSolid() || rightTile->isSolid()) {
 		if (!input->isKeyDown(PLAYER_UP) && !input->isKeyDown(PLAYER_JUMP))
 			canJump = true;
 		canFall = false;
 		falling = false;
-	} else {
+	}
+	else {
 		canFall;
 		falling = true;
 	}
 	if (input->isKeyDown(PLAYER_RIGHT) && canMoveRight) {
 		spriteData.x += frameTime * playerNS::SPEED;
-		while (lc->getTile(spriteData.x + 31, spriteData.y)->isSolid() || lc->getTile(spriteData.x + 31, spriteData.y + 31)->isSolid()) {
+		velocity.x = spriteData.x;
+		while (lc->getTile(spriteData.x + 31 + mapx, spriteData.y)->isSolid() || lc->getTile(spriteData.x + 31 + mapx, spriteData.y + 31)->isSolid()) {
 			spriteData.x -= frameTime * playerNS::FALLING_SPEED;
 		}
 		orientation = Right;
 	}
 	if (input->isKeyDown(PLAYER_LEFT) && canMoveLeft) {
 		spriteData.x -= frameTime * playerNS::SPEED;
-		while (lc->getTile(spriteData.x, spriteData.y)->isSolid() || lc->getTile(spriteData.x, spriteData.y + 31)->isSolid()) {
+		velocity.x = spriteData.x;
+		while (lc->getTile(spriteData.x + mapx, spriteData.y)->isSolid() || lc->getTile(spriteData.x + mapx, spriteData.y + 31)->isSolid()) {
 			spriteData.x += frameTime * playerNS::FALLING_SPEED;
 		}
 		orientation = Left;
 	}
-	if(input->isKeyDown(PLAYER_UP))
+	if (input->isKeyDown(PLAYER_UP))
 	{
 		orientation = Up;
 	}
@@ -116,12 +120,13 @@ void Player::update(float frameTime, LevelController* lc) {
 			jumping = false;
 			canJump = false;
 			falling = true;
-		} else {
+		}
+		else {
 			jumping = true;
 			canJump = false;
 			jumpdistance += frameTime * playerNS::JUMP_SPEED;
 			spriteData.y -= frameTime * playerNS::JUMP_SPEED;
-			while (lc->getTile(spriteData.x, spriteData.y)->isSolid() || lc->getTile(spriteData.x + 31, spriteData.y)->isSolid()) {
+			while (lc->getTile(spriteData.x + mapx, spriteData.y)->isSolid() || lc->getTile(spriteData.x + 31 + mapx, spriteData.y)->isSolid()) {
 				spriteData.y += frameTime * playerNS::FALLING_SPEED;
 			}
 		}
@@ -131,17 +136,17 @@ void Player::update(float frameTime, LevelController* lc) {
 		// Get Tile at that location y + 1 pixel
 		// If Tile is not solid
 
-			//orientation = down;
+		//orientation = down;
 		//machineGun.update(frameTime, orientation, spriteData.x, spriteData.y);
 	}
 	if (falling && !jumping) {
-		Tile* tileA = lc->getTile(playerBottomLeftX, playerBottomLeftY + 1);
-		Tile* tileB = lc->getTile(playerBottomRightX, playerBottomRightY + 1);
+		Tile* tileA = lc->getTile(playerBottomLeftX + mapx, playerBottomLeftY + 1);
+		Tile* tileB = lc->getTile(playerBottomRightX + mapx, playerBottomRightY + 1);
 		if (!tileA->isSolid() && !tileB->isSolid()) {
 			spriteData.y += frameTime * playerNS::FALLING_SPEED; // Use trajectory
 		}
-		tileA = lc->getTile(playerBottomLeftX, playerBottomLeftY + 1);
-		tileB = lc->getTile(playerBottomRightX, playerBottomRightY + 1);
+		tileA = lc->getTile(playerBottomLeftX + mapx, playerBottomLeftY + 1);
+		tileB = lc->getTile(playerBottomRightX + mapx, playerBottomRightY + 1);
 		while (tileA->isSolid() || tileB->isSolid()) {
 			updateCoords();
 			spriteData.y--;

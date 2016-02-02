@@ -34,9 +34,15 @@ void ItemController::update(float frameTime) {
 	}
 }
 
-void ItemController::render() {
+void ItemController::render(float mapX) {
+	int count = 0;
+	list<VECTOR2> crateLocations = levelCrateLoc[0];
+	list<VECTOR2>::iterator l_front = crateLocations.begin();
 	for (list<Crate*>::iterator it = crateList->begin(); it != crateList->end(); ++it) {
+		std::advance(l_front, count);
+		(*it)->setX(float((*l_front).x + mapX));
 		(*it)->draw();
+		count++;
 	}
 }
 
