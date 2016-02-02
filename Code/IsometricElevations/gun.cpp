@@ -43,7 +43,7 @@ void Gun::update(float frametime, int orientation, float x, float y, Input* inpu
 	spriteData.angle = angle;
 	if (adjacent < 0) // facing back
 	{
-		setX(x - 16);
+		setX(x-20);
 		setY(y);
 		flipHorizontal(true);
 	}
@@ -64,10 +64,10 @@ void Gun::update(float frametime, int orientation, float x, float y, Input* inpu
 			bullet = new Projectile();
 			bullet->initialize(gameptr, 32, 32, 1, bulletTexture);
 			bullet->setCurrentFrame(1);
-			bullet->setX(getX());
-			bullet->setY(getY());
 			bullet->spriteData.angle = angle;
 			D3DXVECTOR2 mousePos = D3DXVECTOR2(cos(angle), sin(angle)); // normalize the vector idk what but it works lol
+			bullet->setX(getX() + mousePos.x * 48); // <---- the 32 should be the gun sprites width
+			bullet->setY(getY());
 			if (adjacent >= 0)
 			{
 				bullet->setVelocity(mousePos);
@@ -78,30 +78,6 @@ void Gun::update(float frametime, int orientation, float x, float y, Input* inpu
 				bullet->setVelocity(-mousePos);
 			}
 				
-			/*
-			if (orientation == Right) 
-			{
-				bullet->setVelocity(D3DXVECTOR2(100, 0));
-				bullet->setX(getX() + gunNS::TEXTURE_WIDTH);
-				bullet->setY(getY());
-			} 
-			else if (orientation == Left)
-			{
-				bullet->setVelocity(D3DXVECTOR2(-100, 0));
-				bullet->setX((getX() - gunNS::TEXTURE_WIDTH));
-				bullet->setY(getY());
-			}
-			else if (orientation == Up)
-			{
-				bullet->setVelocity(D3DXVECTOR2(0, -100));
-				bullet->spriteData.angle = -PI / 2;
-			}
-			else if (orientation == Down)
-			{
-				bullet->setVelocity(D3DXVECTOR2(0, 100));
-				bullet->spriteData.angle = PI / 2;
-			}
-			*/
 			lc->addProjectile(bullet);
 			bullets.push_back(bullet);
 		} else {
@@ -110,59 +86,13 @@ void Gun::update(float frametime, int orientation, float x, float y, Input* inpu
 	} else {
 		cooldowncurrent -= frametime;
 	}
-	/* Hmm
-	for (int i = 0; i < bullets.size(); i++) {
-		bullet = bullets.at(i);
-		bullet->setX(bullet->getX() + bullet->getVelocity().x * frametime);
-		bullet->setY(bullet->getY() + bullet->getVelocity().y * frametime);
-		bullet->update(frametime);
-	}
-	*/
-		
-	/*
-	if (orientation == Up) { // up
-		//spriteData.x = x;
-		//spriteData.y = y;
-		setX(x- 16);
-		setY(y- 16);
-		if (previousOreintation == Right)
-			spriteData.angle = -PI / 2;
-		else if (previousOreintation == Left)
-			spriteData.angle = PI / 2;
-		else if (previousOreintation == Down)
-			spriteData.angle = 3 * PI / 2;
-	}
-	if (orientation == Right) // right
-	{
-		flipHorizontal(false);
-		setX(x + 16);
-		setY(y);
-		spriteData.angle = angle;
-	}
-	if (orientation == Down) { //down
-		setX(x - 16);
-		setY(y + 16);
-		if (previousOreintation == Right)
-			spriteData.angle = -3 * PI / 2;
-		else if (previousOreintation == Left)
-			spriteData.angle = 3 * PI / 2;
-		else if (previousOreintation == Up)
-			spriteData.angle = PI / 2;
-	}
-	if (orientation == Left) //left 
-	{
-		flipHorizontal(true);
-		setX(x - 48);
-		setY(y);
-		spriteData.angle = angle;
-	}
-	*/
-	previousOreintation = orientation;
 	Entity::update(frametime);
 }
 void Gun::draw() {
+	D3DXVECTOR2 mousePos = D3DXVECTOR2(cos(angle), sin(angle));
 	string text = "Player x: " + to_string(playerX) + " | Player Y: " + to_string(playerY) + " | Mouse x: " + to_string(mouseX) + " |  Mouse Y: " + to_string(mouseY) + "\n";
-	text += "Adjacent = " + to_string(adjacent) + " | Opposite = " + to_string(opposite) + " | Angle = " + to_string(angle);
+	text += "Adjacent = " + to_string(adjacent) + " | Opposite = " + to_string(opposite) + " | Angle = " + to_string(angle) + "\n";
+	text += "Normalized mouse X: " + to_string(mousePos.x) + " | Normalised mouse y: " + to_string(mousePos.y);
 	//debug->print(text, 0, 0);
 	Entity::draw();
 }
