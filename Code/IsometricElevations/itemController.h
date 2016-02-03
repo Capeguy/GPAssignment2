@@ -31,7 +31,7 @@ public:
 	void spawnCrates(int, Game*);
 	void spawnItem(Game*, int x, int y);
 	void update(float);
-	void render();
+	void render(float);
 	void collisions();
 	list<Crate*>* getCrateList();
 };

@@ -45,8 +45,11 @@ void BreakoutJack::initialize(HWND hwnd) {
 	player->initialize(this, playerNS::PLAYER_WIDTH, playerNS::PLAYER_HEIGHT, 32, playerTexture); // to change
 	player->setFrames(952, 955);
 	player->setCurrentFrame(952);
-	player->setX(GAME_WIDTH / breakoutJackNS::TEXTURE_SIZE);
-	player->setY((GAME_HEIGHT - GAME_HEIGHT / breakoutJackNS::TEXTURE_SIZE - 2 * breakoutJackNS::TEXTURE_SIZE) - 100);
+	//player->setX(GAME_WIDTH / breakoutJackNS::TEXTURE_SIZE);
+	//player->setY((GAME_HEIGHT - GAME_HEIGHT / breakoutJackNS::TEXTURE_SIZE - 2 * breakoutJackNS::TEXTURE_SIZE) - 100);
+	// Need to spawn player in the middle for scrolling
+	player->setX(GAME_WIDTH / 2);
+	player->setY(100);
 	player->setVelocity(VECTOR2(playerNS::SPEED, playerNS::SPEED));
 	// map tile image
 	mapTile.initialize(graphics, breakoutJackNS::TEXTURE_SIZE, breakoutJackNS::TEXTURE_SIZE, breakoutJackNS::TEXTURE_COLS, &textures);
@@ -74,13 +77,20 @@ void BreakoutJack::initialize(HWND hwnd) {
 	npc = npcController->spawnNPCs(1, this, 325, 320);
 	npc->addPath(VECTOR2(325, 320));
 	npc->addPath(VECTOR2(900, 320));
+
+
 }
 
 //=============================================================================
 // Update all game items
 //=============================================================================
 void BreakoutJack::update() {
-
+	// Variables for scrolling
+	float playerX;
+	float mapX = 0;
+	// Boundaries
+	float bndR = (GAME_WIDTH / 2) + (1 * playerNS::WIDTH);
+	float bndL = (GAME_WIDTH / 2) - (1 * playerNS::WIDTH);
 	//mapTile.update(frameTime);
 	levelController->update(frameTime);
 	npcController->update(frameTime);
@@ -127,6 +137,36 @@ void BreakoutJack::update() {
 	hud->update(frameTime, player->getInventory()->getActiveItem());
 	crate.update(frameTime);
 	player->update(frameTime, levelController);
+
+	//Scrolling code
+	playerX = player->getX();
+	float mapXCor = levelController->getMapX();
+	// Check map is at the end in right direction
+	if (levelController->getMapX() < float((2 * GAME_WIDTH - 5.0) * -1.0)) {
+		mapX = 0;//float(GAME_WIDTH * -1.0);
+		bndR = GAME_WIDTH;
+		//player->setVelocityX(0);
+	}
+	// Check if map is at end in the left direction
+	if (levelController->getMapX() > 0) {
+		mapX = 0;
+		bndL = 0;
+		//player->setVelocityX(0);
+	}
+	// Adjust map to the right if player exceeds boundary to the left
+	if (playerX < bndL) {
+		mapX = -(player->getVelocity().x * frameTime / 5);
+		bndR = (GAME_WIDTH / 2) + (1 * playerNS::WIDTH);
+		player->setX(bndL);
+	}
+	// Adjust map to the left if player exceeds boundary to the Right
+	else if (playerX > bndR) {
+		mapX = (player->getVelocity().x * frameTime / 5);
+		bndL = (GAME_WIDTH / 2) - (1 * playerNS::WIDTH);
+		player->setX(bndR);
+	}
+	levelController->setMapX(mapX);
+	levelController->update(frameTime);
 }
 
 bool BreakoutJack::tileIsSolid(int x, int y) {
