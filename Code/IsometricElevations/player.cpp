@@ -23,7 +23,8 @@ Player::Player() : Entity() {
 	e.top = -playerNS::HEIGHT / 2;
 	setEdge(e);
 	inventory = new Inventory();
-	
+	hpMax = 100;
+	hp = 100;
 }
 
 Player::~Player() {
@@ -236,6 +237,14 @@ void Player::updateCoords() {
 	playerTopLeftY = getY();
 	playerTopRightX = getX() - 1 + playerNS::PLAYER_WIDTH * 0.5;
 	playerTopRightY = getY();
+}
+float Player::getHP()
+{
+	return hp;
+}
+float Player::getMaxHP()
+{
+	return hpMax;
 }
 Inventory* Player::getInventory()
 {
