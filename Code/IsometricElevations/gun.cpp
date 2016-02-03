@@ -8,6 +8,7 @@ Gun::Gun() {
 	velocity.x = 0;                             // velocity X
 	velocity.y = 0;                             // velocity Y
 	frameDelay = 0.2f;
+
 	startFrame = 0;     // first frame of ship animation
 	endFrame = 0;     // last frame of ship animation
 	currentFrame = startFrame;
@@ -90,11 +91,11 @@ void Gun::update(float frametime, int orientation, float x, float y, Input* inpu
 }
 void Gun::draw() {
 	D3DXVECTOR2 mousePos = D3DXVECTOR2(cos(angle), sin(angle));
-	string text = "Player x: " + to_string(playerX) + " | Player Y: " + to_string(playerY) + " | Mouse x: " + to_string(mouseX) + " |  Mouse Y: " + to_string(mouseY) + "\n";
-	text += "Adjacent = " + to_string(adjacent) + " | Opposite = " + to_string(opposite) + " | Angle = " + to_string(angle) + "\n";
-	text += "Normalized mouse X: " + to_string(mousePos.x) + " | Normalised mouse y: " + to_string(mousePos.y);
-	//debug->print(text, 0, 0);
 	Entity::draw();
+	OSD::instance()->addLine("Player x: " + to_string(playerX) + " | Player Y: " + to_string(playerY) + " | Mouse x: " + to_string(mouseX) + " |  Mouse Y: " + to_string(mouseY));
+	OSD::instance()->addLine("Adjacent = " + to_string(adjacent) + " | Opposite = " + to_string(opposite) + " | Angle = " + to_string(angle));
+	OSD::instance()->addLine("Normalized mouse X: " + to_string(mousePos.x) + " | Normalised mouse y: " + to_string(mousePos.y));
+	OSD::instance()->addLine("Current Weapon: " + guntype + " ( " + to_string(ammo) + " )");
 }
 void Gun::collision() {
 	for (int i = 0; i < bullets.size(); i++) {

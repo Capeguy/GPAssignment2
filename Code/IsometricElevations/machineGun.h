@@ -4,6 +4,7 @@
 #define WIN32_LEAN_AND_MEAN
 
 #include "gun.h"
+#include "OSD.h"
 
 using namespace std;
 

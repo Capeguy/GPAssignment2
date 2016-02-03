@@ -18,7 +18,6 @@
 #include "gameError.h"
 #include "messageDialog.h"
 #include "inputDialog.h"
-#include "OSD.h"
 
 
 namespace gameNS
@@ -51,9 +50,6 @@ protected:
 	bool    paused;                 // true if game is paused
 	bool    initialized;
 	std::string  command;           // command from console
-
-
-	OSD* osd;
 	bool drawTileNo = true;
 
 public:
@@ -62,8 +58,6 @@ public:
 	Game ();
 	// Destructor
 	virtual ~Game ();
-
-	OSD* getOSD();
 	// Member functions
 	// Window message handler
 	LRESULT messageHandler (HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam);

@@ -7,32 +7,35 @@
 #include "image.h"
 #include "inventoryItem.h"
 #include "gun.h"
-
+#include "player.h"
 namespace hudNS
 {
-
+	const int GUN_HUD_WIDTH = 200;
+	const int GUN_HUD_HEIGHT = 50;
+	const int HP_HUD_WIDTH = 200;
+	const int HP_HUD_HEIGHT = 30;
+	const int HP_WIDTH = 170;
+	const int HP_HEIGHT = 30;
 }
 
 class HUD {
 private:
 	TextureManager* itemTexture;
-	TextureManager* hpTexture;
+	TextureManager* hpHUDTexture;
 	TextureManager* gunHUDTexture;
+	TextureManager* hpTexture;
 	Image* currentItemImage;
 	Image* hp;
+	Image* hpHUD;
 	Image* gunHud;
 	TextDX* ammoFont;
 	Item* currentItem;
 	Graphics* graphics;
-	COLOR_ARGB  backColor;              // background color (a,r,g,b)
-	VertexC vtx[4];                     // vertex data for background
-	LP_VERTEXBUFFER vertexBuffer;       // buffer to hold vertex data
-	float x, y;
 	
 public:
 	HUD(Graphics*& graphics);
 	~HUD();
-	void update(float frameTime, InventoryItem* const &item);
+	void update(float frameTime, InventoryItem* const &item, Player* player);
 	void draw();
 
 };

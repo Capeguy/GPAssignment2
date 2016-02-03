@@ -23,7 +23,8 @@ Player::Player() : Entity() {
 	e.top = -playerNS::HEIGHT / 2;
 	setEdge(e);
 	inventory = new Inventory();
-	
+	hpMax = 100;
+	hp = 100;
 }
 
 Player::~Player() {
@@ -67,10 +68,10 @@ void Player::draw() {
 		Gun* gun = (Gun*)activeItem;
 		gun->draw();
 	}
-	gameptr->getOSD()->addLine("Player is at (" + to_string(topLeft.x) + ", " + to_string(topLeft.y) + ") Can Jump: " + to_string(canJump) + " | Can Fall: " + to_string(canFall) + " | Jumping: " + to_string(jumping) + " | Falling: " + to_string(falling));
-	gameptr->getOSD()->addLine("(" + to_string(int(topLeft.x)) + ", " + to_string(int(topLeft.y)) + ") ---- (" + to_string(int(topRight.x)) + ", " + to_string(int(topRight.y)) + ")");
-	gameptr->getOSD()->addLine("     |     ----     |  ");
-	gameptr->getOSD()->addLine("(" + to_string(int(bottomLeft.x)) + ", " + to_string(int(bottomRight.y)) + ") ---- (" + to_string(int(bottomRight.x)) + ", " + to_string(int(bottomRight.y)) + ")");
+	OSD::instance()->addLine("Player is at (" + to_string(topLeft.x) + ", " + to_string(topLeft.y) + ") Can Jump: " + to_string(canJump) + " | Can Fall: " + to_string(canFall) + " | Jumping: " + to_string(jumping) + " | Falling: " + to_string(falling));
+	OSD::instance()->addLine("(" + to_string(int(topLeft.x)) + ", " + to_string(int(topLeft.y)) + ") ---- (" + to_string(int(topRight.x)) + ", " + to_string(int(topRight.y)) + ")");
+	OSD::instance()->addLine("     |     ----     |  ");
+	OSD::instance()->addLine("(" + to_string(int(bottomLeft.x)) + ", " + to_string(int(bottomRight.y)) + ") ---- (" + to_string(int(bottomRight.x)) + ", " + to_string(int(bottomRight.y)) + ")");
 
 }
 void Player::update(float frameTime, LevelController* lc) {
@@ -236,6 +237,14 @@ void Player::updateCoords() {
 	playerTopLeftY = getY();
 	playerTopRightX = getX() - 1 + playerNS::PLAYER_WIDTH * 0.5;
 	playerTopRightY = getY();
+}
+float Player::getHP()
+{
+	return hp;
+}
+float Player::getMaxHP()
+{
+	return hpMax;
 }
 Inventory* Player::getInventory()
 {

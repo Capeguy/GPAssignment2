@@ -6,6 +6,7 @@ Pistol::Pistol () {
 	maxAmmo = -1;
 	id = pistol;
 	name = "pistol";
+	guntype = "Pistol";
 	Gun();
 }
 
