@@ -35,6 +35,10 @@ namespace npcNS
 	const float NPC_ANIMATION_DELAY = 0.2f;
 	const float NPC_WIDTH = 64.0;
 	const float NPC_HEIGHT = 64.0;
+	const int NPC_HEALTH_WIDTH = 30;
+	const int NPC_HEALTH_HEIGHT = 4;
+	const int NPC_HEALTHBACK_WIDTH = 32;
+	const int NPC_HEALTHBACK_HEIGHT = 6;
 }
 
 class NPC : public Entity 
@@ -50,6 +54,11 @@ protected:
 	float	hpMax = 10;
 	Game*	gameptr;
 	TextureManager npcTexture;
+	TextureManager* npcHealthTexture;
+	TextureManager* npcHealthBackTexture;
+	Image* npcHealth;
+	Image* npcHealthBack;
+
 	MachineGun machineGun;
 	Pistol	pistol;
 	Shotgun shotgun;
@@ -96,5 +105,7 @@ public:
 	void setDying(bool d);
 	bool isDying();
 	void addPath(VECTOR2 v);
+	int getHP();
+	int getMaxHP();
 };
 #endif

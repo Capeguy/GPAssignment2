@@ -55,7 +55,7 @@ void Gun::update(float frametime, int orientation, float x, float y, Input* inpu
 		flipHorizontal(false);
 	}
 	//fire bullet
-	if (input->isKeyDown(VK_SHIFT)) {
+	if (input->isKeyDown(VK_SHIFT) || input->getMouseLButton()) {
 		if (cooldowncurrent <= 0 && hasAmmo()) {
 			if (ammo != -1)
 				ammo--;
