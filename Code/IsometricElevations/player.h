@@ -89,6 +89,8 @@ public:
 	void healthUpdate ();
 	void die ();
 	void updateCoords ();
+	float getHP();
+	float getMaxHP();
 	Inventory* getInventory();
 	Game* getGamePtr();
 	TextureManager* getTexture();

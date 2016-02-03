@@ -134,7 +134,7 @@ void BreakoutJack::update() {
 	*/
 	crate.update(frameTime);
 	player->update (frameTime, levelController);
-	hud->update(frameTime, player->getInventory()->getActiveItem());
+	hud->update(frameTime, player->getInventory()->getActiveItem(), player);
 	crate.update(frameTime);
 	player->update(frameTime, levelController);
 
