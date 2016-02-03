@@ -15,6 +15,7 @@
 #include "hud.h"
 #include "OSD.h"
 #include "npcController.h"
+#include "button.h"
 //#include "machineGun.h"
 namespace breakoutJackNS
 {
@@ -55,6 +56,9 @@ private:
 	TextureManager* playerTexture; // player texture
 	TextureManager* tileTexture;
 	TextureManager itemTexture;		// item texture
+	TextureManager* menuTexture;
+	TextureManager* buttonTexture;
+	Image* menu;
 	Image   mapTile;
 	Crate crate;
 	TextDX	dxFont;
@@ -63,7 +67,8 @@ private:
 	Player* player;
 	HUD* hud;
 	NPCController* npcController;
-	//MachineGun machineGun;
+	int room = Menu;
+	list<Button*>* buttonList;
 
 public:
 	LevelController* levelController;
@@ -81,6 +86,7 @@ public:
 	void resetAll();
 	bool tileIsSolid(int x, int y);
 	void consoleCommand();
+	enum Room{Menu, Start, Instructions, Credits, Exit};
 };
 
 #endif

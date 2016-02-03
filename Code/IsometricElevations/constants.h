@@ -40,6 +40,7 @@ const float MAX_FRAME_TIME = 1.0f / MIN_FRAME_RATE; // maximum time used in calc
 const float FULL_HEALTH = 100;
 const int	NUM_LEVEL = 3;
 const int	NUM_ITEMS = 4;
+const int	NUM_BUTTONS = 4;
 // graphic images
 const char TEXTURES_IMAGE[] = "pictures\\tileset.png"; // game textures
 //const char TEXTURES_IMAGE[] = "pictures\\textures3.png"; // game textures
@@ -52,6 +53,8 @@ const char TEXTURE_HUD_GUN[] = "pictures\\hud_gun.png";
 const char TEXTURE_BULLETS[] = "pictures\\bullet.png";
 const char TEXTURE_HUD_HP[] = "pictures\\hud_healthbar.png";
 const char TEXTURE_HUD_HP_RED[] = "pictures\\hud_healthbar_red.png";
+const char TEXTURE_MENU[] = "pictures\\menu.png";
+const char TEXTURE_BUTTONS[] = "pictures\\menu_buttons.png";
 // audio files required by audio.cpp
 // WAVE_BANK must be location of .xwb file.
 const char WAVE_BANK[] = "";
@@ -72,6 +75,7 @@ const UCHAR PLAYER_DOWN = 'S';
 const UCHAR PLAYER_JUMP = VK_SPACE;
 const UCHAR PLAYER_INVENT_CYCLE_LEFT = 0x51; // Q
 const UCHAR PLAYER_INVENT_CYCLE_RIGHT = 0x45; // E
+const UCHAR PAUSE = 'P';
 //NPC Test
 const UCHAR NPC_LEFT = VK_LEFT;
 const UCHAR NPC_RIGHT = VK_RIGHT;
