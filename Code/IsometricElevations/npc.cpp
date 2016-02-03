@@ -27,6 +27,11 @@ NPC::NPC() : Entity() {
 	e.top = -npcNS::NPC_HEIGHT / 2;
 	setEdge(e);
 	pathList = vector<VECTOR2>();
+
+	npcHealthTexture = new TextureManager();
+	npcHealthBackTexture = new TextureManager();
+	
+
 }
 
 NPC::~NPC() {
@@ -35,6 +40,10 @@ bool NPC::initialize(Game *gamePtr, int width, int height, int ncols, TextureMan
 	gameptr = gamePtr;
 	if (!npcTexture.initialize(gamePtr->getGraphics(), TEXTURE_NPC))
 		throw(GameError(gameErrorNS::FATAL_ERROR, "Error initializing npc texture"));
+	if (!npcHealthTexture->initialize(gamePtr->getGraphics(), TEXTURE_NPCHEALTH))
+		throw(GameError(gameErrorNS::FATAL_ERROR, "Error initializing npc health texture"));
+	if (!npcHealthBackTexture->initialize(gamePtr->getGraphics(), TEXTURE_NPCHEALTHBACK))
+		throw(GameError(gameErrorNS::FATAL_ERROR, "Error initializing npc health back texture"));
 	currDest = VECTOR2(-1, -1);
 	return(Entity::initialize(gamePtr, width, height, ncols, textureM));
 }
@@ -42,9 +51,21 @@ void NPC::draw() {
 
 	//spriteData.scale = 0.5;
 	Image::draw();              // draw ship
+	npcHealth.draw();
+	npcHealthBack.draw();
 	pistol.draw();
 }
 void NPC::update(float frameTime) {//, LevelController* lc) {
+	RECT r;
+	npcHealthBack.setX(spriteData.x);
+	npcHealthBack.setY(spriteData.y - 50);
+	npcHealthBack.draw();
+	npcHealth.setX(spriteData.x + 1);
+	npcHealth.setY(spriteData.y - 51);
+	r = npcHealth.getSpriteDataRect();
+	r.right = npcHealth.getWidth() * (hp/hpMax);
+	npcHealth.setSpriteDataRect(r);
+
 	ai(frameTime, *this);
 	/*
 	Tile* leftTile = lc->getTile(bottomLeft.x, bottomLeft.y + 1);
@@ -159,6 +180,14 @@ void NPC::setDying(bool d)
 bool NPC::isDying()
 {
 	return dying;
+}
+
+int NPC::getHP() {
+	return hp;
+}
+
+int NPC::getMaxHP() {
+	return hpMax;
 }
 
 void NPC::moveLeft(float frameTime) {

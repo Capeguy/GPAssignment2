@@ -51,6 +51,8 @@ const char TEXTURE_GUNS[] = "pictures\\gun.png";
 const char TEXTURE_HUD_GUN[] = "pictures\\hud_gun.png";
 const char TEXTURE_BULLETS[] = "pictures\\bullet.png";
 const char TEXTURE_HUD_HP[] = "pictures\\hud_healthbar.png";
+const char TEXTURE_NPCHEALTH[] = "pictures\\npc_health.png";
+const char TEXTURE_NPCHEALTHBACK[] = "pictures\\npc_healthback.png";
 // audio files required by audio.cpp
 // WAVE_BANK must be location of .xwb file.
 const char WAVE_BANK[] = "";

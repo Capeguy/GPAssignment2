@@ -50,6 +50,11 @@ protected:
 	float	hpMax = 10;
 	Game*	gameptr;
 	TextureManager npcTexture;
+	TextureManager* npcHealthTexture;
+	TextureManager* npcHealthBackTexture;
+	Image npcHealth;
+	Image npcHealthBack;
+
 	MachineGun machineGun;
 	Pistol	pistol;
 	Shotgun shotgun;
@@ -96,5 +101,7 @@ public:
 	void setDying(bool d);
 	bool isDying();
 	void addPath(VECTOR2 v);
+	int getHP();
+	int getMaxHP();
 };
 #endif
