@@ -15,7 +15,7 @@ namespace hudNS
 	const int HP_HUD_WIDTH = 200;
 	const int HP_HUD_HEIGHT = 30;
 	const int HP_WIDTH = 170;
-	const int HP_HEIGHT;
+	const int HP_HEIGHT = 30;
 }
 
 class HUD {
