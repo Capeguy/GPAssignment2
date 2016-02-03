@@ -166,6 +166,5 @@ public:
 	void addProjectile(Projectile* p);
 	int collidedWithCrate();
 	void setCrateCollided(int col);
-
 };
 #endif

@@ -29,4 +29,36 @@ void NPCController::render() {
 		(*it)->draw();
 	}
 }
-void NPCController::collisions() {}
+void NPCController::collisions(LevelController* lc) {
+	D3DXVECTOR2 collisionVector = D3DXVECTOR2();
+	//list<Crate*>* crateList = iController->getCrateList();
+	list<NPC*>::iterator npcIter;
+	list<NPC*>::iterator selectedNPC;
+	list<Projectile*>::iterator projectileIter = lc->projectiles.begin(); //how to get projectiles from whereever
+	//NPC** selectedNPC;
+	bool removed = false;
+	while (!lc->projectiles.empty() && projectileIter != lc->projectiles.end()) {
+		npcIter = npcs.begin();
+		removed = false;
+		while (!npcs.empty() && npcIter != npcs.end() && !removed) {
+			if ((*projectileIter)->collidesWith(**npcIter, collisionVector)) {
+				// TODO: Handle health reduction & check if health < 0
+				// health reduction code
+								
+				(*npcIter)->damage(1);
+				//(*npcIter)->healthUpdate();
+				if((*npcIter)->isDying())
+				{ 
+					npcIter = npcs.erase(npcIter); // remove npc
+				}
+				projectileIter = lc->projectiles.erase(projectileIter); //remove projectile
+				removed = true;
+			}
+			else {
+				++npcIter;
+			}
+		}
+		if (!removed)
+			++projectileIter;
+	}
+}

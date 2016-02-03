@@ -164,6 +164,7 @@ void BreakoutJack::collisions() {
 		}
 	}
 	*/
+	npcController->collisions(levelController);
 	levelController->collisions();
 }
 //=============================================================================
