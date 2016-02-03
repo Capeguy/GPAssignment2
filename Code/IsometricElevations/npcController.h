@@ -23,6 +23,6 @@ public:
 	NPC* spawnNPCs(int, Game*, float, float);
 	void update(float);
 	void render();
-	void collisions();
+	void collisions(LevelController*);
 };
 #endif

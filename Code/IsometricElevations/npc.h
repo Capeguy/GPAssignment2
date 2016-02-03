@@ -46,8 +46,8 @@ protected:
 	bool	doubleJump = false;
 	int		orientation = Right;
 	int		healthStatus = Alive;
-	float	hp;
-	float	hpMax;
+	float	hp = 10;
+	float	hpMax = 10;
 	Game*	gameptr;
 	TextureManager npcTexture;
 	MachineGun machineGun;
@@ -72,6 +72,7 @@ public:
 	bool canMoveRight = true;
 	bool canMoveUp = true;
 	bool canMoveDown = true;
+	bool dying = false;
 	//explicit
 	NPC();
 	~NPC();
@@ -89,9 +90,11 @@ public:
 	void setFalling(bool f);
 	void damage(float amt);
 	void damage(Weapon w);
-	void damage(Projectile p);
+	void damage();
 	void healthUpdate();
 	void die();
+	void setDying(bool d);
+	bool isDying();
 	void addPath(VECTOR2 v);
 };
 #endif

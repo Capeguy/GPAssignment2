@@ -30,7 +30,6 @@ NPC::NPC() : Entity() {
 }
 
 NPC::~NPC() {
-
 }
 bool NPC::initialize(Game *gamePtr, int width, int height, int ncols, TextureManager *textureM) {
 	gameptr = gamePtr;
@@ -121,6 +120,11 @@ void NPC::update(float frameTime) {//, LevelController* lc) {
 			break;
 	}
 	
+	//if (lc->collidedWithCrate() == 1)
+	//{
+
+	//}
+
 	Entity::update(frameTime);
 }
 void NPC::setFalling(bool f) {
@@ -133,18 +137,30 @@ void NPC::damage(float amt) {
 void NPC::damage(Weapon w) {
 
 }
-void NPC::damage(Projectile p) {
-
+void NPC::damage() {
+	hp--;
+	healthUpdate();
 }
 void NPC::healthUpdate() {
-	if (hp < 0) {
+	if (hp <= 0) {
 		healthStatus = Dead;
-		die();
+		setDying(true);
 	}
 }
 void NPC::die() {
-
+	// TO DO: Die (HP <= 0)
 }
+
+void NPC::setDying(bool d)
+{
+	dying = d;
+}
+
+bool NPC::isDying()
+{
+	return dying;
+}
+
 void NPC::moveLeft(float frameTime) {
 	orientation = Left;
 	spriteData.x -= frameTime * npcNS::SPEED;
