@@ -30,8 +30,6 @@ NPC::NPC() : Entity() {
 
 	npcHealthTexture = new TextureManager();
 	npcHealthBackTexture = new TextureManager();
-	
-
 }
 
 NPC::~NPC() {
@@ -44,6 +42,13 @@ bool NPC::initialize(Game *gamePtr, int width, int height, int ncols, TextureMan
 		throw(GameError(gameErrorNS::FATAL_ERROR, "Error initializing npc health texture"));
 	if (!npcHealthBackTexture->initialize(gamePtr->getGraphics(), TEXTURE_NPCHEALTHBACK))
 		throw(GameError(gameErrorNS::FATAL_ERROR, "Error initializing npc health back texture"));
+	npcHealth = new Image();
+	npcHealth->initialize(gamePtr->getGraphics(), npcNS::NPC_HEALTH_WIDTH, npcNS::NPC_HEALTH_HEIGHT, 1, npcHealthTexture);
+	npcHealth->setCurrentFrame(0);
+	npcHealthBack = new Image();
+	npcHealthBack->initialize(gamePtr->getGraphics(), npcNS::NPC_HEALTHBACK_WIDTH, npcNS::NPC_HEALTHBACK_HEIGHT, 1, npcHealthBackTexture);
+	npcHealthBack->setCurrentFrame(0);
+
 	currDest = VECTOR2(-1, -1);
 	return(Entity::initialize(gamePtr, width, height, ncols, textureM));
 }
@@ -51,20 +56,20 @@ void NPC::draw() {
 
 	//spriteData.scale = 0.5;
 	Image::draw();              // draw ship
-	npcHealth.draw();
-	npcHealthBack.draw();
+	npcHealth->draw();
+	npcHealthBack->draw();
 	pistol.draw();
 }
 void NPC::update(float frameTime) {//, LevelController* lc) {
 	RECT r;
-	npcHealthBack.setX(spriteData.x);
-	npcHealthBack.setY(spriteData.y - 50);
-	npcHealthBack.draw();
-	npcHealth.setX(spriteData.x + 1);
-	npcHealth.setY(spriteData.y - 51);
-	r = npcHealth.getSpriteDataRect();
-	r.right = npcHealth.getWidth() * (hp/hpMax);
-	npcHealth.setSpriteDataRect(r);
+	npcHealthBack->setX(spriteData.x);
+	npcHealthBack->setY(spriteData.y - 20);
+	npcHealthBack->draw();
+	npcHealth->setX(spriteData.x + 1);
+	npcHealth->setY(spriteData.y - 21);
+	r = npcHealth->getSpriteDataRect();
+	r.right = npcHealth->getWidth() * (hp/hpMax);
+	npcHealth->setSpriteDataRect(r);
 
 	ai(frameTime, *this);
 	/*
