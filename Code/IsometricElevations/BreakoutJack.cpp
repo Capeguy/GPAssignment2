@@ -56,10 +56,6 @@ void BreakoutJack::initialize(HWND hwnd) {
 	mapTile.setFrames(0, 0);
 	mapTile.setCurrentFrame(0);
 
-	// crate image
-	// if (!crate.initialize(this, &itemTexture))  // Fuck you isaac. You commented out the next line, making my dxFont to not initialize. - Ben
-	//	throw(GameError(gameErrorNS::FATAL_ERROR, "Error initializing crate"));
-
 	dxFont.initialize(graphics, 20, false, false, "Courier New");
 	//dxFont.setFontColor(SETCOLOR_ARGB(192, 255, 255, 255));
 	dxFont.setFontColor(SETCOLOR_ARGB(192, 0, 0, 0));
@@ -67,8 +63,7 @@ void BreakoutJack::initialize(HWND hwnd) {
 	levelController = new LevelController(graphics, this, tileTexture);
 	levelController->loadTiles(tileTexture, this);
 	hud = new HUD(graphics);
-	osd = new OSD();
-	osd->setGraphics(graphics);
+	OSD::instance()->setGraphics(graphics);
 	npcController = new NPCController(graphics);
 	NPC* npc = npcController->spawnNPCs(1, this, 725, 544);
 	npc->addPath(VECTOR2(725, 544));
@@ -216,7 +211,7 @@ void BreakoutJack::render() {
 	player->draw();
 	crate.draw();
 	hud->draw();
-	osd->draw();
+	OSD::instance()->draw();
 	graphics->spriteEnd();
 }
 

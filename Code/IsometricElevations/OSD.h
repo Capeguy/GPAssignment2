@@ -17,9 +17,9 @@ private:
 	
 public:
 	list<string> displayList;
-	static OSD& instance() {
+	static OSD* instance() {
 		static OSD INSTANCE;
-		return INSTANCE;
+		return &INSTANCE;
 	}
 	void setGraphics(Graphics* graphics);
 	static void addLine(string text);

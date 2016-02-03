@@ -7,6 +7,7 @@
 #include "item.h"
 #include <vector>
 #include "projectile.h"
+#include "OSD.h"
 #include "list.h"
 #include "levelController.h"
 using namespace std;
@@ -37,10 +38,12 @@ protected:
 	TextDX* debug; // to be taken out
 	float playerX, playerY; // to be taken out 
 	double mouseX, mouseY;
+	string guntype;
 public:
 	enum Orientation { Right, Down, Left, Up };;
 	//explicit
-	Gun ();
+	Gun();
+	Gun (string);
 	~Gun ();
 	bool initialize (Game * gamePtr, int width, int height, int ncols, TextureManager * textureM);
 	bool Shoot(); // Deprecated

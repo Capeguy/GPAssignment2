@@ -43,7 +43,6 @@ void NPC::draw() {
 
 	//spriteData.scale = 0.5;
 	Image::draw();              // draw ship
-	pistol.draw();
 }
 void NPC::update(float frameTime) {//, LevelController* lc) {
 	ai(frameTime, *this);

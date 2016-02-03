@@ -6,6 +6,7 @@ Shotgun::Shotgun () {
 	maxAmmo = 10;
 	id = shotGun;
 	name = "shotgun";
+	guntype = "Shotgun";
 	Gun();
 }
 

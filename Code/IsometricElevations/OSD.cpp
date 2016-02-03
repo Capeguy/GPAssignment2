@@ -9,7 +9,7 @@ int OSD::getLine() {
 }
 
 void OSD::addLine(string text) {
-	// OSD::instance.displayList.push_back(text);
+	OSD::instance()->displayList.push_back(text);
 }
 
 void OSD::draw() {
