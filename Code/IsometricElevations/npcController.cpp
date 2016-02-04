@@ -21,14 +21,20 @@ NPC* NPCController::spawnNPCs(int level, Game *gamePtr, float x, float y) {
 
 void NPCController::update(float frameTime) {
 	for (list<NPC*>::iterator it = npcs.begin(); it != npcs.end(); ++it) {
-		(*it)->update(frameTime);
+		(*it)->update(frameTime,mapX);
 	}
 }
 void NPCController::render() {
+	//int count = 0;
+	//list<VECTOR2>::iterator l_front = NPCSpawnLoc.begin();
 	for (list<NPC*>::iterator it = npcs.begin(); it != npcs.end(); ++it) {
+		//std::advance(l_front, count);
+		//(*it)->setX(float((*l_front).x + mapX));
 		(*it)->draw();
+		//count++;
 	}
 }
+
 void NPCController::collisions(LevelController* lc) {
 	D3DXVECTOR2 collisionVector = D3DXVECTOR2();
 	//list<Crate*>* crateList = iController->getCrateList();
@@ -62,3 +68,14 @@ void NPCController::collisions(LevelController* lc) {
 			++projectileIter;
 	}
 }
+
+void NPCController::setMapX(float x)
+{
+	mapX -= x;
+}
+
+void NPCController::addSpawnLoc(float x, float y)
+{
+	NPCSpawnLoc.push_back(VECTOR2(x, y));
+}
+

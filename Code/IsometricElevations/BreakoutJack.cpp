@@ -68,10 +68,11 @@ void BreakoutJack::initialize(HWND hwnd) {
 	NPC* npc = npcController->spawnNPCs(1, this, 725, 544);
 	npc->addPath(VECTOR2(725, 544));
 	npc->addPath(VECTOR2(1200, 544));
-
+	npcController->addSpawnLoc(725, 544);
 	npc = npcController->spawnNPCs(1, this, 325, 320);
 	npc->addPath(VECTOR2(325, 320));
 	npc->addPath(VECTOR2(900, 320));
+	npcController->addSpawnLoc(325, 320);
 
 
 }
@@ -88,7 +89,7 @@ void BreakoutJack::update() {
 	float bndL = (GAME_WIDTH / 2) - (1 * playerNS::WIDTH);
 	//mapTile.update(frameTime);
 	levelController->update(frameTime);
-	npcController->update(frameTime);
+	//npcController->update(frameTime);
 	int playerBottomLeftX = player->getX();
 	int playerBottomLeftY = player->getY() + playerNS::PLAYER_HEIGHT * 0.5;
 	int playerBottomRightX = player->getX() + playerNS::PLAYER_WIDTH * 0.5;
@@ -162,6 +163,8 @@ void BreakoutJack::update() {
 	}
 	levelController->setMapX(mapX);
 	levelController->update(frameTime);
+	npcController->setMapX(mapX);
+	npcController->update(frameTime);
 }
 
 bool BreakoutJack::tileIsSolid(int x, int y) {

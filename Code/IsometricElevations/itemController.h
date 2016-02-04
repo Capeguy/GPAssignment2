@@ -19,7 +19,7 @@ namespace itemControllerNS
 class ItemController : public Entity
 {
 private:
-	list<VECTOR2> levelCrateLoc[NUM_LEVEL];
+	list<VECTOR2>* levelCrateLoc[NUM_LEVEL];
 	list<Crate*>* crateList;
 	vector<Item*> itemList;
 	TextureManager* itemTexture;
@@ -30,6 +30,7 @@ public:
 	virtual ~ItemController();
 	void spawnCrates(int, Game*);
 	void spawnItem(Game*, int x, int y);
+	list<VECTOR2>* getCrateLoc();
 	void update(float);
 	void render(float);
 	void collisions();

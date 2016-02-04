@@ -17,6 +17,8 @@ class NPCController
 private:
 	TextureManager* npcTexture;
 	list<NPC*> npcs;
+	list<VECTOR2> NPCSpawnLoc;
+	float mapX = 0;
 public:
 	NPCController();
 	NPCController(Graphics*);
@@ -24,5 +26,8 @@ public:
 	void update(float);
 	void render();
 	void collisions(LevelController*);
+	void setMapX(float x);
+	void addSpawnLoc(float x, float y);
+	void removeSpawnLoc(int);
 };
 #endif

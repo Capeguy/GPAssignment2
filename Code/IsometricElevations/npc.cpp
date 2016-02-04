@@ -58,9 +58,9 @@ void NPC::draw() {
 	Image::draw();              // draw ship
 	npcHealth->draw();
 	npcHealthBack->draw();
-	pistol.draw();
 }
-void NPC::update(float frameTime) {//, LevelController* lc) {
+
+void NPC::update(float frameTime, float mapX) {//, LevelController* lc) {
 	RECT r;
 	npcHealthBack->setX(spriteData.x);
 	npcHealthBack->setY(spriteData.y - 20);
@@ -70,8 +70,8 @@ void NPC::update(float frameTime) {//, LevelController* lc) {
 	r = npcHealth->getSpriteDataRect();
 	r.right = npcHealth->getWidth() * (hp/hpMax);
 	npcHealth->setSpriteDataRect(r);
+	ai(frameTime, *this, mapX);
 
-	ai(frameTime, *this);
 	/*
 	Tile* leftTile = lc->getTile(bottomLeft.x, bottomLeft.y + 1);
 	Tile* rightTile = lc->getTile(bottomRight.x, bottomRight.y + 1);
@@ -195,14 +195,16 @@ int NPC::getMaxHP() {
 	return hpMax;
 }
 
-void NPC::moveLeft(float frameTime) {
+void NPC::moveLeft(float frameTime, float mapX) {
 	orientation = Left;
 	spriteData.x -= frameTime * npcNS::SPEED;
+	//spriteData.x += mapX;
 }
 
-void NPC::moveRight(float frameTime) {
+void NPC::moveRight(float frameTime, float mapX) {
 	orientation = Right;
 	spriteData.x += frameTime * npcNS::SPEED;
+	//spriteData.x += mapX;
 }
 
 void NPC::moveUp(float frameTime) {
@@ -215,23 +217,31 @@ void NPC::moveDown(float frameTime) {
 	spriteData.y += frameTime * npcNS::SPEED;
 }
 
-void NPC::ai(float frameTime, Entity &ent) {
+void NPC::ai(float frameTime, Entity &ent, float mapX) {
 	if (pathList.size() == 0)
 		return;
-	//pathList.push_back(VECTOR2(25, 25));
 	if (currDest == VECTOR2(-1, -1)) { // No destination
 		pathCount++;
 		if (pathCount >= pathList.size())
 			pathCount = 0;
 		currDest = pathList.at(pathCount);
+		//currDest.x += mapX;
 	}
-	if ((int)spriteData.x == (int)currDest.x && (int)spriteData.y == (int)currDest.y) {
+	OSD::instance()->addLine("AI at (" + to_string((int)spriteData.x) + ", " + to_string((int)spriteData.y) + ") going to (" + to_string(int(currDest.x + mapX)) + ", " + to_string((int)currDest.y) + ")");
+	
+	if ((int)spriteData.x == (int)(currDest.x + mapX)  && (int)spriteData.y == (int)currDest.y) {
 		currDest = VECTOR2(-1, -1);
 	} else {
-		if ((int)spriteData.x > (int)currDest.x) {
-			moveLeft(frameTime);
-		} else if ((int)spriteData.x < (int)currDest.x) {
-			moveRight(frameTime);
+		if ((int)spriteData.x > (int)(currDest.x + mapX)) {
+			if (true || orientation == Right)
+			{
+				moveLeft(frameTime, mapX);
+			}
+		} else if ((int)spriteData.x < (int)(currDest.x + mapX)) {
+			if (true || orientation == Left)
+			{
+				moveRight(frameTime, mapX);
+			}
 		}
 		if ((int)spriteData.y >(int)currDest.y) {
 			moveUp(frameTime);
@@ -239,7 +249,13 @@ void NPC::ai(float frameTime, Entity &ent) {
 			moveDown(frameTime);
 		}
 	}
+	
 }
 void NPC::addPath(VECTOR2 v) {
 	pathList.push_back(v);
+}
+
+void NPC::setMapX(float x)
+{
+	mapX -= x;
 }

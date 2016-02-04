@@ -25,6 +25,7 @@ Player::Player() : Entity() {
 	inventory = new Inventory();
 	hpMax = 100;
 	hp = 100;
+	setVelocity(VECTOR2(0, 0));
 }
 
 Player::~Player() {

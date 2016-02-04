@@ -48,7 +48,7 @@ class NPC : public Entity
 protected:
 	bool	jump = false;
 	bool	doubleJump = false;
-	int		orientation = Right;
+	int		orientation = Left;
 	int		healthStatus = Alive;
 	float	hp = 10;
 	float	hpMax = 10;
@@ -82,6 +82,7 @@ public:
 	bool canMoveUp = true;
 	bool canMoveDown = true;
 	bool dying = false;
+	float mapX = 0;
 	//explicit
 	NPC();
 	~NPC();
@@ -89,12 +90,12 @@ public:
 	//	inherited member functions
 	virtual void draw();
 	virtual bool initialize(Game *gamePtr, int width, int height, int ncols, TextureManager *textureM);
-	void update(float frameTime); // , LevelController* lc);
-	void moveLeft(float frameTime);
-	void moveRight(float frameTime);
+	void update(float frameTime, float mapX); // , LevelController* lc);
+	void moveLeft(float frameTime, float);
+	void moveRight(float frameTime, float);
 	void moveUp(float frameTime);
 	void moveDown(float frameTime);
-	void ai(float frameTime, Entity & ent);
+	void ai(float frameTime, Entity & ent, float mapX);
 	// TODO: Make NPC AI walk between 2 points / cycle between points in a vector array
 	void setFalling(bool f);
 	void damage(float amt);
@@ -107,5 +108,6 @@ public:
 	void addPath(VECTOR2 v);
 	int getHP();
 	int getMaxHP();
+	void setMapX(float x);
 };
 #endif
