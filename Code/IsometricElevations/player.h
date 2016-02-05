@@ -18,11 +18,11 @@ namespace playerNS
 {
 	const int	X = 0;
 	const int	Y = 0;
-	const float SPEED = 32 * 4;
-	const float FALLING_SPEED = 32 * 2;
+	const float SPEED = 32 * 400;
+	const float FALLING_SPEED = 32 * 200;
 	const float MASS = 300.0f;
 	const float JUMP_HEIGHT = 32 * 1.5;
-	const float JUMP_SPEED = 32 * 4;
+	const float JUMP_SPEED = 32 * 400;
 	const int   TEXTURE_SIZE = 64;
 	const int   TEXTURE_COLS = 32;
 	const int   PLAYER_START_FRAME = 952;
@@ -49,7 +49,7 @@ private:
 	TextureManager* gunTexture;
 	Inventory* inventory;
 	float	jumpdistance = 0;
-
+	float	jumpOriginY;
 
 	MachineGun* machineGun;
 	Pistol* pistol;
