@@ -131,47 +131,8 @@ void BreakoutJack::update() {
 		// Boundaries
 		float bndR = (GAME_WIDTH / 2) + (1 * playerNS::WIDTH);
 		float bndL = (GAME_WIDTH / 2) - (1 * playerNS::WIDTH);
-		//mapTile.update(frameTime);
 		levelController->update(frameTime);
 
-		int playerBottomLeftX = player->getX();
-		int playerBottomLeftY = player->getY() + playerNS::PLAYER_HEIGHT * 0.5;
-		int playerBottomRightX = player->getX() + playerNS::PLAYER_WIDTH * 0.5;
-		int playerBottomRightY = player->getY() + playerNS::PLAYER_HEIGHT * 0.5;
-		int playerTopLeftX = player->getX();
-		int playerTopLeftY = player->getY();
-		int playerTopRightX = player->getX() + playerNS::PLAYER_WIDTH * 0.5;
-		int playerTopRightY = player->getY();
-
-		/*
-		if (!tileIsSolid(playerBottomLeftX, playerBottomLeftY + 1) && !tileIsSolid(playerBottomRightX, playerBottomRightY + 1)) {
-		player->canMoveDown = true;
-		}
-		else {
-		player->canMoveDown = false;
-		}
-
-		if (!tileIsSolid(playerTopLeftX, playerTopLeftY - 1) && !tileIsSolid(playerTopRightX, playerTopRightY - 1)) {
-		player->canMoveUp = true;
-		}
-		else {
-		player->canMoveUp = false;
-		}
-
-		if (!tileIsSolid(playerBottomLeftX - 1, playerBottomLeftY) && !tileIsSolid(playerTopLeftX - 1, playerTopRightY)) {
-		player->canMoveLeft = true;
-		}
-		else {
-		player->canMoveLeft = false;
-		}
-
-		if (!tileIsSolid(playerTopLeftX + 1, playerTopLeftY) && !tileIsSolid(playerBottomRightX + 1, playerBottomRightY)) {
-		player->canMoveRight = true;
-		}
-		else {
-		player->canMoveRight = false;
-		}
-		*/
 		crate.update(frameTime);
 		player->update(frameTime, levelController);
 		hud->update(frameTime, player->getInventory()->getActiveItem(), player);
