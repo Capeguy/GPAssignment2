@@ -62,10 +62,13 @@ protected:
 	Image* npcHealth;
 	Image* npcHealthBack;
 
-	MachineGun machineGun;
-	Pistol	pistol;
-	Shotgun shotgun;
-	Inventory inventory;
+	InventoryItem* defaultItem;	//do i need this?
+	MachineGun* machineGun;
+	Pistol*	pistol;
+	Shotgun* shotgun;
+	Inventory* inventory;
+	TextureManager* gunTexture;
+
 	float	jumpdistance = 0;
 	VECTOR2 startPoint;
 	VECTOR2 endPoint;

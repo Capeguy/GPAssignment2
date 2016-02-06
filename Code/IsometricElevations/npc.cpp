@@ -20,7 +20,7 @@ NPC::NPC() : Entity() {
 	currentFrame = startFrame;
 	collisionType = entityNS::BOX;
 	spriteData.scale = 0.5;
-	inventory = Inventory();
+	inventory = new Inventory();
 
 	RECT e;
 	e.right = npcNS::NPC_WIDTH / 2;
@@ -32,6 +32,7 @@ NPC::NPC() : Entity() {
 
 	npcHealthTexture = new TextureManager();
 	npcHealthBackTexture = new TextureManager();
+	gunTexture = new TextureManager();
 }
 
 NPC::~NPC() {
@@ -57,12 +58,29 @@ bool NPC::initialize(Game *gamePtr, int width, int height, int ncols, TextureMan
 	currDest = VECTOR2(-1, -1);
 	originX = getX();
 	originY = getY();
+
+	if (!gunTexture->initialize(gamePtr->getGraphics(), TEXTURE_GUNS))
+		throw(GameError(gameErrorNS::FATAL_ERROR, "Error initializing gun texture"));
+
+	pistol = new Pistol();
+	pistol->initialize(gameptr, gunNS::TEXTURE_WIDTH, gunNS::TEXTURE_HEIGHT, gunNS::TEXTURE_COLS, gunTexture);
+	pistol->setCurrentFrame(gunNS::PISTOL_FRAME);
+
+	defaultItem = new InventoryItem(pistol);
+	inventory->addItem(defaultItem);
+
 	return(Entity::initialize(gamePtr, width, height, ncols, textureM));
 }
 void NPC::draw() {
 	Image::draw();              // draw ship
 	npcHealth->draw();
 	npcHealthBack->draw();
+
+	Item* activeItem = inventory->getActiveItem()->getItem();
+	if (activeItem->getItemType() == Item::Equipable) {
+		Gun* gun = (Gun*)activeItem;
+		gun->draw();
+	}
 }
 
 void NPC::update(float frameTime, float mapX,float pVelo) {//, LevelController* lc) {
@@ -103,6 +121,15 @@ void NPC::update(float frameTime, float mapX,float pVelo) {//, LevelController* 
 			//currentFrame = npcControllerNS::npcSpriteMap[0][sprIndex];
 			break;
 	}
+
+	Item* activeItem = inventory->getActiveItem()->getItem();
+	if (inventory->getActiveItem()->getItem()->getItemType() == Item::Equipable) {
+		Gun* gun = dynamic_cast<Gun*>(activeItem);
+		if (gun != 0) {
+			gun->update(frameTime, orientation, spriteData.x, spriteData.y, input);
+		}
+	}
+
 	Entity::update(frameTime);
 	
 }

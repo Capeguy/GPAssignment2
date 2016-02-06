@@ -61,6 +61,54 @@ void Gun::update(float frametime, int orientation, float x, float y, Input* inpu
 	}
 	Entity::update(frametime);
 }
+
+void Gun::update(float frametime, int orientation, float x, float y, Input* input) {
+	//edit this to make the npc's gun awesome -clarence
+	//npc's gun not flipping currently
+	
+	//change orientation of gun based on mouse position
+	playerX = x;
+	playerY = y;
+	//mouseX = input->getMouseX();
+	//mouseY = input->getMouseY();
+	adjacent = x;
+	opposite = y;
+	//angle = atan((opposite / adjacent)); // npc's gun is facing straight
+	spriteData.angle = 0;
+	if (adjacent < 0) // facing back
+	{
+		setX(x);
+		setY(y);
+		//setX(x - 20); //follow mouse
+		//setY(y);	//follow mouse
+		flipHorizontal(true);
+	}
+	else
+	{
+		setX(x);
+		setY(y);
+		//setX(x);	//follow mouse
+		//setY(y);	//follow mouse
+		flipHorizontal(false);
+	}
+	//fire bullet
+	if (true)
+	{
+		// npc cannot shoot yet
+	}
+	/*
+	if (input->getMouseLButton())
+	{
+		shoot(lc, frametime);
+	}
+	*/
+	else
+	{
+		cooldowncurrent -= frametime;
+	}
+	Entity::update(frametime);
+}
+
 void Gun::draw() {
 	D3DXVECTOR2 mousePos = D3DXVECTOR2(cos(angle), sin(angle));
 	Entity::draw();

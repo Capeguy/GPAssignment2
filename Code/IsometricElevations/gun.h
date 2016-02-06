@@ -54,6 +54,7 @@ public:
 	bool initialize (Game * gamePtr, int width, int height, int ncols, TextureManager * textureM);
 	virtual void shoot(LevelController* lc, float frametime) { } 
 	void update (float frametime, int orientation, float x, float y, Input* input, LevelController* lc);
+	void update(float frametime, int orientation, float x, float y, Input* input);
 	void draw();
 	void collision();
 	bool hasAmmo();
