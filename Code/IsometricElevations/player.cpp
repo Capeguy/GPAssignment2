@@ -40,7 +40,7 @@ bool Player::initialize(Game *gamePtr, int width, int height, int ncols, Texture
 	if (!gunTexture->initialize(gamePtr->getGraphics(), TEXTURE_GUNS))
 		throw(GameError(gameErrorNS::FATAL_ERROR, "Error initializing gun texture"));
 	// We should move this elsewhere - Ben
-	
+
 	machineGun = new MachineGun();
 	machineGun->initialize(gameptr, 136, 41, 2, gunTexture);
 	machineGun->setCurrentFrame(0);
@@ -61,6 +61,7 @@ bool Player::initialize(Game *gamePtr, int width, int height, int ncols, Texture
 	inventory->addItem(defaultItem);
 	updateCoords();
 	jumpOriginY = getY();
+	setVelocity(VECTOR2(0, 0));
 	return(Entity::initialize(gamePtr, width, height, ncols, textureM));
 }
 void Player::draw() {
@@ -76,119 +77,108 @@ void Player::draw() {
 	OSD::instance()->addLine("(" + to_string(int(bottomLeft.x)) + ", " + to_string(int(bottomRight.y)) + ") ---- (" + to_string(int(bottomRight.x)) + ", " + to_string(int(bottomRight.y)) + ")");
 
 }
+bool Player::canMoveUp() {
+	return !(levelController->getTile(topLeft.x + levelController->getMapX() * -1.0, topLeft.y - 1)->isSolid() || levelController->getTile(topRight.x + levelController->getMapX() * -1.0, topRight.y - 1)->isSolid());
+}
+bool Player::canMoveDown() {
+	return !(levelController->getTile(bottomLeft.x + levelController->getMapX() * -1.0, bottomLeft.y + 1)->isSolid() || levelController->getTile(bottomRight.x + levelController->getMapX() * -1.0, bottomRight.y + 1)->isSolid());
+}
+bool Player::canMoveLeft() {
+	return !(levelController->getTile(topLeft.x + levelController->getMapX() * -1.0 - 1, topLeft.y)->isSolid() || levelController->getTile(bottomLeft.x + levelController->getMapX() * -1.0 - 1, bottomLeft.y)->isSolid());
+}
+bool Player::canMoveRight() {
+	return !(levelController->getTile(topRight.x + levelController->getMapX() * -1.0 + 1, topRight.y)->isSolid() || levelController->getTile(bottomRight.x + levelController->getMapX() * -1.0 + 1, bottomRight.y)->isSolid());
+}
 void Player::update(float frameTime, LevelController* lc) {
+	levelController = lc;
 	updateCoords();
 	inventory->update(frameTime, input);
 	float mapx = lc->getMapX() * -1.0;
-	double velocityX = 0;
-	double velocityY = 0;
-	Tile* leftTile = lc->getTile(playerBottomLeftX + mapx, playerBottomLeftY + 1);
-	Tile* rightTile = lc->getTile(playerBottomRightX + mapx, playerBottomRightY + 1);
-	if (leftTile->isSolid() || rightTile->isSolid()) {
+	double velocityX = getVelocity().x;
+	double velocityY = getVelocity().y;
+	if (!canMoveDown()) {
 		if (!input->isKeyDown(PLAYER_UP) && !input->isKeyDown(PLAYER_JUMP))
 			canJump = true;
 		canFall = false;
 		falling = false;
-	}
-	else {
+	} else {
 		canFall = true;
 		falling = true;
 	}
-	
-	if (input->isKeyDown(PLAYER_RIGHT) && canMoveRight) {
-		//spriteData.x += frameTime * playerNS::SPEED;
+	if (input->isKeyDown(PLAYER_RIGHT) && canMoveRight()) {
 		velocityX = playerNS::SPEED * frameTime;
-		if (lc->getTile(spriteData.x + 31 + mapx, spriteData.y)->isSolid() || lc->getTile(spriteData.x + 31 + mapx, spriteData.y + 31)->isSolid()) {
-			//spriteData.x -= frameTime * playerNS::FALLING_SPEED;
+		while (!canMoveRight()) {
+			spriteData.x -= 0.1;
 			velocityX = 0;
 		}
 		orientation = Right;
-	}
-	if (input->isKeyDown(PLAYER_LEFT) && canMoveLeft) {
-		//spriteData.x -= frameTime * playerNS::SPEED;
+	} else if (input->isKeyDown(PLAYER_LEFT) && canMoveLeft()) {
 		velocityX = -playerNS::SPEED * frameTime;
-		if (lc->getTile(spriteData.x + mapx, spriteData.y)->isSolid() || lc->getTile(spriteData.x + mapx, spriteData.y + 31)->isSolid()) {
-			//spriteData.x += frameTime * playerNS::FALLING_SPEED;
+		while (!canMoveLeft()) {
+			spriteData.x += 0.1;
 			velocityX = 0;
 		}
 		orientation = Left;
-	}
+	} else if (!input->isKeyDown(PLAYER_LEFT) && !input->isKeyDown(PLAYER_RIGHT))
+		velocityX = 0;
+
 	if (input->isKeyDown(PLAYER_UP))
-	{
 		orientation = Up;
-	}
 	if (input->isKeyDown(PLAYER_DOWN))
-	{
 		orientation = Down;
-	}
-	if (jumping || (((input->isKeyDown(PLAYER_JUMP) || input->isKeyDown(PLAYER_UP)) && canMoveUp && canJump))) {
+	if (jumping || (((input->isKeyDown(PLAYER_JUMP) || input->isKeyDown(PLAYER_UP)) && canMoveUp() && canJump))) {
 		jumpdistance = jumpOriginY - getY();
 		if (canJump && !jumping)
 			jumpOriginY = getY();
-		if (jumpdistance > playerNS::JUMP_HEIGHT) {
+		if (jumpdistance > playerNS::JUMP_HEIGHT || !canMoveUp()) {
 			jumping = false;
 			canJump = false;
 			falling = true;
-		}
-		else {
+		} else {
+			if (jumping)
+				velocityY += 0.5 * frameTime;
+			else
+				velocityY = -playerNS::JUMP_SPEED * frameTime;
 			jumping = true;
 			canJump = false;
-			//jumpdistance += frameTime * playerNS::JUMP_SPEED;
-			//spriteData.y -= frameTime * playerNS::JUMP_SPEED;
-			velocityY = -playerNS::JUMP_SPEED * frameTime;
-			if (lc->getTile(spriteData.x + mapx, spriteData.y)->isSolid() || lc->getTile(spriteData.x + 31 + mapx, spriteData.y)->isSolid()) {
-				//spriteData.y += frameTime * playerNS::FALLING_SPEED;
-				velocityY = 0;
-			}
 		}
 	}
 	if (!jumping)
 		jumpOriginY = getY();
 	OSD::instance()->addLine("Jump Distance: " + to_string(jumpdistance) + " / " + to_string(playerNS::JUMP_HEIGHT));
-	if (spriteData.y > 0 && !input->isKeyDown(PLAYER_JUMP) && !input->isKeyDown(PLAYER_UP) && !input->isKeyDown(PLAYER_LEFT) && !input->isKeyDown(PLAYER_RIGHT)) {
-		// Get Bottom left bottom right
-		// Get Tile at that location y + 1 pixel
-		// If Tile is not solid
-
-		//orientation = down;
-		//machineGun.update(frameTime, orientation, spriteData.x, spriteData.y);
-	}
-	
+	OSD::instance()->addLine("Can | Left: " + to_string(canMoveLeft()) + " | Right: " + to_string(canMoveRight()) + " | Up: " + to_string(canMoveUp()) + " | Down: " + to_string(canMoveDown()));
 	if (falling && !jumping) {
-		Tile* tileA = lc->getTile(playerBottomLeftX + mapx, playerBottomLeftY + 1);
-		Tile* tileB = lc->getTile(playerBottomRightX + mapx, playerBottomRightY + 1);
-		if (!tileA->isSolid() && !tileB->isSolid()) {
+		if (canMoveDown()) {
 			velocityY = playerNS::FALLING_SPEED * frameTime;
-			//spriteData.y += frameTime * playerNS::FALLING_SPEED; // Use trajectory
-		}
-		updateCoords();
-		tileA = lc->getTile(playerBottomLeftX + mapx, playerBottomLeftY + 1);
-		tileB = lc->getTile(playerBottomRightX + mapx, playerBottomRightY + 1);
-		if (tileA->isSolid() || tileB->isSolid()) {
-			updateCoords();
-			//spriteData.y--;
+		} else {
 			velocityY = 0;
 		}
 	}
 	if (!canFall && !jumping) {
 		velocityY = 0;
 	}
+
+	// Final Sanity Check
+	if (!canMoveLeft() && velocityX < 0 || !canMoveRight() && velocityX > 0)
+		velocityX = 0;
+	if (!canMoveUp() && velocityY < 0 || !canMoveDown() && velocityY > 0)
+		velocityY = 0;
 	setVelocity(VECTOR2(velocityX, velocityY));
 	switch (orientation) {
-		case Right:
-			currentFrame = 953;
-			spriteData.flipHorizontal = true;
-			break;
-		case Down:
-			currentFrame = 954;
-			break;
-		case Left:
-			currentFrame = 953;
-			spriteData.flipHorizontal = false;
-			break;
-		case Up:
-			currentFrame = 952;
-			break;
+	case Right:
+		currentFrame = 953;
+		spriteData.flipHorizontal = true;
+		break;
+	case Down:
+		currentFrame = 954;
+		break;
+	case Left:
+		currentFrame = 953;
+		spriteData.flipHorizontal = false;
+		break;
+	case Up:
+		currentFrame = 952;
+		break;
 	}
 	Item* activeItem = inventory->getActiveItem()->getItem();
 	if (inventory->getActiveItem()->getItem()->getItemType() == Item::Equipable) {

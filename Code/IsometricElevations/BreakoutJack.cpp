@@ -59,8 +59,8 @@ void BreakoutJack::initialize(HWND hwnd) {
 	//player->setY((GAME_HEIGHT - GAME_HEIGHT / breakoutJackNS::TEXTURE_SIZE - 2 * breakoutJackNS::TEXTURE_SIZE) - 100);
 	// Need to spawn player in the middle for scrolling
 	player->setX(GAME_WIDTH / 2);
-	player->setY(100);
-	player->setVelocity(VECTOR2(playerNS::SPEED, playerNS::SPEED));
+	player->setY(200);
+	player->setVelocity(VECTOR2(0, playerNS::FALLING_SPEED));
 	// map tile image
 	mapTile.initialize(graphics, breakoutJackNS::TEXTURE_SIZE, breakoutJackNS::TEXTURE_SIZE, breakoutJackNS::TEXTURE_COLS, &textures);
 	mapTile.setFrames(0, 0);
