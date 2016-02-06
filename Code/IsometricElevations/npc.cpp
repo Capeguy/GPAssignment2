@@ -49,20 +49,21 @@ bool NPC::initialize(Game *gamePtr, int width, int height, int ncols, TextureMan
 	npcHealthBack = new Image();
 	npcHealthBack->initialize(gamePtr->getGraphics(), npcNS::NPC_HEALTHBACK_WIDTH, npcNS::NPC_HEALTHBACK_HEIGHT, 1, npcHealthBackTexture);
 	npcHealthBack->setCurrentFrame(0);
-
+	setVelocity(VECTOR2(0, 0));
 	currDest = VECTOR2(-1, -1);
+	originX = getX();
+	originY = getY();
 	return(Entity::initialize(gamePtr, width, height, ncols, textureM));
 }
 void NPC::draw() {
-
-	//spriteData.scale = 0.5;
 	Image::draw();              // draw ship
 	npcHealth->draw();
 	npcHealthBack->draw();
-	pistol.draw();
 }
-void NPC::update(float frameTime) {//, LevelController* lc) {
+
+void NPC::update(float frameTime, float mapX,float pVelo) {//, LevelController* lc) {
 	RECT r;
+	pVelocity = pVelo;
 	npcHealthBack->setX(spriteData.x);
 	npcHealthBack->setY(spriteData.y - 20);
 	npcHealthBack->draw();
@@ -72,64 +73,8 @@ void NPC::update(float frameTime) {//, LevelController* lc) {
 	r.right = npcHealth->getWidth() * (hp/hpMax);
 	npcHealth->setSpriteDataRect(r);
 
-	ai(frameTime, *this);
-	/*
-	Tile* leftTile = lc->getTile(bottomLeft.x, bottomLeft.y + 1);
-	Tile* rightTile = lc->getTile(bottomRight.x, bottomRight.y + 1);
-	if (leftTile->isSolid() || rightTile->isSolid()) {
-		if (!input->isKeyDown(NPC_UP) && !input->isKeyDown(NPC_JUMP))
-			canJump = true;
-		canFall = false;
-		falling = false;
-	} else {
-		canFall;
-		falling = true;
-	}
-	if (input->isKeyDown(NPC_RIGHT) && canMoveRight) {
-		spriteData.x += frameTime * npcNS::SPEED;
-		while (lc->getTile(spriteData.x + 31, spriteData.y)->isSolid() || lc->getTile(spriteData.x + 31, spriteData.y + 31)->isSolid()) {
-			spriteData.x -= frameTime * npcNS::FALLING_SPEED;
-		}
-		orientation = Right;
-	}
-	if (input->isKeyDown(NPC_LEFT) && canMoveLeft) {
-		spriteData.x -= frameTime * npcNS::SPEED;
-		while (lc->getTile(spriteData.x, spriteData.y)->isSolid() || lc->getTile(spriteData.x, spriteData.y + 31)->isSolid()) {
-			spriteData.x += frameTime * npcNS::FALLING_SPEED;
-		}
-		orientation = Left;
-	}
-	if (jumping || ((input->isKeyDown(NPC_JUMP) || input->isKeyDown(NPC_UP)) && canMoveUp && canJump)) {
-		if (!jumping && canJump)
-			jumpdistance = 0;
-		if (jumpdistance > npcNS::JUMP_HEIGHT) {
-			jumping = false;
-			canJump = false;
-			falling = true;
-		} else {
-			jumping = true;
-			canJump = false;
-			jumpdistance += frameTime * npcNS::JUMP_SPEED;
-			spriteData.y -= frameTime * npcNS::JUMP_SPEED;
-			while (lc->getTile(spriteData.x, spriteData.y)->isSolid() || lc->getTile(spriteData.x + 31, spriteData.y)->isSolid()) {
-				spriteData.y += frameTime * npcNS::FALLING_SPEED;
-			}
-			orientation = Up;
-		}
-	}
-	if (falling && !jumping) {
-		Tile* tileA = lc->getTile(bottomLeft.x, bottomLeft.y + 1);
-		Tile* tileB = lc->getTile(bottomRight.x, bottomRight.y + 1);
-		if (!tileA->isSolid() && !tileB->isSolid()) {
-			spriteData.y += frameTime * npcNS::FALLING_SPEED; // Use trajectory
-		}
-		tileA = lc->getTile(bottomLeft.x, bottomLeft.y + 1);
-		tileB = lc->getTile(bottomRight.x, bottomRight.y + 1);
-		while (tileA->isSolid() || tileB->isSolid()) {
-			spriteData.y--;
-		}
-	}
-	*/
+	ai(frameTime, *this, mapX);
+	
 	switch (orientation) {
 		case Right:
 			currentFrame = 569;
@@ -147,13 +92,8 @@ void NPC::update(float frameTime) {//, LevelController* lc) {
 			currentFrame = 568;
 			break;
 	}
-	
-	//if (lc->collidedWithCrate() == 1)
-	//{
-
-	//}
-
 	Entity::update(frameTime);
+	
 }
 void NPC::setFalling(bool f) {
 	falling = f;
@@ -197,51 +137,88 @@ int NPC::getMaxHP() {
 	return hpMax;
 }
 
-void NPC::moveLeft(float frameTime) {
+void NPC::moveLeft(float frameTime, float mapX) {
 	orientation = Left;
-	spriteData.x -= frameTime * npcNS::SPEED;
+	if(pVelocity < 0)
+		setVelocity(VECTOR2(-npcNS::SPEED * (frameTime / 2), 0));		
+	else if(pVelocity > 0)
+		setVelocity(VECTOR2(-npcNS::SPEED * 2 * frameTime, 0));
+	else
+		setVelocity(VECTOR2(-npcNS::SPEED * frameTime, 0));
 }
 
-void NPC::moveRight(float frameTime) {
+void NPC::moveRight(float frameTime, float mapX) {
 	orientation = Right;
-	spriteData.x += frameTime * npcNS::SPEED;
+	if(pVelocity > 0)
+		setVelocity(VECTOR2(npcNS::SPEED * (frameTime / 2), 0));		
+	else if(pVelocity < 0)
+		setVelocity(VECTOR2(npcNS::SPEED * frameTime * 2, 0));
+	else
+		setVelocity(VECTOR2(npcNS::SPEED * frameTime, 0));
 }
 
 void NPC::moveUp(float frameTime) {
 	orientation = Up;
-	spriteData.y -= frameTime * npcNS::SPEED;
+	setVelocity(VECTOR2(-npcNS::JUMP_SPEED * frameTime, 0));
 }
 
 void NPC::moveDown(float frameTime) {
 	orientation = Down;
-	spriteData.y += frameTime * npcNS::SPEED;
+	setVelocity(VECTOR2(npcNS::JUMP_SPEED * frameTime, 0));
 }
 
-void NPC::ai(float frameTime, Entity &ent) {
+void NPC::ai(float frameTime, Entity &ent, float mapX) {
 	if (pathList.size() == 0)
 		return;
-	//pathList.push_back(VECTOR2(25, 25));
 	if (currDest == VECTOR2(-1, -1)) { // No destination
 		pathCount++;
 		if (pathCount >= pathList.size())
 			pathCount = 0;
+		startPoint = pathList.at(0);
 		currDest = pathList.at(pathCount);
+		//currDest.x += mapX;
 	}
-	if ((int)spriteData.x == (int)currDest.x && (int)spriteData.y == (int)currDest.y) {
+	OSD::instance()->addLine("AI at (" + to_string(spriteData.x) + ", " + to_string(spriteData.y) + ") going to (" + to_string((currDest.x + mapX)) + ", " + to_string(currDest.y) + ")");
+	
+	if (spriteData.x == currDest.x + mapX && spriteData.y == currDest.y) {
 		currDest = VECTOR2(-1, -1);
-	} else {
-		if ((int)spriteData.x > (int)currDest.x) {
-			moveLeft(frameTime);
-		} else if ((int)spriteData.x < (int)currDest.x) {
-			moveRight(frameTime);
+	}
+	else {
+		if (orientation == Left)
+		{
+			if (spriteData.x > startPoint.x + mapX) {
+				moveLeft(frameTime, mapX);
+			}
+			else {
+				orientation = Right;
+				//setVelocity(VECTOR2(0, 0));
+			}
 		}
-		if ((int)spriteData.y >(int)currDest.y) {
+		if (orientation == Right)
+		{
+			if (spriteData.x < currDest.x + mapX) {
+				moveRight(frameTime, mapX);
+			}
+			else {
+				orientation = Left;
+				//setVelocity(VECTOR2(0, 0));
+			}
+		}
+
+		if (spriteData.y > currDest.y) {
 			moveUp(frameTime);
-		} else if ((int)spriteData.y < (int)currDest.y) {
+		}
+		else if (spriteData.y < currDest.y) {
 			moveDown(frameTime);
 		}
 	}
 }
+	
 void NPC::addPath(VECTOR2 v) {
 	pathList.push_back(v);
+}
+
+void NPC::setMapX(float x)
+{
+	mapX -= x;
 }

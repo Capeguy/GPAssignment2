@@ -104,8 +104,11 @@ ItemController* LevelController::getIController() {
 void LevelController::collisions() {
 	D3DXVECTOR2 collisionVector = D3DXVECTOR2();
 	list<Crate*>* crateList = iController->getCrateList();
+	list<VECTOR2>* crateLocList = iController->getCrateLoc();
 	list<Crate*>::iterator crateIter;
 	list<Projectile*>::iterator projectileIter = projectiles.begin();
+	list<VECTOR2>::iterator crateLocIter = crateLocList->begin();
+	int count = 0;
 	bool removed = false;
 	while (!projectiles.empty() && projectileIter != projectiles.end()) {
 		crateIter = crateList->begin();
@@ -113,12 +116,19 @@ void LevelController::collisions() {
 		while (!crateList->empty() && crateIter != crateList->end() && !removed) {
 			if ((*projectileIter)->collidesWith(**crateIter, collisionVector)) {
 				// TODO: Handle giving of items from crate to player here @Isaac
+				std::advance(crateLocIter, count);
 				setCrateCollided(1);
 				crateIter = crateList->erase(crateIter);
-				projectileIter = projectiles.erase(projectileIter);
+				projectileIter = projectiles.erase(projectileIter);	
+				crateLocIter = crateLocList->erase(crateLocIter);
 				removed = true;
 			} else {
 				++crateIter;
+				count++;
+			}			
+			if (count+1 > crateLocList->size())
+			{
+				count = 0;
 			}
 		}
 		if (!removed)

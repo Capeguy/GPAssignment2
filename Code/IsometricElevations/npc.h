@@ -24,11 +24,11 @@ namespace npcNS
 {
 	const int	X = 0;
 	const int	Y = 0;
-	const float SPEED = 200;
-	const float FALLING_SPEED = 120;
+	const float SPEED = 32 * 400;
+	const float FALLING_SPEED = 32 * 200;
 	const float MASS = 300.0f;
-	const float JUMP_HEIGHT = 32;
-	const float JUMP_SPEED = 200;
+	const float JUMP_HEIGHT = 32 * 2;
+	const float JUMP_SPEED = 32 * 400;
 	const int   TEXTURE_SIZE = 64;
 	const int   TEXTURE_COLS = 32;
 	const int   NPC_START_FRAME = 568;
@@ -49,7 +49,7 @@ class NPC : public Entity
 protected:
 	bool	jump = false;
 	bool	doubleJump = false;
-	int		orientation = Right;
+	int		orientation = Left;
 	int		healthStatus = Alive;
 	float	hp = 10;
 	float	hpMax = 10;
@@ -71,6 +71,8 @@ protected:
 	VECTOR2 currDest;
 	int pathCount;
 	vector <VECTOR2> pathList;
+	float originX;
+	float originY;
 
 
 public:
@@ -84,6 +86,8 @@ public:
 	bool canMoveDown = true;
 	bool dying = false;
 	//int spriteNumber = -1; 
+	float mapX = 0;
+	float pVelocity = 0;
 	//explicit
 	NPC();
 	~NPC();
@@ -91,12 +95,12 @@ public:
 	//	inherited member functions
 	virtual void draw();
 	virtual bool initialize(Game *gamePtr, int width, int height, int ncols, TextureManager *textureM);
-	void update(float frameTime); // , LevelController* lc);
-	void moveLeft(float frameTime);
-	void moveRight(float frameTime);
+	void update(float frameTime, float mapX, float pVelo); // , LevelController* lc);
+	void moveLeft(float frameTime, float);
+	void moveRight(float frameTime, float);
 	void moveUp(float frameTime);
 	void moveDown(float frameTime);
-	void ai(float frameTime, Entity & ent);
+	void ai(float frameTime, Entity & ent, float mapX);
 	// TODO: Make NPC AI walk between 2 points / cycle between points in a vector array
 	void setFalling(bool f);
 	void damage(float amt);
@@ -109,5 +113,6 @@ public:
 	void addPath(VECTOR2 v);
 	int getHP();
 	int getMaxHP();
+	void setMapX(float x);
 };
 #endif

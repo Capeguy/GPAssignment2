@@ -9,7 +9,9 @@
 
 namespace projectileNS
 {
-
+	const int PISTOL_BULLET_FRAME = 1;
+	const int MACHINEGUN_BULLET_FRAME = 2;
+	const int SHOTGUN_BULLET_FRAME = 4;
 }
 
 class Projectile : public Entity {
@@ -24,6 +26,7 @@ public:
 	void update (float frameTime);
 	void collision();
 	double getDamage();
+	void setDamage(double d);
 	float getSpeed();
 	void setSpeed(float s);
 };

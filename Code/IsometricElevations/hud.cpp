@@ -59,23 +59,27 @@ HUD::~HUD()
 void HUD::update(float frameTime, InventoryItem* const &item, Player* player)
 {
 	currentItem = item->getItem();
-	string itemName = item->getItem()->getItemName();
-	if (itemName == "pistol")
+	Gun* gun = dynamic_cast<Gun*>(currentItem);
+	if (gun != 0)
 	{
-		currentItemImage->setCurrentFrame(8);
+		if (gun->getGunId() == Gun::ItemType::pistol)
+		{
+			currentItemImage->setCurrentFrame(gunNS::PISTOL_FRAME);
+		}
+		else if (gun->getGunId() == Gun::ItemType::machineGun)
+		{
+			currentItemImage->setCurrentFrame(gunNS::MACHINEGUN_FRAME);
+		}
+		else if (gun->getGunId() == Gun::ItemType::shotGun)
+		{
+			currentItemImage->setCurrentFrame(gunNS::SHOTGUN_FRAME);
+		}
+		else // to be taken out, for testing purposes
+		{
+			currentItemImage->setCurrentFrame(10);
+		}
 	}
-	else if(itemName == "shotgun")
-	{
-		currentItemImage->setCurrentFrame(6);
-	}
-	else if (itemName == "machineGun")
-	{
-		currentItemImage->setCurrentFrame(0);
-	}
-	else // to be taken out, for testing purposes
-	{
-		currentItemImage->setCurrentFrame(10);
-	}
+	
 	RECT r = hp->getSpriteDataRect();
 	//percentage of player hp / width of image
 	r.right = player->getHP() / player->getMaxHP() * hp->getWidth();

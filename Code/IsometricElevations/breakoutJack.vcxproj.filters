@@ -1,219 +1,77 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
-    <Filter Include="Source Files">
-      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
-      <Extensions>cpp;c;cc;cxx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
-    </Filter>
-    <Filter Include="Header Files">
-      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
-      <Extensions>h;hpp;hxx;hm;inl;inc;xsd</Extensions>
-    </Filter>
-    <Filter Include="Resource Files">
-      <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
-      <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav</Extensions>
-    </Filter>
+    <ClCompile Include="audio.cpp" />
+    <ClCompile Include="console.cpp" />
+    <ClCompile Include="BreakoutJack.cpp" />
+    <ClCompile Include="crate.cpp" />
+    <ClCompile Include="entity.cpp" />
+    <ClCompile Include="game.cpp" />
+    <ClCompile Include="graphics.cpp" />
+    <ClCompile Include="gun.cpp" />
+    <ClCompile Include="healthPack.cpp" />
+    <ClCompile Include="hud.cpp" />
+    <ClCompile Include="inputDialog.cpp" />
+    <ClCompile Include="inventory.cpp" />
+    <ClCompile Include="inventoryItem.cpp" />
+    <ClCompile Include="item.cpp" />
+    <ClCompile Include="itemController.cpp" />
+    <ClCompile Include="levelController.cpp" />
+    <ClCompile Include="list.cpp" />
+    <ClCompile Include="machineGun.cpp" />
+    <ClCompile Include="messageDialog.cpp" />
+    <ClCompile Include="npc.cpp" />
+    <ClCompile Include="npcController.cpp" />
+    <ClCompile Include="OSD.cpp" />
+    <ClCompile Include="pistol.cpp" />
+    <ClCompile Include="player.cpp" />
+    <ClCompile Include="projectile.cpp" />
+    <ClCompile Include="shotgun.cpp" />
+    <ClCompile Include="textureManager.cpp" />
+    <ClCompile Include="input.cpp" />
+    <ClCompile Include="image.cpp" />
+    <ClCompile Include="textDX.cpp" />
+    <ClCompile Include="tile.cpp" />
+    <ClCompile Include="weapon.cpp" />
+    <ClCompile Include="winmain.cpp" />
+    <ClCompile Include="button.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="game.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="graphics.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="input.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="winmain.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="console.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="textDX.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="image.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="audio.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="textureManager.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="messageDialog.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="inputDialog.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="player.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="entity.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="weapon.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="projectile.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="inventoryItem.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="list.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="item.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="gun.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="shotgun.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="pistol.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="machineGun.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="npc.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="BreakoutJack.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="levelController.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="tile.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="crate.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="itemController.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="inventory.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="healthPack.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="npcController.cpp">
-    <ClCompile Include="hud.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="OSD.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-  </ItemGroup>
-  <ItemGroup>
-    <ClInclude Include="constants.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="game.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="graphics.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="input.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="console.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="textDX.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="image.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="audio.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="textureManager.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="gameError.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="messageDialog.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="inputDialog.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="player.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="entity.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="weapon.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="projectile.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="inventoryItem.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="item.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="list.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="gun.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="shotgun.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="pistol.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="machineGun.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="npc.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="BreakoutJack.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="levelController.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="tile.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="crate.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="itemController.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="inventory.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="healthPack.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="npcController.h">
-    <ClInclude Include="hud.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="OSD.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
+    <ClInclude Include="audio.h" />
+    <ClInclude Include="console.h" />
+    <ClInclude Include="constants.h" />
+    <ClInclude Include="BreakoutJack.h" />
+    <ClInclude Include="crate.h" />
+    <ClInclude Include="entity.h" />
+    <ClInclude Include="game.h" />
+    <ClInclude Include="gameError.h" />
+    <ClInclude Include="graphics.h" />
+    <ClInclude Include="gun.h" />
+    <ClInclude Include="healthPack.h" />
+    <ClInclude Include="hud.h" />
+    <ClInclude Include="inputDialog.h" />
+    <ClInclude Include="inventory.h" />
+    <ClInclude Include="inventoryItem.h" />
+    <ClInclude Include="item.h" />
+    <ClInclude Include="itemController.h" />
+    <ClInclude Include="levelController.h" />
+    <ClInclude Include="list.h" />
+    <ClInclude Include="machineGun.h" />
+    <ClInclude Include="messageDialog.h" />
+    <ClInclude Include="npc.h" />
+    <ClInclude Include="npcController.h" />
+    <ClInclude Include="OSD.h" />
+    <ClInclude Include="pistol.h" />
+    <ClInclude Include="player.h" />
+    <ClInclude Include="projectile.h" />
+    <ClInclude Include="shotgun.h" />
+    <ClInclude Include="textureManager.h" />
+    <ClInclude Include="input.h" />
+    <ClInclude Include="image.h" />
+    <ClInclude Include="textDX.h" />
+    <ClInclude Include="tile.h" />
+    <ClInclude Include="weapon.h" />
+    <ClInclude Include="button.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="ClassDiagram.cd" />

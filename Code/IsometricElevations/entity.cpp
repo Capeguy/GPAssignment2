@@ -57,7 +57,8 @@ void Entity::update (float frameTime) {
 	velocity += deltaV;
 	deltaV.x = 0;
 	deltaV.y = 0;
-	
+	spriteData.x += velocity.x * frameTime;
+	spriteData.y += velocity.y * frameTime;
 	Image::update (frameTime);
 	rotatedBoxReady = false;    // for rotatedBox collision detection
 	bottomLeft = VECTOR2(getX(), getY() - 1 + getHeight() * getScale());
