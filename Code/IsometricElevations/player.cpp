@@ -42,16 +42,16 @@ bool Player::initialize(Game *gamePtr, int width, int height, int ncols, Texture
 	// We should move this elsewhere - Ben
 	
 	machineGun = new MachineGun();
-	machineGun->initialize(gameptr, 136, 41, 2, gunTexture);
-	machineGun->setCurrentFrame(0);
+	machineGun->initialize(gameptr, gunNS::TEXTURE_WIDTH, gunNS::TEXTURE_HEIGHT, gunNS::TEXTURE_COLS, gunTexture);
+	machineGun->setCurrentFrame(gunNS::MACHINEGUN_FRAME);
 
 	pistol = new Pistol();
-	pistol->initialize(gameptr, 136, 41, 2, gunTexture);
-	pistol->setCurrentFrame(8);
+	pistol->initialize(gameptr, gunNS::TEXTURE_WIDTH, gunNS::TEXTURE_HEIGHT, gunNS::TEXTURE_COLS, gunTexture);
+	pistol->setCurrentFrame(gunNS::PISTOL_FRAME);
 
 	shotgun = new Shotgun();
-	shotgun->initialize(gameptr, 136, 41, 2, gunTexture);
-	shotgun->setCurrentFrame(6);
+	shotgun->initialize(gameptr, gunNS::TEXTURE_WIDTH, gunNS::TEXTURE_HEIGHT, gunNS::TEXTURE_COLS, gunTexture);
+	shotgun->setCurrentFrame(gunNS::SHOTGUN_FRAME);
 	// End
 	defaultItem = new InventoryItem(machineGun);
 	inventory->addItem(defaultItem);
