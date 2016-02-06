@@ -85,6 +85,7 @@ public:
 	bool canMoveDown = true;
 	bool dying = false;
 	float mapX = 0;
+	float pVelocity = 0;
 	//explicit
 	NPC();
 	~NPC();
@@ -92,7 +93,7 @@ public:
 	//	inherited member functions
 	virtual void draw();
 	virtual bool initialize(Game *gamePtr, int width, int height, int ncols, TextureManager *textureM);
-	void update(float frameTime, float mapX); // , LevelController* lc);
+	void update(float frameTime, float mapX, float pVelo); // , LevelController* lc);
 	void moveLeft(float frameTime, float);
 	void moveRight(float frameTime, float);
 	void moveUp(float frameTime);

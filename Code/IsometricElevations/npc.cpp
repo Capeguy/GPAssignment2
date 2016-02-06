@@ -60,8 +60,9 @@ void NPC::draw() {
 	npcHealthBack->draw();
 }
 
-void NPC::update(float frameTime, float mapX) {//, LevelController* lc) {
+void NPC::update(float frameTime, float mapX,float pVelo) {//, LevelController* lc) {
 	RECT r;
+	pVelocity = pVelo;
 	npcHealthBack->setX(spriteData.x);
 	npcHealthBack->setY(spriteData.y - 20);
 	npcHealthBack->draw();
@@ -70,7 +71,8 @@ void NPC::update(float frameTime, float mapX) {//, LevelController* lc) {
 	r = npcHealth->getSpriteDataRect();
 	r.right = npcHealth->getWidth() * (hp/hpMax);
 	npcHealth->setSpriteDataRect(r);
-	//ai(frameTime, *this, mapX);
+
+	ai(frameTime, *this, mapX);
 	
 	switch (orientation) {
 		case Right:
@@ -135,12 +137,22 @@ int NPC::getMaxHP() {
 
 void NPC::moveLeft(float frameTime, float mapX) {
 	orientation = Left;
-	setVelocity(VECTOR2(-npcNS::SPEED * frameTime, 0));
+	if(pVelocity < 0)
+		setVelocity(VECTOR2(-npcNS::SPEED * (frameTime / 2), 0));		
+	else if(pVelocity > 0)
+		setVelocity(VECTOR2(-npcNS::SPEED * 2 * frameTime, 0));
+	else
+		setVelocity(VECTOR2(-npcNS::SPEED * frameTime, 0));
 }
 
 void NPC::moveRight(float frameTime, float mapX) {
 	orientation = Right;
-	setVelocity(VECTOR2(npcNS::SPEED * frameTime, 0));
+	if(pVelocity > 0)
+		setVelocity(VECTOR2(npcNS::SPEED * (frameTime / 2), 0));		
+	else if(pVelocity < 0)
+		setVelocity(VECTOR2(npcNS::SPEED * frameTime * 2, 0));
+	else
+		setVelocity(VECTOR2(npcNS::SPEED * frameTime, 0));
 }
 
 void NPC::moveUp(float frameTime) {
@@ -160,6 +172,7 @@ void NPC::ai(float frameTime, Entity &ent, float mapX) {
 		pathCount++;
 		if (pathCount >= pathList.size())
 			pathCount = 0;
+		startPoint = pathList.at(0);
 		currDest = pathList.at(pathCount);
 		//currDest.x += mapX;
 	}
@@ -167,29 +180,38 @@ void NPC::ai(float frameTime, Entity &ent, float mapX) {
 	
 	if (spriteData.x == currDest.x + mapX && spriteData.y == currDest.y) {
 		currDest = VECTOR2(-1, -1);
-	} else {
-		if (spriteData.x > currDest.x + mapX) {
-			if (orientation == Right) {
+	}
+	else {
+		if (orientation == Left)
+		{
+			if (spriteData.x > startPoint.x + mapX) {
 				moveLeft(frameTime, mapX);
-			} else {
-				setVelocity(VECTOR2(0, 0));
+			}
+			else {
+				orientation = Right;
+				//setVelocity(VECTOR2(0, 0));
 			}
 		}
-		if (spriteData.x < currDest.x + mapX) {
-			if (orientation == Left) {
+		if (orientation == Right)
+		{
+			if (spriteData.x < currDest.x + mapX) {
 				moveRight(frameTime, mapX);
-			} else {
-				setVelocity(VECTOR2(0, 0));
+			}
+			else {
+				orientation = Left;
+				//setVelocity(VECTOR2(0, 0));
 			}
 		}
+
 		if (spriteData.y > currDest.y) {
 			moveUp(frameTime);
-		} else if (spriteData.y < currDest.y) {
+		}
+		else if (spriteData.y < currDest.y) {
 			moveDown(frameTime);
 		}
 	}
-	
 }
+	
 void NPC::addPath(VECTOR2 v) {
 	pathList.push_back(v);
 }

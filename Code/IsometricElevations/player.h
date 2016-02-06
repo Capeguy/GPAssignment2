@@ -50,7 +50,8 @@ private:
 	Inventory* inventory;
 	float	jumpdistance = 0;
 	float	jumpOriginY;
-
+	float velocityX = getVelocity().x;
+	float velocityY = getVelocity().y;
 	MachineGun* machineGun;
 	Pistol* pistol;
 	Shotgun * shotgun;
@@ -95,5 +96,6 @@ public:
 	bool canMoveDown();
 	bool canMoveLeft();
 	bool canMoveRight();
+	float getPlayerVelocity();
 };
 #endif

@@ -79,6 +79,7 @@ void BreakoutJack::initialize(HWND hwnd) {
 	npc->addPath(VECTOR2(725, 544));
 	npc->addPath(VECTOR2(1200, 544));
 	npcController->addSpawnLoc(725, 544);
+	
 	npc = npcController->spawnNPCs(1, this, 325, 320);
 	npc->addPath(VECTOR2(325, 320));
 	npc->addPath(VECTOR2(900, 320));
@@ -160,6 +161,7 @@ void BreakoutJack::update() {
 		}
 		// Adjust map to the left if player exceeds boundary to the Right
 		else if (playerX > bndR) {
+			float test = player->getVelocity().x;
 			mapX = (player->getVelocity().x * frameTime);
 			bndL = (GAME_WIDTH / 2) - (1 * playerNS::WIDTH);
 			player->setX(bndR);
@@ -167,6 +169,7 @@ void BreakoutJack::update() {
 		levelController->setMapX(mapX);
 		levelController->update(frameTime);
 		npcController->setMapX(mapX);
+		npcController->getPlayerVelocity(player->getPlayerVelocity());
 		npcController->update(frameTime);
 	}
 	else if (room == Instructions)
