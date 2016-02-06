@@ -36,6 +36,7 @@ NPC::~NPC() {
 }
 bool NPC::initialize(Game *gamePtr, int width, int height, int ncols, TextureManager *textureM) {
 	gameptr = gamePtr;
+	//spriteNumber = spriteNo;
 	if (!npcTexture.initialize(gamePtr->getGraphics(), TEXTURE_NPC))
 		throw(GameError(gameErrorNS::FATAL_ERROR, "Error initializing npc texture"));
 	if (!npcHealthTexture->initialize(gamePtr->getGraphics(), TEXTURE_NPCHEALTH))
@@ -131,18 +132,19 @@ void NPC::update(float frameTime) {//, LevelController* lc) {
 	*/
 	switch (orientation) {
 		case Right:
-			currentFrame = 953;
+			currentFrame = 569;
+			//currentFrame = npcControllerNS::npcSpriteMap[4][spriteNo]
 			spriteData.flipHorizontal = true;
 			break;
 		case Down:
-			currentFrame = 954;
+			currentFrame = 570;
 			break;
 		case Left:
-			currentFrame = 953;
+			currentFrame = 569;
 			spriteData.flipHorizontal = false;
 			break;
 		case Up:
-			currentFrame = 952;
+			currentFrame = 568;
 			break;
 	}
 	

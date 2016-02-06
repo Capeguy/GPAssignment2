@@ -7,9 +7,22 @@
 #include "npc.h"
 #include "entity.h"
 #include <vector>
+
 using namespace std;
+class NPC;
 namespace npcControllerNS
 {
+	const int npcSpriteQty = 2;
+	//const int npcSpriteOrientationQty = 4;
+	const int npcSpriteMap[4][npcSpriteQty] = {
+		568, 569, 570, 571,
+		504, 505, 506, 507
+	};
+
+	const string npcSpriteNameList[npcSpriteQty] = {
+		"Black Police",
+		"White Police"
+	};
 }
 
 class NPCController

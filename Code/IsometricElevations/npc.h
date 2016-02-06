@@ -16,6 +16,7 @@
 #include "shotgun.h"
 #include "pistol.h"
 #include "levelController.h"
+#include "npcController.h"
 // TODO: Create an NPCController to control the spawning of NPCs
 using namespace std;
 
@@ -30,8 +31,8 @@ namespace npcNS
 	const float JUMP_SPEED = 200;
 	const int   TEXTURE_SIZE = 64;
 	const int   TEXTURE_COLS = 32;
-	const int   NPC_START_FRAME = 952;
-	const int   NPC_END_FRAME = 955;
+	const int   NPC_START_FRAME = 568;
+	const int   NPC_END_FRAME = 571;
 	const float NPC_ANIMATION_DELAY = 0.2f;
 	const float NPC_WIDTH = 64.0;
 	const float NPC_HEIGHT = 64.0;
@@ -82,6 +83,7 @@ public:
 	bool canMoveUp = true;
 	bool canMoveDown = true;
 	bool dying = false;
+	//int spriteNumber = -1; 
 	//explicit
 	NPC();
 	~NPC();
