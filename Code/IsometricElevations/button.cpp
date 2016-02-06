@@ -3,6 +3,7 @@
 Button::Button(int i)
 {
 	id = i;
+	pressed = false;
 }
 
 Button::~Button()
@@ -21,7 +22,25 @@ bool Button::isHovered(Input* input)
 
 bool Button::isClicked(Input* input)
 {
-	return input->getMouseLButton() && isHovered(input);
+	if (input->getMouseLButton() && isHovered(input)) {
+		pressed = true;
+		return true;
+	}
+	return false;
+}
+
+bool Button::isReleased(Input* input)
+{
+	if (!active)
+		return false;
+	if (input->getMouseLButton()) {
+		pressed = true;
+		return false;
+	} else if (pressed && !input->getMouseLButton() && isHovered(input)) {
+		pressed = false;
+		return true;
+	}
+	return false; // Try this
 }
 
 void Button::update(float frameTime)

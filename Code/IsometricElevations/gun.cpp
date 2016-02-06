@@ -55,6 +55,10 @@ void Gun::update(float frametime, int orientation, float x, float y, Input* inpu
 	{
 		shoot(lc, frametime);
 	}
+	else 
+	{
+		cooldowncurrent -= frametime;
+	}
 	Entity::update(frametime);
 }
 void Gun::draw() {

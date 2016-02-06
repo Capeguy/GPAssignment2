@@ -17,6 +17,10 @@ namespace buttonNS
 	const int height = 65;
 	const int cols = 1;
 	const int spacing = 105;
+
+	const int pMenu_width = 200; 
+	const int pMenu_height = 71;
+	const int pMenu_cols = 1;
 }
 class Button : public Entity // Abstract class
 {
@@ -25,11 +29,14 @@ protected:
 	int id;
 	bool clicked;
 	bool hovered;
+	bool pressed;
 public:
+	bool active = true;
 	Button(int id);
 	virtual ~Button();
 	bool isHovered(Input* input);
 	bool isClicked(Input* input);
+	bool isReleased(Input* input);
 	void update(float frameTime);
 	int getID();
 	bool initialize(Game *gamePtr, int width, int height, int ncols, TextureManager *textureM);
