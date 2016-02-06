@@ -121,10 +121,14 @@ void LevelController::collisions() {
 				crateIter = crateList->erase(crateIter);
 				projectileIter = projectiles.erase(projectileIter);	
 				crateLocIter = crateLocList->erase(crateLocIter);
-				count++;
 				removed = true;
 			} else {
 				++crateIter;
+				count++;
+			}			
+			if (count+1 > crateLocList->size())
+			{
+				count = 0;
 			}
 		}
 		if (!removed)
