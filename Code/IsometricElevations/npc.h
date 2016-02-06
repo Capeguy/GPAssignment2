@@ -31,8 +31,8 @@ namespace npcNS
 	const float JUMP_SPEED = 32 * 400;
 	const int   TEXTURE_SIZE = 64;
 	const int   TEXTURE_COLS = 32;
-	const int   NPC_START_FRAME = 568;
-	const int   NPC_END_FRAME = 571;
+	//const int   NPC_START_FRAME = 568;
+	//const int   NPC_END_FRAME = 571;
 	//const int   NPC_START_FRAME = 474;
 	//const int   NPC_END_FRAME = 477;
 	const float NPC_ANIMATION_DELAY = 0.2f;

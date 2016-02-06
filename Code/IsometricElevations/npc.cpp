@@ -13,10 +13,10 @@ NPC::NPC() : Entity() {
 	velocity.x = 0;                             // velocity X
 	velocity.y = 0;                             // velocity Y
 	frameDelay = npcNS::NPC_ANIMATION_DELAY;
-	startFrame = npcNS::NPC_START_FRAME;     // first frame of ship animation
-	endFrame = npcNS::NPC_END_FRAME;     // last frame of ship animation
-	//startFrame = npcControllerNS::npcSpriteMap[sprIndex][0];     // first frame of ship animation
-	//endFrame = npcControllerNS::npcSpriteMap[sprIndex][3];     // last frame of ship animation
+	//startFrame = -1; //npcNS::NPC_START_FRAME;     // first frame of ship animation
+	//endFrame = -1; // npcNS::NPC_END_FRAME;     // last frame of ship animation
+	startFrame = npcControllerNS::npcSpriteMap[sprIndex][0];     // first frame of ship animation
+	endFrame = npcControllerNS::npcSpriteMap[sprIndex][3];     // last frame of ship animation
 	currentFrame = startFrame;
 	collisionType = entityNS::BOX;
 	spriteData.scale = 0.5;
