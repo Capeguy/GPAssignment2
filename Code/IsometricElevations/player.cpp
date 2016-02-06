@@ -98,7 +98,7 @@ void Player::update(float frameTime, LevelController* lc) {
 	if (input->isKeyDown(PLAYER_RIGHT) && canMoveRight) {
 		//spriteData.x += frameTime * playerNS::SPEED;
 		velocityX = playerNS::SPEED * frameTime;
-		while (lc->getTile(spriteData.x + 31 + mapx, spriteData.y)->isSolid() || lc->getTile(spriteData.x + 31 + mapx, spriteData.y + 31)->isSolid()) {
+		if (lc->getTile(spriteData.x + 31 + mapx, spriteData.y)->isSolid() || lc->getTile(spriteData.x + 31 + mapx, spriteData.y + 31)->isSolid()) {
 			//spriteData.x -= frameTime * playerNS::FALLING_SPEED;
 			velocityX = 0;
 		}
@@ -107,7 +107,7 @@ void Player::update(float frameTime, LevelController* lc) {
 	if (input->isKeyDown(PLAYER_LEFT) && canMoveLeft) {
 		//spriteData.x -= frameTime * playerNS::SPEED;
 		velocityX = -playerNS::SPEED * frameTime;
-		while (lc->getTile(spriteData.x + mapx, spriteData.y)->isSolid() || lc->getTile(spriteData.x + mapx, spriteData.y + 31)->isSolid()) {
+		if (lc->getTile(spriteData.x + mapx, spriteData.y)->isSolid() || lc->getTile(spriteData.x + mapx, spriteData.y + 31)->isSolid()) {
 			//spriteData.x += frameTime * playerNS::FALLING_SPEED;
 			velocityX = 0;
 		}
@@ -136,7 +136,7 @@ void Player::update(float frameTime, LevelController* lc) {
 			//jumpdistance += frameTime * playerNS::JUMP_SPEED;
 			//spriteData.y -= frameTime * playerNS::JUMP_SPEED;
 			velocityY = -playerNS::JUMP_SPEED * frameTime;
-			while (lc->getTile(spriteData.x + mapx, spriteData.y)->isSolid() || lc->getTile(spriteData.x + 31 + mapx, spriteData.y)->isSolid()) {
+			if (lc->getTile(spriteData.x + mapx, spriteData.y)->isSolid() || lc->getTile(spriteData.x + 31 + mapx, spriteData.y)->isSolid()) {
 				//spriteData.y += frameTime * playerNS::FALLING_SPEED;
 				velocityY = 0;
 			}
