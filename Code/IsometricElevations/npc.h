@@ -33,6 +33,8 @@ namespace npcNS
 	const int   TEXTURE_COLS = 32;
 	const int   NPC_START_FRAME = 568;
 	const int   NPC_END_FRAME = 571;
+	//const int   NPC_START_FRAME = 474;
+	//const int   NPC_END_FRAME = 477;
 	const float NPC_ANIMATION_DELAY = 0.2f;
 	const float NPC_WIDTH = 64.0;
 	const float NPC_HEIGHT = 64.0;
@@ -85,7 +87,7 @@ public:
 	bool canMoveUp = true;
 	bool canMoveDown = true;
 	bool dying = false;
-	//int spriteNumber = -1; 
+	int sprIndex = -1;
 	float mapX = 0;
 	float pVelocity = 0;
 	//explicit
@@ -94,7 +96,7 @@ public:
 
 	//	inherited member functions
 	virtual void draw();
-	virtual bool initialize(Game *gamePtr, int width, int height, int ncols, TextureManager *textureM);
+	virtual bool initialize(Game *gamePtr, int width, int height, int ncols, TextureManager *textureM, int spriteNumber);
 	void update(float frameTime, float mapX, float pVelo); // , LevelController* lc);
 	void moveLeft(float frameTime, float);
 	void moveRight(float frameTime, float);

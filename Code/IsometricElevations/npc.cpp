@@ -15,6 +15,8 @@ NPC::NPC() : Entity() {
 	frameDelay = npcNS::NPC_ANIMATION_DELAY;
 	startFrame = npcNS::NPC_START_FRAME;     // first frame of ship animation
 	endFrame = npcNS::NPC_END_FRAME;     // last frame of ship animation
+	//startFrame = npcControllerNS::npcSpriteMap[sprIndex][0];     // first frame of ship animation
+	//endFrame = npcControllerNS::npcSpriteMap[sprIndex][3];     // last frame of ship animation
 	currentFrame = startFrame;
 	collisionType = entityNS::BOX;
 	spriteData.scale = 0.5;
@@ -34,9 +36,11 @@ NPC::NPC() : Entity() {
 
 NPC::~NPC() {
 }
-bool NPC::initialize(Game *gamePtr, int width, int height, int ncols, TextureManager *textureM) {
+bool NPC::initialize(Game *gamePtr, int width, int height, int ncols, TextureManager *textureM, int spriteNumber) {
 	gameptr = gamePtr;
-	//spriteNumber = spriteNo;
+	sprIndex = spriteNumber;
+	startFrame = npcControllerNS::npcSpriteMap[sprIndex][0];
+	endFrame = npcControllerNS::npcSpriteMap[sprIndex][3];
 	if (!npcTexture.initialize(gamePtr->getGraphics(), TEXTURE_NPC))
 		throw(GameError(gameErrorNS::FATAL_ERROR, "Error initializing npc texture"));
 	if (!npcHealthTexture->initialize(gamePtr->getGraphics(), TEXTURE_NPCHEALTH))
@@ -72,24 +76,31 @@ void NPC::update(float frameTime, float mapX,float pVelo) {//, LevelController* 
 	r = npcHealth->getSpriteDataRect();
 	r.right = npcHealth->getWidth() * (hp/hpMax);
 	npcHealth->setSpriteDataRect(r);
-
+	int test = sprIndex;
 	ai(frameTime, *this, mapX);
 	
 	switch (orientation) {
 		case Right:
-			currentFrame = 569;
-			//currentFrame = npcControllerNS::npcSpriteMap[4][spriteNo]
+			//currentFrame = 569;
+			currentFrame = npcControllerNS::npcSpriteMap[sprIndex][1];
+			//currentFrame = npcControllerNS::npcSpriteMap[1][sprIndex];
 			spriteData.flipHorizontal = true;
 			break;
 		case Down:
-			currentFrame = 570;
+			//currentFrame = 570;
+			currentFrame = npcControllerNS::npcSpriteMap[sprIndex][2];
+			//currentFrame = npcControllerNS::npcSpriteMap[2][sprIndex];
 			break;
 		case Left:
-			currentFrame = 569;
+			//currentFrame = 569;
+			currentFrame = npcControllerNS::npcSpriteMap[sprIndex][1];
+			//currentFrame = npcControllerNS::npcSpriteMap[1][sprIndex];
 			spriteData.flipHorizontal = false;
 			break;
 		case Up:
-			currentFrame = 568;
+			//currentFrame = 568;
+			currentFrame = npcControllerNS::npcSpriteMap[sprIndex][0];
+			//currentFrame = npcControllerNS::npcSpriteMap[0][sprIndex];
 			break;
 	}
 	Entity::update(frameTime);

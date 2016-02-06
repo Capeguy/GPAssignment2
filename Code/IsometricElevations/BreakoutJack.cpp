@@ -75,12 +75,12 @@ void BreakoutJack::initialize(HWND hwnd) {
 	hud = new HUD(graphics);
 	OSD::instance()->setGraphics(graphics);
 	npcController = new NPCController(graphics);
-	NPC* npc = npcController->spawnNPCs(1, this, 725, 544);
+	NPC* npc = npcController->spawnNPCs(1, this, 725, 544, 3);
 	npc->addPath(VECTOR2(725, 544));
 	npc->addPath(VECTOR2(1200, 544));
 	npcController->addSpawnLoc(725, 544);
 	
-	npc = npcController->spawnNPCs(1, this, 325, 320);
+	npc = npcController->spawnNPCs(1, this, 325, 320, 4);
 	npc->addPath(VECTOR2(325, 320));
 	npc->addPath(VECTOR2(900, 320));
 

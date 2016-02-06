@@ -12,16 +12,22 @@ using namespace std;
 class NPC;
 namespace npcControllerNS
 {
-	const int npcSpriteQty = 2;
-	//const int npcSpriteOrientationQty = 4;
-	const int npcSpriteMap[4][npcSpriteQty] = {
+	const int npcSpriteQty = 5;
+	const int npcSpriteOrientationQty = 4;
+	const int npcSpriteMap[npcSpriteQty][npcSpriteOrientationQty] = {
 		568, 569, 570, 571,
-		504, 505, 506, 507
+		504, 505, 506, 507,
+		472, 473, 474, 475,
+		312, 313, 314, 315,
+		600, 601, 602, 603
 	};
 
 	const string npcSpriteNameList[npcSpriteQty] = {
 		"Black Police",
-		"White Police"
+		"White Police",
+		"Armoured Police",
+		"Firefighter",
+		"Prisoner Jack"
 	};
 }
 
@@ -36,7 +42,7 @@ private:
 public:
 	NPCController();
 	NPCController(Graphics*);
-	NPC* spawnNPCs(int, Game*, float, float);
+	NPC* spawnNPCs(int, Game*, float, float, int);
 	void update(float);
 	void render();
 	void collisions(LevelController*);
