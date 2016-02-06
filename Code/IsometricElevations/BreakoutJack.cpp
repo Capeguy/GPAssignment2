@@ -27,6 +27,8 @@ void BreakoutJack::initialize(HWND hwnd) {
 	menuTexture = new TextureManager();
 	buttonTexture = new TextureManager();
 	playerTexture = new TextureManager();
+	pauseMenuTexture = new TextureManager();
+	pauseMenuButtonTexture = new TextureManager();
 	// map textures
 	if (!textures.initialize(graphics, TEXTURES_IMAGE))
 		throw(GameError(gameErrorNS::FATAL_ERROR, "Error initializing textures"));
@@ -50,6 +52,12 @@ void BreakoutJack::initialize(HWND hwnd) {
 	//button texture
 	if (!buttonTexture->initialize(graphics, TEXTURE_BUTTONS))
 		throw(GameError(gameErrorNS::FATAL_ERROR, "Error initializing menu button texture"));
+	//pause menu texture
+	if (!pauseMenuTexture->initialize(graphics, TEXTURE_PAUSE_MENU))
+		throw(GameError(gameErrorNS::FATAL_ERROR, "Error initializing pause menu texture"));
+	//pause menu button texture
+	if (!pauseMenuButtonTexture->initialize(graphics, TEXTURE_PAUSE_MENU_BUTTONS))
+		throw(GameError(gameErrorNS::FATAL_ERROR, "Error initializing pause menu button texture"));
 	//player image
 	player->setColorFilter(graphicsNS::MAGENTA);
 	player->initialize(this, playerNS::PLAYER_WIDTH, playerNS::PLAYER_HEIGHT, 32, playerTexture); // to change
@@ -85,8 +93,6 @@ void BreakoutJack::initialize(HWND hwnd) {
 
 	npcController->addSpawnLoc(325, 320);
 
-
-
 	menu = new Image();
 	menu->initialize(graphics, GAME_WIDTH, GAME_HEIGHT, 1, menuTexture);
 	menu->setX(0);
@@ -101,75 +107,125 @@ void BreakoutJack::initialize(HWND hwnd) {
 		b->setY((GAME_HEIGHT + i* buttonNS::spacing - 400));
 		buttonList->push_back(b);
 	}
+	pauseMenu = new Image();
+	pauseMenu->initialize(graphics, GAME_WIDTH, GAME_HEIGHT, 1, pauseMenuTexture);
+	pauseMenu->setX(0);
+	pauseMenu->setY(0);
+	pauseMenuButtonList = new list<Button*>();
+	for (int i = 0; i < 3; i++)
+	{
+		Button* b = new Button(i);
+		b->initialize(this, buttonNS::pMenu_width, buttonNS::pMenu_height, buttonNS::pMenu_cols, pauseMenuButtonTexture);
+		b->setCurrentFrame(i);
+		b->setX(GAME_WIDTH / 2 -100);
+		b->setY((GAME_HEIGHT + i* buttonNS::spacing - 500));
+		pauseMenuButtonList->push_back(b);
+	}
 }
 
 //=============================================================================
 // Update all game items
 //=============================================================================
 void BreakoutJack::update() {
-
-	if (input->isKeyDown(PAUSE))
-	{
-		room = Menu;
-	}
 	if (room == Menu)
 	{
 		menu->update(frameTime);
-		for (list<Button*>::iterator bList = buttonList->begin(); bList != buttonList->end(); ++bList) {
-			if ((*bList)->isClicked(input))
-			{
-				room = (*bList)->getID();
+		if (skipFirstClick) {
+			if (input->getMouseLButton()) {
+				skipFirstClick = false;
 			}
-			(*bList)->update(frameTime);
+		}
+		else {
+			for (list<Button*>::iterator bList = buttonList->begin(); bList != buttonList->end(); ++bList) {
+				(*bList)->active = true;
+				if ((*bList)->isReleased(input))
+				{
+					room = (*bList)->getID();
+				}
+				(*bList)->update(frameTime);
+			}
 		}
 	}
 	else if (room == Start)
 	{
-		// Variables for scrolling
-		float playerX;
-		float mapX = 0;
-		// Boundaries
-		float bndR = (GAME_WIDTH / 2) + (1 * playerNS::WIDTH);
-		float bndL = (GAME_WIDTH / 2) - (1 * playerNS::WIDTH);
-		levelController->update(frameTime);
+		//if pause button is pressed, display menu 
+		if (input->isKeyDown(PAUSE))
+			pause = true;
+		if (pause) 
+		{
+			pauseMenu->update(frameTime);
+			for (list<Button*>::iterator bList = pauseMenuButtonList->begin(); bList != pauseMenuButtonList->end(); ++bList) {
+				int i = -1;
+				if ((*bList)->isReleased(input))
+				{
+					 i = (*bList)->getID();
+				}
+				if (i == Resume)
+				{
+					pause = false;
+				}
+				else if (i == Restart)
+				{
+					//restart level
+				}
+				else if (i == MainMenu)
+				{
+					pause = false;
+					room = Menu;
+					skipFirstClick = true;
+				}
+				(*bList)->update(frameTime);
+			}
+		}
+		else
+		{
+			// Variables for scrolling
+			float playerX;
+			float mapX = 0;
+			// Boundaries
+			float bndR = (GAME_WIDTH / 2) + (1 * playerNS::WIDTH);
+			float bndL = (GAME_WIDTH / 2) - (1 * playerNS::WIDTH);
+			levelController->update(frameTime);
 
-		crate.update(frameTime);
-		player->update(frameTime, levelController);
-		hud->update(frameTime, player->getInventory()->getActiveItem(), player);
-		crate.update(frameTime);
-		player->update(frameTime, levelController);
+			crate.update(frameTime);
+			player->update(frameTime, levelController);
+			hud->update(frameTime, player->getInventory()->getActiveItem(), player);
+			crate.update(frameTime);
+			player->update(frameTime, levelController);
 
-		//Scrolling code
-		playerX = player->getX();
-		float mapXCor = levelController->getMapX();
-		// Check map is at the end in right direction
-		if (levelController->getMapX() < float((2 * GAME_WIDTH - 5.0) * -1.0)) {
-			mapX = 0;//float(GAME_WIDTH * -1.0);
-			bndR = GAME_WIDTH;
-			//player->setVelocityX(0);
+			//Scrolling code
+			playerX = player->getX();
+			float mapXCor = levelController->getMapX();
+			// Check map is at the end in right direction
+			if (levelController->getMapX() < float((2 * GAME_WIDTH - 5.0) * -1.0)) {
+				mapX = 0;//float(GAME_WIDTH * -1.0);
+				bndR = GAME_WIDTH;
+				//player->setVelocityX(0);
+			}
+			// Check if map is at end in the left direction
+			if (levelController->getMapX() > 0) {
+				mapX = 0;
+				bndL = 0;
+				//player->setVelocityX(0);
+			}
+			// Adjust map to the right if player exceeds boundary to the left
+			if (playerX < bndL) {
+				mapX = (player->getVelocity().x * frameTime);
+				bndR = (GAME_WIDTH / 2) + (1 * playerNS::WIDTH);
+				player->setX(bndL);
+			}
+			// Adjust map to the left if player exceeds boundary to the Right
+			else if (playerX > bndR) {
+				mapX = (player->getVelocity().x * frameTime);
+				bndL = (GAME_WIDTH / 2) - (1 * playerNS::WIDTH);
+				player->setX(bndR);
+			}
+			levelController->setMapX(mapX);
+			levelController->update(frameTime);
+			npcController->setMapX(mapX);
+			npcController->update(frameTime);
 		}
-		// Check if map is at end in the left direction
-		if (levelController->getMapX() > 0) {
-			mapX = 0;
-			bndL = 0;
-			//player->setVelocityX(0);
-		}
-		// Adjust map to the right if player exceeds boundary to the left
-		if (playerX < bndL) {
-			mapX = (player->getVelocity().x * frameTime);
-			bndR = (GAME_WIDTH / 2) + (1 * playerNS::WIDTH);
-			player->setX(bndL);
-		}
-		// Adjust map to the left if player exceeds boundary to the Right
-		else if (playerX > bndR) {
-			mapX = (player->getVelocity().x * frameTime);
-			bndL = (GAME_WIDTH / 2) - (1 * playerNS::WIDTH);
-			player->setX(bndR);
-		}
-		levelController->setMapX(mapX);
-		levelController->update(frameTime);
-		npcController->setMapX(mapX);
-		npcController->update(frameTime);
+		
 	}
 	else if (room == Instructions)
 	{
@@ -234,19 +290,34 @@ void BreakoutJack::render() {
 	if (room == Menu)
 	{
 		menu->draw();
-		menu->update(frameTime);
 		for (list<Button*>::iterator bList = buttonList->begin(); bList != buttonList->end(); ++bList) {
 			(*bList)->draw();
 		}
 	}
 	else if (room == Start)
 	{
-		levelController->render(graphics);
-		npcController->render();
-		player->draw();
-		crate.draw();
-		hud->draw();
-		OSD::instance()->draw();
+		if (pause)
+		{
+			levelController->render(graphics);
+			npcController->render();
+			player->draw();
+			crate.draw();
+			hud->draw();
+			OSD::instance()->draw();
+			pauseMenu->draw();
+			for (list<Button*>::iterator bList = pauseMenuButtonList->begin(); bList != pauseMenuButtonList->end(); ++bList) {
+				(*bList)->draw();
+			}
+		}
+		else 
+		{
+			levelController->render(graphics);
+			npcController->render();
+			player->draw();
+			crate.draw();
+			hud->draw();
+			OSD::instance()->draw();
+		}
 	}
 	else if (room == Instructions)
 	{

@@ -58,7 +58,10 @@ private:
 	TextureManager itemTexture;		// item texture
 	TextureManager* menuTexture;
 	TextureManager* buttonTexture;
+	TextureManager* pauseMenuTexture;
+	TextureManager* pauseMenuButtonTexture;
 	Image* menu;
+	Image* pauseMenu;
 	Image   mapTile;
 	Crate crate;
 	TextDX	dxFont;
@@ -69,6 +72,9 @@ private:
 	NPCController* npcController;
 	int room = Menu;
 	list<Button*>* buttonList;
+	list<Button*>* pauseMenuButtonList;
+	bool pause = false;
+	bool skipFirstClick = false;
 
 public:
 	LevelController* levelController;
@@ -87,6 +93,7 @@ public:
 	bool tileIsSolid(int x, int y);
 	void consoleCommand();
 	enum Room{Menu, Start, Instructions, Credits, Exit};
+	enum PauseMenu{Resume, Restart, MainMenu};
 };
 
 #endif
