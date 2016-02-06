@@ -146,13 +146,11 @@ void BreakoutJack::update() {
 		if (levelController->getMapX() < float((2 * GAME_WIDTH - 5.0) * -1.0)) {
 			mapX = 0;//float(GAME_WIDTH * -1.0);
 			bndR = GAME_WIDTH;
-			//player->setVelocityX(0);
 		}
 		// Check if map is at end in the left direction
 		if (levelController->getMapX() > 0) {
 			mapX = 0;
 			bndL = 0;
-			//player->setVelocityX(0);
 		}
 		// Adjust map to the right if player exceeds boundary to the left
 		if (playerX < bndL) {
