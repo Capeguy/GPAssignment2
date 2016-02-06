@@ -8,7 +8,6 @@ Gun::Gun() {
 	velocity.x = 0;                             // velocity X
 	velocity.y = 0;                             // velocity Y
 	frameDelay = 0.2f;
-
 	startFrame = 0;     // first frame of ship animation
 	endFrame = 0;     // last frame of ship animation
 	currentFrame = startFrame;
@@ -28,9 +27,6 @@ bool Gun::initialize(Game * gamePtr, int width, int height, int ncols, TextureMa
 	if (!bulletTexture->initialize(gamePtr->getGraphics(), TEXTURE_BULLETS))
 		throw(GameError(gameErrorNS::FATAL_ERROR, "Error initializing bullet texture"));
 	return (Entity::initialize(gamePtr, width, height, ncols, textureM));
-}
-bool Gun::Shoot() {
-	return false;
 }
 void Gun::update(float frametime, int orientation, float x, float y, Input* input, LevelController* lc) {
 	//change orientation of gun based on mouse position
@@ -55,37 +51,9 @@ void Gun::update(float frametime, int orientation, float x, float y, Input* inpu
 		flipHorizontal(false);
 	}
 	//fire bullet
-	if (input->isKeyDown(VK_SHIFT) || input->getMouseLButton()) {
-		if (cooldowncurrent <= 0 && hasAmmo()) {
-			if (ammo != -1)
-				ammo--;
-			gameptr->console->print("Remaining ammo: ");
-			gameptr->console->print(to_string(ammo));
-			cooldowncurrent = cooldown;
-			bullet = new Projectile();
-			bullet->initialize(gameptr, 32, 32, 1, bulletTexture);
-			bullet->setCurrentFrame(1);
-			bullet->spriteData.angle = angle;
-			D3DXVECTOR2 mousePos = D3DXVECTOR2(cos(angle), sin(angle)); // normalize the vector idk what but it works lol
-			bullet->setX(getX() + mousePos.x * 48); // <---- the 32 should be the gun sprites width
-			bullet->setY(getY());
-			if (adjacent >= 0)
-			{
-				bullet->setVelocity(mousePos);
-				bullet->spriteData.angle = angle;
-			}
-			else
-			{
-				bullet->setVelocity(-mousePos);
-			}
-				
-			lc->addProjectile(bullet);
-			bullets.push_back(bullet);
-		} else {
-			cooldowncurrent -= frametime;
-		}
-	} else {
-		cooldowncurrent -= frametime;
+	if (input->getMouseLButton())
+	{
+		shoot(lc, frametime);
 	}
 	Entity::update(frametime);
 }

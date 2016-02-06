@@ -15,19 +15,23 @@ using namespace std;
 
 namespace gunNS
 {
-	const int TEXTURE_WIDTH = 67;
+	const int TEXTURE_WIDTH = 136;
 	const int TEXTURE_HEIGHT = 41;
 	const int TEXTURE_COLS = 2;
+	const int PISTOL_FRAME = 8;
+	const int MACHINEGUN_FRAME = 0;
+	const int SHOTGUN_FRAME = 6;
+	
 }
 
 class Gun : public Item // Still an abstract class
 {
 
 protected:
-	int id = 0;
+	int id = -1;
 	int ammo = 10;
 	int maxAmmo = 10;
-	float cooldown = 0.2f;
+	float cooldown = 0;
 	float cooldowncurrent = 0;
 	int previousOreintation = -1;
 	Projectile* bullet;
@@ -39,6 +43,8 @@ protected:
 	float playerX, playerY; // to be taken out 
 	double mouseX, mouseY;
 	string guntype;
+	double damage = 0;
+	float bullet_speed = 0;
 public:
 	enum Orientation { Right, Down, Left, Up };;
 	//explicit
@@ -46,7 +52,7 @@ public:
 	Gun (string);
 	~Gun ();
 	bool initialize (Game * gamePtr, int width, int height, int ncols, TextureManager * textureM);
-	bool Shoot(); // Deprecated
+	virtual void shoot(LevelController* lc, float frametime) { } 
 	void update (float frametime, int orientation, float x, float y, Input* input, LevelController* lc);
 	void draw();
 	void collision();

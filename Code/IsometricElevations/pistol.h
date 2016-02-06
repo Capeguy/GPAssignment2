@@ -10,16 +10,16 @@ using namespace std;
 
 namespace pistolNS
 {
-
+	const int spacing = 32;
 }
 
 class Pistol : public Gun {
 private:
-
+	
 public:
 	//explict
 	Pistol ();
 	~Pistol ();
-	bool Shoot ();
+	void shoot (LevelController* lc, float frametime);
 };
 #endif
