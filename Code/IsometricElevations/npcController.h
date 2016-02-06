@@ -19,6 +19,7 @@ private:
 	list<NPC*> npcs;
 	list<VECTOR2> NPCSpawnLoc;
 	float mapX = 0;
+	float pVelocity = 0;
 public:
 	NPCController();
 	NPCController(Graphics*);
@@ -29,5 +30,6 @@ public:
 	void setMapX(float x);
 	void addSpawnLoc(float x, float y);
 	void removeSpawnLoc(int);
+	void getPlayerVelocity(float v);
 };
 #endif

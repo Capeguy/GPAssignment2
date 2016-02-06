@@ -21,7 +21,7 @@ NPC* NPCController::spawnNPCs(int level, Game *gamePtr, float x, float y) {
 
 void NPCController::update(float frameTime) {
 	for (list<NPC*>::iterator it = npcs.begin(); it != npcs.end(); ++it) {
-		(*it)->update(frameTime,mapX);
+		(*it)->update(frameTime,mapX,pVelocity);
 	}
 }
 void NPCController::render() {
@@ -77,5 +77,10 @@ void NPCController::setMapX(float x)
 void NPCController::addSpawnLoc(float x, float y)
 {
 	NPCSpawnLoc.push_back(VECTOR2(x, y));
+}
+
+void NPCController::getPlayerVelocity(float v)
+{
+	pVelocity = v;
 }
 

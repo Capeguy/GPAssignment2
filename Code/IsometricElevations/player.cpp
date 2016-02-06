@@ -89,13 +89,17 @@ bool Player::canMoveLeft() {
 bool Player::canMoveRight() {
 	return !(levelController->getTile(topRight.x + levelController->getMapX() * -1.0 + 1, topRight.y)->isSolid() || levelController->getTile(bottomRight.x + levelController->getMapX() * -1.0 + 1, bottomRight.y)->isSolid());
 }
+float Player::getPlayerVelocity()
+{
+	return velocityX;
+}
 void Player::update(float frameTime, LevelController* lc) {
 	levelController = lc;
 	updateCoords();
 	inventory->update(frameTime, input);
 	float mapx = lc->getMapX() * -1.0;
-	double velocityX = getVelocity().x;
-	double velocityY = getVelocity().y;
+	velocityX = getVelocity().x;
+	velocityY = getVelocity().y;
 	if (!canMoveDown()) {
 		if (!input->isKeyDown(PLAYER_UP) && !input->isKeyDown(PLAYER_JUMP))
 			canJump = true;

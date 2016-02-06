@@ -87,6 +87,7 @@ void BreakoutJack::initialize(HWND hwnd) {
 	npc->addPath(VECTOR2(725, 544));
 	npc->addPath(VECTOR2(1200, 544));
 	npcController->addSpawnLoc(725, 544);
+	
 	npc = npcController->spawnNPCs(1, this, 325, 320);
 	npc->addPath(VECTOR2(325, 320));
 	npc->addPath(VECTOR2(900, 320));
@@ -225,7 +226,6 @@ void BreakoutJack::update() {
 			npcController->setMapX(mapX);
 			npcController->update(frameTime);
 		}
-		
 	}
 	else if (room == Instructions)
 	{
