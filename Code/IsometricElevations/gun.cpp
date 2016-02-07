@@ -41,13 +41,13 @@ void Gun::update(float frametime, int orientation, float x, float y, Input* inpu
 	if (adjacent < 0) // facing back
 	{
 		setX(x-20);
-		setY(y);
+		setY(y+5);
 		flipHorizontal(true);
 	}
 	else
 	{
 		setX(x);
-		setY(y);
+		setY(y+5);
 		flipHorizontal(false);
 	}
 	//fire bullet
