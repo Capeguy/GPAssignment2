@@ -6,6 +6,7 @@
 #include "constants.h"
 #include "npc.h"
 #include "entity.h"
+#include "player.h"
 #include <vector>
 
 using namespace std;
@@ -43,12 +44,13 @@ public:
 	NPCController();
 	NPCController(Graphics*);
 	NPC* spawnNPCs(int, Game*, float, float, int);
-	void update(float);
+	void update(float, LevelController*);
 	void render();
 	void collisions(LevelController*);
 	void setMapX(float x);
 	void addSpawnLoc(float x, float y);
 	void removeSpawnLoc(int);
 	void getPlayerVelocity(float v);
+	void chaseIfInRange(VECTOR2);
 };
 #endif

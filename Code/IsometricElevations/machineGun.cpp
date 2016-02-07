@@ -1,23 +1,21 @@
 #include "machineGun.h"
 
 using namespace std;
-MachineGun::MachineGun () : Gun () {
+MachineGun::MachineGun() : Gun() {
 	ammo = 100;
 	maxAmmo = 150;
 	id = machineGun;
 	cooldown = 0.2f;
 	damage = 10;
 	bullet_speed = 200.0f;
-	Gun ();
+	Gun();
 }
 
-MachineGun::~MachineGun () {
+MachineGun::~MachineGun() {
 
 }
-void MachineGun::shoot(LevelController* lc, float frametime)
-{
-	if (cooldowncurrent <= 0 && hasAmmo())
-	{
+Projectile* MachineGun::shoot(LevelController* lc, float frametime) {
+	if (cooldowncurrent <= 0 && hasAmmo()) {
 		if (ammo != -1)
 			ammo--;
 		gameptr->console->print("Remaining ammo: ");
@@ -32,23 +30,20 @@ void MachineGun::shoot(LevelController* lc, float frametime)
 		D3DXVECTOR2 mousePos = D3DXVECTOR2(cos(angle), sin(angle)); // normalize the vector idk what but it works lol
 		bullet->setX(getX() + mousePos.x * gunNS::MACHINEGUN_OFFSET); // <---- the 32 should be the gun sprites width
 		bullet->setY(getY());
-		if (adjacent >= 0)
-		{
+		if (adjacent >= 0) {
 			bullet->setVelocity(mousePos);
 			bullet->spriteData.angle = angle;
-		}
-		else
-		{
+		} else {
 			bullet->setVelocity(-mousePos);
 		}
 		lc->addProjectile(bullet);
 		bullets.push_back(bullet);
-	}
-	else
-	{
+		return bullet;
+	} else {
 		cooldowncurrent -= frametime;
 	}
+	return nullptr;
 }
 void MachineGun::draw() {
-	
+
 }

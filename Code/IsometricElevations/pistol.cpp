@@ -1,7 +1,7 @@
 #include "pistol.h"
 
 using namespace std;
-Pistol::Pistol () {
+Pistol::Pistol() {
 	ammo = -1;
 	maxAmmo = -1;
 	id = pistol;
@@ -11,12 +11,11 @@ Pistol::Pistol () {
 	Gun();
 }
 
-Pistol::~Pistol () {
+Pistol::~Pistol() {
 
 }
-void Pistol::shoot (LevelController* lc, float frametime) {
-	if (cooldowncurrent <= 0 && hasAmmo())
-	{
+Projectile* Pistol::shoot(LevelController* lc, float frametime) {
+	if (cooldowncurrent <= 0 && hasAmmo()) {
 		if (ammo != -1)
 			ammo--;
 		gameptr->console->print("Remaining ammo: ");
@@ -31,21 +30,23 @@ void Pistol::shoot (LevelController* lc, float frametime) {
 		D3DXVECTOR2 mousePos = D3DXVECTOR2(cos(angle), sin(angle)); // normalize the vector idk what but it works lol
 		bullet->setX(getX() + mousePos.x * gunNS::PISTOL_OFFSET); // <---- the 32 should be the gun sprites width
 		bullet->setY(getY());
-		if (adjacent >= 0)
-		{
+		if (adjacent >= 0) {
 			bullet->setVelocity(mousePos);
 			bullet->spriteData.angle = angle;
-		}
-		else
-		{
+		} else {
 			bullet->setVelocity(-mousePos);
 		}
 		lc->addProjectile(bullet);
 		bullets.push_back(bullet);
-	}
-	else
-	{
+		return bullet;
+	} else {
 		cooldowncurrent -= frametime;
 	}
-
+	return nullptr;
+}
+void Projectile::setOwner(int o) {
+	owner = o;
+}
+int Projectile::getOwner() {
+	return owner;
 }

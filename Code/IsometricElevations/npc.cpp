@@ -35,9 +35,10 @@ NPC::NPC() : Entity() {
 	gunTexture = new TextureManager();
 }
 
-NPC::~NPC() {
-}
+NPC::~NPC() {}
 bool NPC::initialize(Game *gamePtr, int width, int height, int ncols, TextureManager *textureM, int spriteNumber) {
+	chaseRange = npcNS::NPC_CHASE_RANGE;
+	shootRange = npcNS::NPC_SHOOT_RANGE;
 	gameptr = gamePtr;
 	sprIndex = spriteNumber;
 	startFrame = npcControllerNS::npcSpriteMap[sprIndex][0];
@@ -83,58 +84,49 @@ void NPC::draw() {
 	}
 }
 
-void NPC::update(float frameTime, float mapX,float pVelo) {//, LevelController* lc) {
-	RECT r;
+void NPC::update(float frameTime, float mapX, float pVelo, LevelController* lc) {
 	pVelocity = pVelo;
+	offsetNew.x = mapX;
 	npcHealthBack->setX(spriteData.x);
 	npcHealthBack->setY(spriteData.y - 20);
 	npcHealthBack->draw();
 	npcHealth->setX(spriteData.x + 1);
 	npcHealth->setY(spriteData.y - 21);
-	r = npcHealth->getSpriteDataRect();
-	r.right = npcHealth->getWidth() * (hp/hpMax);
+	RECT r = npcHealth->getSpriteDataRect();
+	r.right = npcHealth->getWidth() * (hp / hpMax);
 	npcHealth->setSpriteDataRect(r);
-	int test = sprIndex;
 	bool flip = false;
 	ai(frameTime, *this, mapX);
-	
+	OSD::instance()->addLine("NPC is at (" + to_string(getX()) + ", " + to_string(getY()) + ") | Update called with mapX: " + to_string(mapX));
 	switch (orientation) {
-		case Right:
-			//currentFrame = 569;
-			currentFrame = npcControllerNS::npcSpriteMap[sprIndex][1];
-			//currentFrame = npcControllerNS::npcSpriteMap[1][sprIndex];
-			spriteData.flipHorizontal = true;
-			flip = false;
-			break;
-		case Down:
-			//currentFrame = 570;
-			currentFrame = npcControllerNS::npcSpriteMap[sprIndex][2];
-			//currentFrame = npcControllerNS::npcSpriteMap[2][sprIndex];
-			break;
-		case Left:
-			//currentFrame = 569;
-			currentFrame = npcControllerNS::npcSpriteMap[sprIndex][1];
-			//currentFrame = npcControllerNS::npcSpriteMap[1][sprIndex];
-			spriteData.flipHorizontal = false;
-			flip = true;
-			break;
-		case Up:
-			//currentFrame = 568;
-			currentFrame = npcControllerNS::npcSpriteMap[sprIndex][0];
-			//currentFrame = npcControllerNS::npcSpriteMap[0][sprIndex];
-			break;
+	case Right:
+		currentFrame = npcControllerNS::npcSpriteMap[sprIndex][1];
+		spriteData.flipHorizontal = true;
+		flip = false;
+		break;
+	case Down:
+		currentFrame = npcControllerNS::npcSpriteMap[sprIndex][2];
+		break;
+	case Left:
+		currentFrame = npcControllerNS::npcSpriteMap[sprIndex][1];
+		spriteData.flipHorizontal = false;
+		flip = true;
+		break;
+	case Up:
+		currentFrame = npcControllerNS::npcSpriteMap[sprIndex][0];
+		break;
 	}
 
 	Item* activeItem = inventory->getActiveItem()->getItem();
 	if (inventory->getActiveItem()->getItem()->getItemType() == Item::Equipable) {
 		Gun* gun = dynamic_cast<Gun*>(activeItem);
 		if (gun != 0) {
-			gun->update(frameTime, orientation, spriteData.x, spriteData.y, input, flip);
+			bool shoot = aiState == Shoot;
+			gun->update(frameTime, orientation, spriteData.x, spriteData.y, input, lc, derivedDest.x, derivedDest.y, shoot);
 		}
 	}
-
 	Entity::update(frameTime);
-	
+
 }
 void NPC::setFalling(bool f) {
 	falling = f;
@@ -160,13 +152,11 @@ void NPC::die() {
 	// TO DO: Die (HP <= 0)
 }
 
-void NPC::setDying(bool d)
-{
+void NPC::setDying(bool d) {
 	dying = d;
 }
 
-bool NPC::isDying()
-{
+bool NPC::isDying() {
 	return dying;
 }
 
@@ -178,88 +168,165 @@ int NPC::getMaxHP() {
 	return hpMax;
 }
 
-void NPC::moveLeft(float frameTime, float mapX) {
+void NPC::moveLeft(float frameTime) {
 	orientation = Left;
-	if(pVelocity < 0)
-		setVelocity(VECTOR2(-npcNS::SPEED * (frameTime / 2), 0));		
-	else if(pVelocity > 0)
+	velocity.x = -npcNS::SPEED * frameTime;
+	/*
+	if (pVelocity < 0)
+		setVelocity(VECTOR2(-npcNS::SPEED * (frameTime / 2), 0));
+	else if (pVelocity > 0)
 		setVelocity(VECTOR2(-npcNS::SPEED * 2 * frameTime, 0));
 	else
 		setVelocity(VECTOR2(-npcNS::SPEED * frameTime, 0));
+	*/
 }
 
-void NPC::moveRight(float frameTime, float mapX) {
+void NPC::moveRight(float frameTime) {
 	orientation = Right;
-	if(pVelocity > 0)
-		setVelocity(VECTOR2(npcNS::SPEED * (frameTime / 2), 0));		
-	else if(pVelocity < 0)
+	velocity.x = npcNS::SPEED * frameTime;
+	/*
+	if (pVelocity > 0)
+		setVelocity(VECTOR2(npcNS::SPEED * (frameTime / 2), 0));
+	else if (pVelocity < 0)
 		setVelocity(VECTOR2(npcNS::SPEED * frameTime * 2, 0));
 	else
 		setVelocity(VECTOR2(npcNS::SPEED * frameTime, 0));
+	*/
 }
 
 void NPC::moveUp(float frameTime) {
 	orientation = Up;
-	setVelocity(VECTOR2(-npcNS::JUMP_SPEED * frameTime, 0));
+	velocity.y = -npcNS::JUMP_SPEED * frameTime;
 }
 
 void NPC::moveDown(float frameTime) {
 	orientation = Down;
-	setVelocity(VECTOR2(npcNS::JUMP_SPEED * frameTime, 0));
+	velocity.y = npcNS::JUMP_SPEED * frameTime;
 }
-
+void NPC::setAiState(int state) {
+	aiState = state;
+	switch (state) {
+	case Patrol:
+		bool found = false;
+		for (vector<VECTOR2>::iterator pathIt = pathList.begin(); pathIt != pathList.end(); ++pathIt) {
+			if ((*pathIt).x == currDest.x && (*pathIt).y == currDest.y) {
+				found = true;
+				break;
+			}
+		}
+		if (!found) {
+			currDest = pathList.at(pathCount);
+		}
+	}
+}
 void NPC::ai(float frameTime, Entity &ent, float mapX) {
-	if (pathList.size() == 0)
-		return;
-	if (currDest == VECTOR2(-1, -1)) { // No destination
-		pathCount++;
-		if (pathCount >= pathList.size())
-			pathCount = 0;
-		startPoint = pathList.at(0);
-		currDest = pathList.at(pathCount);
-		//currDest.x += mapX;
+	if (currDest != VECTOR2(-1, -1)) {
+		derivedDest = VECTOR2(currDest.x + offsetOld.x, currDest.y + offsetOld.y);
 	}
-	OSD::instance()->addLine("AI at (" + to_string(spriteData.x) + ", " + to_string(spriteData.y) + ") going to (" + to_string((currDest.x + mapX)) + ", " + to_string(currDest.y) + ")");
-	
-	if (spriteData.x == currDest.x + mapX && spriteData.y == currDest.y) {
-		currDest = VECTOR2(-1, -1);
-	}
-	else {
-		if (orientation == Left)
-		{
-			if (spriteData.x > startPoint.x + mapX) {
-				moveLeft(frameTime, mapX);
-			}
-			else {
-				orientation = Right;
-				//setVelocity(VECTOR2(0, 0));
-			}
+	// derivedDest.y = spriteData.y; // Because we're not gonna climb mountains to chase Player
+	switch (aiState) {
+	case Patrol:
+	case Chase:
+		if (pathList.size() == 0)
+			return;
+		if (currDest == VECTOR2(-1, -1) || spriteData.x == derivedDest.x) { // && spriteData.y == derivedDest.y) { // No destination
+			pathCount++;
+			if (pathCount >= pathList.size())
+				pathCount = 0;
+			currDest = pathList.at(pathCount);
 		}
-		if (orientation == Right)
-		{
-			if (spriteData.x < currDest.x + mapX) {
-				moveRight(frameTime, mapX);
-			}
-			else {
+		if (spriteData.x > derivedDest.x) {
+			if (velocity.x > 0 && spriteData.x - derivedDest.x < 1) {
+				velocity.x = 0;
+				setX(derivedDest.x);
+			} else {
 				orientation = Left;
-				//setVelocity(VECTOR2(0, 0));
+				moveLeft(frameTime);
 			}
+		} else if (spriteData.x < derivedDest.x) {
+			if (velocity.x < 0 && derivedDest.x - spriteData.x < 1) {
+				velocity.x = 0;
+				setX(derivedDest.x);
+			} else {
+				orientation = Right;
+				moveRight(frameTime);
+			}
+		} else {
+			velocity.x = 0;
 		}
-
+		/* I probably shouldn't need to go up and down
+		if (spriteData.y > derivedDest.y) {
+			if (velocity.y > 0 && spriteData.y - derivedDest.y < 1) {
+				velocity.y = 0;
+				setY(derivedDest.y);
+			} else {
+				orientation = Down;
+				moveUp(frameTime);
+			}
+		} else if (spriteData.y < derivedDest.y) {
+			if (velocity.y < 0 && derivedDest.y - spriteData.y < 1) {
+				velocity.y = 0;
+				setY(derivedDest.y);
+			} else {
+				orientation = Up;
+				moveDown(frameTime);
+			}
+		} else {
+			velocity.y = 0;
+		}
+		*/
+		//setY(derivedDest.y);
+		/*
 		if (spriteData.y > currDest.y) {
-			moveUp(frameTime);
+		if (orientation == Down) {
+		velocity.y = 0;
+		setY(currDest.y);
+		} else {
+		orientation = Up;
+		moveUp(frameTime);
 		}
-		else if (spriteData.y < currDest.y) {
-			moveDown(frameTime);
+		} else if (spriteData.y < currDest.y) {
+		if (orientation == Up) {
+		velocity.y = 0;
+		setY(currDest.y);
+		} else {
+		orientation = Down;
+		moveDown(frameTime);
 		}
+		} else {
+		velocity.y = 0;
+		}
+		*/
+		break;
+	case Shoot:
+		velocity = VECTOR2(0, 0);
+		VECTOR2 delta = VECTOR2(derivedDest.x - getX(), 0);
+		if (delta.x < 0)
+			orientation = Left;
+		else if (delta.x > 0)
+			orientation = Right;
+		else
+			orientation = Up;
+		break;
 	}
-}
 	
+	OSD::instance()->addLine("MapX: " + to_string(mapX));
+	OSD::instance()->addLine("NPC AI (" + to_string(aiState) + ") at (" + to_string(spriteData.x) + ", " + to_string(spriteData.y) + ") going to (" + to_string((derivedDest.x)) + ", " + to_string(derivedDest.y) + ") Moving at: (" + to_string((velocity.x)) + ", " + to_string(velocity.y) + ") ");
+}
+
 void NPC::addPath(VECTOR2 v) {
 	pathList.push_back(v);
 }
 
-void NPC::setMapX(float x)
-{
+void NPC::setMapX(float x) {
 	mapX -= x;
+}
+float NPC::getChaseRange() {
+	return chaseRange;
+}
+float NPC::getShootRange() {
+	return shootRange;
+}
+void NPC::setDest(VECTOR2 d) {
+	currDest = d;
 }

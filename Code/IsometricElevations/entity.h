@@ -22,7 +22,8 @@ class Entity : public Image {
 	// Entity properties
 protected:
 	entityNS::COLLISION_TYPE collisionType;
-	
+	VECTOR2	offsetOld = VECTOR2(0, 0);
+	VECTOR2	offsetNew = VECTOR2(0, 0);
 	VECTOR2 center;         // center of entity
 	float   radius;         // radius of collision circle
 	VECTOR2 distSquared;    // used for calculating circle collision
@@ -68,6 +69,9 @@ protected:
 	bool projectionsOverlap (Entity &ent);
 	bool collideCornerCircle (VECTOR2 corner, Entity &ent, VECTOR2 &collisionVector);
 
+
+	float actualX;
+	float actualY;
 public:
 	VECTOR2 bottomLeft = VECTOR2(getX(), getY() - 1 + getHeight() * getScale());
 	VECTOR2 bottomRight = VECTOR2(getX() - 1 + getWidth() * 0.5, getY() - 1 + getHeight() * getScale());

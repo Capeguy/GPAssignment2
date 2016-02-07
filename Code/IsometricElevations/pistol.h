@@ -20,6 +20,6 @@ public:
 	//explict
 	Pistol ();
 	~Pistol ();
-	void shoot (LevelController* lc, float frametime);
+	Projectile* shoot (LevelController* lc, float frametime);
 };
 #endif

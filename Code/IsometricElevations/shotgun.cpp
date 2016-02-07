@@ -14,7 +14,7 @@ Shotgun::Shotgun () {
 Shotgun::~Shotgun () {
 
 }
-void Shotgun::shoot (LevelController* lc, float frametime) {
+Projectile* Shotgun::shoot (LevelController* lc, float frametime) {
 	if (cooldowncurrent <= 0 && hasAmmo())
 	{
 		if (ammo != -1)
@@ -42,9 +42,11 @@ void Shotgun::shoot (LevelController* lc, float frametime) {
 		}
 		lc->addProjectile(bullet);
 		bullets.push_back(bullet);
+		return bullet;
 	}
 	else
 	{
 		cooldowncurrent -= frametime;
 	}
+	return nullptr;
 }

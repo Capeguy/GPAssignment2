@@ -15,7 +15,7 @@ public:
 	//explict
 	MachineGun ();
 	~MachineGun ();
-	void shoot(LevelController* lc, float frametime);
+	Projectile* shoot(LevelController* lc, float frametime);
 	void draw();
 };
 #endif

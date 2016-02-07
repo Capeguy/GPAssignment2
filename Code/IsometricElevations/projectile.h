@@ -18,7 +18,9 @@ class Projectile : public Entity {
 private:
 	double damage;
 	float speed;
+	int owner;
 public:
+	enum Owners {Player, NPC};
 	Projectile ();
 	~Projectile ();
 	virtual void draw ();
@@ -29,5 +31,7 @@ public:
 	void setDamage(double d);
 	float getSpeed();
 	void setSpeed(float s);
+	void setOwner(int o);
+	int getOwner();
 };
 #endif

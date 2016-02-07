@@ -26,6 +26,7 @@ Projectile::~Projectile() {
 
 bool Projectile::initialize(Game *gamePtr, int width, int height, int ncols, TextureManager *textureM, double dmg) {
 	damage = dmg;
+	owner = Player;
 	return(Entity::initialize(gamePtr, width, height, ncols, textureM));
 }
 void Projectile::draw() {

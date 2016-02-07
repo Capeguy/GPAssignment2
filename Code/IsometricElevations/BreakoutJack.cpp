@@ -7,7 +7,7 @@ using namespace breakoutJackNS;
 // Constructor
 //=============================================================================
 BreakoutJack::BreakoutJack() {
-	
+
 }
 
 //=============================================================================
@@ -37,7 +37,7 @@ void BreakoutJack::initialize(HWND hwnd) {
 	if (!textures2.initialize(graphics, TEXTURES2_IMAGE))
 		throw(GameError(gameErrorNS::FATAL_ERROR, "Error initializing textures2"));
 	//player texture
-	
+
 	if (!playerTexture->initialize(graphics, TEXTURE_PLAYER))
 		throw(GameError(gameErrorNS::FATAL_ERROR, "Error initializing player texture"));
 	// item texture
@@ -47,7 +47,7 @@ void BreakoutJack::initialize(HWND hwnd) {
 	if (!tileTexture->initialize(graphics, TEXTURES_IMAGE))
 		throw(GameError(gameErrorNS::FATAL_ERROR, "Error initializing tile texture"));
 	//menu texture
-	if(!menuTexture->initialize(graphics, TEXTURE_MENU))
+	if (!menuTexture->initialize(graphics, TEXTURE_MENU))
 		throw(GameError(gameErrorNS::FATAL_ERROR, "Error initializing menu texture"));
 	//button texture
 	if (!buttonTexture->initialize(graphics, TEXTURE_BUTTONS))
@@ -83,25 +83,25 @@ void BreakoutJack::initialize(HWND hwnd) {
 	hud = new HUD(graphics);
 	OSD::instance()->setGraphics(graphics);
 	npcController = new NPCController(graphics);
-	NPC* npc = npcController->spawnNPCs(1, this, 725, 544, 3);
+	NPC* npc;
+	/*
+	npc = npcController->spawnNPCs(1, this, 725, 544, 3);
 	npc->addPath(VECTOR2(725, 544));
 	npc->addPath(VECTOR2(1200, 544));
 	npcController->addSpawnLoc(725, 544);
-	
+	*/
 	npc = npcController->spawnNPCs(1, this, 325, 320, 4);
 	npc->addPath(VECTOR2(325, 320));
 	npc->addPath(VECTOR2(900, 320));
-
 	npcController->addSpawnLoc(325, 320);
-
+	
 	menu = new Image();
 	menu->initialize(graphics, GAME_WIDTH, GAME_HEIGHT, 1, menuTexture);
 	menu->setX(0);
 	menu->setY(0);
 	buttonList = new list<Button*>();
-	for (int i = 0; i < NUM_BUTTONS; i++)
-	{
-		Button* b = new Button(i+1);
+	for (int i = 0; i < NUM_BUTTONS; i++) {
+		Button* b = new Button(i + 1);
 		b->initialize(this, buttonNS::width, buttonNS::height, buttonNS::cols, buttonTexture);
 		b->setCurrentFrame(i);
 		b->setX(GAME_WIDTH / 2 - 180);
@@ -113,12 +113,11 @@ void BreakoutJack::initialize(HWND hwnd) {
 	pauseMenu->setX(0);
 	pauseMenu->setY(0);
 	pauseMenuButtonList = new list<Button*>();
-	for (int i = 0; i < 3; i++)
-	{
+	for (int i = 0; i < 3; i++) {
 		Button* b = new Button(i);
 		b->initialize(this, buttonNS::pMenu_width, buttonNS::pMenu_height, buttonNS::pMenu_cols, pauseMenuButtonTexture);
 		b->setCurrentFrame(i);
-		b->setX(GAME_WIDTH / 2 -100);
+		b->setX(GAME_WIDTH / 2 - 100);
 		b->setY((GAME_HEIGHT + i* buttonNS::spacing - 500));
 		pauseMenuButtonList->push_back(b);
 	}
@@ -128,58 +127,44 @@ void BreakoutJack::initialize(HWND hwnd) {
 // Update all game items
 //=============================================================================
 void BreakoutJack::update() {
-	if (room == Menu)
-	{
+	if (room == Menu) {
 		menu->update(frameTime);
 		if (skipFirstClick) {
 			if (input->getMouseLButton()) {
 				skipFirstClick = false;
 			}
-		}
-		else {
+		} else {
 			for (list<Button*>::iterator bList = buttonList->begin(); bList != buttonList->end(); ++bList) {
 				(*bList)->active = true;
-				if ((*bList)->isReleased(input))
-				{
+				if ((*bList)->isReleased(input)) {
 					room = (*bList)->getID();
 				}
 				(*bList)->update(frameTime);
 			}
 		}
-	}
-	else if (room == Start)
-	{
+	} else if (room == Start) {
 		//if pause button is pressed, display menu 
 		if (input->isKeyDown(PAUSE))
 			pause = true;
-		if (pause) 
-		{
+		if (pause) {
 			pauseMenu->update(frameTime);
 			for (list<Button*>::iterator bList = pauseMenuButtonList->begin(); bList != pauseMenuButtonList->end(); ++bList) {
 				int i = -1;
-				if ((*bList)->isReleased(input))
-				{
-					 i = (*bList)->getID();
+				if ((*bList)->isReleased(input)) {
+					i = (*bList)->getID();
 				}
-				if (i == Resume)
-				{
+				if (i == Resume) {
 					pause = false;
-				}
-				else if (i == Restart)
-				{
+				} else if (i == Restart) {
 					//restart level
-				}
-				else if (i == MainMenu)
-				{
+				} else if (i == MainMenu) {
 					pause = false;
 					room = Menu;
 					skipFirstClick = true;
 				}
 				(*bList)->update(frameTime);
 			}
-		}
-		else
-		{
+		} else {
 			// Variables for scrolling
 			float playerX;
 			float mapX = 0;
@@ -224,15 +209,12 @@ void BreakoutJack::update() {
 			levelController->setMapX(mapX);
 			levelController->update(frameTime);
 			npcController->setMapX(mapX);
-			npcController->update(frameTime);
+			npcController->update(frameTime, levelController);
+			npcController->chaseIfInRange(VECTOR2(player->getX(), player->getY()));
 		}
-	}
-	else if (room == Instructions)
-	{
+	} else if (room == Instructions) {
 		//display instructions or whatever
-	}
-	else if (room == Exit)
-	{
+	} else if (room == Exit) {
 		//Quit game
 	}
 	//levelController->setMapX(mapX);
@@ -259,8 +241,7 @@ void BreakoutJack::ai() {}
 // Handle collisions
 //=============================================================================
 void BreakoutJack::collisions() {
-	if (room == Start)
-	{
+	if (room == Start) {
 		VECTOR2 collisionVector;
 
 		// Collision between player and crates
@@ -280,24 +261,20 @@ void BreakoutJack::collisions() {
 		npcController->collisions(levelController);
 		levelController->collisions();
 	}
-	
+
 }
 //=============================================================================
 // Render game items
 //=============================================================================
 void BreakoutJack::render() {
 	graphics->spriteBegin();
-	if (room == Menu)
-	{
+	if (room == Menu) {
 		menu->draw();
 		for (list<Button*>::iterator bList = buttonList->begin(); bList != buttonList->end(); ++bList) {
 			(*bList)->draw();
 		}
-	}
-	else if (room == Start)
-	{
-		if (pause)
-		{
+	} else if (room == Start) {
+		if (pause) {
 			levelController->render(graphics);
 			npcController->render();
 			player->draw();
@@ -308,9 +285,7 @@ void BreakoutJack::render() {
 			for (list<Button*>::iterator bList = pauseMenuButtonList->begin(); bList != pauseMenuButtonList->end(); ++bList) {
 				(*bList)->draw();
 			}
-		}
-		else 
-		{
+		} else {
 			levelController->render(graphics);
 			npcController->render();
 			player->draw();
@@ -318,13 +293,9 @@ void BreakoutJack::render() {
 			hud->draw();
 			OSD::instance()->draw();
 		}
-	}
-	else if (room == Instructions)
-	{
+	} else if (room == Instructions) {
 		//draw instructions stuff
-	}
-	else if (room == Credits)
-	{
+	} else if (room == Credits) {
 		//draw credits stuff
 	}
 	graphics->spriteEnd();

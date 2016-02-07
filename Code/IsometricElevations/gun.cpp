@@ -28,6 +28,11 @@ bool Gun::initialize(Game * gamePtr, int width, int height, int ncols, TextureMa
 		throw(GameError(gameErrorNS::FATAL_ERROR, "Error initializing bullet texture"));
 	return (Entity::initialize(gamePtr, width, height, ncols, textureM));
 }
+/*
+Projectile * Gun::shoot(LevelController * lc, float frametime) {
+	return nullptr;
+}
+*/
 void Gun::update(float frametime, int orientation, float x, float y, Input* input, LevelController* lc) {
 	//change orientation of gun based on mouse position
 	playerX = x;
@@ -40,32 +45,58 @@ void Gun::update(float frametime, int orientation, float x, float y, Input* inpu
 	spriteData.angle = angle;
 	if (adjacent < 0) // facing back
 	{
-		setX(x-20);
-		setY(y+5);
+		setX(x - 20);
+		setY(y + 5);
 		flipHorizontal(true);
-	}
-	else
-	{
+	} else {
 		setX(x);
-		setY(y+5);
+		setY(y + 5);
 		flipHorizontal(false);
 	}
 	//fire bullet
-	if (input->getMouseLButton())
-	{
+	if (input->getMouseLButton()) {
 		shoot(lc, frametime);
+	} else {
+		cooldowncurrent -= frametime;
 	}
-	else 
+	Entity::update(frametime);
+}
+
+void Gun::update(float frametime, int orientation, float x, float y, Input* input, LevelController* lc, float destX, float destY, bool shouldShoot) {
+	//change orientation of gun based on mouse position
+	playerX = x;
+	playerY = y;
+	adjacent = destX - x;
+	opposite = destY - y;
+	angle = atan((opposite / adjacent));
+	spriteData.angle = angle;
+	if (adjacent < 0) // facing back
 	{
+		setX(x - 20);
+		setY(y + 5);
+		flipHorizontal(true);
+	} else {
+		setX(x);
+		setY(y + 5);
+		flipHorizontal(false);
+	}
+	//fire bullet
+	if (shouldShoot) { // Cause AI calls this
+		Projectile* p = shoot(lc, frametime);
+		if (p != nullptr)
+			p->setOwner(Projectile::NPC);
+	} else {
 		cooldowncurrent -= frametime;
 	}
 	Entity::update(frametime);
 }
 
 void Gun::update(float frametime, int orientation, float x, float y, Input* input, bool flip) {
+	// We should not have 2 update functions omgwtfbbq - Ben
 	//edit this to make the npc's gun awesome -clarence
-	//npc's gun not flipping currently
-	
+	// Gun's flipping for NPC - Ben
+	//npc's gun not flipping currently -- Fixed
+
 	//change orientation of gun based on mouse position
 	playerX = x;
 	playerY = y;
@@ -82,16 +113,13 @@ void Gun::update(float frametime, int orientation, float x, float y, Input* inpu
 		//setX(x - 20); //follow mouse
 		//setY(y);	//follow mouse
 		flipHorizontal(true);
-	}
-	else
-	{
+	} else {
 		setX(x);
 		setY(y);
 		flipHorizontal(false);
 	}
 	//fire bullet
-	if (true)
-	{
+	if (true) {
 		// npc cannot shoot yet
 	}
 	/*
@@ -100,8 +128,7 @@ void Gun::update(float frametime, int orientation, float x, float y, Input* inpu
 		shoot(lc, frametime);
 	}
 	*/
-	else
-	{
+	else {
 		cooldowncurrent -= frametime;
 	}
 	Entity::update(frametime);
@@ -110,10 +137,12 @@ void Gun::update(float frametime, int orientation, float x, float y, Input* inpu
 void Gun::draw() {
 	D3DXVECTOR2 mousePos = D3DXVECTOR2(cos(angle), sin(angle));
 	Entity::draw();
+	/*
 	OSD::instance()->addLine("Player x: " + to_string(playerX) + " | Player Y: " + to_string(playerY) + " | Mouse x: " + to_string(mouseX) + " |  Mouse Y: " + to_string(mouseY));
 	OSD::instance()->addLine("Adjacent = " + to_string(adjacent) + " | Opposite = " + to_string(opposite) + " | Angle = " + to_string(angle));
 	OSD::instance()->addLine("Normalized mouse X: " + to_string(mousePos.x) + " | Normalised mouse y: " + to_string(mousePos.y));
 	OSD::instance()->addLine("Current Weapon: " + guntype + " ( " + to_string(ammo) + " )");
+	*/
 }
 void Gun::collision() {
 	for (int i = 0; i < bullets.size(); i++) {
@@ -130,21 +159,21 @@ string Gun::getAmmoDisplay() {
 	} else
 		return to_string(ammo);
 }
-void Gun::addAmmo()
-{
+void Gun::addAmmo() {
 	double a = (double(maxAmmo) / 100.0) * 20.0;
 	int add = (int)(a);
-	if (ammo < maxAmmo)
-	{
+	if (ammo < maxAmmo) {
 		ammo += add;
 	}
-	if (ammo > maxAmmo)
-	{
+	if (ammo > maxAmmo) {
 		ammo = maxAmmo;
 	}
 }
 
-int Gun::getGunId()
-{
+int Gun::getGunId() {
 	return id;
+}
+
+Projectile* shoot(LevelController* lc, float frametime) {
+	return nullptr;
 }

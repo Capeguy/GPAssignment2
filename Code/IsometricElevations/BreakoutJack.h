@@ -17,8 +17,7 @@
 #include "npcController.h"
 #include "button.h"
 //#include "machineGun.h"
-namespace breakoutJackNS
-{
+namespace breakoutJackNS {
 	// Map textures
 	const int TEXTURE_COLS = 19;
 	const int TEXTURE_SIZE = 32;
@@ -48,7 +47,8 @@ namespace breakoutJackNS
 }
 
 // BreakoutJack is the class we create, it inherits from the Game class
-class BreakoutJack : public Game {
+class BreakoutJack : public Game
+{
 private:
 	// game items
 	TextureManager textures;    // textures
@@ -92,8 +92,8 @@ public:
 	void resetAll();
 	bool tileIsSolid(int x, int y);
 	void consoleCommand();
-	enum Room{Menu, Start, Instructions, Credits, Exit};
-	enum PauseMenu{Resume, Restart, MainMenu};
+	enum Room { Menu, Start, Instructions, Credits, Exit };
+	enum PauseMenu { Resume, Restart, MainMenu };
 };
 
 #endif

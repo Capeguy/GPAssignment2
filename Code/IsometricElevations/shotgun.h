@@ -15,6 +15,6 @@ public:
 	//explict
 	Shotgun ();
 	~Shotgun ();
-	void shoot (LevelController* lc, float frametime);
+	Projectile* shoot (LevelController* lc, float frametime);
 };
 #endif

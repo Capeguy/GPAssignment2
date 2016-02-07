@@ -114,7 +114,7 @@ void LevelController::collisions() {
 		crateIter = crateList->begin();
 		removed = false;
 		while (!crateList->empty() && crateIter != crateList->end() && !removed) {
-			if ((*projectileIter)->collidesWith(**crateIter, collisionVector)) {
+			if ((*projectileIter)->collidesWith(**crateIter, collisionVector) && (*projectileIter)->getOwner() == Projectile::Player) {
 				// TODO: Handle giving of items from crate to player here @Isaac
 				std::advance(crateLocIter, count);
 				setCrateCollided(1);
@@ -159,4 +159,3 @@ float LevelController::getMapX()
 {
 	return mapX;
 }
-

@@ -19,9 +19,9 @@ NPC* NPCController::spawnNPCs(int level, Game *gamePtr, float x, float y, int sp
 	return npc;
 }
 
-void NPCController::update(float frameTime) {
+void NPCController::update(float frameTime, LevelController* lc) {
 	for (list<NPC*>::iterator it = npcs.begin(); it != npcs.end(); ++it) {
-		(*it)->update(frameTime,mapX,pVelocity);
+		(*it)->update(frameTime, mapX, pVelocity, lc);
 	}
 }
 void NPCController::render() {
@@ -47,20 +47,18 @@ void NPCController::collisions(LevelController* lc) {
 		npcIter = npcs.begin();
 		removed = false;
 		while (!npcs.empty() && npcIter != npcs.end() && !removed) {
-			if ((*projectileIter)->collidesWith(**npcIter, collisionVector)) {
+			if ((*projectileIter)->collidesWith(**npcIter, collisionVector) && (*projectileIter)->getOwner() == Projectile::Player) {
 				// TODO: Handle health reduction & check if health < 0
 				// health reduction code
-								
+
 				(*npcIter)->damage(1);
 				//(*npcIter)->healthUpdate();
-				if((*npcIter)->isDying())
-				{ 
+				if ((*npcIter)->isDying()) {
 					npcIter = npcs.erase(npcIter); // remove npc
 				}
 				projectileIter = lc->projectiles.erase(projectileIter); //remove projectile
 				removed = true;
-			}
-			else {
+			} else {
 				++npcIter;
 			}
 		}
@@ -69,18 +67,33 @@ void NPCController::collisions(LevelController* lc) {
 	}
 }
 
-void NPCController::setMapX(float x)
-{
+void NPCController::setMapX(float x) {
 	mapX -= x;
 }
 
-void NPCController::addSpawnLoc(float x, float y)
-{
+void NPCController::addSpawnLoc(float x, float y) {
 	NPCSpawnLoc.push_back(VECTOR2(x, y));
 }
 
-void NPCController::getPlayerVelocity(float v)
-{
+void NPCController::getPlayerVelocity(float v) {
 	pVelocity = v;
 }
 
+void NPCController::chaseIfInRange(VECTOR2 v) {
+	for (list<NPC*>::iterator npcIt = npcs.begin(); npcIt != npcs.end(); ++npcIt) {
+		float y2 = v.y;
+		float x2 = v.x;
+		float y1 = (*npcIt)->getY();
+		float x1 = (*npcIt)->getX();
+		float distance = sqrt(pow(y2 - y1, 2) + (pow(x2 - x1, 2)));
+		if (distance > (*npcIt)->getChaseRange()) {
+			(*npcIt)->setAiState(NPC::Patrol); 
+		} else if (distance > (*npcIt)->getShootRange()) {
+			(*npcIt)->setAiState(NPC::Chase);
+			(*npcIt)->setDest(v);
+		} else {
+			(*npcIt)->setAiState(NPC::Shoot);
+			(*npcIt)->setDest(v);
+		}
+	}
+}

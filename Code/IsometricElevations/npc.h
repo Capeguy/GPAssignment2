@@ -24,7 +24,7 @@ namespace npcNS
 {
 	const int	X = 0;
 	const int	Y = 0;
-	const float SPEED = 32 * 400;
+	const float SPEED = 32 * 400 * 0.75;
 	const float FALLING_SPEED = 32 * 200;
 	const float MASS = 300.0f;
 	const float JUMP_HEIGHT = 32 * 2;
@@ -38,6 +38,8 @@ namespace npcNS
 	const float NPC_ANIMATION_DELAY = 0.2f;
 	const float NPC_WIDTH = 64.0;
 	const float NPC_HEIGHT = 64.0;
+	const float NPC_CHASE_RANGE = 32.0 * 5;
+	const float NPC_SHOOT_RANGE = 32.0 * 3;
 	const int NPC_HEALTH_WIDTH = 30;
 	const int NPC_HEALTH_HEIGHT = 4;
 	const int NPC_HEALTHBACK_WIDTH = 32;
@@ -48,6 +50,7 @@ class NPC : public Entity
 {
 	enum NPCOrientation { Right, Down, Left, Up };
 	enum NPCHealthStatus { Alive, Dead };
+	
 protected:
 	bool	jump = false;
 	bool	doubleJump = false;
@@ -55,6 +58,7 @@ protected:
 	int		healthStatus = Alive;
 	float	hp = 10;
 	float	hpMax = 10;
+	int		aiState = Patrol;
 	Game*	gameptr;
 	TextureManager npcTexture;
 	TextureManager* npcHealthTexture;
@@ -78,9 +82,12 @@ protected:
 	vector <VECTOR2> pathList;
 	float originX;
 	float originY;
-
+	float chaseRange;
+	float shootRange;
+	VECTOR2 derivedDest;
 
 public:
+	enum NPCAIMode { Patrol, Chase, Shoot };
 	bool canJump = true;
 	bool jumping = false;
 	bool canFall = true;
@@ -100,9 +107,9 @@ public:
 	//	inherited member functions
 	virtual void draw();
 	virtual bool initialize(Game *gamePtr, int width, int height, int ncols, TextureManager *textureM, int spriteNumber);
-	void update(float frameTime, float mapX, float pVelo); // , LevelController* lc);
-	void moveLeft(float frameTime, float);
-	void moveRight(float frameTime, float);
+	void update(float frameTime, float mapX, float pVelo, LevelController* lc);
+	void moveLeft(float frameTime);
+	void moveRight(float frameTime);
 	void moveUp(float frameTime);
 	void moveDown(float frameTime);
 	void ai(float frameTime, Entity & ent, float mapX);
@@ -119,5 +126,9 @@ public:
 	int getHP();
 	int getMaxHP();
 	void setMapX(float x);
+	float getChaseRange();
+	float getShootRange();
+	void setDest(VECTOR2 d);
+	void setAiState(int);
 };
 #endif

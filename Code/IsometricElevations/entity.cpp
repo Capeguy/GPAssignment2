@@ -38,7 +38,10 @@ Entity::Entity () : Image () {
 bool Entity::initialize (Game *gamePtr, int width, int height, int ncols,
 						 TextureManager *textureM) {
 	input = gamePtr->getInput ();                // the input system
-	return(Image::initialize (gamePtr->getGraphics (), width, height, ncols, textureM));
+	Image::initialize(gamePtr->getGraphics(), width, height, ncols, textureM);
+	actualX = getX();
+	actualY = getY();
+	return true;
 }
 
 //=============================================================================
@@ -57,9 +60,14 @@ void Entity::update (float frameTime) {
 	velocity += deltaV;
 	deltaV.x = 0;
 	deltaV.y = 0;
-	spriteData.x += velocity.x * frameTime;
-	spriteData.y += velocity.y * frameTime;
-	Image::update (frameTime);
+	actualX = spriteData.x - offsetOld.x;
+	offsetOld.x = offsetNew.x;
+	offsetOld.y = offsetNew.y;
+	offsetNew = VECTOR2(0, 0);
+	actualX += velocity.x * frameTime;
+	spriteData.x = actualX + offsetOld.x;
+	spriteData.y += velocity.y * frameTime + offsetOld.y;
+	Image::update(frameTime);
 	rotatedBoxReady = false;    // for rotatedBox collision detection
 	bottomLeft = VECTOR2(getX(), getY() - 1 + getHeight() * getScale());
 	bottomRight = VECTOR2(getX() - 1 + getWidth() * 0.5, getY() - 1 + getHeight() * getScale());
