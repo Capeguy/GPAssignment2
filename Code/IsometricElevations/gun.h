@@ -21,7 +21,9 @@ namespace gunNS
 	const int PISTOL_FRAME = 8;
 	const int MACHINEGUN_FRAME = 0;
 	const int SHOTGUN_FRAME = 6;
-	
+	const int PISTOL_OFFSET = 20;
+	const int MACHINEGUN_OFFSET = 48;
+	const int SHOTGUN_OFFSET = 48;
 }
 
 class Gun : public Item // Still an abstract class

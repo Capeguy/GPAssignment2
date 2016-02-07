@@ -30,7 +30,7 @@ void MachineGun::shoot(LevelController* lc, float frametime)
 		bullet->setDamage(damage);
 		bullet->spriteData.angle = angle;
 		D3DXVECTOR2 mousePos = D3DXVECTOR2(cos(angle), sin(angle)); // normalize the vector idk what but it works lol
-		bullet->setX(getX() + mousePos.x * 48); // <---- the 32 should be the gun sprites width
+		bullet->setX(getX() + mousePos.x * gunNS::MACHINEGUN_OFFSET); // <---- the 32 should be the gun sprites width
 		bullet->setY(getY());
 		if (adjacent >= 0)
 		{
