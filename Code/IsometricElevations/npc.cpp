@@ -95,6 +95,7 @@ void NPC::update(float frameTime, float mapX,float pVelo) {//, LevelController* 
 	r.right = npcHealth->getWidth() * (hp/hpMax);
 	npcHealth->setSpriteDataRect(r);
 	int test = sprIndex;
+	bool flip = false;
 	ai(frameTime, *this, mapX);
 	
 	switch (orientation) {
@@ -103,6 +104,7 @@ void NPC::update(float frameTime, float mapX,float pVelo) {//, LevelController* 
 			currentFrame = npcControllerNS::npcSpriteMap[sprIndex][1];
 			//currentFrame = npcControllerNS::npcSpriteMap[1][sprIndex];
 			spriteData.flipHorizontal = true;
+			flip = false;
 			break;
 		case Down:
 			//currentFrame = 570;
@@ -114,6 +116,7 @@ void NPC::update(float frameTime, float mapX,float pVelo) {//, LevelController* 
 			currentFrame = npcControllerNS::npcSpriteMap[sprIndex][1];
 			//currentFrame = npcControllerNS::npcSpriteMap[1][sprIndex];
 			spriteData.flipHorizontal = false;
+			flip = true;
 			break;
 		case Up:
 			//currentFrame = 568;
@@ -126,7 +129,7 @@ void NPC::update(float frameTime, float mapX,float pVelo) {//, LevelController* 
 	if (inventory->getActiveItem()->getItem()->getItemType() == Item::Equipable) {
 		Gun* gun = dynamic_cast<Gun*>(activeItem);
 		if (gun != 0) {
-			gun->update(frameTime, orientation, spriteData.x, spriteData.y, input);
+			gun->update(frameTime, orientation, spriteData.x, spriteData.y, input, flip);
 		}
 	}
 

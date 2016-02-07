@@ -62,7 +62,7 @@ void Gun::update(float frametime, int orientation, float x, float y, Input* inpu
 	Entity::update(frametime);
 }
 
-void Gun::update(float frametime, int orientation, float x, float y, Input* input) {
+void Gun::update(float frametime, int orientation, float x, float y, Input* input, bool flip) {
 	//edit this to make the npc's gun awesome -clarence
 	//npc's gun not flipping currently
 	
@@ -75,9 +75,9 @@ void Gun::update(float frametime, int orientation, float x, float y, Input* inpu
 	opposite = y;
 	//angle = atan((opposite / adjacent)); // npc's gun is facing straight
 	spriteData.angle = 0;
-	if (adjacent < 0) // facing back
+	if (flip) // facing back
 	{
-		setX(x);
+		setX(x - 35);
 		setY(y);
 		//setX(x - 20); //follow mouse
 		//setY(y);	//follow mouse
@@ -87,8 +87,6 @@ void Gun::update(float frametime, int orientation, float x, float y, Input* inpu
 	{
 		setX(x);
 		setY(y);
-		//setX(x);	//follow mouse
-		//setY(y);	//follow mouse
 		flipHorizontal(false);
 	}
 	//fire bullet
