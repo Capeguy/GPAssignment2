@@ -72,7 +72,7 @@ void Gun::update(float frametime, int orientation, float x, float y, Input* inpu
 	spriteData.angle = angle;
 	if (adjacent < 0) // facing back
 	{
-		setX(x - 20);
+		setX(x - 35);
 		setY(y + 5);
 		flipHorizontal(true);
 	} else {
