@@ -27,7 +27,7 @@ Tile* LevelController::getTile(float x, float y) {
 }
 
 Tile* LevelController::getTile(VECTOR2 v) {
-	int tileX = (int)(floor(v.x) / TEXTURE_SIZE);	
+	int tileX = (int)(floor(v.x) / TEXTURE_SIZE);
 	int tileY = (int)(floor(v.y) / TEXTURE_SIZE);
 	return mapTile[tileY][tileX];
 }
@@ -59,7 +59,7 @@ void LevelController::render(Graphics* graphics) {
 
 void LevelController::renderProjectiles(Graphics* graphics) {
 	for (std::list<Projectile*>::iterator projectileIter = projectiles.begin(); projectileIter != projectiles.end(); ++projectileIter) {
-		(*projectileIter)->draw();
+		(*projectileIter)->draw(dxFont);
 	}
 }
 
@@ -123,11 +123,33 @@ void LevelController::update(float frameTime) {
 			mapTile[col][row]->update(frameTime);
 		}
 	}
+	bool removed;
+	list<Projectile*>::iterator projectileIter = projectiles.begin();
+	while (!projectiles.empty() && projectileIter != projectiles.end()) {
+		removed = false;
+		if (
+			(
+				((*projectileIter)->getFlipHorizontal())
+				&& (getTile((*projectileIter)->getX() - getMapX(), (*projectileIter)->getY())->isSolid())
+				)
+			||
+			(
+				(!(*projectileIter)->getFlipHorizontal())
+				&& (getTile((*projectileIter)->getX() - getMapX() + (*projectileIter)->getWidth(), (*projectileIter)->getY())->isSolid())
+				)
+			) {
+			(*projectileIter)->setVisible(false);
+			projectileIter = projectiles.erase(projectileIter);
+			removed = true;
+		}
+		if (!removed)
+			++projectileIter;
+	}
+
 	for (list<Projectile*>::iterator it = projectiles.begin(); it != projectiles.end(); ++it) {
-		Projectile* bullet = (*it);
-		bullet->setX(bullet->getX() + bullet->getVelocity().x * frameTime * bullet->getSpeed());
-		bullet->setY(bullet->getY() + bullet->getVelocity().y * frameTime * bullet->getSpeed());
-		bullet->update(frameTime);
+		(*it)->setX((*it)->getX() + (*it)->getVelocity().x * frameTime * (*it)->getSpeed());
+		(*it)->setY((*it)->getY() + (*it)->getVelocity().y * frameTime * (*it)->getSpeed());
+		(*it)->update(frameTime);
 	}
 	iController->update(frameTime);
 	//npcController->update(frameTime);
@@ -156,15 +178,14 @@ void LevelController::collisions() {
 				std::advance(crateLocIter, count);
 				setCrateCollided(1);
 				crateIter = crateList->erase(crateIter);
-				projectileIter = projectiles.erase(projectileIter);	
+				projectileIter = projectiles.erase(projectileIter);
 				crateLocIter = crateLocList->erase(crateLocIter);
 				removed = true;
 			} else {
 				++crateIter;
 				count++;
-			}			
-			if (count+1 > crateLocList->size())
-			{
+			}
+			if (count + 1 > crateLocList->size()) {
 				count = 0;
 			}
 		}
@@ -177,23 +198,19 @@ void LevelController::addProjectile(Projectile* p) {
 	projectiles.push_back(p);
 }
 
-int LevelController::collidedWithCrate()
-{
+int LevelController::collidedWithCrate() {
 	return crateCollided;
 }
 
-void LevelController::setCrateCollided(int col)
-{
+void LevelController::setCrateCollided(int col) {
 	crateCollided = col;
 }
 
-void LevelController::setMapX(float x)
-{
+void LevelController::setMapX(float x) {
 	mapX -= x;
 }
 
-float LevelController::getMapX()
-{
+float LevelController::getMapX() {
 	return mapX;
 }
 

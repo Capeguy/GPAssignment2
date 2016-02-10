@@ -36,8 +36,7 @@ namespace playerNS
 
 
 class Player : public Entity {
-	enum PlayerOrientation { Right, Down, Left, Up };
-	enum PlayerHealthStatus { Alive, Dead };
+	
 private:
 
 	bool	doubleJump = false;
@@ -72,7 +71,8 @@ public:
 	float playerTopRightX;
 	float playerTopRightY;
 
-
+	enum PlayerOrientation { Right, Down, Left, Up };
+	enum PlayerHealthStatus { Alive, Dead };
 
 	Player ();
 	~Player ();
@@ -96,6 +96,7 @@ public:
 	bool canMoveDown();
 	bool canMoveLeft();
 	bool canMoveRight();
+	int getHealthStatus();
 	float getPlayerVelocity();
 };
 #endif

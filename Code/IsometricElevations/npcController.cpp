@@ -10,9 +10,9 @@ NPCController::NPCController(Graphics *graphics) {
 		throw(GameError(gameErrorNS::FATAL_ERROR, "Error initializing item texture"));
 };
 
-NPC* NPCController::spawnNPCs(int level, Game *gamePtr, float x, float y, int spriteNumber) {
+NPC* NPCController::spawnNPCs(int level, Game *gamePtr, float x, float y, int spriteNumber, LevelController* lc) {
 	NPC* npc = new NPC();
-	npc->initialize(gamePtr, npcNS::NPC_WIDTH, npcNS::NPC_HEIGHT, npcNS::TEXTURE_COLS, npcTexture, spriteNumber);
+	npc->initialize(gamePtr, npcNS::NPC_WIDTH, npcNS::NPC_HEIGHT, npcNS::TEXTURE_COLS, npcTexture, spriteNumber, lc);
 	npc->setX(x);
 	npc->setY(y);
 	npcs.push_back(npc);
@@ -51,7 +51,7 @@ void NPCController::collisions(LevelController* lc) {
 				// TODO: Handle health reduction & check if health < 0
 				// health reduction code
 
-				(*npcIter)->damage(1);
+				(*npcIter)->damage((*projectileIter)->getDamage());
 				//(*npcIter)->healthUpdate();
 				if ((*npcIter)->isDying()) {
 					npcIter = npcs.erase(npcIter); // remove npc

@@ -82,7 +82,7 @@ void HUD::update(float frameTime, InventoryItem* const &item, Player* player)
 	
 	RECT r = hp->getSpriteDataRect();
 	//percentage of player hp / width of image
-	r.right = player->getHP() / player->getMaxHP() * hp->getWidth();
+	r.right = player->getHealth() / player->getMaxHP() * hp->getWidth();
 	hp->setSpriteDataRect(r);
 	currentItemImage->update(frameTime);
 	gunHud->update(frameTime);
@@ -92,7 +92,6 @@ void HUD::update(float frameTime, InventoryItem* const &item, Player* player)
 
 void HUD::draw()
 {
-	
 	gunHud->draw();
 	currentItemImage->draw();
 	hpHUD->draw();

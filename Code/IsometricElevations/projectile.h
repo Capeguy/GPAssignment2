@@ -23,7 +23,7 @@ public:
 	enum Owners {Player, NPC};
 	Projectile ();
 	~Projectile ();
-	virtual void draw ();
+	virtual void draw (TextDX&);
 	virtual bool initialize (Game *gamePtr, int width, int height, int ncols, TextureManager *textureM, double dmg = 0);
 	void update (float frameTime);
 	void collision();

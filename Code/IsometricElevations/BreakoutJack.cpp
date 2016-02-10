@@ -29,6 +29,8 @@ void BreakoutJack::initialize(HWND hwnd) {
 	playerTexture = new TextureManager();
 	pauseMenuTexture = new TextureManager();
 	pauseMenuButtonTexture = new TextureManager();
+	creditsTexture = new TextureManager();
+	instructionsTexture = new TextureManager();
 	iconTexture = new TextureManager();
 	// map textures
 	if (!textures.initialize(graphics, TEXTURES_IMAGE))
@@ -59,9 +61,14 @@ void BreakoutJack::initialize(HWND hwnd) {
 	//pause menu button texture
 	if (!pauseMenuButtonTexture->initialize(graphics, TEXTURE_PAUSE_MENU_BUTTONS))
 		throw(GameError(gameErrorNS::FATAL_ERROR, "Error initializing pause menu button texture"));
-	//Icon texture
+	//credits texture
+	if (!creditsTexture->initialize(graphics, TEXTURE_CREDITS))
+		throw(GameError(gameErrorNS::FATAL_ERROR, "Error initializing credits texture"));
+	if (!instructionsTexture->initialize(graphics, TEXTURE_INSTRUCTIONS))
+		throw(GameError(gameErrorNS::FATAL_ERROR, "Error initializing credits texture"));
 	if (!iconTexture->initialize(graphics, TEXTURE_ICON))
 		throw(GameError(gameErrorNS::FATAL_ERROR, "Error initializing  icon texture"));
+
 	//player image
 	player->setColorFilter(graphicsNS::MAGENTA);
 	player->initialize(this, playerNS::PLAYER_WIDTH, playerNS::PLAYER_HEIGHT, 32, playerTexture); // to change
@@ -71,7 +78,7 @@ void BreakoutJack::initialize(HWND hwnd) {
 	//player->setY((GAME_HEIGHT - GAME_HEIGHT / breakoutJackNS::TEXTURE_SIZE - 2 * breakoutJackNS::TEXTURE_SIZE) - 100);
 	// Need to spawn player in the middle for scrolling
 	player->setX(GAME_WIDTH / 2);
-	player->setY(200);
+	player->setY(100);
 	player->setVelocity(VECTOR2(0, playerNS::FALLING_SPEED));
 	// map tile image
 	mapTile.initialize(graphics, breakoutJackNS::TEXTURE_SIZE, breakoutJackNS::TEXTURE_SIZE, breakoutJackNS::TEXTURE_COLS, &textures);
@@ -88,13 +95,13 @@ void BreakoutJack::initialize(HWND hwnd) {
 	OSD::instance()->setGraphics(graphics);
 	npcController = new NPCController(graphics);
 	NPC* npc;
-	/*
-	npc = npcController->spawnNPCs(1, this, 725, 544, 3);
+	
+	npc = npcController->spawnNPCs(1, this, 725, 544, 3, levelController);
 	npc->addPath(VECTOR2(725, 544));
 	npc->addPath(VECTOR2(1200, 544));
 	npcController->addSpawnLoc(725, 544);
-	*/
-	npc = npcController->spawnNPCs(1, this, 325, 320, 4);
+	
+	npc = npcController->spawnNPCs(1, this, 325, 320, 4, levelController);
 	npc->addPath(VECTOR2(325, 320));
 	npc->addPath(VECTOR2(900, 320));
 	npcController->addSpawnLoc(325, 320);
@@ -125,6 +132,14 @@ void BreakoutJack::initialize(HWND hwnd) {
 		b->setY((GAME_HEIGHT + i* buttonNS::spacing - 500));
 		pauseMenuButtonList->push_back(b);
 	}
+	credits = new Image();
+	credits->initialize(graphics, GAME_WIDTH, GAME_HEIGHT, 1, creditsTexture);
+	credits->setX(0);
+	credits->setY(0);
+	instructions = new Image();
+	instructions->initialize(graphics, GAME_WIDTH, GAME_HEIGHT, 1, instructionsTexture);
+	instructions->setX(0);
+	instructions->setY(0);
 }
 
 //=============================================================================
@@ -161,6 +176,9 @@ void BreakoutJack::update() {
 					pause = false;
 				} else if (i == Restart) {
 					//restart level
+					resetGame();
+					pause = false;
+					return;
 				} else if (i == MainMenu) {
 					pause = false;
 					room = Menu;
@@ -169,6 +187,12 @@ void BreakoutJack::update() {
 				(*bList)->update(frameTime);
 			}
 		} else {
+			//if player dies
+			if (player->getHealthStatus() == Player::PlayerHealthStatus::Dead)
+			{
+				if (input->anyKeyPressed() || input->getMouseLButton())
+					resetGame();
+			}
 			// Variables for scrolling
 			float playerX;
 			float mapX = 0;
@@ -213,13 +237,29 @@ void BreakoutJack::update() {
 			levelController->setMapX(mapX);
 			levelController->update(frameTime);
 			npcController->setMapX(mapX);
-			npcController->update(frameTime, levelController);
 			npcController->chaseIfInRange(VECTOR2(player->getX(), player->getY()));
+			npcController->update(frameTime, levelController);
+
 		}
 	} else if (room == Instructions) {
 		//display instructions or whatever
-	} else if (room == Exit) {
+		if (input->isKeyDown(VK_BACK))
+		{
+			skipFirstClick = true;
+			room = Menu;
+		}
+		instructions->update(frameTime);
+	} else if (room == Credits) {
+		if (input->isKeyDown(VK_BACK))
+		{
+			skipFirstClick = true;
+			room = Menu;
+		}	
+		credits->update(frameTime);
+	}
+	else if (room == Exit) {
 		//Quit game
+		exitGame();
 	}
 	//levelController->setMapX(mapX);
 	//levelController->update(frameTime);
@@ -264,6 +304,21 @@ void BreakoutJack::collisions() {
 		*/
 		npcController->collisions(levelController);
 		levelController->collisions();
+		//player collision with projectile
+		list<Projectile*>::iterator projectileIter = levelController->projectiles.begin();
+		bool removed = false;
+		while (!levelController->projectiles.empty() && projectileIter != levelController->projectiles.end())
+		{
+			removed = false;
+			if ((*projectileIter)->collidesWith(*player, collisionVector) && (*projectileIter)->getOwner() != Projectile::Player)
+			{
+				player->damage((*projectileIter)->getDamage());
+				projectileIter = levelController->projectiles.erase(projectileIter);
+				removed = true;
+			}
+			if(!removed)
+				++projectileIter;
+		}
 	}
 
 }
@@ -299,8 +354,10 @@ void BreakoutJack::render() {
 		}
 	} else if (room == Instructions) {
 		//draw instructions stuff
+		instructions->draw();
 	} else if (room == Credits) {
 		//draw credits stuff
+		credits->draw();
 	}
 	graphics->spriteEnd();
 }
@@ -367,3 +424,9 @@ void BreakoutJack::consoleCommand() {
 			console->print("mouse position Off");
 	}
 }
+
+void BreakoutJack::resetGame()
+{
+	initialize(hwnd);
+}
+
