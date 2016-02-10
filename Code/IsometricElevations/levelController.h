@@ -32,6 +32,9 @@ namespace levelControllerNS
 	const int SCREEN_X = GAME_WIDTH / 2 - TEXTURE_SIZE / 2;
 	const int SCREEN_Y = GAME_HEIGHT / 8;
 
+	//Gun itemtype
+	const enum ItemType { machineGun, shotGun, pistol };
+
 	// Object textures
 	const int TEXTURE2_COLS = 32;
 	const int TEXTURE2_SIZE = 32;
@@ -142,6 +145,7 @@ private:
 	ItemController *iController;
 	// NPCController *npcController;
 	int crateCollided;
+	int crateItem;
 	float mapX = 0;
 public:
 	std::list<Projectile*> projectiles;
@@ -162,6 +166,8 @@ public:
 	void addProjectile(Projectile* p);
 	int collidedWithCrate();
 	void setCrateCollided(int col);
+	void setCrateItem(int itemtype);
+	int getCrateItem();
 	void setMapX(float x);
 	float getMapX();
 };

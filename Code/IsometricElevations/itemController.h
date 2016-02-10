@@ -14,6 +14,13 @@
 using namespace std;
 namespace itemControllerNS
 {
+	const int GUN_TEXTURE_WIDTH = 136;
+	const int GUN_TEXTURE_HEIGHT = 41;
+	const int GUN_TEXTURE_COLS = 2;
+	const int GUN_PISTOL_FRAME = 8;
+	const int GUN_MACHINEGUN_FRAME = 0;
+	const int GUN_SHOTGUN_FRAME = 6;
+	const enum ItemType { machineGun, shotGun, pistol };
 }
 
 class ItemController : public Entity
@@ -28,12 +35,16 @@ public:
 	ItemController();
 	ItemController(Graphics*);
 	virtual ~ItemController();
-	void spawnCrates(int, Game*);
+	void spawnCrates(int, Game*, int itemtype);
 	void spawnItem(Game*, int x, int y);
 	list<VECTOR2>* getCrateLoc();
 	void update(float);
 	void render(float);
 	void collisions();
 	list<Crate*>* getCrateList();
+	int getGunFrameByItemType(int i);
+protected:
+	TextureManager* gunTexture;
+	Image* gunImage;
 };
 #endif

@@ -192,20 +192,20 @@ void Player::update(float frameTime, LevelController* lc) {
 		}
 	}
 
-	if (lc->collidedWithCrate() == 1)
+	if (lc->collidedWithCrate() == 1 && lc->getCrateItem() != -1)
 	{
-		int id = rand() % 2 + 1;
+		int itemid = lc->getCrateItem();
 		InventoryItem *invItem;
 		vector<InventoryItem*>* itemList = inventory->getItems();
-		switch (id)
+		switch (itemid)
 		{
-		case 1:
+		case playerNS::ItemType::shotGun:
 			shotgun = new Shotgun();
 			shotgun->initialize(gameptr, 136, 41, 2, gunTexture);
 			shotgun->setCurrentFrame(6);
 			invItem = new InventoryItem(shotgun);
 			break;
-		case 2:
+		case playerNS::ItemType::machineGun:
 			machineGun = new MachineGun();
 			machineGun->initialize(gameptr, 136, 41, 2, gunTexture);
 			machineGun->setCurrentFrame(0);
@@ -240,6 +240,7 @@ void Player::update(float frameTime, LevelController* lc) {
 		}
 		inventory->addItem(invItem);
 		lc->setCrateCollided(0);
+		lc->setCrateItem(-1);
 	}
 	Entity::update(frameTime);
 }

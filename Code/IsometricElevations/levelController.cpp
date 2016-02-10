@@ -11,6 +11,7 @@ LevelController::LevelController(Graphics*& graphics, Game* gp, TextureManager* 
 	//npcController = new NPCController(graphics);
 	projectiles = list<Projectile*>();
 	crateCollided = 0;
+	crateItem = -1;
 }
 
 LevelController::~LevelController() {}
@@ -40,7 +41,7 @@ void LevelController::loadTiles(TextureManager* tt, Game* gameptr) {
 			mapTile[col][row]->setY(col * TEXTURE2_SIZE);
 		}
 	}
-	iController->spawnCrates(1, gameptr);
+	iController->spawnCrates(1, gameptr, levelControllerNS::ItemType::machineGun);
 }
 
 void LevelController::render(Graphics* graphics) {
@@ -118,6 +119,7 @@ void LevelController::collisions() {
 				// TODO: Handle giving of items from crate to player here @Isaac
 				std::advance(crateLocIter, count);
 				setCrateCollided(1);
+				setCrateItem((*crateIter)->getItemId());
 				crateIter = crateList->erase(crateIter);
 				projectileIter = projectiles.erase(projectileIter);	
 				crateLocIter = crateLocList->erase(crateLocIter);
@@ -150,6 +152,13 @@ void LevelController::setCrateCollided(int col)
 	crateCollided = col;
 }
 
+void LevelController::setCrateItem(int itemtype) {
+	crateItem = itemtype;
+}
+
+int LevelController::getCrateItem() {
+	return crateItem;
+}
 void LevelController::setMapX(float x)
 {
 	mapX -= x;
