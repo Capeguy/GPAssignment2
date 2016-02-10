@@ -11,6 +11,7 @@
 
 using namespace std;
 class NPC;
+class LevelController;
 namespace npcControllerNS
 {
 	const int npcSpriteQty = 5;
@@ -36,14 +37,16 @@ class NPCController
 {
 private:
 	TextureManager* npcTexture;
+	TextureManager* iconTexture;
 	list<NPC*> npcs;
+	list<Image*> npcIcon;
 	list<VECTOR2> NPCSpawnLoc;
 	float mapX = 0;
 	float pVelocity = 0;
 public:
 	NPCController();
-	NPCController(Graphics*);
-	NPC* spawnNPCs(int, Game*, float, float, int);
+	NPCController(Graphics*, TextureManager*);
+	NPC* spawnNPCs(int, Game*, float, float, int, LevelController*, Graphics*);
 	void update(float, LevelController*);
 	void render();
 	void collisions(LevelController*);
@@ -52,5 +55,7 @@ public:
 	void removeSpawnLoc(int);
 	void getPlayerVelocity(float v);
 	void chaseIfInRange(VECTOR2);
+	list<NPC*> getNPCs();
+
 };
 #endif

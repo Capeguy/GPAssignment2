@@ -24,7 +24,7 @@ Player::Player() : Entity() {
 	setEdge(e);
 	inventory = new Inventory();
 	hpMax = 100;
-	hp = 100;
+	health = 100;
 	setVelocity(VECTOR2(0, 0));
 }
 
@@ -89,6 +89,10 @@ bool Player::canMoveLeft() {
 bool Player::canMoveRight() {
 	return !(levelController->getTile(topRight.x + levelController->getMapX() * -1.0 + 1, topRight.y)->isSolid() || levelController->getTile(bottomRight.x + levelController->getMapX() * -1.0 + 1, bottomRight.y)->isSolid());
 }
+int Player::getHealthStatus()
+{
+	return healthStatus;
+}
 float Player::getPlayerVelocity()
 {
 	return velocityX;
@@ -100,67 +104,75 @@ void Player::update(float frameTime, LevelController* lc) {
 	float mapx = lc->getMapX() * -1.0;
 	velocityX = getVelocity().x;
 	velocityY = getVelocity().y;
-	if (!canMoveDown()) {
-		if (!input->isKeyDown(PLAYER_UP) && !input->isKeyDown(PLAYER_JUMP))
-			canJump = true;
-		canFall = false;
-		falling = false;
-	} else {
-		canFall = true;
-		falling = true;
-	}
-	if (input->isKeyDown(PLAYER_RIGHT) && canMoveRight()) {
-		velocityX = playerNS::SPEED * frameTime;
-		while (!canMoveRight()) {
-			spriteData.x -= 0.1;
-			velocityX = 0;
+	if (healthStatus != Dead)
+	{
+		if (!canMoveDown()) {
+			if (!input->isKeyDown(PLAYER_UP) && !input->isKeyDown(PLAYER_JUMP))
+				canJump = true;
+			canFall = false;
+			falling = false;
 		}
-		orientation = Right;
-	} else if (input->isKeyDown(PLAYER_LEFT) && canMoveLeft()) {
-		velocityX = -playerNS::SPEED * frameTime;
-		while (!canMoveLeft()) {
-			spriteData.x += 0.1;
-			velocityX = 0;
-		}
-		orientation = Left;
-	} else if (!input->isKeyDown(PLAYER_LEFT) && !input->isKeyDown(PLAYER_RIGHT))
-		velocityX = 0;
-
-	if (input->isKeyDown(PLAYER_UP))
-		orientation = Up;
-	if (input->isKeyDown(PLAYER_DOWN))
-		orientation = Down;
-	if (jumping || (((input->isKeyDown(PLAYER_JUMP) || input->isKeyDown(PLAYER_UP)) && canMoveUp() && canJump))) {
-		jumpdistance = jumpOriginY - getY();
-		if (canJump && !jumping)
-			jumpOriginY = getY();
-		if (jumpdistance > playerNS::JUMP_HEIGHT || !canMoveUp()) {
-			jumping = false;
-			canJump = false;
+		else {
+			canFall = true;
 			falling = true;
-		} else {
-			if (jumping)
-				velocityY += 0.5 * frameTime;
-			else
-				velocityY = -playerNS::JUMP_SPEED * frameTime;
-			jumping = true;
-			canJump = false;
 		}
-	}
-	if (!jumping)
-		jumpOriginY = getY();
-	OSD::instance()->addLine("Jump Distance: " + to_string(jumpdistance) + " / " + to_string(playerNS::JUMP_HEIGHT));
-	OSD::instance()->addLine("Can | Left: " + to_string(canMoveLeft()) + " | Right: " + to_string(canMoveRight()) + " | Up: " + to_string(canMoveUp()) + " | Down: " + to_string(canMoveDown()));
-	if (falling && !jumping) {
-		if (canMoveDown()) {
-			velocityY = playerNS::FALLING_SPEED * frameTime;
-		} else {
+		if (input->isKeyDown(PLAYER_RIGHT) && canMoveRight()) {
+			velocityX = playerNS::SPEED * frameTime;
+			while (!canMoveRight()) {
+				spriteData.x -= 0.1;
+				velocityX = 0;
+			}
+			orientation = Right;
+		}
+		else if (input->isKeyDown(PLAYER_LEFT) && canMoveLeft()) {
+			velocityX = -playerNS::SPEED * frameTime;
+			while (!canMoveLeft()) {
+				spriteData.x += 0.1;
+				velocityX = 0;
+			}
+			orientation = Left;
+		}
+		else if (!input->isKeyDown(PLAYER_LEFT) && !input->isKeyDown(PLAYER_RIGHT))
+			velocityX = 0;
+
+		if (input->isKeyDown(PLAYER_UP))
+			orientation = Up;
+		if (input->isKeyDown(PLAYER_DOWN))
+			orientation = Down;
+		if (jumping || (((input->isKeyDown(PLAYER_JUMP) || input->isKeyDown(PLAYER_UP)) && canMoveUp() && canJump))) {
+			jumpdistance = jumpOriginY - getY();
+			if (canJump && !jumping)
+				jumpOriginY = getY();
+			if (jumpdistance > playerNS::JUMP_HEIGHT || !canMoveUp()) {
+				jumping = false;
+				canJump = false;
+				falling = true;
+			}
+			else {
+				if (jumping)
+					velocityY += 0.5 * frameTime;
+				else
+					velocityY = -playerNS::JUMP_SPEED * frameTime;
+				jumping = true;
+				canJump = false;
+			}
+		}
+		if (!jumping)
+			jumpOriginY = getY();
+		OSD::instance()->addLine("Jump Distance: " + to_string(jumpdistance) + " / " + to_string(playerNS::JUMP_HEIGHT));
+		OSD::instance()->addLine("Can | Left: " + to_string(canMoveLeft()) + " | Right: " + to_string(canMoveRight()) + " | Up: " + to_string(canMoveUp()) + " | Down: " + to_string(canMoveDown()));
+		if (falling && !jumping) {
+			if (canMoveDown()) {
+				velocityY = playerNS::FALLING_SPEED * frameTime;
+			}
+			else {
+				velocityY = 0;
+			}
+		}
+		if (!canFall && !jumping) {
 			velocityY = 0;
 		}
-	}
-	if (!canFall && !jumping) {
-		velocityY = 0;
-	}
+
 
 	// Final Sanity Check
 	if (!canMoveLeft() && velocityX < 0 || !canMoveRight() && velocityX > 0)
@@ -184,63 +196,65 @@ void Player::update(float frameTime, LevelController* lc) {
 		currentFrame = 952;
 		break;
 	}
-	Item* activeItem = inventory->getActiveItem()->getItem();
-	if (inventory->getActiveItem()->getItem()->getItemType() == Item::Equipable) {
-		Gun* gun = dynamic_cast<Gun*>(activeItem);
-		if (gun != 0) {
-			gun->update(frameTime, orientation, spriteData.x, spriteData.y, input, lc);
+	
+		Item* activeItem = inventory->getActiveItem()->getItem();
+		if (inventory->getActiveItem()->getItem()->getItemType() == Item::Equipable) {
+			Gun* gun = dynamic_cast<Gun*>(activeItem);
+			if (gun != 0) {
+				gun->update(frameTime, orientation, spriteData.x, spriteData.y, input, lc);
+			}
 		}
-	}
 
-	if (lc->collidedWithCrate() == 1 && lc->getCrateItem() != -1)
-	{
-		int itemid = lc->getCrateItem();
-		InventoryItem *invItem;
-		vector<InventoryItem*>* itemList = inventory->getItems();
-		switch (itemid)
+		f (lc->collidedWithCrate() == 1 && lc->getCrateItem() != -1)
 		{
-		case playerNS::ItemType::shotGun:
-			shotgun = new Shotgun();
-			shotgun->initialize(gameptr, 136, 41, 2, gunTexture);
-			shotgun->setCurrentFrame(6);
-			invItem = new InventoryItem(shotgun);
-			break;
-		case playerNS::ItemType::machineGun:
-			machineGun = new MachineGun();
-			machineGun->initialize(gameptr, 136, 41, 2, gunTexture);
-			machineGun->setCurrentFrame(0);
-			invItem = new InventoryItem(machineGun);
-			break;
-		case 3:
-			/*hp = new HealthPack();
-			invItem = new InventoryItem(hp);*/
-			break;
-		}
-		for (int i = 0; i < itemList->size(); i++)
-		{
-			InventoryItem *iItem = itemList->at(i);
-			Item* item = iItem->getItem();
-			Item* newItem = invItem->getItem();
-			if (item->getItemType() == Item::Equipable && newItem->getItemType() == Item::Equipable)
+			int itemid = lc->getCrateItem();
+			InventoryItem *invItem;
+			vector<InventoryItem*>* itemList = inventory->getItems();
+			switch (itemid)
 			{
-				Gun* gunInvItem = dynamic_cast<Gun*>(item);
-				Gun* gunNewItem = dynamic_cast<Gun*>(newItem);
-				if (gunInvItem->getGunId() == gunNewItem->getGunId())
+			case playerNS::ItemType::shotGun:
+				shotgun = new Shotgun();
+				shotgun->initialize(gameptr, 136, 41, 2, gunTexture);
+				shotgun->setCurrentFrame(6);
+				invItem = new InventoryItem(shotgun);
+				break;
+			case playerNS::ItemType::machineGun:
+				machineGun = new MachineGun();
+				machineGun->initialize(gameptr, 136, 41, 2, gunTexture);
+				machineGun->setCurrentFrame(0);
+				invItem = new InventoryItem(machineGun);
+				break;
+			case 3:
+				/*hp = new HealthPack();
+				invItem = new InventoryItem(hp);*/
+				break;
+			}
+			for (int i = 0; i < itemList->size(); i++)
+			{
+				InventoryItem *iItem = itemList->at(i);
+				Item* item = iItem->getItem();
+				Item* newItem = invItem->getItem();
+				if (item->getItemType() == Item::Equipable && newItem->getItemType() == Item::Equipable)
 				{
-					gunInvItem->addAmmo();
+					Gun* gunInvItem = dynamic_cast<Gun*>(item);
+					Gun* gunNewItem = dynamic_cast<Gun*>(newItem);
+					if (gunInvItem->getGunId() == gunNewItem->getGunId())
+					{
+						gunInvItem->addAmmo();
+						lc->setCrateCollided(0);
+						return;
+					}
+				}
+				else if (item->getItemType() == Item::Usable && newItem->getItemType() == Item::Usable)
+				{
 					lc->setCrateCollided(0);
 					return;
 				}
 			}
-			else if (item->getItemType() == Item::Usable && newItem->getItemType() == Item::Usable)
-			{
-				lc->setCrateCollided(0);
-				return;
-			}
+			inventory->addItem(invItem);
+			lc->setCrateCollided(0);
+			lc->setCrateItem(-1);
 		}
-		inventory->addItem(invItem);
-		lc->setCrateCollided(0);
-		lc->setCrateItem(-1);
 	}
 	Entity::update(frameTime);
 }
@@ -278,7 +292,7 @@ void Player::setFalling(bool f) {
 	falling = f;
 }
 void Player::damage(float amt) {
-	hp -= amt;
+	health -= amt;
 	healthUpdate();
 }
 void Player::damage(Weapon w) {
@@ -288,11 +302,13 @@ void Player::damage(Projectile p) {
 
 }
 void Player::healthUpdate() {
-	if (hp < 0) {
+	if (health <= 0) {
+		health = 0;
 		healthStatus = Dead;
 		die();
 	}
 }
 void Player::die() {
-
+	currentFrame = 953;
+	spriteData.angle = PI / 2;
 }

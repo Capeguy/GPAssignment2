@@ -6,14 +6,32 @@ HUD::HUD(Graphics*& g) {
 	gunHUDTexture = new TextureManager();
 	hpHUDTexture = new TextureManager();
 	hpTexture = new TextureManager();
+
+	//Load and set up hp HUD texture
+	if (!hpHUDTexture->initialize(graphics, TEXTURE_HUD_HP))
+		throw(GameError(gameErrorNS::FATAL_ERROR, "Error initializing hp hud texture"));
+	hpHUD = new Image();
+	hpHUD->initialize(graphics, hudNS::HP_HUD_WIDTH, hudNS::HP_HUD_HEIGHT, 1, hpHUDTexture);
+	hpHUD->setCurrentFrame(0);
+	hpHUD->setX(100);
+	hpHUD->setY(60);
+	if (!hpTexture->initialize(graphics, TEXTURE_HUD_HP_RED))
+		throw(GameError(gameErrorNS::FATAL_ERROR, "Error initializing hp texture"));
+	hp = new Image();
+	hp->initialize(graphics, hudNS::HP_WIDTH, hudNS::HP_HEIGHT, 1, hpTexture);
+	hp->setCurrentFrame(0);
+	hp->setX(hpHUD->getX() + 30);
+	hp->setY(hpHUD->getY());
+
 	//Load and set up gun HUD texture
 	if (!gunHUDTexture->initialize(graphics, TEXTURE_HUD_GUN))
 		throw(GameError(gameErrorNS::FATAL_ERROR, "Error initializing gun hud texture"));
 	gunHud = new Image();
 	gunHud->initialize(graphics, hudNS::GUN_HUD_WIDTH, hudNS::GUN_HUD_HEIGHT, 1, gunHUDTexture);
 	gunHud->setCurrentFrame(0);
-	gunHud->setX(GAME_WIDTH / 2);
+	gunHud->setX(hpHUD->getX() + hpHUD->getWidth() + 50);
 	gunHud->setY(50);
+
 	//Load and set up item HUD texture
 	if (!itemTexture->initialize(graphics, TEXTURE_GUNS))
 		throw(GameError(gameErrorNS::FATAL_ERROR, "Error initializing gun texture"));
@@ -22,21 +40,7 @@ HUD::HUD(Graphics*& g) {
 	currentItemImage->setX(gunHud->getX());
 	currentItemImage->setY(gunHud->getY() + 10);
 	currentItemImage->setScale(0.8);
-	//Load and set up hp HUD texture
-	if(!hpHUDTexture->initialize(graphics, TEXTURE_HUD_HP))
-		throw(GameError(gameErrorNS::FATAL_ERROR, "Error initializing hp hud texture"));
-	hpHUD = new Image();
-	hpHUD->initialize(graphics, hudNS::HP_HUD_WIDTH, hudNS::HP_HUD_HEIGHT, 1, hpHUDTexture);
-	hpHUD->setCurrentFrame(0);
-	hpHUD->setX(GAME_WIDTH / 2 - 200);
-	hpHUD->setY(50);
-	if (!hpTexture->initialize(graphics, TEXTURE_HUD_HP_RED))
-		throw(GameError(gameErrorNS::FATAL_ERROR, "Error initializing hp texture"));
-	hp = new Image();
-	hp->initialize(graphics, hudNS::HP_WIDTH, hudNS::HP_HEIGHT, 1, hpTexture);
-	hp->setCurrentFrame(0);
-	hp->setX(hpHUD->getX() + 30);
-	hp->setY(hpHUD->getY());
+
 	//set up font 
 	ammoFont = new TextDX();
 	ammoFont->initialize(graphics, 20, false, false, "Courier New");
@@ -79,10 +83,9 @@ void HUD::update(float frameTime, InventoryItem* const &item, Player* player)
 			currentItemImage->setCurrentFrame(10);
 		}
 	}
-	
 	RECT r = hp->getSpriteDataRect();
 	//percentage of player hp / width of image
-	r.right = player->getHP() / player->getMaxHP() * hp->getWidth();
+	r.right = player->getHealth() / player->getMaxHP() * hp->getWidth();
 	hp->setSpriteDataRect(r);
 	currentItemImage->update(frameTime);
 	gunHud->update(frameTime);
@@ -92,7 +95,6 @@ void HUD::update(float frameTime, InventoryItem* const &item, Player* player)
 
 void HUD::draw()
 {
-	
 	gunHud->draw();
 	currentItemImage->draw();
 	hpHUD->draw();

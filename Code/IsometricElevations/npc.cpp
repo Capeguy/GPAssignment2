@@ -36,9 +36,11 @@ NPC::NPC() : Entity() {
 }
 
 NPC::~NPC() {}
-bool NPC::initialize(Game *gamePtr, int width, int height, int ncols, TextureManager *textureM, int spriteNumber) {
+bool NPC::initialize(Game *gamePtr, int width, int height, int ncols, TextureManager *textureM, int spriteNumber, LevelController* lc) {
+	levelController = lc;
 	chaseRange = npcNS::NPC_CHASE_RANGE;
 	shootRange = npcNS::NPC_SHOOT_RANGE;
+	pathCount = 0;
 	gameptr = gamePtr;
 	sprIndex = spriteNumber;
 	startFrame = npcControllerNS::npcSpriteMap[sprIndex][0];
@@ -126,6 +128,8 @@ void NPC::update(float frameTime, float mapX, float pVelo, LevelController* lc) 
 			gun->update(frameTime, orientation, spriteData.x, spriteData.y, input, lc, derivedDest.x, derivedDest.y, shoot);
 		}
 	}
+	if (velocity.x < 0 && !canMoveLeft() || velocity.x > 0 && !canMoveRight())
+		velocity.x = 0;
 	Entity::update(frameTime);
 
 }
@@ -169,9 +173,12 @@ int NPC::getMaxHP() {
 	return hpMax;
 }
 
-void NPC::moveLeft(float frameTime) {
+bool NPC::moveLeft(float frameTime) {
+	if (!canMoveLeft())
+		return false;
 	orientation = Left;
 	velocity.x = -npcNS::SPEED * frameTime;
+	return true;
 	/*
 	if (pVelocity < 0)
 		setVelocity(VECTOR2(-npcNS::SPEED * (frameTime / 2), 0));
@@ -182,9 +189,12 @@ void NPC::moveLeft(float frameTime) {
 	*/
 }
 
-void NPC::moveRight(float frameTime) {
+bool NPC::moveRight(float frameTime) {
+	if (!canMoveRight())
+		return false;
 	orientation = Right;
 	velocity.x = npcNS::SPEED * frameTime;
+	return true;
 	/*
 	if (pVelocity > 0)
 		setVelocity(VECTOR2(npcNS::SPEED * (frameTime / 2), 0));
@@ -195,14 +205,20 @@ void NPC::moveRight(float frameTime) {
 	*/
 }
 
-void NPC::moveUp(float frameTime) {
+bool NPC::moveUp(float frameTime) {
+	if (!canMoveUp())
+		return false;
 	orientation = Up;
 	velocity.y = -npcNS::JUMP_SPEED * frameTime;
+	return true;
 }
 
-void NPC::moveDown(float frameTime) {
+bool NPC::moveDown(float frameTime) {
+	if (!canMoveDown())
+		return false;
 	orientation = Down;
 	velocity.y = npcNS::JUMP_SPEED * frameTime;
+	return true;
 }
 void NPC::setAiState(int state) {
 	aiState = state;
@@ -221,13 +237,49 @@ void NPC::setAiState(int state) {
 	}
 }
 void NPC::ai(float frameTime, Entity &ent, float mapX) {
-	if (currDest != VECTOR2(-1, -1)) {
-		derivedDest = VECTOR2(currDest.x + offsetOld.x, currDest.y + offsetOld.y);
-	}
+	OSD::instance()->addLine("AI Can | Left: " + to_string(canMoveLeft()) + " | Right: " + to_string(canMoveRight()) + " | Up: " + to_string(canMoveUp()) + " | Down: " + to_string(canMoveDown()));
 	// derivedDest.y = spriteData.y; // Because we're not gonna climb mountains to chase Player
 	switch (aiState) {
 	case Patrol:
+		if (currDest != VECTOR2(-1, -1)) {
+			derivedDest = VECTOR2(currDest.x + offsetOld.x, currDest.y + offsetOld.y);
+		}
+		if (pathList.size() == 0)
+			return;
+		if (currDest == VECTOR2(-1, -1) || spriteData.x == derivedDest.x) { // && spriteData.y == derivedDest.y) { // No destination
+			pathCount++;
+			if (pathCount >= pathList.size())
+				pathCount = 0;
+			currDest = pathList.at(pathCount);
+		}
+		if (spriteData.x > derivedDest.x) {
+			if (velocity.x > 0 && spriteData.x - derivedDest.x < 1 && canMoveLeft()) {
+				velocity.x = 0;
+				setX(derivedDest.x);
+			} else {
+				orientation = Left;
+				if (!moveLeft(frameTime)) {
+					currDest = VECTOR2(-1, -1);
+				}
+			}
+		} else if (spriteData.x < derivedDest.x) {
+			if (velocity.x < 0 && derivedDest.x - spriteData.x < 1 && canMoveRight()) {
+				velocity.x = 0;
+				setX(derivedDest.x);
+			} else {
+				orientation = Right;
+				if (!moveRight(frameTime)) {
+					currDest = VECTOR2(-1, -1);
+				}
+			}
+		} else {
+			velocity.x = 0;
+		}
+		break;
 	case Chase:
+		if (currDest != VECTOR2(-1, -1)) {
+			derivedDest = VECTOR2(currDest.x, currDest.y);
+		}
 		if (pathList.size() == 0)
 			return;
 		if (currDest == VECTOR2(-1, -1) || spriteData.x == derivedDest.x) { // && spriteData.y == derivedDest.y) { // No destination
@@ -242,7 +294,10 @@ void NPC::ai(float frameTime, Entity &ent, float mapX) {
 				setX(derivedDest.x);
 			} else {
 				orientation = Left;
-				moveLeft(frameTime);
+				if (!moveLeft(frameTime)) {
+					currDest = VECTOR2(-1, -1);
+					setAiState(Patrol);
+				}
 			}
 		} else if (spriteData.x < derivedDest.x) {
 			if (velocity.x < 0 && derivedDest.x - spriteData.x < 1) {
@@ -250,7 +305,10 @@ void NPC::ai(float frameTime, Entity &ent, float mapX) {
 				setX(derivedDest.x);
 			} else {
 				orientation = Right;
-				moveRight(frameTime);
+				if (!moveRight(frameTime)) {
+					currDest = VECTOR2(-1, -1);
+					setAiState(Patrol);
+				}
 			}
 		} else {
 			velocity.x = 0;
@@ -301,6 +359,10 @@ void NPC::ai(float frameTime, Entity &ent, float mapX) {
 		break;
 	case Shoot:
 		velocity = VECTOR2(0, 0);
+		if (currDest != VECTOR2(-1, -1)) {
+			derivedDest = VECTOR2(currDest.x, currDest.y);
+		}
+		OSD::instance()->addLine("NPC Shoot Orientation: " + to_string(derivedDest.x - getX()) + " (" + to_string((int)(derivedDest.x)) + " - " + to_string((int)getX()) + ")");
 		VECTOR2 delta = VECTOR2(derivedDest.x - getX(), 0);
 		if (delta.x < 0)
 			orientation = Left;
@@ -330,4 +392,16 @@ float NPC::getShootRange() {
 }
 void NPC::setDest(VECTOR2 d) {
 	currDest = d;
+}
+bool NPC::canMoveUp() {
+	return !(levelController->getTile(topLeft.x + levelController->getMapX() * -1.0, topLeft.y - 1)->isSolid() || levelController->getTile(topRight.x + levelController->getMapX() * -1.0, topRight.y - 1)->isSolid());
+}
+bool NPC::canMoveDown() {
+	return !(levelController->getTile(bottomLeft.x + levelController->getMapX() * -1.0, bottomLeft.y + 1)->isSolid() || levelController->getTile(bottomRight.x + levelController->getMapX() * -1.0, bottomRight.y + 1)->isSolid());
+}
+bool NPC::canMoveLeft() {
+	return (!(levelController->getTile(topLeft.x + levelController->getMapX() * -1.0 - 1, topLeft.y)->isSolid() || levelController->getTile(bottomLeft.x + levelController->getMapX() * -1.0 - 1, bottomLeft.y)->isSolid())) && (levelController->getTile(bottomLeft.x + levelController->getMapX() * -1.0, bottomLeft.y + 1)->isSolid());
+}
+bool NPC::canMoveRight() {
+	return (!(levelController->getTile(topRight.x + levelController->getMapX() * -1.0 + 1, topRight.y)->isSolid() || levelController->getTile(bottomRight.x + levelController->getMapX() * -1.0 + 1, bottomRight.y)->isSolid())) && (levelController->getTile(bottomRight.x + levelController->getMapX() * -1.0, bottomRight.y + 1)->isSolid());
 }

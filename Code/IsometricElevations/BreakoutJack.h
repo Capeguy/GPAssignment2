@@ -60,11 +60,17 @@ private:
 	TextureManager* buttonTexture;
 	TextureManager* pauseMenuTexture;
 	TextureManager* pauseMenuButtonTexture;
+	TextureManager* creditsTexture;
+	TextureManager* instructionsTexture;
+	TextureManager* iconTexture;
+	Image* instructions;
 	Image* menu;
 	Image* pauseMenu;
 	Image   mapTile;
+	Image* credits;
 	Crate crate;
 	TextDX	dxFont;
+	TextDX* loseFont;
 	COLOR_ARGB fontColor;
 	RECT	textRect;
 	Player* player;
@@ -92,6 +98,7 @@ public:
 	void resetAll();
 	bool tileIsSolid(int x, int y);
 	void consoleCommand();
+	void resetGame();
 	enum Room { Menu, Start, Instructions, Credits, Exit };
 	enum PauseMenu { Resume, Restart, MainMenu };
 };
