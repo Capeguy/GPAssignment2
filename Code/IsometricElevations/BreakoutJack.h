@@ -62,6 +62,7 @@ private:
 	TextureManager* pauseMenuButtonTexture;
 	TextureManager* creditsTexture;
 	TextureManager* instructionsTexture;
+	TextureManager* iconTexture;
 	Image* instructions;
 	Image* menu;
 	Image* pauseMenu;

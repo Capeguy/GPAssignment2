@@ -111,6 +111,7 @@
     <ClCompile Include="list.cpp" />
     <ClCompile Include="machineGun.cpp" />
     <ClCompile Include="messageDialog.cpp" />
+    <ClCompile Include="Minimap.cpp" />
     <ClCompile Include="npc.cpp" />
     <ClCompile Include="npcController.cpp" />
     <ClCompile Include="OSD.cpp" />
@@ -149,6 +150,7 @@
     <ClInclude Include="list.h" />
     <ClInclude Include="machineGun.h" />
     <ClInclude Include="messageDialog.h" />
+    <ClInclude Include="Minimap.h" />
     <ClInclude Include="npc.h" />
     <ClInclude Include="npcController.h" />
     <ClInclude Include="OSD.h" />

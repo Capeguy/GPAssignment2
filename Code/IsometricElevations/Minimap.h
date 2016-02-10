@@ -1,8 +1,6 @@
 #pragma once
-#pragma once
-#pragma once
-#ifndef _LEVELCONTROLLER_H                 // Prevent multiple definitions if this 
-#define _LEVELCONTROLLER_H                 // file is included in more than one place
+#ifndef _MINIMAP_H                 // Prevent multiple definitions if this 
+#define _MINIMAP_H                 // file is included in more than one place
 #define WIN32_LEAN_AND_MEAN
 
 #include "entity.h"
@@ -13,13 +11,10 @@
 #include "game.h"
 
 #include <vector>
-#include "itemController.h"
-#include "projectile.h"
-//#include "npcController.h"
 #include <list>
 using namespace std;
 
-namespace levelControllerNS
+namespace minimapNS
 {
 	const int TEXTURE_COLS = 19;
 	const int TEXTURE_SIZE = 32;
@@ -33,10 +28,10 @@ namespace levelControllerNS
 	const int SCREEN_Y = GAME_HEIGHT / 8;
 
 	// Object textures
-	const int TEXTURE2_COLS = 32;
-	const int TEXTURE2_SIZE = 32;
+	const int TEXTURE2_COLS = 4;
+	const int TEXTURE2_SIZE = 4;
 	// TODO: Design a proper level to be used
-	const int tileMap[levelControllerNS::MAP_SIZE_Y][levelControllerNS::MAP_SIZE_X] = {
+	const int tileMap[minimapNS::MAP_SIZE_Y][minimapNS::MAP_SIZE_X] = {
 		207, 207, 207, 207, 207, 207, 207, 207, 207, 207, 207, 207, 207, 207, 207, 207, 207, 207, 207, 207, 207, 207, 207, 207, 207, 207, 207, 207, 207, 207, 207, 207, 207, 207, 207, 207, 207, 207, 207, 207, 207, 207, 207, 207, 207, 207, 207, 207, 207, 207, 207, 207, 207, 207, 207, 207, 207, 207, 207, 207, 207, 207, 207, 207, 207, 207, 207, 207, 207, 207, 207, 207, 207, 207, 207, 207, 207, 207, 207, 207, 207, 207, 207, 207, 207, 207, 207, 207, 207, 207, 207, 207, 207, 207, 207, 207, 207, 207, 207, 207, 207, 207, 207, 207, 207, 207, 207, 207, 207, 207, 207, 207, 207, 207, 207, 207, 207, 207, 207, 207,
 		207, 215, 215, 215, 215, 215, 215, 215, 215, 215, 215, 215, 215, 215, 215, 215, 215, 215, 215, 215, 215, 215, 215, 215, 215, 215, 215, 215, 215, 215, 215, 215, 215, 215, 215, 215, 215, 215, 215, 215, 215, 215, 215, 215, 215, 215, 215, 215, 215, 215, 215, 215, 215, 215, 215, 215, 215, 215, 215, 215, 215, 215, 215, 215, 215, 215, 215, 215, 215, 215, 215, 215, 215, 215, 215, 215, 215, 215, 207, 207,	207, 215, 215, 215, 215, 215, 215, 215, 215, 215, 215, 215, 215, 215, 215, 215, 215, 215, 215, 215, 215, 215, 215, 215, 215, 215, 215, 215, 215, 215, 215, 215, 215, 215, 215, 215, 215, 215, 215, 207,
 		207, 215, 215, 215, 215, 215, 215, 215, 215, 215, 215, 215, 215, 215, 215, 215, 215, 215, 215, 215, 215, 215, 215, 215, 215, 215, 215, 215, 215, 215, 215, 215, 215, 215, 215, 215, 215, 215, 215, 215, 215, 215, 215, 215, 215, 215, 215, 215, 215, 215, 215, 215, 215, 215, 215, 215, 215, 215, 215, 215, 215, 215, 215, 215, 215, 215, 215, 215, 215, 215, 215, 215, 215, 215, 215, 215, 215, 215, 207, 207, 207, 215, 215, 215, 215, 215, 215, 215, 215, 215, 215, 215, 215, 215, 215, 215, 215, 215, 215, 215, 215, 215, 215, 215, 215, 215, 215, 215, 215, 215, 215, 215, 215, 215, 215, 215, 215, 215, 215, 207,
@@ -127,45 +122,33 @@ namespace levelControllerNS
 		590, 0, 591, 0, 592, 0, 593, 0, 594, 0, 595, 0, 596, 0, 597, 0, 598, 0, 599, 0
 	};
 }
-using namespace levelControllerNS;
+using namespace minimapNS;
 
 class Player;
-class LevelController {
+class Minimap {
 
 private:
 	//std::vector<Tile> mapTile;
-	//Tile mapTile[levelControllerNS::MAP_SIZE_Y][levelControllerNS::MAP_SIZE_X];
-	//vector<vector<Tile>> mapTile[levelControllerNS::MAP_SIZE_Y][levelControllerNS::MAP_SIZE_X];
+	//Tile mapTile[minimapNS::MAP_SIZE_Y][minimapNS::MAP_SIZE_X];
+	//vector<vector<Tile>> mapTile[minimapNS::MAP_SIZE_Y][minimapNS::MAP_SIZE_X];
 	TextureManager* tileTexture;
 	Game* gameptr;
 	TextDX dxFont;
-	ItemController *iController;
-	Image playerIcon;
-	// NPCController *npcController;
-	int crateCollided;
 	float mapX = 0;
 public:
-	std::list<Projectile*> projectiles;
 	bool debugInfo = false;
-	Tile* mapTile[levelControllerNS::MAP_SIZE_Y][levelControllerNS::MAP_SIZE_X];
-	LevelController ();
-	LevelController (Graphics*& g, Game* gp, TextureManager* tt, TextureManager* pt);
-	~LevelController ();
-	Tile* getTile (float x, float y);
+	Tile* mapTile[minimapNS::MAP_SIZE_Y][minimapNS::MAP_SIZE_X];
+	Minimap();
+	Minimap(Graphics*& g, Game* gp, TextureManager* tt);
+	~Minimap();
+	Tile* getTile(float x, float y);
 	Tile* getTile(VECTOR2 v);
-	void loadTiles (TextureManager* tt, Game* gameptr);
-	void renderTiles (Graphics* graphics);
+	void loadTiles(TextureManager* tt, Game* gameptr);
+	void renderTiles(Graphics* graphics);
 	void render(Graphics* graphics);
-	void renderProjectiles(Graphics* graphics);
-	void renderMinimap(Graphics* graphics);
-	void update (float frameTime);
-	ItemController* getIController();
+	void update(float frameTime);
 	void collisions();
-	void addProjectile(Projectile* p);
-	int collidedWithCrate();
-	void setCrateCollided(int col);
 	void setMapX(float x);
 	float getMapX();
-	
 };
-#endif
+#endif#pragma once

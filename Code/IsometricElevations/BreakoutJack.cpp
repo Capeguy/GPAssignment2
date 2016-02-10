@@ -31,6 +31,7 @@ void BreakoutJack::initialize(HWND hwnd) {
 	pauseMenuButtonTexture = new TextureManager();
 	creditsTexture = new TextureManager();
 	instructionsTexture = new TextureManager();
+	iconTexture = new TextureManager();
 	// map textures
 	if (!textures.initialize(graphics, TEXTURES_IMAGE))
 		throw(GameError(gameErrorNS::FATAL_ERROR, "Error initializing textures"));
@@ -65,6 +66,8 @@ void BreakoutJack::initialize(HWND hwnd) {
 		throw(GameError(gameErrorNS::FATAL_ERROR, "Error initializing credits texture"));
 	if (!instructionsTexture->initialize(graphics, TEXTURE_INSTRUCTIONS))
 		throw(GameError(gameErrorNS::FATAL_ERROR, "Error initializing credits texture"));
+	if (!iconTexture->initialize(graphics, TEXTURE_ICON))
+		throw(GameError(gameErrorNS::FATAL_ERROR, "Error initializing  icon texture"));
 
 	//player image
 	player->setColorFilter(graphicsNS::MAGENTA);
@@ -91,7 +94,7 @@ void BreakoutJack::initialize(HWND hwnd) {
 	loseFont->setFontColor(SETCOLOR_ARGB(192, 255, 0, 0));
 
 	//Load level controller
-	levelController = new LevelController(graphics, this, tileTexture);
+	levelController = new LevelController(graphics, this, tileTexture , iconTexture);
 	levelController->loadTiles(tileTexture, this);
 	hud = new HUD(graphics);
 	OSD::instance()->setGraphics(graphics);

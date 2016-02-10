@@ -2,7 +2,7 @@
 
 LevelController::LevelController() {}
 
-LevelController::LevelController(Graphics*& graphics, Game* gp, TextureManager* tt) {
+LevelController::LevelController(Graphics*& graphics, Game* gp, TextureManager* tt, TextureManager* pt) {
 	tileTexture = tt;
 	gameptr = gp;
 	dxFont.initialize(graphics, 12, false, false, "Courier New");
@@ -11,6 +11,11 @@ LevelController::LevelController(Graphics*& graphics, Game* gp, TextureManager* 
 	//npcController = new NPCController(graphics);
 	projectiles = list<Projectile*>();
 	crateCollided = 0;
+	playerIcon.initialize(graphics, GAME_WIDTH, GAME_HEIGHT, 1, pt);
+	playerIcon.setCurrentFrame(0);
+	playerIcon.setX(GAME_WIDTH*0.6);
+	playerIcon.setY(50);
+	playerIcon.setScale(0.5);
 }
 
 LevelController::~LevelController() {}
@@ -47,6 +52,9 @@ void LevelController::render(Graphics* graphics) {
 	renderTiles(graphics);
 	renderProjectiles(graphics);
 	//npcController->render();
+	// Render Minimap
+	renderMinimap(graphics);
+	playerIcon.draw();
 }
 
 void LevelController::renderProjectiles(Graphics* graphics) {
@@ -79,6 +87,34 @@ void LevelController::renderTiles(Graphics* graphics) {
 		}
 	}
 	iController->render(mapX);
+}
+
+void LevelController::renderMinimap(Graphics * graphics)
+{
+	string buffer;
+	for (int col = 0; col < MAP_SIZE_Y; col++) {
+		for (int row = 0; row < MAP_SIZE_X; row++) {
+			// Scroll map according to mapX
+			Tile* tile = mapTile[col][row];
+			tile->setScale(0.125);
+			float x = (float)((row * (tileNS::TEXTURE_SIZE / 16)) + (GAME_WIDTH*0.60));
+			float y = (float)(col * (tileNS::TEXTURE_SIZE / 16 ) + 50);
+			tile->setY(y);
+			tile->setX(x);
+			tile->draw();
+			if (debugInfo) {
+				buffer = to_string(mapTile[col][row]->getId());
+				buffer += ":";
+				buffer += to_string(mapTile[col][row]->isSolid());
+				dxFont.print(buffer, row * TEXTURE2_SIZE, col * TEXTURE2_SIZE);
+				buffer = "(" + to_string(row);
+				buffer += "," + to_string(col);
+				buffer += ")";
+				dxFont.print(buffer, row * TEXTURE2_SIZE, col * TEXTURE2_SIZE + 14);
+			}
+			tile->setScale(1);
+		}
+	}
 }
 
 void LevelController::update(float frameTime) {
@@ -117,6 +153,7 @@ void LevelController::update(float frameTime) {
 	}
 	iController->update(frameTime);
 	//npcController->update(frameTime);
+	playerIcon.update(frameTime);
 }
 
 ItemController* LevelController::getIController() {
@@ -176,3 +213,4 @@ void LevelController::setMapX(float x) {
 float LevelController::getMapX() {
 	return mapX;
 }
+
