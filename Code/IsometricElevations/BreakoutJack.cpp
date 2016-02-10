@@ -67,7 +67,7 @@ void BreakoutJack::initialize(HWND hwnd) {
 	//player->setY((GAME_HEIGHT - GAME_HEIGHT / breakoutJackNS::TEXTURE_SIZE - 2 * breakoutJackNS::TEXTURE_SIZE) - 100);
 	// Need to spawn player in the middle for scrolling
 	player->setX(GAME_WIDTH / 2);
-	player->setY(200);
+	player->setY(100);
 	player->setVelocity(VECTOR2(0, playerNS::FALLING_SPEED));
 	// map tile image
 	mapTile.initialize(graphics, breakoutJackNS::TEXTURE_SIZE, breakoutJackNS::TEXTURE_SIZE, breakoutJackNS::TEXTURE_COLS, &textures);
@@ -157,6 +157,9 @@ void BreakoutJack::update() {
 					pause = false;
 				} else if (i == Restart) {
 					//restart level
+					resetGame();
+					pause = false;
+					return;
 				} else if (i == MainMenu) {
 					pause = false;
 					room = Menu;
@@ -165,6 +168,12 @@ void BreakoutJack::update() {
 				(*bList)->update(frameTime);
 			}
 		} else {
+			//if player dies
+			if (player->getHealthStatus() == Player::PlayerHealthStatus::Dead)
+			{
+				if (input->anyKeyPressed() || input->getMouseLButton())
+					resetGame();
+			}
 			// Variables for scrolling
 			float playerX;
 			float mapX = 0;
@@ -261,6 +270,21 @@ void BreakoutJack::collisions() {
 		*/
 		npcController->collisions(levelController);
 		levelController->collisions();
+		//player collision with projectile
+		list<Projectile*>::iterator projectileIter = levelController->projectiles.begin();
+		bool removed = false;
+		while (!levelController->projectiles.empty() && projectileIter != levelController->projectiles.end())
+		{
+			removed = false;
+			if ((*projectileIter)->collidesWith(*player, collisionVector) && (*projectileIter)->getOwner() != Projectile::Player)
+			{
+				player->damage((*projectileIter)->getDamage());
+				projectileIter = levelController->projectiles.erase(projectileIter);
+				removed = true;
+			}
+			if(!removed)
+				++projectileIter;
+		}
 	}
 
 }
@@ -364,3 +388,9 @@ void BreakoutJack::consoleCommand() {
 			console->print("mouse position Off");
 	}
 }
+
+void BreakoutJack::resetGame()
+{
+	initialize(hwnd);
+}
+
