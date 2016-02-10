@@ -125,7 +125,7 @@ void LevelController::collisions() {
 			} else {
 				++crateIter;
 				count++;
-			}			
+			}
 			if (count+1 > crateLocList->size())
 			{
 				count = 0;
@@ -159,3 +159,4 @@ float LevelController::getMapX()
 {
 	return mapX;
 }
+

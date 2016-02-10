@@ -51,7 +51,7 @@ void NPCController::collisions(LevelController* lc) {
 				// TODO: Handle health reduction & check if health < 0
 				// health reduction code
 
-				(*npcIter)->damage(1);
+				(*npcIter)->damage((*projectileIter)->getDamage());
 				//(*npcIter)->healthUpdate();
 				if ((*npcIter)->isDying()) {
 					npcIter = npcs.erase(npcIter); // remove npc
