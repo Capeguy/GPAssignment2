@@ -69,6 +69,7 @@ private:
 	Image* credits;
 	Crate crate;
 	TextDX	dxFont;
+	TextDX* loseFont;
 	COLOR_ARGB fontColor;
 	RECT	textRect;
 	Player* player;
