@@ -11,8 +11,8 @@ LevelController::LevelController(Graphics*& graphics, Game* gp, TextureManager* 
 	//npcController = new NPCController(graphics);
 	projectiles = list<Projectile*>();
 	crateCollided = 0;
-	playerIcon.initialize(graphics, GAME_WIDTH, GAME_HEIGHT, 1, pt);
-	playerIcon.setCurrentFrame(0);
+	playerIcon.initialize(graphics, TEXTURE_SIZE, TEXTURE_SIZE, 2, pt);
+	playerIcon.setCurrentFrame(1);
 	playerIcon.setX(GAME_WIDTH*0.6);
 	playerIcon.setY(50);
 	playerIcon.setScale(0.5);
@@ -153,7 +153,7 @@ void LevelController::update(float frameTime, VECTOR2 pv) {
 	}
 	iController->update(frameTime);
 	//npcController->update(frameTime);
-	playerIcon.setX((pv.x*0.125) + (GAME_WIDTH*0.6) + (-mapX*0.125));
+	playerIcon.setX((pv.x*0.120) + (GAME_WIDTH*0.6) + (-mapX*0.125));
 	playerIcon.setY((pv.y*0.125 + 40));
 	playerIcon.update(frameTime);
 }
