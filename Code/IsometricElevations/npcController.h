@@ -55,6 +55,7 @@ public:
 	void removeSpawnLoc(int);
 	void getPlayerVelocity(float v);
 	void chaseIfInRange(VECTOR2);
+	list<NPC*> getNPCs();
 
 };
 #endif

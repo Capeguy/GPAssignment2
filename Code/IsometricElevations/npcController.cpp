@@ -122,3 +122,8 @@ void NPCController::chaseIfInRange(VECTOR2 v) {
 		}
 	}
 }
+
+list<NPC*> NPCController::getNPCs()
+{
+	return npcs;
+}
