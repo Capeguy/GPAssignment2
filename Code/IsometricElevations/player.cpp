@@ -205,7 +205,7 @@ void Player::update(float frameTime, LevelController* lc) {
 			}
 		}
 
-		f (lc->collidedWithCrate() == 1 && lc->getCrateItem() != -1)
+		if (lc->collidedWithCrate() == 1 && lc->getCrateItem() != -1)
 		{
 			int itemid = lc->getCrateItem();
 			InventoryItem *invItem;
