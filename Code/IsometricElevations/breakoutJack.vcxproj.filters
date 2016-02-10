@@ -35,6 +35,7 @@
     <ClCompile Include="weapon.cpp" />
     <ClCompile Include="winmain.cpp" />
     <ClCompile Include="button.cpp" />
+    <ClCompile Include="Minimap.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="audio.h" />
@@ -72,6 +73,7 @@
     <ClInclude Include="tile.h" />
     <ClInclude Include="weapon.h" />
     <ClInclude Include="button.h" />
+    <ClInclude Include="Minimap.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="ClassDiagram.cd" />

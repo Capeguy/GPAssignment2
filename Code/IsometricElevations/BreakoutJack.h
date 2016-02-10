@@ -60,6 +60,7 @@ private:
 	TextureManager* buttonTexture;
 	TextureManager* pauseMenuTexture;
 	TextureManager* pauseMenuButtonTexture;
+	TextureManager* iconTexture;
 	Image* menu;
 	Image* pauseMenu;
 	Image   mapTile;

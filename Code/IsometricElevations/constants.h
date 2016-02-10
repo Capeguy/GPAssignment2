@@ -59,6 +59,7 @@ const char TEXTURE_MENU[] = "pictures\\menu.png";
 const char TEXTURE_BUTTONS[] = "pictures\\menu_buttons.png";
 const char TEXTURE_PAUSE_MENU[] = "pictures\\pause_menu.png";
 const char TEXTURE_PAUSE_MENU_BUTTONS[] = "pictures\\pause_menu_buttons.png";
+const char TEXTURE_ICON[] = "pictures\\playerHead.png";
 // audio files required by audio.cpp
 // WAVE_BANK must be location of .xwb file.
 const char WAVE_BANK[] = "";

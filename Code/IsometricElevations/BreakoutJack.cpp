@@ -29,6 +29,7 @@ void BreakoutJack::initialize(HWND hwnd) {
 	playerTexture = new TextureManager();
 	pauseMenuTexture = new TextureManager();
 	pauseMenuButtonTexture = new TextureManager();
+	iconTexture = new TextureManager();
 	// map textures
 	if (!textures.initialize(graphics, TEXTURES_IMAGE))
 		throw(GameError(gameErrorNS::FATAL_ERROR, "Error initializing textures"));
@@ -58,6 +59,9 @@ void BreakoutJack::initialize(HWND hwnd) {
 	//pause menu button texture
 	if (!pauseMenuButtonTexture->initialize(graphics, TEXTURE_PAUSE_MENU_BUTTONS))
 		throw(GameError(gameErrorNS::FATAL_ERROR, "Error initializing pause menu button texture"));
+	//Icon texture
+	if (!iconTexture->initialize(graphics, TEXTURE_ICON))
+		throw(GameError(gameErrorNS::FATAL_ERROR, "Error initializing  icon texture"));
 	//player image
 	player->setColorFilter(graphicsNS::MAGENTA);
 	player->initialize(this, playerNS::PLAYER_WIDTH, playerNS::PLAYER_HEIGHT, 32, playerTexture); // to change
@@ -78,7 +82,7 @@ void BreakoutJack::initialize(HWND hwnd) {
 	//dxFont.setFontColor(SETCOLOR_ARGB(192, 255, 255, 255));
 	dxFont.setFontColor(SETCOLOR_ARGB(192, 0, 0, 0));
 	//Load level controller
-	levelController = new LevelController(graphics, this, tileTexture);
+	levelController = new LevelController(graphics, this, tileTexture , iconTexture);
 	levelController->loadTiles(tileTexture, this);
 	hud = new HUD(graphics);
 	OSD::instance()->setGraphics(graphics);
