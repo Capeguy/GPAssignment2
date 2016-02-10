@@ -29,6 +29,8 @@ void BreakoutJack::initialize(HWND hwnd) {
 	playerTexture = new TextureManager();
 	pauseMenuTexture = new TextureManager();
 	pauseMenuButtonTexture = new TextureManager();
+	creditsTexture = new TextureManager();
+	instructionsTexture = new TextureManager();
 	// map textures
 	if (!textures.initialize(graphics, TEXTURES_IMAGE))
 		throw(GameError(gameErrorNS::FATAL_ERROR, "Error initializing textures"));
@@ -58,6 +60,12 @@ void BreakoutJack::initialize(HWND hwnd) {
 	//pause menu button texture
 	if (!pauseMenuButtonTexture->initialize(graphics, TEXTURE_PAUSE_MENU_BUTTONS))
 		throw(GameError(gameErrorNS::FATAL_ERROR, "Error initializing pause menu button texture"));
+	//credits texture
+	if (!creditsTexture->initialize(graphics, TEXTURE_CREDITS))
+		throw(GameError(gameErrorNS::FATAL_ERROR, "Error initializing credits texture"));
+	if (!instructionsTexture->initialize(graphics, TEXTURE_INSTRUCTIONS))
+		throw(GameError(gameErrorNS::FATAL_ERROR, "Error initializing credits texture"));
+
 	//player image
 	player->setColorFilter(graphicsNS::MAGENTA);
 	player->initialize(this, playerNS::PLAYER_WIDTH, playerNS::PLAYER_HEIGHT, 32, playerTexture); // to change
@@ -121,6 +129,14 @@ void BreakoutJack::initialize(HWND hwnd) {
 		b->setY((GAME_HEIGHT + i* buttonNS::spacing - 500));
 		pauseMenuButtonList->push_back(b);
 	}
+	credits = new Image();
+	credits->initialize(graphics, GAME_WIDTH, GAME_HEIGHT, 1, creditsTexture);
+	credits->setX(0);
+	credits->setY(0);
+	instructions = new Image();
+	instructions->initialize(graphics, GAME_WIDTH, GAME_HEIGHT, 1, instructionsTexture);
+	instructions->setX(0);
+	instructions->setY(0);
 }
 
 //=============================================================================
@@ -224,8 +240,23 @@ void BreakoutJack::update() {
 		}
 	} else if (room == Instructions) {
 		//display instructions or whatever
-	} else if (room == Exit) {
+		if (input->isKeyDown(VK_BACK))
+		{
+			skipFirstClick = true;
+			room = Menu;
+		}
+		instructions->update(frameTime);
+	} else if (room == Credits) {
+		if (input->isKeyDown(VK_BACK))
+		{
+			skipFirstClick = true;
+			room = Menu;
+		}	
+		credits->update(frameTime);
+	}
+	else if (room == Exit) {
 		//Quit game
+		exitGame();
 	}
 	//levelController->setMapX(mapX);
 	//levelController->update(frameTime);
@@ -320,8 +351,10 @@ void BreakoutJack::render() {
 		}
 	} else if (room == Instructions) {
 		//draw instructions stuff
+		instructions->draw();
 	} else if (room == Credits) {
 		//draw credits stuff
+		credits->draw();
 	}
 	graphics->spriteEnd();
 }

@@ -60,9 +60,13 @@ private:
 	TextureManager* buttonTexture;
 	TextureManager* pauseMenuTexture;
 	TextureManager* pauseMenuButtonTexture;
+	TextureManager* creditsTexture;
+	TextureManager* instructionsTexture;
+	Image* instructions;
 	Image* menu;
 	Image* pauseMenu;
 	Image   mapTile;
+	Image* credits;
 	Crate crate;
 	TextDX	dxFont;
 	COLOR_ARGB fontColor;
