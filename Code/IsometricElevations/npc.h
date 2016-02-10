@@ -85,6 +85,7 @@ protected:
 	float chaseRange;
 	float shootRange;
 	VECTOR2 derivedDest;
+	LevelController* levelController;
 
 public:
 	enum NPCAIMode { Patrol, Chase, Shoot };
@@ -92,10 +93,6 @@ public:
 	bool jumping = false;
 	bool canFall = true;
 	bool falling = false;
-	bool canMoveLeft = true;
-	bool canMoveRight = true;
-	bool canMoveUp = true;
-	bool canMoveDown = true;
 	bool dying = false;
 	int sprIndex = -1;
 	float mapX = 0;
@@ -106,12 +103,12 @@ public:
 
 	//	inherited member functions
 	virtual void draw();
-	virtual bool initialize(Game *gamePtr, int width, int height, int ncols, TextureManager *textureM, int spriteNumber);
+	virtual bool initialize(Game *gamePtr, int width, int height, int ncols, TextureManager *textureM, int spriteNumber, LevelController* lc);
 	void update(float frameTime, float mapX, float pVelo, LevelController* lc);
-	void moveLeft(float frameTime);
-	void moveRight(float frameTime);
-	void moveUp(float frameTime);
-	void moveDown(float frameTime);
+	bool moveLeft(float frameTime);
+	bool moveRight(float frameTime);
+	bool moveUp(float frameTime);
+	bool moveDown(float frameTime);
 	void ai(float frameTime, Entity & ent, float mapX);
 	// TODO: Make NPC AI walk between 2 points / cycle between points in a vector array
 	void setFalling(bool f);
@@ -130,5 +127,12 @@ public:
 	float getShootRange();
 	void setDest(VECTOR2 d);
 	void setAiState(int);
+
+
+	bool canMoveUp();
+	bool canMoveDown();
+	bool canMoveLeft();
+	bool canMoveRight();
+
 };
 #endif

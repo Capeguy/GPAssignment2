@@ -166,3 +166,6 @@ inline void Image::setRect () {
 	spriteData.rect.bottom = spriteData.rect.top + spriteData.height;
 }
 
+bool Image::getFlipHorizontal() {
+	return spriteData.flipHorizontal;
+}

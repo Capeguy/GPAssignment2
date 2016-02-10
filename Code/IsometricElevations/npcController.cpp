@@ -10,9 +10,9 @@ NPCController::NPCController(Graphics *graphics) {
 		throw(GameError(gameErrorNS::FATAL_ERROR, "Error initializing item texture"));
 };
 
-NPC* NPCController::spawnNPCs(int level, Game *gamePtr, float x, float y, int spriteNumber) {
+NPC* NPCController::spawnNPCs(int level, Game *gamePtr, float x, float y, int spriteNumber, LevelController* lc) {
 	NPC* npc = new NPC();
-	npc->initialize(gamePtr, npcNS::NPC_WIDTH, npcNS::NPC_HEIGHT, npcNS::TEXTURE_COLS, npcTexture, spriteNumber);
+	npc->initialize(gamePtr, npcNS::NPC_WIDTH, npcNS::NPC_HEIGHT, npcNS::TEXTURE_COLS, npcTexture, spriteNumber, lc);
 	npc->setX(x);
 	npc->setY(y);
 	npcs.push_back(npc);
