@@ -88,6 +88,11 @@ void BreakoutJack::initialize(HWND hwnd) {
 	dxFont.initialize(graphics, 20, false, false, "Courier New");
 	//dxFont.setFontColor(SETCOLOR_ARGB(192, 255, 255, 255));
 	dxFont.setFontColor(SETCOLOR_ARGB(192, 0, 0, 0));
+
+	loseFont = new TextDX();
+	loseFont->initialize(graphics, 20, false, false, "Courier New");
+	loseFont->setFontColor(SETCOLOR_ARGB(192, 255, 0, 0));
+
 	//Load level controller
 	levelController = new LevelController(graphics, this, tileTexture , iconTexture);
 	levelController->loadTiles(tileTexture, this);
@@ -206,7 +211,6 @@ void BreakoutJack::update() {
 			hud->update(frameTime, player->getInventory()->getActiveItem(), player);
 			crate.update(frameTime);
 			player->update(frameTime, levelController);
-
 			//Scrolling code
 			playerX = player->getX();
 			float mapXCor = levelController->getMapX();
@@ -351,6 +355,11 @@ void BreakoutJack::render() {
 			crate.draw();
 			hud->draw();
 			OSD::instance()->draw();
+			if (player->getHealthStatus() == Player::PlayerHealthStatus::Dead)
+			{
+				string text = "         YOU LOSE\nPress any button to restart";
+				loseFont->print(text, GAME_WIDTH / 2 - 100, GAME_HEIGHT / 2);
+			}
 		}
 	} else if (room == Instructions) {
 		//draw instructions stuff
