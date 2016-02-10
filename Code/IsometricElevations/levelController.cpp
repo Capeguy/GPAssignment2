@@ -117,7 +117,7 @@ void LevelController::renderMinimap(Graphics * graphics)
 	}
 }
 
-void LevelController::update(float frameTime) {
+void LevelController::update(float frameTime, VECTOR2 pv) {
 	for (int col = 0; col < MAP_SIZE_Y; col++) {
 		for (int row = 0; row < MAP_SIZE_X; row++) {
 			mapTile[col][row]->update(frameTime);
@@ -153,6 +153,8 @@ void LevelController::update(float frameTime) {
 	}
 	iController->update(frameTime);
 	//npcController->update(frameTime);
+	playerIcon.setX((pv.x*0.125) + (GAME_WIDTH*0.6) + (-mapX*0.125));
+	playerIcon.setY((pv.y*0.125 + 40));
 	playerIcon.update(frameTime);
 }
 

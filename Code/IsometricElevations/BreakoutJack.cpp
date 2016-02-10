@@ -199,7 +199,7 @@ void BreakoutJack::update() {
 			// Boundaries
 			float bndR = (GAME_WIDTH / 2) + (1 * playerNS::WIDTH);
 			float bndL = (GAME_WIDTH / 2) - (1 * playerNS::WIDTH);
-			levelController->update(frameTime);
+			//levelController->update(frameTime);
 
 			crate.update(frameTime);
 			player->update(frameTime, levelController);
@@ -235,7 +235,7 @@ void BreakoutJack::update() {
 				player->setX(bndR);
 			}
 			levelController->setMapX(mapX);
-			levelController->update(frameTime);
+			levelController->update(frameTime, VECTOR2(player->getX(),player->getY()));
 			npcController->setMapX(mapX);
 			npcController->chaseIfInRange(VECTOR2(player->getX(), player->getY()));
 			npcController->update(frameTime, levelController);

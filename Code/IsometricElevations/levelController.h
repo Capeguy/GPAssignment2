@@ -158,7 +158,7 @@ public:
 	void render(Graphics* graphics);
 	void renderProjectiles(Graphics* graphics);
 	void renderMinimap(Graphics* graphics);
-	void update (float frameTime);
+	void update (float frameTime, VECTOR2);
 	ItemController* getIController();
 	void collisions();
 	void addProjectile(Projectile* p);
