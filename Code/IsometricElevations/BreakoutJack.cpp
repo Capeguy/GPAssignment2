@@ -90,7 +90,7 @@ void BreakoutJack::initialize(HWND hwnd) {
 	dxFont.setFontColor(SETCOLOR_ARGB(192, 0, 0, 0));
 
 	loseFont = new TextDX();
-	loseFont->initialize(graphics, 20, false, false, "Courier New");
+	loseFont->initialize(graphics, 40, false, false, "Courier New");
 	loseFont->setFontColor(SETCOLOR_ARGB(192, 255, 0, 0));
 
 	//Load level controller
@@ -192,11 +192,20 @@ void BreakoutJack::update() {
 				(*bList)->update(frameTime);
 			}
 		} else {
-			//if player dies
+			//if player loses (dies)
 			if (player->getHealthStatus() == Player::PlayerHealthStatus::Dead)
 			{
 				if (input->anyKeyPressed() || input->getMouseLButton())
 					resetGame();
+			}
+			//if player wins
+			if (npcController->getNPCs().empty())
+			{
+				if (input->anyKeyPressed() || input->getMouseLButton())
+				{
+					room = Menu;
+					resetGame();
+				}		
 			}
 			// Variables for scrolling
 			float playerX;
@@ -355,11 +364,18 @@ void BreakoutJack::render() {
 			crate.draw();
 			hud->draw();
 			OSD::instance()->draw();
+			string text;
 			if (player->getHealthStatus() == Player::PlayerHealthStatus::Dead)
 			{
-				string text = "         YOU LOSE\nPress any button to restart";
-				loseFont->print(text, GAME_WIDTH / 2 - 100, GAME_HEIGHT / 2);
+				text = "         YOU LOSE\nPress any button to restart";
+				loseFont->print(text, GAME_WIDTH / 2 - 300, GAME_HEIGHT / 2);
 			}
+			if (npcController->getNPCs().empty())
+			{
+				text = "        YOU WIN\nPress any button to continue";
+				loseFont->print(text, GAME_WIDTH / 2 - 300, GAME_HEIGHT / 2);
+			}
+			
 		}
 	} else if (room == Instructions) {
 		//draw instructions stuff
