@@ -29,14 +29,25 @@ bool Projectile::initialize(Game *gamePtr, int width, int height, int ncols, Tex
 	owner = Player;
 	return(Entity::initialize(gamePtr, width, height, ncols, textureM));
 }
-void Projectile::draw() {
+void Projectile::draw(TextDX &dxFont) {
+	if (velocity.x < 0)
+		flipHorizontal(true);
+	/*
+	string buffer;
+	buffer = to_string((int)getX());
+	buffer += ", ";
+	buffer += to_string((int)getY());
+	dxFont.print(buffer, getX(), getY() - 16);
+	*/
 	Image::draw();              // draw ship
 }
 void Projectile::update(float frameTime) {
 	if (getX() < 0 || getY() < 0 || getX() > GAME_WIDTH || getY() > GAME_HEIGHT) {
 		// delete this; // If only it was that easy.
 	} else {
+		//setX(getX() - offsetOld.x);
 		Entity::update(frameTime);
+		//setX(getX() + offsetOld.x);
 	}
 }
 void Projectile::collision() {
