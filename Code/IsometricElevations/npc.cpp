@@ -76,8 +76,9 @@ bool NPC::initialize(Game *gamePtr, int width, int height, int ncols, TextureMan
 }
 void NPC::draw() {
 	Image::draw();              // draw ship
-	npcHealth->draw();
 	npcHealthBack->draw();
+	npcHealth->draw();
+	
 
 	Item* activeItem = inventory->getActiveItem()->getItem();
 	if (activeItem->getItemType() == Item::Equipable) {
@@ -89,14 +90,14 @@ void NPC::draw() {
 void NPC::update(float frameTime, float mapX, float pVelo, LevelController* lc) {
 	pVelocity = pVelo;
 	offsetNew.x = mapX;
-	npcHealthBack->setX(spriteData.x);
-	npcHealthBack->setY(spriteData.y - 20);
-	npcHealthBack->draw();
 	npcHealth->setX(spriteData.x + 1);
-	npcHealth->setY(spriteData.y - 21);
+	npcHealth->setY(spriteData.y - 19);
 	RECT r = npcHealth->getSpriteDataRect();
 	r.right = npcHealth->getWidth() * (hp / hpMax);
 	npcHealth->setSpriteDataRect(r);
+	npcHealthBack->setX(spriteData.x);
+	npcHealthBack->setY(spriteData.y - 20);
+	npcHealthBack->draw();
 	bool flip = false;
 	ai(frameTime, *this, mapX);
 	OSD::instance()->addLine("NPC is at (" + to_string(getX()) + ", " + to_string(getY()) + ") | Update called with mapX: " + to_string(mapX));
