@@ -138,7 +138,7 @@ void BreakoutJack::initialize(HWND hwnd) {
 	npcController->addNPC(guard, 0, levelController);
 	
 	//Medic 1.1
-	medic->addPath(VECTOR2(205, 608));
+	medic->addPath(VECTOR2(210, 608));
 	npcController->addNPC(medic, 6, levelController);
 
 	//Agent Jack
@@ -147,7 +147,7 @@ void BreakoutJack::initialize(HWND hwnd) {
 
 	//Medic 3.1
 	medic = new Medic();
-	medic->addPath(VECTOR2(2623, 736));
+	medic->addPath(VECTOR2(2591, 736));
 	npcController->addNPC(medic, 6, levelController);
 
 	/* //commented this out - @clarence
