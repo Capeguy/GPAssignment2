@@ -113,6 +113,10 @@ void BreakoutJack::initialize(HWND hwnd) {
 	guard->addPath(VECTOR2(325, 320));
 	guard->addPath(VECTOR2(900, 320));
 	npcController->addNPC(guard, 0, levelController);
+	dog->addPath(VECTOR2(725, 544));
+	dog->addPath(VECTOR2(1200, 544));
+	npcController->addNPC(dog, 5, levelController);
+	/*
 	medic->addPath(VECTOR2(325, 320));
 	medic->addPath(VECTOR2(900, 320));
 	npcController->addNPC(guard, 0, levelController);
@@ -122,6 +126,7 @@ void BreakoutJack::initialize(HWND hwnd) {
 	npc = npcController->spawnNPCs(1, this, 325, 320, 4, levelController, graphics);
 	npc->addPath(VECTOR2(325, 320));
 	npc->addPath(VECTOR2(900, 320));
+	*/
 	// End of stuff
 	menu = new Image();
 	menu->initialize(graphics, GAME_WIDTH, GAME_HEIGHT, 1, menuTexture);
