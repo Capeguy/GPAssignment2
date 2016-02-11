@@ -46,7 +46,7 @@ void LevelController::loadTiles(TextureManager* tt, Game* gameptr) {
 			mapTile[col][row]->setY(col * TEXTURE2_SIZE);
 		}
 	}
-	iController->spawnCrates(1, gameptr, levelControllerNS::ItemType::machineGun);
+	iController->spawnCrates(1, gameptr);
 }
 
 void LevelController::render(Graphics* graphics) {

@@ -11,7 +11,11 @@ ItemController::ItemController(Graphics *graphics) {
 	levelCrateLoc[0] = new list<VECTOR2>();
 	levelCrateLoc[0]->push_back(VECTOR2(321, 568));
 	levelCrateLoc[0]->push_back(VECTOR2(1152, 250));
+	levelCrateItemType[0] = new list<int>();
+	levelCrateItemType[0]->push_back(itemControllerNS::ItemType::machineGun);
+	levelCrateItemType[0]->push_back(itemControllerNS::ItemType::shotGun);
 
+	
 
 	gunTexture = new TextureManager();
 	if (!gunTexture->initialize(graphics, TEXTURE_GUNS))
@@ -23,14 +27,25 @@ ItemController::ItemController(Graphics *graphics) {
 
 ItemController::~ItemController() {}
 
-void ItemController::spawnCrates(int level, Game *gamePtr, int itemtype) {
+void ItemController::spawnCrates(int level, Game *gamePtr) {
 	list<VECTOR2>* crateLocations = levelCrateLoc[0];
+	int locCounter = 0;
 	for (list<VECTOR2>::iterator crateLocationIter = crateLocations->begin(); crateLocationIter != crateLocations->end(); ++crateLocationIter) {
-		Crate* c = new Crate();
-		c->initialize(gamePtr, itemTexture, itemtype);
-		c->setX((*crateLocationIter).x);
-		c->setY((*crateLocationIter).y);
-		crateList->push_back(c);
+		locCounter++;
+		int itemCounter = 0;
+		list<int>* crateItem = levelCrateItemType[0];
+		for (list<int>::iterator crateItemTypeIter = crateItem->begin(); crateItemTypeIter!= crateItem->end(); ++crateItemTypeIter) {
+			itemCounter++;
+			if (locCounter == itemCounter)
+			{
+				Crate* c = new Crate();
+				int itemtype = (*crateItemTypeIter);
+				c->initialize(gamePtr, itemTexture, itemtype);
+				c->setX((*crateLocationIter).x);
+				c->setY((*crateLocationIter).y);
+				crateList->push_back(c);
+			}
+		}
 	}
 }
 
@@ -59,8 +74,8 @@ void ItemController::render(float mapX) {
 		int itemid = (*it)->getItemId();
 		gunImage->setCurrentFrame(getGunFrameByItemType(itemid));
 		gunImage->setX((*it)->getX());
-		gunImage->setY((*it)->getY());
-		gunImage->setScale(0.5);
+		gunImage->setY((*it)->getY()+18);
+		gunImage->setScale(0.3);
 		gunImage->draw();
 		count++;
 	}
