@@ -4,13 +4,12 @@
 #define WIN32_LEAN_AND_MEAN
 
 #include "constants.h"
-#include "npc.h"
+class NPC;
+class Guard;
 #include "entity.h"
 #include "player.h"
 #include <vector>
-
-using namespace std;
-class NPC;
+#include "npc.h"
 class LevelController;
 namespace npcControllerNS
 {
@@ -27,7 +26,7 @@ namespace npcControllerNS
 		376, 377, 378, 379
 	};
 
-	const string npcSpriteNameList[npcSpriteQty] = {
+	const std::string npcSpriteNameList[npcSpriteQty] = {
 		"Black Police",
 		"White Police",
 		"Armoured Police",
@@ -42,26 +41,25 @@ namespace npcControllerNS
 class NPCController
 {
 private:
+	Game* gameptr;
 	TextureManager* npcTexture;
 	TextureManager* iconTexture;
-	list<NPC*> npcs;
-	list<Image*> npcIcon;
-	list<VECTOR2> NPCSpawnLoc;
+	std::list<NPC*> npcs;
+	std::list<Image*> npcIcon;
 	float mapX = 0;
 	float pVelocity = 0;
 public:
 	NPCController();
-	NPCController(Graphics*, TextureManager*);
+	NPCController(Graphics*, TextureManager*, Game*);
 	NPC* spawnNPCs(int, Game*, float, float, int, LevelController*, Graphics*);
 	void update(float, LevelController*);
 	void render();
 	void collisions(LevelController*);
 	void setMapX(float x);
-	void addSpawnLoc(float x, float y);
-	void removeSpawnLoc(int);
 	void getPlayerVelocity(float v);
 	void chaseIfInRange(VECTOR2);
-	list<NPC*> getNPCs();
+	std::list<NPC*> getNPCs();
+	void addNPC(NPC* npc, int type, LevelController* lc);
 
 };
 #endif

@@ -9,7 +9,7 @@ LevelController::LevelController(Graphics*& graphics, Game* gp, TextureManager* 
 	dxFont.setFontColor(SETCOLOR_ARGB(192, 255, 255, 255));
 	iController = new ItemController(graphics);
 	//npcController = new NPCController(graphics);
-	projectiles = list<Projectile*>();
+	projectiles = std::list<Projectile*>();
 	crateCollided = 0;
 	crateItem = -1;
 	playerIcon.initialize(graphics, TEXTURE_SIZE, TEXTURE_SIZE, 2, pt);
@@ -65,7 +65,7 @@ void LevelController::renderProjectiles(Graphics* graphics) {
 }
 
 void LevelController::renderTiles(Graphics* graphics) {
-	string buffer;
+	std::string buffer;
 	for (int col = 0; col < MAP_SIZE_Y; col++) {
 		for (int row = 0; row < MAP_SIZE_X; row++) {
 			// Scroll map according to mapX
@@ -76,12 +76,12 @@ void LevelController::renderTiles(Graphics* graphics) {
 			tile->setX(x);
 			tile->draw();
 			if (debugInfo) {
-				buffer = to_string(mapTile[col][row]->getId());
+				buffer = std::to_string(mapTile[col][row]->getId());
 				buffer += ":";
-				buffer += to_string(mapTile[col][row]->isSolid());
+				buffer += std::to_string(mapTile[col][row]->isSolid());
 				dxFont.print(buffer, row * TEXTURE2_SIZE, col * TEXTURE2_SIZE);
-				buffer = "(" + to_string(row);
-				buffer += "," + to_string(col);
+				buffer = "(" + std::to_string(row);
+				buffer += "," + std::to_string(col);
 				buffer += ")";
 				dxFont.print(buffer, row * TEXTURE2_SIZE, col * TEXTURE2_SIZE + 14);
 			}
@@ -92,7 +92,7 @@ void LevelController::renderTiles(Graphics* graphics) {
 
 void LevelController::renderMinimap(Graphics * graphics)
 {
-	string buffer;
+	std::string buffer;
 	for (int col = 0; col < MAP_SIZE_Y; col++) {
 		for (int row = 0; row < MAP_SIZE_X; row++) {
 			// Scroll map according to mapX
@@ -104,12 +104,12 @@ void LevelController::renderMinimap(Graphics * graphics)
 			tile->setX(x);
 			tile->draw();
 			if (debugInfo) {
-				buffer = to_string(mapTile[col][row]->getId());
+				buffer = std::to_string(mapTile[col][row]->getId());
 				buffer += ":";
-				buffer += to_string(mapTile[col][row]->isSolid());
+				buffer += std::to_string(mapTile[col][row]->isSolid());
 				dxFont.print(buffer, row * TEXTURE2_SIZE, col * TEXTURE2_SIZE);
-				buffer = "(" + to_string(row);
-				buffer += "," + to_string(col);
+				buffer = "(" + std::to_string(row);
+				buffer += "," + std::to_string(col);
 				buffer += ")";
 				dxFont.print(buffer, row * TEXTURE2_SIZE, col * TEXTURE2_SIZE + 14);
 			}
@@ -125,7 +125,7 @@ void LevelController::update(float frameTime, VECTOR2 pv) {
 		}
 	}
 	bool removed;
-	list<Projectile*>::iterator projectileIter = projectiles.begin();
+	std::list<Projectile*>::iterator projectileIter = projectiles.begin();
 	while (!projectiles.empty() && projectileIter != projectiles.end()) {
 		removed = false;
 		if (
@@ -147,7 +147,7 @@ void LevelController::update(float frameTime, VECTOR2 pv) {
 			++projectileIter;
 	}
 
-	for (list<Projectile*>::iterator it = projectiles.begin(); it != projectiles.end(); ++it) {
+	for (std::list<Projectile*>::iterator it = projectiles.begin(); it != projectiles.end(); ++it) {
 		(*it)->setX((*it)->getX() + (*it)->getVelocity().x * frameTime * (*it)->getSpeed());
 		(*it)->setY((*it)->getY() + (*it)->getVelocity().y * frameTime * (*it)->getSpeed());
 		(*it)->update(frameTime);
@@ -165,11 +165,11 @@ ItemController* LevelController::getIController() {
 
 void LevelController::collisions() {
 	D3DXVECTOR2 collisionVector = D3DXVECTOR2();
-	list<Crate*>* crateList = iController->getCrateList();
-	list<VECTOR2>* crateLocList = iController->getCrateLoc();
-	list<Crate*>::iterator crateIter;
-	list<Projectile*>::iterator projectileIter = projectiles.begin();
-	list<VECTOR2>::iterator crateLocIter = crateLocList->begin();
+	std::list<Crate*>* crateList = iController->getCrateList();
+	std::list<VECTOR2>* crateLocList = iController->getCrateLoc();
+	std::list<Crate*>::iterator crateIter;
+	std::list<Projectile*>::iterator projectileIter = projectiles.begin();
+	std::list<VECTOR2>::iterator crateLocIter = crateLocList->begin();
 	int count = 0;
 	bool removed = false;
 	while (!projectiles.empty() && projectileIter != projectiles.end()) {

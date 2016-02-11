@@ -1,6 +1,6 @@
 
 #include "BreakoutJack.h"
-using namespace std;
+
 using namespace breakoutJackNS;
 
 //=============================================================================
@@ -69,7 +69,7 @@ void BreakoutJack::initialize(HWND hwnd) {
 		throw(GameError(gameErrorNS::FATAL_ERROR, "Error initializing credits texture"));
 	if (!iconTexture->initialize(graphics, TEXTURE_ICON))
 		throw(GameError(gameErrorNS::FATAL_ERROR, "Error initializing  icon texture"));
-	if(!winLoseButtonTexture->initialize(graphics, TEXTURE_WINLOSE_BUTTON))
+	if (!winLoseButtonTexture->initialize(graphics, TEXTURE_WINLOSE_BUTTON))
 		throw(GameError(gameErrorNS::FATAL_ERROR, "Error initializing win lose button icon texture"));
 	//player image
 	player->setColorFilter(graphicsNS::MAGENTA);
@@ -80,9 +80,9 @@ void BreakoutJack::initialize(HWND hwnd) {
 	//player->setY((GAME_HEIGHT - GAME_HEIGHT / breakoutJackNS::TEXTURE_SIZE - 2 * breakoutJackNS::TEXTURE_SIZE) - 100);
 	// Need to spawn player in the middle for scrolling
 	player->setX(GAME_WIDTH / 2);
-	player->setY(100);
-	player->setVelocity(VECTOR2(0, playerNS::FALLING_SPEED));
-	// map tile image
+	player->setY(50);
+	player->setVelocity(VECTOR2(0, 0));
+	// Initialize Map Tile
 	mapTile.initialize(graphics, breakoutJackNS::TEXTURE_SIZE, breakoutJackNS::TEXTURE_SIZE, breakoutJackNS::TEXTURE_COLS, &textures);
 	mapTile.setFrames(0, 0);
 	mapTile.setCurrentFrame(0);
@@ -96,39 +96,38 @@ void BreakoutJack::initialize(HWND hwnd) {
 	loseFont->setFontColor(SETCOLOR_ARGB(192, 255, 0, 0));
 
 	//Load level controller
-	levelController = new LevelController(graphics, this, tileTexture , iconTexture);
+	levelController = new LevelController(graphics, this, tileTexture, iconTexture);
 	levelController->loadTiles(tileTexture, this);
 	hud = new HUD(graphics);
 	OSD::instance()->setGraphics(graphics);
-	npcController = new NPCController(graphics,iconTexture);
+	npcController = new NPCController(graphics, iconTexture, this);
+	// Stuff that should have been in the NPC Controller
 	NPC* npc;
-	
-
-	npc = npcController->spawnNPCs(1, this, 205, 608, 7, levelController, graphics);
-	npc->addPath(VECTOR2(205, 608));
-	//npc->addPath(VECTOR2(500, 320));
-
-	npc = npcController->spawnNPCs(1, this, 725, 544, 4, levelController, graphics);
+	Guard* guard = new Guard();
+	Medic* medic = new Medic();
+	Jack* jack = new Jack();
+	Dog* dog = new Dog();
+	TextureManager* npcTexture = new TextureManager();
+	if (!npcTexture->initialize(graphics, TEXTURE_NPC))
+		throw(GameError(gameErrorNS::FATAL_ERROR, "Error initializing npc texture"));
+	guard->addPath(VECTOR2(325, 320));
+	guard->addPath(VECTOR2(900, 320));
+	npcController->addNPC(guard, 0, levelController);
+	medic->addPath(VECTOR2(325, 320));
+	medic->addPath(VECTOR2(900, 320));
+	npcController->addNPC(guard, 0, levelController);
+	npc = npcController->spawnNPCs(1, this, 725, 544, 3, levelController, graphics);
 	npc->addPath(VECTOR2(725, 544));
 	npc->addPath(VECTOR2(1200, 544));
-	
-	npc = npcController->spawnNPCs(1, this, 325, 320, 5, levelController, graphics);
+	npc = npcController->spawnNPCs(1, this, 325, 320, 4, levelController, graphics);
 	npc->addPath(VECTOR2(325, 320));
 	npc->addPath(VECTOR2(900, 320));
-
-	npc = npcController->spawnNPCs(1, this, 1569, 320, 2, levelController, graphics);
-	npc->addPath(VECTOR2(1569, 320));
-	npc->addPath(VECTOR2(2200, 320));
-
-	npc = npcController->spawnNPCs(1, this, 330, 320, 2, levelController, graphics);
-	npc->addPath(VECTOR2(330, 320));
-	npc->addPath(VECTOR2(380, 320));
-	
+	// End of stuff
 	menu = new Image();
 	menu->initialize(graphics, GAME_WIDTH, GAME_HEIGHT, 1, menuTexture);
 	menu->setX(0);
 	menu->setY(0);
-	buttonList = new list<Button*>();
+	buttonList = new std::list<Button*>();
 	for (int i = 0; i < NUM_BUTTONS; i++) {
 		Button* b = new Button(i + 1);
 		b->initialize(this, buttonNS::width, buttonNS::height, buttonNS::cols, buttonTexture);
@@ -141,7 +140,7 @@ void BreakoutJack::initialize(HWND hwnd) {
 	pauseMenu->initialize(graphics, GAME_WIDTH, GAME_HEIGHT, 1, pauseMenuTexture);
 	pauseMenu->setX(0);
 	pauseMenu->setY(0);
-	pauseMenuButtonList = new list<Button*>();
+	pauseMenuButtonList = new std::list<Button*>();
 	for (int i = 0; i < 3; i++) {
 		Button* b = new Button(i);
 		b->initialize(this, buttonNS::pMenu_width, buttonNS::pMenu_height, buttonNS::pMenu_cols, pauseMenuButtonTexture);
@@ -150,13 +149,13 @@ void BreakoutJack::initialize(HWND hwnd) {
 		b->setY((GAME_HEIGHT + i* buttonNS::spacing - 500));
 		pauseMenuButtonList->push_back(b);
 	}
-	winLoseButtonList = new list<Button*>();
+	winLoseButtonList = new std::list<Button*>();
 	for (int i = 0; i < 3; i++) {
 		Button* b = new Button(i);
 		b->initialize(this, buttonNS::winLose_width, buttonNS::winLose_height, buttonNS::winLose_cols, winLoseButtonTexture);
 		b->setCurrentFrame(i);
 		b->setX(GAME_WIDTH / 2 - 250 + (buttonNS::winLose_spacing * i));
-		b->setY((GAME_HEIGHT -300));
+		b->setY((GAME_HEIGHT - 300));
 		winLoseButtonList->push_back(b);
 	}
 	credits = new Image();
@@ -180,7 +179,7 @@ void BreakoutJack::update() {
 				skipFirstClick = false;
 			}
 		} else {
-			for (list<Button*>::iterator bList = buttonList->begin(); bList != buttonList->end(); ++bList) {
+			for (std::list<Button*>::iterator bList = buttonList->begin(); bList != buttonList->end(); ++bList) {
 				(*bList)->active = true;
 				if ((*bList)->isReleased(input)) {
 					room = (*bList)->getID();
@@ -194,7 +193,7 @@ void BreakoutJack::update() {
 			pause = true;
 		if (pause) {
 			pauseMenu->update(frameTime);
-			for (list<Button*>::iterator bList = pauseMenuButtonList->begin(); bList != pauseMenuButtonList->end(); ++bList) {
+			for (std::list<Button*>::iterator bList = pauseMenuButtonList->begin(); bList != pauseMenuButtonList->end(); ++bList) {
 				int i = -1;
 				if ((*bList)->isReleased(input)) {
 					i = (*bList)->getID();
@@ -215,31 +214,23 @@ void BreakoutJack::update() {
 			}
 		} else {
 			//if player loses or wins
-			if (player->getHealthStatus() == Player::PlayerHealthStatus::Dead || npcController->getNPCs().empty())
-			{
-				for (list<Button*>::iterator bList = winLoseButtonList->begin(); bList != winLoseButtonList->end(); ++bList)
-				{
+			if (player->getHealthStatus() == Player::PlayerHealthStatus::Dead || npcController->getNPCs().empty()) {
+				for (std::list<Button*>::iterator bList = winLoseButtonList->begin(); bList != winLoseButtonList->end(); ++bList) {
 					int i = -1;
-					if ((*bList)->isClicked(input)) 
-					{
+					if ((*bList)->isClicked(input)) {
 						i = (*bList)->getID();
 					}
-					if (i == Redo) 
-					{
+					if (i == Redo) {
 						resetGame();
 						pause = false;
 						return;
-					}
-					else if (i == Main) 
-					{
+					} else if (i == Main) {
 						//restart level
 						pause = false;
 						room = Menu;
 						resetGame();
 						return;
-					}
-					else if (i == QuitGame) 
-					{
+					} else if (i == QuitGame) {
 						exitGame();
 						return;
 					}
@@ -288,28 +279,25 @@ void BreakoutJack::update() {
 				player->setX(bndR);
 			}
 			levelController->setMapX(mapX);
-			levelController->update(frameTime, VECTOR2(player->getX(),player->getY()));
+			levelController->update(frameTime, VECTOR2(player->getX(), player->getY()));
 			npcController->setMapX(mapX);
 			npcController->chaseIfInRange(VECTOR2(player->getX(), player->getY()));
 			npcController->update(frameTime, levelController);
 		}
 	} else if (room == Instructions) {
 		//display instructions or whatever
-		if (input->isKeyDown(VK_BACK))
-		{
+		if (input->isKeyDown(VK_BACK)) {
 			skipFirstClick = true;
 			room = Menu;
 		}
 		instructions->update(frameTime);
 	} else if (room == Credits) {
-		if (input->isKeyDown(VK_BACK))
-		{
+		if (input->isKeyDown(VK_BACK)) {
 			skipFirstClick = true;
 			room = Menu;
-		}	
+		}
 		credits->update(frameTime);
-	}
-	else if (room == Exit) {
+	} else if (room == Exit) {
 		//Quit game
 		exitGame();
 	}
@@ -339,36 +327,19 @@ void BreakoutJack::ai() {}
 void BreakoutJack::collisions() {
 	if (room == Start) {
 		VECTOR2 collisionVector;
-
-		// Collision between player and crates
-		/*
-		ItemController* iController = levelController->getIController();
-		list<Crate*>* crateList = iController->getCrateList();
-		for (list<Crate*>::iterator it = crateList->begin(); it != crateList->end(); ++it) {
-		if (player->collidesWith(*(*it), collisionVector)) {
-		//c->spawnItem();
-		//player.setX(playerNS::X * frameTime);
-		//player.setVelocity(-collisionVector);
-		//player.bounce(collisionVector, crate);
-
-		}
-		}
-		*/
 		npcController->collisions(levelController);
 		levelController->collisions();
-		//player collision with projectile
-		list<Projectile*>::iterator projectileIter = levelController->projectiles.begin();
+		// Player collision with projectile
+		std::list<Projectile*>::iterator projectileIter = levelController->projectiles.begin();
 		bool removed = false;
-		while (!levelController->projectiles.empty() && projectileIter != levelController->projectiles.end())
-		{
+		while (!levelController->projectiles.empty() && projectileIter != levelController->projectiles.end()) {
 			removed = false;
-			if ((*projectileIter)->collidesWith(*player, collisionVector) && (*projectileIter)->getOwner() != Projectile::Player)
-			{
+			if ((*projectileIter)->collidesWith(*player, collisionVector) && (*projectileIter)->getOwner() != Projectile::Player) {
 				player->damage((*projectileIter)->getDamage());
 				projectileIter = levelController->projectiles.erase(projectileIter);
 				removed = true;
 			}
-			if(!removed)
+			if (!removed)
 				++projectileIter;
 		}
 	}
@@ -381,7 +352,7 @@ void BreakoutJack::render() {
 	graphics->spriteBegin();
 	if (room == Menu) {
 		menu->draw();
-		for (list<Button*>::iterator bList = buttonList->begin(); bList != buttonList->end(); ++bList) {
+		for (std::list<Button*>::iterator bList = buttonList->begin(); bList != buttonList->end(); ++bList) {
 			(*bList)->draw();
 		}
 	} else if (room == Start) {
@@ -393,7 +364,7 @@ void BreakoutJack::render() {
 			hud->draw();
 			OSD::instance()->draw();
 			pauseMenu->draw();
-			for (list<Button*>::iterator bList = pauseMenuButtonList->begin(); bList != pauseMenuButtonList->end(); ++bList) {
+			for (std::list<Button*>::iterator bList = pauseMenuButtonList->begin(); bList != pauseMenuButtonList->end(); ++bList) {
 				(*bList)->draw();
 			}
 		} else {
@@ -403,30 +374,26 @@ void BreakoutJack::render() {
 			crate.draw();
 			hud->draw();
 			OSD::instance()->draw();
-			string text;
-			if (player->getHealthStatus() == Player::PlayerHealthStatus::Dead)
-			{
+			std::string text;
+			if (player->getHealthStatus() == Player::PlayerHealthStatus::Dead) {
 				text = "         YOU LOSE\nPress any button to restart";
 				loseFont->print(text, GAME_WIDTH / 2 - 300, GAME_HEIGHT / 2);
-				for (list<Button*>::iterator bList = winLoseButtonList->begin(); bList != winLoseButtonList->end(); ++bList) {
+				for (std::list<Button*>::iterator bList = winLoseButtonList->begin(); bList != winLoseButtonList->end(); ++bList) {
 					(*bList)->draw();
 				}
 			}
-			if (npcController->getNPCs().empty())
-			{
+			if (npcController->getNPCs().empty()) {
 				text = "        YOU WIN\nPress any button to continue";
 				loseFont->print(text, GAME_WIDTH / 2 - 300, GAME_HEIGHT / 2);
-				for (list<Button*>::iterator bList = winLoseButtonList->begin(); bList != winLoseButtonList->end(); ++bList) {
+				for (std::list<Button*>::iterator bList = winLoseButtonList->begin(); bList != winLoseButtonList->end(); ++bList) {
 					(*bList)->draw();
 				}
 			}
-			
+
 		}
 	} else if (room == Instructions) {
-		//draw instructions stuff
 		instructions->draw();
 	} else if (room == Credits) {
-		//draw credits stuff
 		credits->draw();
 	}
 	graphics->spriteEnd();
@@ -482,10 +449,10 @@ void BreakoutJack::consoleCommand() {
 		int playerTopLeftY = player->getY();
 		int playerTopRightX = player->getX() + playerNS::PLAYER_WIDTH;
 		int playerTopRightY = player->getY();
-		console->print("Player is at (" + to_string(player->getX()) + ", " + to_string(player->getY()) + ")");
-		console->print("(" + to_string(playerTopLeftX) + ", " + to_string(playerTopLeftY) + ") ---- (" + to_string(playerTopRightX) + ", " + to_string(playerTopRightY) + ")");
+		console->print("Player is at (" + std::to_string(player->getX()) + ", " + std::to_string(player->getY()) + ")");
+		console->print("(" + std::to_string(playerTopLeftX) + ", " + std::to_string(playerTopLeftY) + ") ---- (" + std::to_string(playerTopRightX) + ", " + std::to_string(playerTopRightY) + ")");
 		console->print("  |   ----   |  ");
-		console->print("(" + to_string(playerBottomLeftX) + ", " + to_string(playerBottomLeftY) + ") ---- (" + to_string(playerBottomRightX) + ", " + to_string(playerBottomRightY) + ")");
+		console->print("(" + std::to_string(playerBottomLeftX) + ", " + std::to_string(playerBottomLeftY) + ") ---- (" + std::to_string(playerBottomRightX) + ", " + std::to_string(playerBottomRightY) + ")");
 	} else if (command == "mouse") {
 		mouseOn = !mouseOn;                 // toggle display of fps
 		if (mouseOn)
@@ -495,8 +462,7 @@ void BreakoutJack::consoleCommand() {
 	}
 }
 
-void BreakoutJack::resetGame()
-{
+void BreakoutJack::resetGame() {
 	initialize(hwnd);
 }
 

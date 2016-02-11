@@ -36,6 +36,10 @@
     <ClCompile Include="winmain.cpp" />
     <ClCompile Include="button.cpp" />
     <ClCompile Include="Minimap.cpp" />
+    <ClCompile Include="guard.cpp" />
+    <ClCompile Include="medic.cpp" />
+    <ClCompile Include="dog.cpp" />
+    <ClCompile Include="jack.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="audio.h" />
@@ -74,6 +78,10 @@
     <ClInclude Include="weapon.h" />
     <ClInclude Include="button.h" />
     <ClInclude Include="Minimap.h" />
+    <ClInclude Include="guard.h" />
+    <ClInclude Include="medic.h" />
+    <ClInclude Include="dog.h" />
+    <ClInclude Include="jack.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="ClassDiagram.cd" />

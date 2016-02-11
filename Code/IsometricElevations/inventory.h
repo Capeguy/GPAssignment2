@@ -16,7 +16,7 @@ namespace inventoryControllerNS
 
 class Inventory {
 private:
-	vector<InventoryItem*>	*InventoryItems;
+	std::vector<InventoryItem*>	*InventoryItems;
 	InventoryItem* activeItem;
 	int activeItemIndex;
 	bool updating = false;
@@ -26,9 +26,9 @@ public:
 
 	void update(float frameTime, Input* input);
 
-	vector<InventoryItem*>* getItems();
+	std::vector<InventoryItem*>* getItems();
 	bool addItem(InventoryItem *item);
-	bool addItems(vector<InventoryItem> items);
+	bool addItems(std::vector<InventoryItem> items);
 	InventoryItem* getActiveItem();
 
 };

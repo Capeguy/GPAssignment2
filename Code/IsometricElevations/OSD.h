@@ -6,7 +6,7 @@
 #include "graphics.h"
 #include "textDX.h"
 
-using namespace std;
+
 
 class OSD {
 
@@ -16,13 +16,13 @@ private:
 	
 	
 public:
-	list<string> displayList;
+	std::list<std::string> displayList;
 	static OSD* instance() {
 		static OSD INSTANCE;
 		return &INSTANCE;
 	}
 	void setGraphics(Graphics* graphics);
-	static void addLine(string text);
+	static void addLine(std::string text);
 	int getLine();
 	void draw();
 

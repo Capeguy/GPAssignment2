@@ -7,7 +7,7 @@
 #include "item.h"
 #include "entity.h"
 
-using namespace std;
+
 
 namespace healthPackNS
 {

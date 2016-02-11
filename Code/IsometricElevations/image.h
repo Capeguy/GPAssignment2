@@ -26,10 +26,11 @@ protected:
 	HRESULT hr;             // standard return type
 	bool    loop;           // true to loop frames
 	bool    visible;        // true when visible
-	bool    initialized;    // true when successfully initialized
+	
 	bool    animComplete;   // true when loop is false and endFrame has finished displaying
 
 public:
+	bool    initialized;    // true when successfully initialized
 	// Constructor
 	Image ();
 	// Destructor

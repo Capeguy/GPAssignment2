@@ -1,6 +1,6 @@
 #include "gun.h"
 
-using namespace std;
+
 Gun::Gun() {
 	type = Equipable;
 	spriteData.x = 0;                   // location on screen
@@ -13,7 +13,7 @@ Gun::Gun() {
 	currentFrame = startFrame;
 	collisionType = entityNS::BOX;
 	spriteData.scale = 0.5;
-	bullets = vector<Projectile*>();
+	bullets = std::vector<Projectile*>();
 }
 
 Gun::~Gun() {
@@ -138,10 +138,10 @@ void Gun::draw() {
 	D3DXVECTOR2 mousePos = D3DXVECTOR2(cos(angle), sin(angle));
 	Entity::draw();
 	/*
-	OSD::instance()->addLine("Player x: " + to_string(playerX) + " | Player Y: " + to_string(playerY) + " | Mouse x: " + to_string(mouseX) + " |  Mouse Y: " + to_string(mouseY));
-	OSD::instance()->addLine("Adjacent = " + to_string(adjacent) + " | Opposite = " + to_string(opposite) + " | Angle = " + to_string(angle));
-	OSD::instance()->addLine("Normalized mouse X: " + to_string(mousePos.x) + " | Normalised mouse y: " + to_string(mousePos.y));
-	OSD::instance()->addLine("Current Weapon: " + guntype + " ( " + to_string(ammo) + " )");
+	OSD::instance()->addLine("Player x: " + std::to_string(playerX) + " | Player Y: " + std::to_string(playerY) + " | Mouse x: " + std::to_string(mouseX) + " |  Mouse Y: " + std::to_string(mouseY));
+	OSD::instance()->addLine("Adjacent = " + std::to_string(adjacent) + " | Opposite = " + std::to_string(opposite) + " | Angle = " + std::to_string(angle));
+	OSD::instance()->addLine("Normalized mouse X: " + std::to_string(mousePos.x) + " | Normalised mouse y: " + std::to_string(mousePos.y));
+	OSD::instance()->addLine("Current Weapon: " + guntype + " ( " + std::to_string(ammo) + " )");
 	*/
 }
 void Gun::collision() {
@@ -153,11 +153,11 @@ void Gun::collision() {
 bool Gun::hasAmmo() {
 	return ammo > 0 || ammo == -1;
 }
-string Gun::getAmmoDisplay() {
+std::string Gun::getAmmoDisplay() {
 	if (ammo == -1) {
 		return "?";
 	} else
-		return to_string(ammo);
+		return std::to_string(ammo);
 }
 void Gun::addAmmo() {
 	double a = (double(maxAmmo) / 100.0) * 20.0;

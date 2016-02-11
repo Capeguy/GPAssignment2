@@ -6,12 +6,12 @@ ItemController::ItemController(Graphics *graphics) {
 	itemTexture = new TextureManager();
 	if (!itemTexture->initialize(graphics, TEXTURE_ITEM))
 		throw(GameError(gameErrorNS::FATAL_ERROR, "Error initializing item texture"));
-	crateList = new list<Crate*>();
-	itemList = vector<Item*>();
-	levelCrateLoc[0] = new list<VECTOR2>();
+	crateList = new std::list<Crate*>();
+	itemList = std::vector<Item*>();
+	levelCrateLoc[0] = new std::list<VECTOR2>();
 	levelCrateLoc[0]->push_back(VECTOR2(321, 568));
 	levelCrateLoc[0]->push_back(VECTOR2(1152, 250));
-	levelCrateItemType[0] = new list<int>();
+	levelCrateItemType[0] = new std::list<int>();
 	levelCrateItemType[0]->push_back(itemControllerNS::ItemType::machineGun);
 	levelCrateItemType[0]->push_back(itemControllerNS::ItemType::shotGun);
 
@@ -28,13 +28,13 @@ ItemController::ItemController(Graphics *graphics) {
 ItemController::~ItemController() {}
 
 void ItemController::spawnCrates(int level, Game *gamePtr) {
-	list<VECTOR2>* crateLocations = levelCrateLoc[0];
+	std::list<VECTOR2>* crateLocations = levelCrateLoc[0];
 	int locCounter = 0;
-	for (list<VECTOR2>::iterator crateLocationIter = crateLocations->begin(); crateLocationIter != crateLocations->end(); ++crateLocationIter) {
+	for (std::list<VECTOR2>::iterator crateLocationIter = crateLocations->begin(); crateLocationIter != crateLocations->end(); ++crateLocationIter) {
 		locCounter++;
 		int itemCounter = 0;
-		list<int>* crateItem = levelCrateItemType[0];
-		for (list<int>::iterator crateItemTypeIter = crateItem->begin(); crateItemTypeIter!= crateItem->end(); ++crateItemTypeIter) {
+		std::list<int>* crateItem = levelCrateItemType[0];
+		for (std::list<int>::iterator crateItemTypeIter = crateItem->begin(); crateItemTypeIter!= crateItem->end(); ++crateItemTypeIter) {
 			itemCounter++;
 			if (locCounter == itemCounter)
 			{
@@ -52,22 +52,22 @@ void ItemController::spawnCrates(int level, Game *gamePtr) {
 void ItemController::spawnItem(Game *gamePtr, int x, int y) {
 }
 
-list<VECTOR2>* ItemController::getCrateLoc()
+std::list<VECTOR2>* ItemController::getCrateLoc()
 {
 	return levelCrateLoc[0];
 }
 
 void ItemController::update(float frameTime) {
-	for (list<Crate*>::iterator it = crateList->begin(); it != crateList->end(); ++it) {
+	for (std::list<Crate*>::iterator it = crateList->begin(); it != crateList->end(); ++it) {
 		(*it)->update(frameTime);
 	}
 }
 
 void ItemController::render(float mapX) {
 	int count = 0;
-	list<VECTOR2> *crateLocations = levelCrateLoc[0];
-	list<VECTOR2>::iterator l_front = crateLocations->begin();
-	for (list<Crate*>::iterator it = crateList->begin(); it != crateList->end(); ++it) {
+	std::list<VECTOR2> *crateLocations = levelCrateLoc[0];
+	std::list<VECTOR2>::iterator l_front = crateLocations->begin();
+	for (std::list<Crate*>::iterator it = crateList->begin(); it != crateList->end(); ++it) {
 		std::advance(l_front, count);
 		(*it)->setX(float((*l_front).x + mapX));
 		(*it)->draw();
@@ -81,7 +81,7 @@ void ItemController::render(float mapX) {
 	}
 }
 
-list<Crate*>* ItemController::getCrateList() {
+std::list<Crate*>* ItemController::getCrateList() {
 	return crateList;
 }
 int ItemController::getGunFrameByItemType(int i)

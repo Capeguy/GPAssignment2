@@ -6,7 +6,7 @@
 #include "constants.h"
 #include "gun.h"
 
-using namespace std;
+
 
 class Shotgun : public Gun {
 private:

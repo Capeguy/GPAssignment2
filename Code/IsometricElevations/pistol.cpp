@@ -1,6 +1,6 @@
 #include "pistol.h"
 
-using namespace std;
+
 Pistol::Pistol() {
 	ammo = -1;
 	maxAmmo = -1;
@@ -20,7 +20,7 @@ Projectile* Pistol::shoot(LevelController* lc, float frametime) {
 		if (ammo != -1)
 			ammo--;
 		gameptr->console->print("Remaining ammo: ");
-		gameptr->console->print(to_string(ammo));
+		gameptr->console->print(std::to_string(ammo));
 		cooldowncurrent = cooldown;
 		bullet = new Projectile();
 		bullet->initialize(gameptr, 32, 32, 1, bulletTexture);

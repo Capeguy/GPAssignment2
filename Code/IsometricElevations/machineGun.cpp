@@ -1,6 +1,6 @@
 #include "machineGun.h"
 
-using namespace std;
+
 MachineGun::MachineGun() : Gun() {
 	ammo = 100;
 	maxAmmo = 150;
@@ -20,7 +20,7 @@ Projectile* MachineGun::shoot(LevelController* lc, float frametime) {
 		if (ammo != -1)
 			ammo--;
 		gameptr->console->print("Remaining ammo: ");
-		gameptr->console->print(to_string(ammo));
+		gameptr->console->print(std::to_string(ammo));
 		cooldowncurrent = cooldown;
 		bullet = new Projectile();
 		bullet->initialize(gameptr, 32, 32, 1, bulletTexture);

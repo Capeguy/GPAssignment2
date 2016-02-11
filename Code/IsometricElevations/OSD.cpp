@@ -1,20 +1,17 @@
 #include "OSD.h"
 
-using namespace std;
-
-
 int OSD::getLine() {
 	currLine++;
 	return currLine;
 }
 
-void OSD::addLine(string text) {
+void OSD::addLine(std::string text) {
 	OSD::instance()->displayList.push_back(text);
 }
 
 void OSD::draw() {
-	string output = "";
-	for each(string text in displayList) {
+	std::string output = "";
+	for each(std::string text in displayList) {
 		output += text + "\n";
 	}
 	dxFont.print(output, 0, 0);

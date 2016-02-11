@@ -16,6 +16,11 @@
 #include "OSD.h"
 #include "npcController.h"
 #include "button.h"
+#include "guard.h"
+#include "medic.h"
+#include "dog.h"
+#include "jack.h"
+
 //#include "machineGun.h"
 namespace breakoutJackNS {
 	// Map textures
@@ -78,9 +83,9 @@ private:
 	HUD* hud;
 	NPCController* npcController;
 	int room = Menu;
-	list<Button*>* buttonList;
-	list<Button*>* pauseMenuButtonList;
-	list<Button*>* winLoseButtonList;
+	std::list<Button*>* buttonList;
+	std::list<Button*>* pauseMenuButtonList;
+	std::list<Button*>* winLoseButtonList;
 	bool pause = false;
 	bool skipFirstClick = false;
 

@@ -1,6 +1,6 @@
 #include "player.h"
 
-using namespace std;
+
 Player::Player() : Entity() {
 	//spriteData.width = playerNS::WIDTH;           // size of player ship
 	//spriteData.height = playerNS::HEIGHT;
@@ -71,40 +71,41 @@ void Player::draw() {
 		Gun* gun = (Gun*)activeItem;
 		gun->draw();
 	}
-	OSD::instance()->addLine("Player is at (" + to_string(topLeft.x) + ", " + to_string(topLeft.y) + ") Can Jump: " + to_string(canJump) + " | Can Fall: " + to_string(canFall) + " | Jumping: " + to_string(jumping) + " | Falling: " + to_string(falling));
-	OSD::instance()->addLine("(" + to_string(int(topLeft.x)) + ", " + to_string(int(topLeft.y)) + ") ---- (" + to_string(int(topRight.x)) + ", " + to_string(int(topRight.y)) + ")");
+	OSD::instance()->addLine("Player is at (" + std::to_string(topLeft.x) + ", " + std::to_string(topLeft.y) + ") Can Jump: " + std::to_string(canJump) + " | Can Fall: " + std::to_string(canFall) + " | Jumping: " + std::to_string(jumping) + " | Falling: " + std::to_string(falling));
+	OSD::instance()->addLine("(" + std::to_string(int(topLeft.x)) + ", " + std::to_string(int(topLeft.y)) + ") ---- (" + std::to_string(int(topRight.x)) + ", " + std::to_string(int(topRight.y)) + ")");
 	OSD::instance()->addLine("     |     ----     |  ");
-	OSD::instance()->addLine("(" + to_string(int(bottomLeft.x)) + ", " + to_string(int(bottomRight.y)) + ") ---- (" + to_string(int(bottomRight.x)) + ", " + to_string(int(bottomRight.y)) + ")");
+	OSD::instance()->addLine("(" + std::to_string(int(bottomLeft.x)) + ", " + std::to_string(int(bottomRight.y)) + ") ---- (" + std::to_string(int(bottomRight.x)) + ", " + std::to_string(int(bottomRight.y)) + ")");
 
 }
 bool Player::canMoveUp() {
 	bottomLeft = VECTOR2(getX(), getY() - 1 + getHeight() * getScale());
-	bottomRight = VECTOR2(getX() - 1 + getWidth() * 0.5, getY() - 1 + getHeight() * getScale());
+	bottomRight = VECTOR2(getX() - 1 + getWidth() * getScale(), getY() - 1 + getHeight() * getScale());
 	topLeft = VECTOR2(getX(), getY());
 	topRight = VECTOR2(getX() - 1 + getWidth() * getScale(), getY());
 	return !(levelController->getTile(topLeft.x + levelController->getMapX() * -1.0, topLeft.y - 1)->isSolid() || levelController->getTile(topRight.x + levelController->getMapX() * -1.0, topRight.y - 1)->isSolid());
 }
 bool Player::canMoveDown() {
 	bottomLeft = VECTOR2(getX(), getY() - 1 + getHeight() * getScale());
-	bottomRight = VECTOR2(getX() - 1 + getWidth() * 0.5, getY() - 1 + getHeight() * getScale());
+	bottomRight = VECTOR2(getX() - 1 + getWidth() * getScale(), getY() - 1 + getHeight() * getScale());
 	topLeft = VECTOR2(getX(), getY());
 	topRight = VECTOR2(getX() - 1 + getWidth() * getScale(), getY());
 	return !(levelController->getTile(bottomLeft.x + levelController->getMapX() * -1.0, bottomLeft.y + 1)->isSolid() || levelController->getTile(bottomRight.x + levelController->getMapX() * -1.0, bottomRight.y + 1)->isSolid());
 }
 bool Player::canMoveLeft() {
 	bottomLeft = VECTOR2(getX(), getY() - 1 + getHeight() * getScale());
-	bottomRight = VECTOR2(getX() - 1 + getWidth() * 0.5, getY() - 1 + getHeight() * getScale());
+	bottomRight = VECTOR2(getX() - 1 + getWidth() * getScale(), getY() - 1 + getHeight() * getScale());
 	topLeft = VECTOR2(getX(), getY());
 	topRight = VECTOR2(getX() - 1 + getWidth() * getScale(), getY());
 	return !(levelController->getTile(topLeft.x + levelController->getMapX() * -1.0 - 1, topLeft.y)->isSolid() || levelController->getTile(bottomLeft.x + levelController->getMapX() * -1.0 - 1, bottomLeft.y)->isSolid());
 }
 bool Player::canMoveRight() {
 	bottomLeft = VECTOR2(getX(), getY() - 1 + getHeight() * getScale());
-	bottomRight = VECTOR2(getX() - 1 + getWidth() * 0.5, getY() - 1 + getHeight() * getScale());
+	bottomRight = VECTOR2(getX() - 1 + getWidth() * getScale(), getY() - 1 + getHeight() * getScale());
 	topLeft = VECTOR2(getX(), getY());
 	topRight = VECTOR2(getX() - 1 + getWidth() * getScale(), getY());
 	return !(levelController->getTile(topRight.x + levelController->getMapX() * -1.0 + 1, topRight.y)->isSolid() || levelController->getTile(bottomRight.x + levelController->getMapX() * -1.0 + 1, bottomRight.y)->isSolid());
 }
+
 int Player::getHealthStatus() {
 	return healthStatus;
 }
@@ -119,8 +120,8 @@ void Player::update(float frameTime, LevelController* lc) {
 	velocityX = getVelocity().x;
 	velocityY = getVelocity().y;
 	// Debug Messages
-	OSD::instance()->addLine("Jump Distance: " + to_string(jumpdistance) + " / " + to_string(playerNS::JUMP_HEIGHT));
-	OSD::instance()->addLine("Can | Left: " + to_string(canMoveLeft()) + " | Right: " + to_string(canMoveRight()) + " | Up: " + to_string(canMoveUp()) + " | Down: " + to_string(canMoveDown()));
+	OSD::instance()->addLine("Jump Distance: " + std::to_string(jumpdistance) + " / " + std::to_string(playerNS::JUMP_HEIGHT));
+	OSD::instance()->addLine("Can | Left: " + std::to_string(canMoveLeft()) + " | Right: " + std::to_string(canMoveRight()) + " | Up: " + std::to_string(canMoveUp()) + " | Down: " + std::to_string(canMoveDown()));
 	if (healthStatus != Dead) {
 		// Handle Fall Logic and Jump Ability
 		if (!canMoveDown()) {
