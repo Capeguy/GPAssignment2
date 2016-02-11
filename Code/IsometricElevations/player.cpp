@@ -117,6 +117,11 @@ void Player::update(float frameTime, LevelController* lc) {
 	updateCoords();
 	inventory->update(frameTime, input);
 	float mapx = lc->getMapX() * -1.0;
+	if (mapx > 1900)
+	{
+		audio->stopCue(BKMUSIC);
+		audio->playCue(BOSSMUSIC);
+	}
 	velocityX = getVelocity().x;
 	velocityY = getVelocity().y;
 	// Debug Messages
@@ -160,11 +165,12 @@ void Player::update(float frameTime, LevelController* lc) {
 			if (input->isKeyDown(PLAYER_UP))
 			{
 				orientation = Up;
-				audio->playCue(BEEP2);
 			}
 
 			if (input->isKeyDown(PLAYER_DOWN))
+			{
 				orientation = Down;
+			}
 		}
 		// Handle Jumping
 		if (jumping || (((input->isKeyDown(PLAYER_JUMP) || input->isKeyDown(PLAYER_UP)) && canMoveUp() && canJump))) {
@@ -314,6 +320,7 @@ void Player::setFalling(bool f) {
 	falling = f;
 }
 void Player::damage(float amt) {
+	audio->playCue(HURT);
 	health -= amt;
 	healthUpdate();
 }
@@ -326,8 +333,12 @@ void Player::damage(Projectile p) {
 void Player::healthUpdate() {
 	if (health <= 0) {
 		health = 0;
-		healthStatus = Dead;
-		die();
+		if (healthStatus == Dead)
+			return;
+		else
+			audio->playCue(DIE);
+		healthStatus = Dead;		
+		die();		
 	}
 }
 void Player::die() {

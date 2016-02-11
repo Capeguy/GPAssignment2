@@ -15,7 +15,6 @@ Audio::Audio () {
 	cueI = 0;
 	mapWaveBank = NULL;         // Call UnmapViewOfFile() to release file
 	soundBankData = NULL;
-
 	HRESULT hr = CoInitializeEx (NULL, COINIT_MULTITHREADED);
 	if (SUCCEEDED (hr))
 		coInitialized = true;
@@ -143,5 +142,11 @@ void Audio::stopCue (const char cue[]) {
 	if (soundBank == NULL)
 		return;
 	cueI = soundBank->GetCueIndex (cue);        // get cue index from sound bank
+	if(cueI)
 	soundBank->Stop (cueI, XACT_FLAG_SOUNDBANK_STOP_IMMEDIATE);
+}
+
+void Audio::stopAllTracks()
+{
+
 }

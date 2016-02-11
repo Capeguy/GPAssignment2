@@ -43,6 +43,9 @@ public:
 	// Stop a playing sound specified by cue from sound bank.
 	// If cue does not exist no error occurs.
 	void stopCue (const char cue[]);
+
+	//Stop all tracks
+	void stopAllTracks();
 };
 
 #endif

@@ -128,9 +128,13 @@ void Game::initialize (HWND hw) {
 		throw(GameError (gameErrorNS::FATAL_ERROR, "Failed to initialize DirectX font."));
 
 	dxFont.setFontColor (gameNS::FONT_COLOR);
-
+	audio = new Audio();
 	// init sound system
-	audio = new Audio ();
+	/*if (!audioInitialized) {
+		
+		audioInitialized = true;
+	}*/
+		
 	if (*WAVE_BANK != '\0' && *SOUND_BANK != '\0')  // if sound files defined
 	{
 		if (FAILED (hr = audio->initialize ())) {

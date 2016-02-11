@@ -47,8 +47,6 @@ namespace npcNS
 
 class NPC : public Entity 
 {
-	enum NPCOrientation { Right, Down, Left, Up };
-	enum NPCHealthStatus { Alive, Dead };
 	
 protected:
 	bool	jump = false;
@@ -65,13 +63,6 @@ protected:
 	Image* npcHealth;
 	Image* npcHealthBack;
 
-	InventoryItem* defaultItem;	//do i need this?
-	MachineGun* machineGun;
-	Pistol*	pistol;
-	Shotgun* shotgun;
-	Inventory* inventory;
-	TextureManager* gunTexture;
-
 	float	jumpdistance = 0;
 	VECTOR2 startPoint;
 	VECTOR2 endPoint;
@@ -87,7 +78,9 @@ protected:
 	LevelController* levelController;
 
 public:
-	enum NPCAIMode { Patrol, Chase, Shoot };
+	enum NPCAIMode { Patrol, Chase, Attack };
+	enum NPCOrientation { Right, Down, Left, Up };
+	enum NPCHealthStatus { Alive, Dead };
 	bool canJump = true;
 	bool jumping = false;
 	bool canFall = true;
@@ -103,12 +96,12 @@ public:
 	//	inherited member functions
 	virtual void draw();
 	virtual bool initialize(Game *gamePtr, int width, int height, int ncols, TextureManager *textureM, int spriteNumber, LevelController* lc);
-	void update(float frameTime, float mapX, float pVelo, LevelController* lc);
+	virtual void update(float frameTime, float mapX, float pVelo, LevelController* lc);
 	bool moveLeft(float frameTime);
 	bool moveRight(float frameTime);
 	bool moveUp(float frameTime);
 	bool moveDown(float frameTime);
-	void ai(float frameTime, Entity & ent, float mapX);
+	virtual void ai(float frameTime, Entity & ent, float mapX) {};
 	// TODO: Make NPC AI walk between 2 points / cycle between points in a vector array
 	void setFalling(bool f);
 	void damage(float amt);

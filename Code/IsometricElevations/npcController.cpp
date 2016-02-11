@@ -117,7 +117,7 @@ void NPCController::chaseIfInRange(VECTOR2 v) {
 			(*npcIt)->setAiState(NPC::Chase);
 			(*npcIt)->setDest(v);
 		} else {
-			(*npcIt)->setAiState(NPC::Shoot);
+			(*npcIt)->setAiState(NPC::Attack);
 			(*npcIt)->setDest(v);
 		}
 	}
