@@ -21,6 +21,11 @@ namespace buttonNS
 	const int pMenu_width = 200; 
 	const int pMenu_height = 71;
 	const int pMenu_cols = 1;
+
+	const int winLose_width = 160;
+	const int winLose_height = 64;
+	const int winLose_cols = 1;
+	const int winLose_spacing = 200;
 }
 class Button : public Entity // Abstract class
 {
