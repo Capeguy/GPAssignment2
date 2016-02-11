@@ -16,6 +16,7 @@ MachineGun::~MachineGun() {
 }
 Projectile* MachineGun::shoot(LevelController* lc, float frametime) {
 	if (cooldowncurrent <= 0 && hasAmmo()) {
+		audio->playCue(MACHINEGUNSHOT);
 		if (ammo != -1)
 			ammo--;
 		gameptr->console->print("Remaining ammo: ");

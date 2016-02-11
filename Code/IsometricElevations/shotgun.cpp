@@ -17,6 +17,7 @@ Shotgun::~Shotgun () {
 Projectile* Shotgun::shoot (LevelController* lc, float frametime) {
 	if (cooldowncurrent <= 0 && hasAmmo())
 	{
+		audio->playCue(SHOTGUNSHOT);
 		if (ammo != -1)
 			ammo--;
 		gameptr->console->print("Remaining ammo: ");

@@ -136,11 +136,15 @@ void Player::update(float frameTime, LevelController* lc) {
 			velocityX = 0;
 
 		if (input->isKeyDown(PLAYER_UP))
+		{
 			orientation = Up;
+			audio->playCue(BEEP2);
+		}
+			
 		if (input->isKeyDown(PLAYER_DOWN))
 			orientation = Down;
 		if (jumping || (((input->isKeyDown(PLAYER_JUMP) || input->isKeyDown(PLAYER_UP)) && canMoveUp() && canJump))) {
-			jumpdistance = jumpOriginY - getY();
+			jumpdistance = jumpOriginY - getY();	
 			if (canJump && !jumping)
 				jumpOriginY = getY();
 			if (jumpdistance > playerNS::JUMP_HEIGHT || !canMoveUp()) {
@@ -207,6 +211,7 @@ void Player::update(float frameTime, LevelController* lc) {
 
 		if (lc->collidedWithCrate() == 1 && lc->getCrateItem() != -1)
 		{
+			audio->playCue(RELOAD);
 			int itemid = lc->getCrateItem();
 			InventoryItem *invItem;
 			vector<InventoryItem*>* itemList = inventory->getItems();
