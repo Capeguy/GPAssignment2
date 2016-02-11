@@ -101,15 +101,26 @@ void BreakoutJack::initialize(HWND hwnd) {
 	npcController = new NPCController(graphics,iconTexture);
 	NPC* npc;
 	
-	npc = npcController->spawnNPCs(1, this, 725, 544, 3, levelController, graphics);
+
+	npc = npcController->spawnNPCs(1, this, 205, 608, 7, levelController, graphics);
+	npc->addPath(VECTOR2(205, 608));
+	//npc->addPath(VECTOR2(500, 320));
+
+	npc = npcController->spawnNPCs(1, this, 725, 544, 4, levelController, graphics);
 	npc->addPath(VECTOR2(725, 544));
 	npc->addPath(VECTOR2(1200, 544));
-	npcController->addSpawnLoc(725, 544);
 	
-	npc = npcController->spawnNPCs(1, this, 325, 320, 4, levelController, graphics);
+	npc = npcController->spawnNPCs(1, this, 325, 320, 5, levelController, graphics);
 	npc->addPath(VECTOR2(325, 320));
 	npc->addPath(VECTOR2(900, 320));
-	npcController->addSpawnLoc(325, 320);
+
+	npc = npcController->spawnNPCs(1, this, 1569, 320, 2, levelController, graphics);
+	npc->addPath(VECTOR2(1569, 320));
+	npc->addPath(VECTOR2(2200, 320));
+
+	npc = npcController->spawnNPCs(1, this, 330, 320, 2, levelController, graphics);
+	npc->addPath(VECTOR2(330, 320));
+	npc->addPath(VECTOR2(380, 320));
 	
 	menu = new Image();
 	menu->initialize(graphics, GAME_WIDTH, GAME_HEIGHT, 1, menuTexture);

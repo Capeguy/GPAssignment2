@@ -29,16 +29,25 @@ NPC* NPCController::spawnNPCs(int level, Game *gamePtr, float x, float y, int sp
 }
 
 void NPCController::update(float frameTime, LevelController* lc) {
-	int count = 0;
+	int npcCount = 0;
 	list<Image*>::iterator npcIconIter = npcIcon.begin();
 	for (list<NPC*>::iterator it = npcs.begin(); it != npcs.end(); ++it) {
 		(*it)->update(frameTime, mapX, pVelocity, lc);
-		std::advance(npcIconIter, count);
-		(*npcIconIter)->setX(((*it)->getX()*0.120) + (GAME_WIDTH*0.6) + (-mapX*0.125));
-		(*npcIconIter)->setY((*it)->getY()*0.120 + 42);
-		count++;
-		if (count > npcIcon.size())
-			count = 0;
+		int npcIconCount = 0;
+		for (list<Image*>::iterator npcIconIter = npcIcon.begin(); npcIconIter != npcIcon.end(); npcIconIter++)
+		{
+			if (npcCount == npcIconCount)
+			{
+				//do something
+				(*npcIconIter)->setX(((*it)->getX()*0.120) + (GAME_WIDTH*0.6) + (-mapX*0.125));
+				(*npcIconIter)->setY((*it)->getY()*0.120 + 42);
+			}
+			npcIconCount++;
+		}
+		npcCount++;
+		//std::advance(npcIconIter, count);
+		//(*npcIconIter)->setX(((*it)->getX()*0.120) + (GAME_WIDTH*0.6) + (-mapX*0.125));
+		//(*npcIconIter)->setY((*it)->getY()*0.120 + 42);
 	}
 }
 void NPCController::render() {
@@ -97,7 +106,7 @@ void NPCController::setMapX(float x) {
 }
 
 void NPCController::addSpawnLoc(float x, float y) {
-	NPCSpawnLoc.push_back(VECTOR2(x, y));
+	//NPCSpawnLoc.push_back(VECTOR2(x, y));
 }
 
 void NPCController::getPlayerVelocity(float v) {

@@ -14,14 +14,17 @@ class NPC;
 class LevelController;
 namespace npcControllerNS
 {
-	const int npcSpriteQty = 5;
+	const int npcSpriteQty = 8;
 	const int npcSpriteOrientationQty = 4;
 	const int npcSpriteMap[npcSpriteQty][npcSpriteOrientationQty] = {
 		568, 569, 570, 571,
 		504, 505, 506, 507,
 		472, 473, 474, 475,
 		312, 313, 314, 315,
-		600, 601, 602, 603
+		856, 857, 858, 859, 
+		408, 409, 410, 411,
+		344, 345, 346, 347,
+		376, 377, 378, 379
 	};
 
 	const string npcSpriteNameList[npcSpriteQty] = {
@@ -29,7 +32,10 @@ namespace npcControllerNS
 		"White Police",
 		"Armoured Police",
 		"Firefighter",
-		"Prisoner Jack"
+		"Prisoner Jack",
+		"My Name is Dog",
+		"Medic",
+		"Doctor"
 	};
 }
 
