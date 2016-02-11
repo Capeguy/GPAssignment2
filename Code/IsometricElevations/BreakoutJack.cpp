@@ -78,10 +78,7 @@ void BreakoutJack::initialize(HWND hwnd) {
 	player->setCurrentFrame(952);
 	//player->setX(GAME_WIDTH / breakoutJackNS::TEXTURE_SIZE);
 	//player->setY((GAME_HEIGHT - GAME_HEIGHT / breakoutJackNS::TEXTURE_SIZE - 2 * breakoutJackNS::TEXTURE_SIZE) - 100);
-	// Need to spawn player in the middle for scrolling
-	player->setX(GAME_WIDTH / 2);
-	player->setY(50);
-	player->setVelocity(VECTOR2(0, 0));
+	
 	// Initialize Map Tile
 	mapTile.initialize(graphics, breakoutJackNS::TEXTURE_SIZE, breakoutJackNS::TEXTURE_SIZE, breakoutJackNS::TEXTURE_COLS, &textures);
 	mapTile.setFrames(0, 0);
@@ -110,18 +107,49 @@ void BreakoutJack::initialize(HWND hwnd) {
 	TextureManager* npcTexture = new TextureManager();
 	if (!npcTexture->initialize(graphics, TEXTURE_NPC))
 		throw(GameError(gameErrorNS::FATAL_ERROR, "Error initializing npc texture"));
+	
+	// Guard 1.1
 	guard->addPath(VECTOR2(325, 320));
 	guard->addPath(VECTOR2(900, 320));
 	npcController->addNPC(guard, 0, levelController);
-	medic->addPath(VECTOR2(325, 320));
-	medic->addPath(VECTOR2(900, 320));
+	
+	// Guard 1.2
+	guard = new Guard();
+	guard->addPath(VECTOR2(725, 544));
+	guard->addPath(VECTOR2(1200, 544));
+	npcController->addNPC(guard, 3, levelController);
+
+	//Guard 1.5
+	guard = new Guard();
+	guard->addPath(VECTOR2(1345, 352));
+	guard->addPath(VECTOR2(1468, 352));
+	npcController->addNPC(guard, 2, levelController);
+
+	//Guard 2.1
+	guard = new Guard();
+	guard->addPath(VECTOR2(1569, 320));
+	guard->addPath(VECTOR2(2200, 320));
+	npcController->addNPC(guard, 1, levelController);
+	
+	// Guard 2.2
+	guard = new Guard();
+	guard->addPath(VECTOR2(1985, 544));
+	guard->addPath(VECTOR2(2325, 544));
 	npcController->addNPC(guard, 0, levelController);
-	npc = npcController->spawnNPCs(1, this, 725, 544, 3, levelController, graphics);
-	npc->addPath(VECTOR2(725, 544));
-	npc->addPath(VECTOR2(1200, 544));
-	npc = npcController->spawnNPCs(1, this, 325, 320, 4, levelController, graphics);
-	npc->addPath(VECTOR2(325, 320));
-	npc->addPath(VECTOR2(900, 320));
+	
+	//Medic 1.1
+	medic->addPath(VECTOR2(205, 608));
+	npcController->addNPC(medic, 6, levelController);
+
+	//Agent Jack
+	jack->addPath(VECTOR2(2618, 320));
+	npcController->addNPC(jack, 4, levelController);
+
+	//Medic 3.1
+	medic = new Medic();
+	medic->addPath(VECTOR2(2623, 736));
+	npcController->addNPC(medic, 6, levelController);
+
 	// End of stuff
 	menu = new Image();
 	menu->initialize(graphics, GAME_WIDTH, GAME_HEIGHT, 1, menuTexture);
@@ -166,6 +194,10 @@ void BreakoutJack::initialize(HWND hwnd) {
 	instructions->initialize(graphics, GAME_WIDTH, GAME_HEIGHT, 1, instructionsTexture);
 	instructions->setX(0);
 	instructions->setY(0);
+	// Need to spawn player in the middle for scrolling
+	player->setX(GAME_WIDTH / 2);
+	player->setY(50);
+	player->setVelocity(VECTOR2(0, 0));
 }
 
 //=============================================================================
@@ -222,7 +254,7 @@ void BreakoutJack::update() {
 					}
 					if (i == Redo) {
 						resetGame();
-						pause = false;
+						//pause = false;
 						return;
 					} else if (i == Main) {
 						//restart level

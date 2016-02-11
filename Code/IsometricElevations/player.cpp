@@ -122,6 +122,10 @@ void Player::update(float frameTime, LevelController* lc) {
 	// Debug Messages
 	OSD::instance()->addLine("Jump Distance: " + std::to_string(jumpdistance) + " / " + std::to_string(playerNS::JUMP_HEIGHT));
 	OSD::instance()->addLine("Can | Left: " + std::to_string(canMoveLeft()) + " | Right: " + std::to_string(canMoveRight()) + " | Up: " + std::to_string(canMoveUp()) + " | Down: " + std::to_string(canMoveDown()));
+	if (!canMoveLeft() && !canMoveRight() && !canMoveUp() && !canMoveDown()) {
+		setX(spawnPos.x);
+		setY(spawnPos.y);
+	}
 	if (healthStatus != Dead) {
 		// Handle Fall Logic and Jump Ability
 		if (!canMoveDown()) {

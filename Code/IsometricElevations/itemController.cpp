@@ -8,13 +8,24 @@ ItemController::ItemController(Graphics *graphics) {
 		throw(GameError(gameErrorNS::FATAL_ERROR, "Error initializing item texture"));
 	crateList = new std::list<Crate*>();
 	itemList = std::vector<Item*>();
+	//init crate location first
 	levelCrateLoc[0] = new std::list<VECTOR2>();
 	levelCrateLoc[0]->push_back(VECTOR2(321, 568));
 	levelCrateLoc[0]->push_back(VECTOR2(1152, 250));
+	/*
+	levelCrateLoc[0]->push_back(VECTOR2(2462, 256));
+	levelCrateLoc[0]->push_back(VECTOR2(2815, 608));
+	levelCrateLoc[0]->push_back(VECTOR2(2758, 608));
+	*/
+	//init crate item second
 	levelCrateItemType[0] = new std::list<int>();
 	levelCrateItemType[0]->push_back(itemControllerNS::ItemType::machineGun);
 	levelCrateItemType[0]->push_back(itemControllerNS::ItemType::shotGun);
-
+	/*
+	levelCrateItemType[0]->push_back(itemControllerNS::ItemType::machineGun);
+	levelCrateItemType[0]->push_back(itemControllerNS::ItemType::shotGun);
+	levelCrateItemType[0]->push_back(itemControllerNS::ItemType::shotGun);
+	*/
 	
 
 	gunTexture = new TextureManager();

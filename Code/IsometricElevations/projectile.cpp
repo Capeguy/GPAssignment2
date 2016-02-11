@@ -33,7 +33,7 @@ void Projectile::draw(TextDX &dxFont) {
 	if (velocity.x < 0)
 		flipHorizontal(true);
 	/*
-	string buffer;
+	std::string buffer;
 	buffer = std::to_string((int)getX());
 	buffer += ", ";
 	buffer += std::to_string((int)getY());

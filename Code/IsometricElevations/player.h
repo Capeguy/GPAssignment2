@@ -57,6 +57,7 @@ private:
 	Shotgun * shotgun;
 	InventoryItem* defaultItem;
 	LevelController* levelController;
+	VECTOR2 spawnPos = VECTOR2(GAME_WIDTH / 2, 64);
 
 public:
 	bool canJump = true;
