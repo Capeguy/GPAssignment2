@@ -14,12 +14,20 @@
 using namespace std;
 namespace itemControllerNS
 {
+	const int GUN_TEXTURE_WIDTH = 136;
+	const int GUN_TEXTURE_HEIGHT = 41;
+	const int GUN_TEXTURE_COLS = 2;
+	const int GUN_PISTOL_FRAME = 8;
+	const int GUN_MACHINEGUN_FRAME = 0;
+	const int GUN_SHOTGUN_FRAME = 3;
+	const enum ItemType { machineGun, shotGun, pistol };
 }
 
 class ItemController : public Entity
 {
 private:
 	list<VECTOR2>* levelCrateLoc[NUM_LEVEL];
+	list<int>* levelCrateItemType[NUM_LEVEL];
 	list<Crate*>* crateList;
 	vector<Item*> itemList;
 	TextureManager* itemTexture;
@@ -35,5 +43,9 @@ public:
 	void render(float);
 	void collisions();
 	list<Crate*>* getCrateList();
+	int getGunFrameByItemType(int i);
+protected:
+	TextureManager* gunTexture;
+	Image* gunImage;
 };
 #endif

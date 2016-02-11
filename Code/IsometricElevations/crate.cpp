@@ -18,11 +18,13 @@ Crate::Crate() : Entity()
 	e.bottom = crateNS::HEIGHT / 2;
 	e.top = -crateNS::HEIGHT / 2;
 	setEdge(e);
-	itemId = rand() % NUM_ITEMS;
+	//itemId = rand() % NUM_ITEMS;
+	itemId = -1; //default itemID
 }
 
 void Crate::spawnItem(Crate* c)
 {
+	//not using this for now
 	int itemId = rand() % NUM_ITEMS;
 	switch (itemId)
 	{
@@ -89,11 +91,16 @@ void Crate::spawnItem(Crate* c)
 	}
 	inventory->addItem(invItem);
 }*/
-bool Crate::initialize(Game *gamePtr, TextureManager* itemTexture)
-{
+bool Crate::initialize(Game *gamePtr, TextureManager* itemTexture, int itemtype)
+{	
+	setItemId(itemtype);
 	return Entity::initialize(gamePtr, crateNS::WIDTH, crateNS::HEIGHT, crateNS::TEXTURE_COLS, itemTexture);
 }
 int Crate::getItemId()
 {
 	return itemId;
+}
+
+void Crate::setItemId(int i) {
+	itemId = i;
 }

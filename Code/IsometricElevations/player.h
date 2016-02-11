@@ -32,6 +32,7 @@ namespace playerNS
 	const float PLAYER_HEIGHT = 64.0;
 	const int WIDTH = 32;
 	const int HEIGHT = 32;
+	const enum ItemType { machineGun, shotGun, pistol };
 }
 
 

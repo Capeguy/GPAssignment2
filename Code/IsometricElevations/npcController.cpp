@@ -2,36 +2,53 @@
 
 NPCController::NPCController() {}
 
-NPCController::NPCController(Graphics *graphics) {
+NPCController::NPCController(Graphics *graphics, TextureManager* iconTxt) {
 	// item texture initialize
 	npcTexture = new TextureManager();
+	iconTexture = iconTxt;
 	npcs = list<NPC*>();
 	if (!npcTexture->initialize(graphics, TEXTURE_NPC))
-		throw(GameError(gameErrorNS::FATAL_ERROR, "Error initializing item texture"));
+		throw(GameError(gameErrorNS::FATAL_ERROR, "Error initializing npc texture"));
 };
 
-NPC* NPCController::spawnNPCs(int level, Game *gamePtr, float x, float y, int spriteNumber, LevelController* lc) {
+NPC* NPCController::spawnNPCs(int level, Game *gamePtr, float x, float y, int spriteNumber, LevelController* lc, Graphics* graphics) {
 	NPC* npc = new NPC();
 	npc->initialize(gamePtr, npcNS::NPC_WIDTH, npcNS::NPC_HEIGHT, npcNS::TEXTURE_COLS, npcTexture, spriteNumber, lc);
 	npc->setX(x);
 	npc->setY(y);
 	npcs.push_back(npc);
+	// Create Npc Icon for minimap
+	Image* npcIco = new Image();
+	npcIco->initialize(graphics, TEXTURE_SIZE, TEXTURE_SIZE, 2, iconTexture);
+	npcIco->setCurrentFrame(0);
+	npcIco->setScale(0.5);
+	npcIco->setX(GAME_WIDTH*0.6);
+	npcIco->setY(50);
+	npcIcon.push_back(npcIco);
 	return npc;
 }
 
 void NPCController::update(float frameTime, LevelController* lc) {
+	int count = 0;
+	list<Image*>::iterator npcIconIter = npcIcon.begin();
 	for (list<NPC*>::iterator it = npcs.begin(); it != npcs.end(); ++it) {
 		(*it)->update(frameTime, mapX, pVelocity, lc);
+		std::advance(npcIconIter, count);
+		(*npcIconIter)->setX(((*it)->getX()*0.120) + (GAME_WIDTH*0.6) + (-mapX*0.125));
+		(*npcIconIter)->setY((*it)->getY()*0.120 + 42);
+		count++;
+		if (count > npcIcon.size())
+			count = 0;
 	}
 }
 void NPCController::render() {
 	//int count = 0;
 	//list<VECTOR2>::iterator l_front = NPCSpawnLoc.begin();
 	for (list<NPC*>::iterator it = npcs.begin(); it != npcs.end(); ++it) {
-		//std::advance(l_front, count);
-		//(*it)->setX(float((*l_front).x + mapX));
 		(*it)->draw();
-		//count++;
+	}
+	for (list<Image*>::iterator itr = npcIcon.begin(); itr != npcIcon.end(); ++itr) {
+		(*itr)->draw();
 	}
 }
 
@@ -41,8 +58,10 @@ void NPCController::collisions(LevelController* lc) {
 	list<NPC*>::iterator npcIter;
 	list<NPC*>::iterator selectedNPC;
 	list<Projectile*>::iterator projectileIter = lc->projectiles.begin(); //how to get projectiles from whereever
+	list<Image*>::iterator iconIter = npcIcon.begin();
 	//NPC** selectedNPC;
 	bool removed = false;
+	int count = 0;
 	while (!lc->projectiles.empty() && projectileIter != lc->projectiles.end()) {
 		npcIter = npcs.begin();
 		removed = false;
@@ -50,16 +69,22 @@ void NPCController::collisions(LevelController* lc) {
 			if ((*projectileIter)->collidesWith(**npcIter, collisionVector) && (*projectileIter)->getOwner() == Projectile::Player) {
 				// TODO: Handle health reduction & check if health < 0
 				// health reduction code
-
+				std::advance(iconIter, count);
 				(*npcIter)->damage((*projectileIter)->getDamage());
 				//(*npcIter)->healthUpdate();
 				if ((*npcIter)->isDying()) {
 					npcIter = npcs.erase(npcIter); // remove npc
+					iconIter = npcIcon.erase(iconIter);
 				}
 				projectileIter = lc->projectiles.erase(projectileIter); //remove projectile
 				removed = true;
 			} else {
 				++npcIter;
+				count++;
+			}
+			if (count + 1 > npcIcon.size())
+			{
+				count = 0;
 			}
 		}
 		if (!removed)

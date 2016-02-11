@@ -186,28 +186,30 @@ void Player::update(float frameTime, LevelController* lc) {
 			velocityY = 0;
 		}
 
-		// Final Sanity Check
-		if (!canMoveLeft() && velocityX < 0 || !canMoveRight() && velocityX > 0)
-			velocityX = 0;
-		if (!canMoveUp() && velocityY < 0 || !canMoveDown() && velocityY > 0)
-			velocityY = 0;
-		setVelocity(VECTOR2(velocityX, velocityY));
-		switch (orientation) {
-		case Right:
-			currentFrame = 953;
-			spriteData.flipHorizontal = true;
-			break;
-		case Down:
-			currentFrame = 954;
-			break;
-		case Left:
-			currentFrame = 953;
-			spriteData.flipHorizontal = false;
-			break;
-		case Up:
-			currentFrame = 952;
-			break;
-		}
+
+	// Final Sanity Check
+	if (!canMoveLeft() && velocityX < 0 || !canMoveRight() && velocityX > 0)
+		velocityX = 0;
+	if (!canMoveUp() && velocityY < 0 || !canMoveDown() && velocityY > 0)
+		velocityY = 0;
+	setVelocity(VECTOR2(velocityX, velocityY));
+	switch (orientation) {
+	case Right:
+		currentFrame = 953;
+		spriteData.flipHorizontal = true;
+		break;
+	case Down:
+		currentFrame = 954;
+		break;
+	case Left:
+		currentFrame = 953;
+		spriteData.flipHorizontal = false;
+		break;
+	case Up:
+		currentFrame = 952;
+		break;
+	}
+	
 		Item* activeItem = inventory->getActiveItem()->getItem();
 		if (inventory->getActiveItem()->getItem()->getItemType() == Item::Equipable) {
 			Gun* gun = dynamic_cast<Gun*>(activeItem);
@@ -216,20 +218,20 @@ void Player::update(float frameTime, LevelController* lc) {
 			}
 		}
 
-		if (lc->collidedWithCrate() == 1)
+		if (lc->collidedWithCrate() == 1 && lc->getCrateItem() != -1)
 		{
-			int id = rand() % 2 + 1;
+			int itemid = lc->getCrateItem();
 			InventoryItem *invItem;
 			vector<InventoryItem*>* itemList = inventory->getItems();
-			switch (id)
+			switch (itemid)
 			{
-			case 1:
+			case playerNS::ItemType::shotGun:
 				shotgun = new Shotgun();
 				shotgun->initialize(gameptr, 136, 41, 2, gunTexture);
 				shotgun->setCurrentFrame(6);
 				invItem = new InventoryItem(shotgun);
 				break;
-			case 2:
+			case playerNS::ItemType::machineGun:
 				machineGun = new MachineGun();
 				machineGun->initialize(gameptr, 136, 41, 2, gunTexture);
 				machineGun->setCurrentFrame(0);
@@ -264,6 +266,7 @@ void Player::update(float frameTime, LevelController* lc) {
 			}
 			inventory->addItem(invItem);
 			lc->setCrateCollided(0);
+			lc->setCrateItem(-1);
 		}
 	}
 	Entity::update(frameTime);

@@ -21,7 +21,7 @@ namespace crateNS
 	const int   END_FRAME = 13;
 	const int   X = GAME_WIDTH / 2 - WIDTH / 2; // location on screen
 	const int   Y = GAME_HEIGHT / 2 - HEIGHT / 2;
-
+	const enum ItemType { machineGun, shotGun, pistol };
 }
 
 class Crate : public Entity
@@ -34,8 +34,9 @@ public:
 	Crate();
 	void spawnItem(Crate* c);
 	//void addItem(Inventory* i, Game* gameptr, TextureManager* gunTexture, int id);
-	bool initialize(Game *gamePtr, TextureManager* itemTexture);
-	enum itemType { pistol,machineGun,shotGun,healthPack };
+	bool initialize(Game *gamePtr, TextureManager* itemTexture, int itemtype);
+	enum item { pistol,machineGun,shotGun,healthPack };
 	int getItemId();
+	void setItemId(int i);
 };
 #endif
