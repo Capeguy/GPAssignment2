@@ -2,11 +2,12 @@
 
 NPCController::NPCController() {}
 
-NPCController::NPCController(Graphics *graphics, TextureManager* iconTxt) {
+NPCController::NPCController(Graphics *graphics, TextureManager* iconTxt, Game* gp) {
+	gameptr = gp;
 	// item texture initialize
 	npcTexture = new TextureManager();
 	iconTexture = iconTxt;
-	npcs = list<NPC*>();
+	npcs = std::list<NPC*>();
 	if (!npcTexture->initialize(graphics, TEXTURE_NPC))
 		throw(GameError(gameErrorNS::FATAL_ERROR, "Error initializing npc texture"));
 };
@@ -29,25 +30,29 @@ NPC* NPCController::spawnNPCs(int level, Game *gamePtr, float x, float y, int sp
 }
 
 void NPCController::update(float frameTime, LevelController* lc) {
-	int count = 0;
-	list<Image*>::iterator npcIconIter = npcIcon.begin();
-	for (list<NPC*>::iterator it = npcs.begin(); it != npcs.end(); ++it) {
+	int npcCount = 0;
+	std::list<Image*>::iterator npcIconIter = npcIcon.begin();
+	for (std::list<NPC*>::iterator it = npcs.begin(); it != npcs.end(); ++it) {
 		(*it)->update(frameTime, mapX, pVelocity, lc);
-		std::advance(npcIconIter, count);
-		(*npcIconIter)->setX(((*it)->getX()*0.120) + (GAME_WIDTH*0.6) + (-mapX*0.125));
-		(*npcIconIter)->setY((*it)->getY()*0.120 + 42);
-		count++;
-		if (count > npcIcon.size())
-			count = 0;
+		int npcIconCount = 0;
+		for (std::list<Image*>::iterator npcIconIter = npcIcon.begin(); npcIconIter != npcIcon.end(); npcIconIter++) {
+			if (npcCount == npcIconCount) {
+				(*npcIconIter)->setX(((*it)->getX()*0.120) + (GAME_WIDTH*0.6) + (-mapX*0.125));
+				(*npcIconIter)->setY((*it)->getY()*0.120 + 42);
+			}
+			npcIconCount++;
+		}
+		npcCount++;
 	}
+
 }
 void NPCController::render() {
 	//int count = 0;
 	//list<VECTOR2>::iterator l_front = NPCSpawnLoc.begin();
-	for (list<NPC*>::iterator it = npcs.begin(); it != npcs.end(); ++it) {
+	for (std::list<NPC*>::iterator it = npcs.begin(); it != npcs.end(); ++it) {
 		(*it)->draw();
 	}
-	for (list<Image*>::iterator itr = npcIcon.begin(); itr != npcIcon.end(); ++itr) {
+	for (std::list<Image*>::iterator itr = npcIcon.begin(); itr != npcIcon.end(); ++itr) {
 		(*itr)->draw();
 	}
 }
@@ -55,10 +60,10 @@ void NPCController::render() {
 void NPCController::collisions(LevelController* lc) {
 	D3DXVECTOR2 collisionVector = D3DXVECTOR2();
 	//list<Crate*>* crateList = iController->getCrateList();
-	list<NPC*>::iterator npcIter;
-	list<NPC*>::iterator selectedNPC;
-	list<Projectile*>::iterator projectileIter = lc->projectiles.begin(); //how to get projectiles from whereever
-	list<Image*>::iterator iconIter = npcIcon.begin();
+	std::list<NPC*>::iterator npcIter;
+	std::list<NPC*>::iterator selectedNPC;
+	std::list<Projectile*>::iterator projectileIter = lc->projectiles.begin(); //how to get projectiles from whereever
+	std::list<Image*>::iterator iconIter = npcIcon.begin();
 	//NPC** selectedNPC;
 	bool removed = false;
 	int count = 0;
@@ -82,8 +87,7 @@ void NPCController::collisions(LevelController* lc) {
 				++npcIter;
 				count++;
 			}
-			if (count + 1 > npcIcon.size())
-			{
+			if (count + 1 > npcIcon.size()) {
 				count = 0;
 			}
 		}
@@ -96,23 +100,19 @@ void NPCController::setMapX(float x) {
 	mapX -= x;
 }
 
-void NPCController::addSpawnLoc(float x, float y) {
-	NPCSpawnLoc.push_back(VECTOR2(x, y));
-}
-
 void NPCController::getPlayerVelocity(float v) {
 	pVelocity = v;
 }
 
 void NPCController::chaseIfInRange(VECTOR2 v) {
-	for (list<NPC*>::iterator npcIt = npcs.begin(); npcIt != npcs.end(); ++npcIt) {
+	for (std::list<NPC*>::iterator npcIt = npcs.begin(); npcIt != npcs.end(); ++npcIt) {
 		float y2 = v.y;
 		float x2 = v.x;
 		float y1 = (*npcIt)->getY();
 		float x1 = (*npcIt)->getX();
 		float distance = sqrt(pow(y2 - y1, 2) + (pow(x2 - x1, 2)));
 		if (distance > (*npcIt)->getChaseRange()) {
-			(*npcIt)->setAiState(NPC::Patrol); 
+			(*npcIt)->setAiState(NPC::Patrol);
 		} else if (distance > (*npcIt)->getShootRange()) {
 			(*npcIt)->setAiState(NPC::Chase);
 			(*npcIt)->setDest(v);
@@ -123,7 +123,12 @@ void NPCController::chaseIfInRange(VECTOR2 v) {
 	}
 }
 
-list<NPC*> NPCController::getNPCs()
-{
+std::list<NPC*> NPCController::getNPCs() {
 	return npcs;
+}
+void NPCController::addNPC(NPC* npc, int type, LevelController* lc) {
+	if (!npc->initialized) {
+		npc->initialize(gameptr, npcNS::NPC_WIDTH, npcNS::NPC_HEIGHT, npcNS::TEXTURE_COLS, npcTexture, type, lc);
+	}
+	npcs.push_back(npc);
 }

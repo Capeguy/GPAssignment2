@@ -6,8 +6,6 @@
 #include "constants.h"
 #include "gun.h"
 
-using namespace std;
-
 namespace pistolNS
 {
 	const int spacing = 32;

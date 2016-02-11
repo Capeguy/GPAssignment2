@@ -18,7 +18,6 @@
 #include "levelController.h"
 #include "npcController.h"
 // TODO: Create an NPCController to control the spawning of NPCs
-using namespace std;
 
 namespace npcNS
 {
@@ -79,7 +78,7 @@ protected:
 	VECTOR2 currLoc;
 	VECTOR2 currDest;
 	int pathCount;
-	vector <VECTOR2> pathList;
+	std::vector <VECTOR2> pathList;
 	float originX;
 	float originY;
 	float chaseRange;

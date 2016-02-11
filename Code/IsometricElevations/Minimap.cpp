@@ -43,7 +43,7 @@ void Minimap::render(Graphics* graphics) {
 }
 
 void Minimap::renderTiles(Graphics* graphics) {
-	string buffer;
+	std::string buffer;
 	for (int col = 0; col < MAP_SIZE_Y; col++) {
 		for (int row = 0; row < MAP_SIZE_X; row++) {
 			// Scroll map according to mapX
@@ -54,12 +54,12 @@ void Minimap::renderTiles(Graphics* graphics) {
 			tile->setX(x);
 			tile->draw();
 			if (debugInfo) {
-				buffer = to_string(mapTile[col][row]->getId());
+				buffer = std::to_string(mapTile[col][row]->getId());
 				buffer += ":";
-				buffer += to_string(mapTile[col][row]->isSolid());
+				buffer += std::to_string(mapTile[col][row]->isSolid());
 				dxFont.print(buffer, row * TEXTURE2_SIZE, col * TEXTURE2_SIZE);
-				buffer = "(" + to_string(row);
-				buffer += "," + to_string(col);
+				buffer = "(" + std::to_string(row);
+				buffer += "," + std::to_string(col);
 				buffer += ")";
 				dxFont.print(buffer, row * TEXTURE2_SIZE, col * TEXTURE2_SIZE + 14);
 			}

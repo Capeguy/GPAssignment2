@@ -9,7 +9,7 @@
 #include "list.h"
 #include "input.h"
 
-using namespace std;
+
 
 namespace buttonNS
 {

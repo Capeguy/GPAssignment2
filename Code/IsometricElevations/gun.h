@@ -10,7 +10,7 @@
 #include "OSD.h"
 #include "list.h"
 #include "levelController.h"
-using namespace std;
+
 
 
 namespace gunNS
@@ -37,21 +37,21 @@ protected:
 	float cooldowncurrent = 0;
 	int previousOreintation = -1;
 	Projectile* bullet;
-	vector<Projectile*> bullets;
+	std::vector<Projectile*> bullets;
 	Game* gameptr;
 	TextureManager* bulletTexture;
 	double opposite, adjacent, angle;
 	TextDX* debug; // to be taken out
 	float playerX, playerY; // to be taken out 
 	double mouseX, mouseY;
-	string guntype;
+	std::string guntype;
 	double damage = 0;
 	float bullet_speed = 0;
 public:
 	enum Orientation { Right, Down, Left, Up };;
 	//explicit
 	Gun();
-	Gun (string);
+	Gun (std::string);
 	~Gun ();
 	bool initialize (Game * gamePtr, int width, int height, int ncols, TextureManager * textureM);
 	virtual Projectile* shoot(LevelController* lc, float frametime) { return nullptr; };
@@ -61,7 +61,7 @@ public:
 	void draw();
 	void collision();
 	bool hasAmmo();
-	string getAmmoDisplay();
+	std::string getAmmoDisplay();
 	void addAmmo();
 	int getGunId();
 	enum ItemType { machineGun, shotGun, pistol };

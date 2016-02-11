@@ -1,6 +1,6 @@
 #include "weapon.h"
 
-using namespace std;
+
 Weapon::Weapon () : Entity () {
 	// spriteData.width = playerNS::WIDTH;           // size of player ship
 	// spriteData.height = playerNS::HEIGHT;

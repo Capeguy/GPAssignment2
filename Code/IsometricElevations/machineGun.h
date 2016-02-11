@@ -6,7 +6,7 @@
 #include "gun.h"
 #include "OSD.h"
 
-using namespace std;
+
 
 class MachineGun : public Gun {
 private:

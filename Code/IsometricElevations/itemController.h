@@ -11,7 +11,7 @@
 #include "crate.h"
 #include <vector>
 #include <list>
-using namespace std;
+
 namespace itemControllerNS
 {
 	const int GUN_TEXTURE_WIDTH = 136;
@@ -26,10 +26,10 @@ namespace itemControllerNS
 class ItemController : public Entity
 {
 private:
-	list<VECTOR2>* levelCrateLoc[NUM_LEVEL];
-	list<int>* levelCrateItemType[NUM_LEVEL];
-	list<Crate*>* crateList;
-	vector<Item*> itemList;
+	std::list<VECTOR2>* levelCrateLoc[NUM_LEVEL];
+	std::list<int>* levelCrateItemType[NUM_LEVEL];
+	std::list<Crate*>* crateList;
+	std::vector<Item*> itemList;
 	TextureManager* itemTexture;
 	enum ItemType{healthPack};
 public:
@@ -38,11 +38,11 @@ public:
 	virtual ~ItemController();
 	void spawnCrates(int, Game*);
 	void spawnItem(Game*, int x, int y);
-	list<VECTOR2>* getCrateLoc();
+	std::list<VECTOR2>* getCrateLoc();
 	void update(float);
 	void render(float);
 	void collisions();
-	list<Crate*>* getCrateList();
+	std::list<Crate*>* getCrateList();
 	int getGunFrameByItemType(int i);
 protected:
 	TextureManager* gunTexture;

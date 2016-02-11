@@ -10,7 +10,7 @@ Crate::Crate() : Entity()
 	spriteData.rect.bottom = crateNS::HEIGHT;    // rectangle to select parts of an image
 	spriteData.rect.right = crateNS::WIDTH;
 	collisionType = entityNS::BOX;
-	itemList = vector<Entity>();
+	itemList = std::vector<Entity>();
 	//itemList.push_back(new healh)
 	RECT e;
 	e.right = crateNS::WIDTH / 2;

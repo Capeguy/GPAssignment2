@@ -1,6 +1,6 @@
 #include "projectile.h"
 
-using namespace std;
+
 Projectile::Projectile() : Entity() {
 	//spriteData.width = playerNS::WIDTH;           // size of player ship
 	//spriteData.height = playerNS::HEIGHT;
@@ -34,9 +34,9 @@ void Projectile::draw(TextDX &dxFont) {
 		flipHorizontal(true);
 	/*
 	string buffer;
-	buffer = to_string((int)getX());
+	buffer = std::to_string((int)getX());
 	buffer += ", ";
-	buffer += to_string((int)getY());
+	buffer += std::to_string((int)getY());
 	dxFont.print(buffer, getX(), getY() - 16);
 	*/
 	Image::draw();              // draw ship

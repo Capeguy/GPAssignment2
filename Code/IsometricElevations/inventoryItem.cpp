@@ -1,6 +1,6 @@
 #include "inventoryItem.h"
 
-using namespace std;
+
 InventoryItem::InventoryItem() {}
 InventoryItem::InventoryItem(Item* i) {
 	item = i;

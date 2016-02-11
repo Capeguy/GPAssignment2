@@ -1,35 +1,26 @@
 #include "npc.h"
 
-using namespace std;
 using namespace npcNS;
 #include	<list>
 NPC::NPC() : Entity() {
-	//spriteData.width = playerNS::WIDTH;           // size of player ship
-	//spriteData.height = playerNS::HEIGHT;
 	spriteData.x = npcNS::X;                   // location on screen
 	spriteData.y = npcNS::Y;
-	//spriteData.rect.bottom = playerNS::HEIGHT;    // rectangle to select parts of an image
-	//spriteData.rect.right = playerNS::WIDTH;
 	velocity.x = 0;                             // velocity X
 	velocity.y = 0;                             // velocity Y
 	frameDelay = npcNS::NPC_ANIMATION_DELAY;
-	//startFrame = -1; //npcNS::NPC_START_FRAME;     // first frame of ship animation
-	//endFrame = -1; // npcNS::NPC_END_FRAME;     // last frame of ship animation
-	startFrame = npcControllerNS::npcSpriteMap[sprIndex][0];     // first frame of ship animation
-	endFrame = npcControllerNS::npcSpriteMap[sprIndex][3];     // last frame of ship animation
+	startFrame = npcControllerNS::npcSpriteMap[sprIndex][0];     // first frame of animation
+	endFrame = npcControllerNS::npcSpriteMap[sprIndex][3];     // last frame of animation
 	currentFrame = startFrame;
 	collisionType = entityNS::BOX;
 	spriteData.scale = 0.5;
 	inventory = new Inventory();
-
 	RECT e;
 	e.right = npcNS::NPC_WIDTH / 2;
 	e.left = -npcNS::NPC_WIDTH / 2;
 	e.bottom = npcNS::NPC_HEIGHT / 2;
 	e.top = -npcNS::NPC_HEIGHT / 2;
 	setEdge(e);
-	pathList = vector<VECTOR2>();
-
+	pathList = std::vector<VECTOR2>();
 	npcHealthTexture = new TextureManager();
 	npcHealthBackTexture = new TextureManager();
 	gunTexture = new TextureManager();
@@ -51,6 +42,8 @@ bool NPC::initialize(Game *gamePtr, int width, int height, int ncols, TextureMan
 		throw(GameError(gameErrorNS::FATAL_ERROR, "Error initializing npc health texture"));
 	if (!npcHealthBackTexture->initialize(gamePtr->getGraphics(), TEXTURE_NPCHEALTHBACK))
 		throw(GameError(gameErrorNS::FATAL_ERROR, "Error initializing npc health back texture"));
+	if (!gunTexture->initialize(gamePtr->getGraphics(), TEXTURE_GUNS))
+		throw(GameError(gameErrorNS::FATAL_ERROR, "Error initializing gun texture"));
 	npcHealth = new Image();
 	npcHealth->initialize(gamePtr->getGraphics(), npcNS::NPC_HEALTH_WIDTH, npcNS::NPC_HEALTH_HEIGHT, 1, npcHealthTexture);
 	npcHealth->setCurrentFrame(0);
@@ -61,25 +54,17 @@ bool NPC::initialize(Game *gamePtr, int width, int height, int ncols, TextureMan
 	currDest = VECTOR2(-1, -1);
 	originX = getX();
 	originY = getY();
-
-	if (!gunTexture->initialize(gamePtr->getGraphics(), TEXTURE_GUNS))
-		throw(GameError(gameErrorNS::FATAL_ERROR, "Error initializing gun texture"));
-
 	pistol = new Pistol();
 	pistol->initialize(gameptr, gunNS::TEXTURE_WIDTH, gunNS::TEXTURE_HEIGHT, gunNS::TEXTURE_COLS, gunTexture);
 	pistol->setCurrentFrame(gunNS::PISTOL_FRAME);
-
 	defaultItem = new InventoryItem(pistol);
 	inventory->addItem(defaultItem);
-
 	return(Entity::initialize(gamePtr, width, height, ncols, textureM));
 }
 void NPC::draw() {
-	Image::draw();              // draw ship
+	Image::draw();
 	npcHealthBack->draw();
 	npcHealth->draw();
-	
-
 	Item* activeItem = inventory->getActiveItem()->getItem();
 	if (activeItem->getItemType() == Item::Equipable) {
 		Gun* gun = (Gun*)activeItem;
@@ -88,6 +73,7 @@ void NPC::draw() {
 }
 
 void NPC::update(float frameTime, float mapX, float pVelo, LevelController* lc) {
+	OSD::instance()->addLine("NPC is at (" + std::to_string(getX()) + ", " + std::to_string(getY()) + ") | Update called with mapX: " + std::to_string(mapX));
 	pVelocity = pVelo;
 	offsetNew.x = mapX;
 	npcHealth->setX(spriteData.x + 1);
@@ -100,26 +86,24 @@ void NPC::update(float frameTime, float mapX, float pVelo, LevelController* lc) 
 	npcHealthBack->draw();
 	bool flip = false;
 	ai(frameTime, *this, mapX);
-	OSD::instance()->addLine("NPC is at (" + to_string(getX()) + ", " + to_string(getY()) + ") | Update called with mapX: " + to_string(mapX));
 	switch (orientation) {
-	case Right:
-		currentFrame = npcControllerNS::npcSpriteMap[sprIndex][1];
-		spriteData.flipHorizontal = true;
-		flip = false;
-		break;
-	case Down:
-		currentFrame = npcControllerNS::npcSpriteMap[sprIndex][2];
-		break;
-	case Left:
-		currentFrame = npcControllerNS::npcSpriteMap[sprIndex][1];
-		spriteData.flipHorizontal = false;
-		flip = true;
-		break;
-	case Up:
-		currentFrame = npcControllerNS::npcSpriteMap[sprIndex][0];
-		break;
+		case Right:
+			currentFrame = npcControllerNS::npcSpriteMap[sprIndex][1];
+			spriteData.flipHorizontal = true;
+			flip = false;
+			break;
+		case Down:
+			currentFrame = npcControllerNS::npcSpriteMap[sprIndex][2];
+			break;
+		case Left:
+			currentFrame = npcControllerNS::npcSpriteMap[sprIndex][1];
+			spriteData.flipHorizontal = false;
+			flip = true;
+			break;
+		case Up:
+			currentFrame = npcControllerNS::npcSpriteMap[sprIndex][0];
+			break;
 	}
-
 	Item* activeItem = inventory->getActiveItem()->getItem();
 	if (inventory->getActiveItem()->getItem()->getItemType() == Item::Equipable) {
 		Gun* gun = dynamic_cast<Gun*>(activeItem);
@@ -131,7 +115,6 @@ void NPC::update(float frameTime, float mapX, float pVelo, LevelController* lc) 
 	if (velocity.x < 0 && !canMoveLeft() || velocity.x > 0 && !canMoveRight())
 		velocity.x = 0;
 	Entity::update(frameTime);
-
 }
 void NPC::setFalling(bool f) {
 	falling = f;
@@ -154,7 +137,7 @@ void NPC::healthUpdate() {
 	}
 }
 void NPC::die() {
-	// TO DO: Die (HP <= 0)
+
 }
 
 void NPC::setDying(bool d) {
@@ -179,14 +162,6 @@ bool NPC::moveLeft(float frameTime) {
 	orientation = Left;
 	velocity.x = -npcNS::SPEED * frameTime;
 	return true;
-	/*
-	if (pVelocity < 0)
-		setVelocity(VECTOR2(-npcNS::SPEED * (frameTime / 2), 0));
-	else if (pVelocity > 0)
-		setVelocity(VECTOR2(-npcNS::SPEED * 2 * frameTime, 0));
-	else
-		setVelocity(VECTOR2(-npcNS::SPEED * frameTime, 0));
-	*/
 }
 
 bool NPC::moveRight(float frameTime) {
@@ -195,14 +170,6 @@ bool NPC::moveRight(float frameTime) {
 	orientation = Right;
 	velocity.x = npcNS::SPEED * frameTime;
 	return true;
-	/*
-	if (pVelocity > 0)
-		setVelocity(VECTOR2(npcNS::SPEED * (frameTime / 2), 0));
-	else if (pVelocity < 0)
-		setVelocity(VECTOR2(npcNS::SPEED * frameTime * 2, 0));
-	else
-		setVelocity(VECTOR2(npcNS::SPEED * frameTime, 0));
-	*/
 }
 
 bool NPC::moveUp(float frameTime) {
@@ -223,158 +190,119 @@ bool NPC::moveDown(float frameTime) {
 void NPC::setAiState(int state) {
 	aiState = state;
 	switch (state) {
-	case Patrol:
-		bool found = false;
-		for (vector<VECTOR2>::iterator pathIt = pathList.begin(); pathIt != pathList.end(); ++pathIt) {
-			if ((*pathIt).x == currDest.x && (*pathIt).y == currDest.y) {
-				found = true;
-				break;
+		case Patrol:
+			bool found = false;
+			for (std::vector<VECTOR2>::iterator pathIt = pathList.begin(); pathIt != pathList.end(); ++pathIt) {
+				if ((*pathIt).x == currDest.x && (*pathIt).y == currDest.y) {
+					found = true;
+					break;
+				}
 			}
-		}
-		if (!found) {
-			currDest = pathList.at(pathCount);
-		}
+			if (!found) {
+				currDest = pathList.at(pathCount);
+			}
 	}
 }
 void NPC::ai(float frameTime, Entity &ent, float mapX) {
-	OSD::instance()->addLine("AI Can | Left: " + to_string(canMoveLeft()) + " | Right: " + to_string(canMoveRight()) + " | Up: " + to_string(canMoveUp()) + " | Down: " + to_string(canMoveDown()));
+	OSD::instance()->addLine("AI Can | Left: " + std::to_string(canMoveLeft()) + " | Right: " + std::to_string(canMoveRight()) + " | Up: " + std::to_string(canMoveUp()) + " | Down: " + std::to_string(canMoveDown()));
 	// derivedDest.y = spriteData.y; // Because we're not gonna climb mountains to chase Player
-	switch (aiState) {
-	case Patrol:
-		if (currDest != VECTOR2(-1, -1)) {
-			derivedDest = VECTOR2(currDest.x + offsetOld.x, currDest.y + offsetOld.y);
-		}
-		if (pathList.size() == 0)
-			return;
-		if (currDest == VECTOR2(-1, -1) || spriteData.x == derivedDest.x) { // && spriteData.y == derivedDest.y) { // No destination
-			pathCount++;
-			if (pathCount >= pathList.size())
-				pathCount = 0;
-			currDest = pathList.at(pathCount);
-		}
-		if (spriteData.x > derivedDest.x) {
-			if (velocity.x > 0 && spriteData.x - derivedDest.x < 1 && canMoveLeft()) {
-				velocity.x = 0;
-				setX(derivedDest.x);
-			} else {
-				orientation = Left;
-				if (!moveLeft(frameTime)) {
-					currDest = VECTOR2(-1, -1);
-				}
-			}
-		} else if (spriteData.x < derivedDest.x) {
-			if (velocity.x < 0 && derivedDest.x - spriteData.x < 1 && canMoveRight()) {
-				velocity.x = 0;
-				setX(derivedDest.x);
-			} else {
-				orientation = Right;
-				if (!moveRight(frameTime)) {
-					currDest = VECTOR2(-1, -1);
-				}
-			}
-		} else {
-			velocity.x = 0;
-		}
-		break;
-	case Chase:
-		if (currDest != VECTOR2(-1, -1)) {
-			derivedDest = VECTOR2(currDest.x, currDest.y);
-		}
-		if (pathList.size() == 0)
-			return;
-		if (currDest == VECTOR2(-1, -1) || spriteData.x == derivedDest.x) { // && spriteData.y == derivedDest.y) { // No destination
-			pathCount++;
-			if (pathCount >= pathList.size())
-				pathCount = 0;
-			currDest = pathList.at(pathCount);
-		}
-		if (spriteData.x > derivedDest.x) {
-			if (velocity.x > 0 && spriteData.x - derivedDest.x < 1) {
-				velocity.x = 0;
-				setX(derivedDest.x);
-			} else {
-				orientation = Left;
-				if (!moveLeft(frameTime)) {
-					currDest = VECTOR2(-1, -1);
-					setAiState(Patrol);
-				}
-			}
-		} else if (spriteData.x < derivedDest.x) {
-			if (velocity.x < 0 && derivedDest.x - spriteData.x < 1) {
-				velocity.x = 0;
-				setX(derivedDest.x);
-			} else {
-				orientation = Right;
-				if (!moveRight(frameTime)) {
-					currDest = VECTOR2(-1, -1);
-					setAiState(Patrol);
-				}
-			}
-		} else {
-			velocity.x = 0;
-		}
-		/* I probably shouldn't need to go up and down
-		if (spriteData.y > derivedDest.y) {
-			if (velocity.y > 0 && spriteData.y - derivedDest.y < 1) {
-				velocity.y = 0;
-				setY(derivedDest.y);
-			} else {
-				orientation = Down;
-				moveUp(frameTime);
-			}
-		} else if (spriteData.y < derivedDest.y) {
-			if (velocity.y < 0 && derivedDest.y - spriteData.y < 1) {
-				velocity.y = 0;
-				setY(derivedDest.y);
-			} else {
-				orientation = Up;
-				moveDown(frameTime);
-			}
-		} else {
-			velocity.y = 0;
-		}
-		*/
-		//setY(derivedDest.y);
-		/*
-		if (spriteData.y > currDest.y) {
-		if (orientation == Down) {
-		velocity.y = 0;
-		setY(currDest.y);
-		} else {
-		orientation = Up;
-		moveUp(frameTime);
-		}
-		} else if (spriteData.y < currDest.y) {
-		if (orientation == Up) {
-		velocity.y = 0;
-		setY(currDest.y);
-		} else {
-		orientation = Down;
-		moveDown(frameTime);
-		}
-		} else {
-		velocity.y = 0;
-		}
-		*/
-		break;
-	case Shoot:
-		velocity = VECTOR2(0, 0);
-		if (currDest != VECTOR2(-1, -1)) {
-			derivedDest = VECTOR2(currDest.x, currDest.y);
-		}
-		OSD::instance()->addLine("NPC Shoot Orientation: " + to_string(derivedDest.x - getX()) + " (" + to_string((int)(derivedDest.x)) + " - " + to_string((int)getX()) + ")");
-		VECTOR2 delta = VECTOR2(derivedDest.x - getX(), 0);
-		if (delta.x < 0)
-			orientation = Left;
-		else if (delta.x > 0)
-			orientation = Right;
-		else
-			orientation = Up;
-		break;
-	}
 	
-	OSD::instance()->addLine("MapX: " + to_string(mapX));
-	OSD::instance()->addLine("NPC AI (" + to_string(aiState) + ") at (" + to_string(spriteData.x) + ", " + to_string(spriteData.y) + ") going to (" + to_string((derivedDest.x)) + ", " + to_string(derivedDest.y) + ") Moving at: (" + to_string((velocity.x)) + ", " + to_string(velocity.y) + ") ");
+	switch (aiState) {
+		case Patrol:
+			if (currDest != VECTOR2(-1, -1)) {
+				derivedDest = VECTOR2(currDest.x + offsetOld.x, currDest.y + offsetOld.y);
+			}
+			if (!canMoveLeft() && !canMoveRight() && !canMoveUp() && !canMoveDown()) {
+				setX(derivedDest.x);
+				setY(derivedDest.y);
+			}
+			if (pathList.size() == 0)
+				return;
+			if (currDest == VECTOR2(-1, -1) || spriteData.x == derivedDest.x) {
+				pathCount++;
+				if (pathCount >= pathList.size())
+					pathCount = 0;
+				currDest = pathList.at(pathCount);
+			}
+			if (spriteData.x > derivedDest.x) {
+				if (velocity.x > 0 && spriteData.x - derivedDest.x < 1 && canMoveLeft()) {
+					velocity.x = 0;
+					setX(derivedDest.x);
+				} else {
+					orientation = Left;
+					if (!moveLeft(frameTime)) {
+						currDest = VECTOR2(-1, -1);
+					}
+				}
+			} else if (spriteData.x < derivedDest.x) {
+				if (velocity.x < 0 && derivedDest.x - spriteData.x < 1 && canMoveRight()) {
+					velocity.x = 0;
+					setX(derivedDest.x);
+				} else {
+					orientation = Right;
+					if (!moveRight(frameTime)) {
+						currDest = VECTOR2(-1, -1);
+					}
+				}
+			} else {
+				velocity.x = 0;
+			}
+			break;
+		case Chase:
+			if (currDest != VECTOR2(-1, -1)) {
+				derivedDest = VECTOR2(currDest.x, currDest.y);
+			}
+			if (pathList.size() == 0)
+				return;
+			if (currDest == VECTOR2(-1, -1) || spriteData.x == derivedDest.x) {
+				pathCount++;
+				if (pathCount >= pathList.size())
+					pathCount = 0;
+				currDest = pathList.at(pathCount);
+			}
+			if (spriteData.x > derivedDest.x) {
+				if (velocity.x > 0 && spriteData.x - derivedDest.x < 1) {
+					velocity.x = 0;
+					setX(derivedDest.x);
+				} else {
+					orientation = Left;
+					if (!moveLeft(frameTime)) {
+						currDest = VECTOR2(-1, -1);
+						setAiState(Patrol);
+					}
+				}
+			} else if (spriteData.x < derivedDest.x) {
+				if (velocity.x < 0 && derivedDest.x - spriteData.x < 1) {
+					velocity.x = 0;
+					setX(derivedDest.x);
+				} else {
+					orientation = Right;
+					if (!moveRight(frameTime)) {
+						currDest = VECTOR2(-1, -1);
+						setAiState(Patrol);
+					}
+				}
+			} else {
+				velocity.x = 0;
+			}
+			break;
+		case Shoot:
+			velocity = VECTOR2(0, 0);
+			if (currDest != VECTOR2(-1, -1)) {
+				derivedDest = VECTOR2(currDest.x, currDest.y);
+			}
+			OSD::instance()->addLine("NPC Shoot Orientation: " + std::to_string(derivedDest.x - getX()) + " (" + std::to_string((int)(derivedDest.x)) + " - " + std::to_string((int)getX()) + ")");
+			VECTOR2 delta = VECTOR2(derivedDest.x - getX(), 0);
+			if (delta.x < 0)
+				orientation = Left;
+			else if (delta.x > 0)
+				orientation = Right;
+			else
+				orientation = Up;
+			break;
+	}
+	OSD::instance()->addLine("MapX: " + std::to_string(mapX));
+	OSD::instance()->addLine("NPC AI (" + std::to_string(aiState) + ") at (" + std::to_string(spriteData.x) + ", " + std::to_string(spriteData.y) + ") going to (" + std::to_string((derivedDest.x)) + ", " + std::to_string(derivedDest.y) + ") Moving at: (" + std::to_string((velocity.x)) + ", " + std::to_string(velocity.y) + ") ");
 }
 
 void NPC::addPath(VECTOR2 v) {
@@ -394,14 +322,30 @@ void NPC::setDest(VECTOR2 d) {
 	currDest = d;
 }
 bool NPC::canMoveUp() {
+	bottomLeft = VECTOR2(getX(), getY() - 1 + getHeight() * getScale());
+	bottomRight = VECTOR2(getX() - 1 + getWidth() * getScale(), getY() - 1 + getHeight() * getScale());
+	topLeft = VECTOR2(getX(), getY());
+	topRight = VECTOR2(getX() - 1 + getWidth() * getScale(), getY());
 	return !(levelController->getTile(topLeft.x + levelController->getMapX() * -1.0, topLeft.y - 1)->isSolid() || levelController->getTile(topRight.x + levelController->getMapX() * -1.0, topRight.y - 1)->isSolid());
 }
 bool NPC::canMoveDown() {
+	bottomLeft = VECTOR2(getX(), getY() - 1 + getHeight() * getScale());
+	bottomRight = VECTOR2(getX() - 1 + getWidth() * getScale(), getY() - 1 + getHeight() * getScale());
+	topLeft = VECTOR2(getX(), getY());
+	topRight = VECTOR2(getX() - 1 + getWidth() * getScale(), getY());
 	return !(levelController->getTile(bottomLeft.x + levelController->getMapX() * -1.0, bottomLeft.y + 1)->isSolid() || levelController->getTile(bottomRight.x + levelController->getMapX() * -1.0, bottomRight.y + 1)->isSolid());
 }
 bool NPC::canMoveLeft() {
-	return (!(levelController->getTile(topLeft.x + levelController->getMapX() * -1.0 - 1, topLeft.y)->isSolid() || levelController->getTile(bottomLeft.x + levelController->getMapX() * -1.0 - 1, bottomLeft.y)->isSolid())) && (levelController->getTile(bottomLeft.x + levelController->getMapX() * -1.0, bottomLeft.y + 1)->isSolid());
+	bottomLeft = VECTOR2(getX(), getY() - 1 + getHeight() * getScale());
+	bottomRight = VECTOR2(getX() - 1 + getWidth() * getScale(), getY() - 1 + getHeight() * getScale());
+	topLeft = VECTOR2(getX(), getY());
+	topRight = VECTOR2(getX() - 1 + getWidth() * getScale(), getY());
+	return !(levelController->getTile(topLeft.x + levelController->getMapX() * -1.0 - 1, topLeft.y)->isSolid() || levelController->getTile(bottomLeft.x + levelController->getMapX() * -1.0 - 1, bottomLeft.y)->isSolid());
 }
 bool NPC::canMoveRight() {
-	return (!(levelController->getTile(topRight.x + levelController->getMapX() * -1.0 + 1, topRight.y)->isSolid() || levelController->getTile(bottomRight.x + levelController->getMapX() * -1.0 + 1, bottomRight.y)->isSolid())) && (levelController->getTile(bottomRight.x + levelController->getMapX() * -1.0, bottomRight.y + 1)->isSolid());
+	bottomLeft = VECTOR2(getX(), getY() - 1 + getHeight() * getScale());
+	bottomRight = VECTOR2(getX() - 1 + getWidth() * getScale(), getY() - 1 + getHeight() * getScale());
+	topLeft = VECTOR2(getX(), getY());
+	topRight = VECTOR2(getX() - 1 + getWidth() * getScale(), getY());
+	return !(levelController->getTile(topRight.x + levelController->getMapX() * -1.0 + 1, topRight.y)->isSolid() || levelController->getTile(bottomRight.x + levelController->getMapX() * -1.0 + 1, bottomRight.y)->isSolid());
 }

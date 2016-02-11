@@ -1,6 +1,6 @@
 #include "item.h"
 
-using namespace std;
+
 Item::Item () {
 	textureManager = TextureManager ();
 }
@@ -20,7 +20,7 @@ int Item::getItemType() {
 	return type;
 }
 
-string Item::getItemName()
+std::string Item::getItemName()
 {
 	return name;
 }

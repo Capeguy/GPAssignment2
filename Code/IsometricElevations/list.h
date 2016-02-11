@@ -4,7 +4,7 @@
 #include <string>
 #include <iostream>
 
-using namespace std;
+
 
 template<class ItemType>
 class List {

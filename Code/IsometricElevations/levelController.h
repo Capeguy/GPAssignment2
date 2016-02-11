@@ -17,7 +17,7 @@
 #include "projectile.h"
 //#include "npcController.h"
 #include <list>
-using namespace std;
+
 
 namespace levelControllerNS
 {

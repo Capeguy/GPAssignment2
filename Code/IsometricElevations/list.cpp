@@ -3,7 +3,7 @@
 #include "list.h"
 #include <sstream>
 
-using namespace std;
+
 
 template<class ItemType>
 List<ItemType>::List () {

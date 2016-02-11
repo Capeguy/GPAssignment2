@@ -1,7 +1,7 @@
 #include "inventory.h"
-using namespace std;
+
 Inventory::Inventory() {
-	InventoryItems = new vector<InventoryItem*>();
+	InventoryItems = new std::vector<InventoryItem*>();
 	activeItem = nullptr;
 	activeItemIndex = 0;
 }
@@ -29,7 +29,7 @@ void Inventory::update(float frameTime, Input* input) {
 	}
 }
 
-vector<InventoryItem*>* Inventory::getItems() {
+std::vector<InventoryItem*>* Inventory::getItems() {
 	return InventoryItems;
 }
 bool Inventory::addItem(InventoryItem *item) {
@@ -40,8 +40,8 @@ bool Inventory::addItem(InventoryItem *item) {
 		activeItem = item;
 	return true;
 }
-bool Inventory::addItems(vector<InventoryItem> items) {
-	for (vector<InventoryItem>::iterator it = items.begin(); it != items.end(); ++it) {
+bool Inventory::addItems(std::vector<InventoryItem> items) {
+	for (std::vector<InventoryItem>::iterator it = items.begin(); it != items.end(); ++it) {
 		if (!addItem(&(*it)))
 			return false;
 	}
