@@ -128,7 +128,8 @@ void Player::update(float frameTime, LevelController* lc) {
 				canJump = true;
 			canFall = false;
 			falling = false;
-		} else {
+		}
+		else {
 			canFall = true;
 			falling = true;
 		}
@@ -140,34 +141,37 @@ void Player::update(float frameTime, LevelController* lc) {
 				velocityX = 0;
 			}
 			orientation = Right;
-		} else if (input->isKeyDown(PLAYER_LEFT) && canMoveLeft()) {
+		}
+		else if (input->isKeyDown(PLAYER_LEFT) && canMoveLeft()) {
 			velocityX = -playerNS::SPEED * frameTime;
 			while (!canMoveLeft()) {
 				spriteData.x += 0.1;
 				velocityX = 0;
 			}
 			orientation = Left;
-		} else {
-			velocityX = 0;
-		if (input->isKeyDown(PLAYER_UP))
-		{
-			orientation = Up;
-			audio->playCue(BEEP2);
 		}
-			
-		if (input->isKeyDown(PLAYER_DOWN))
-			orientation = Down;
+		else {
+			velocityX = 0;
+			if (input->isKeyDown(PLAYER_UP))
+			{
+				orientation = Up;
+				audio->playCue(BEEP2);
+			}
+
+			if (input->isKeyDown(PLAYER_DOWN))
+				orientation = Down;
 		}
 		// Handle Jumping
 		if (jumping || (((input->isKeyDown(PLAYER_JUMP) || input->isKeyDown(PLAYER_UP)) && canMoveUp() && canJump))) {
-			jumpdistance = jumpOriginY - getY();	
+			jumpdistance = jumpOriginY - getY();
 			if (canJump && !jumping)
 				jumpOriginY = getY();
 			if (jumpdistance > playerNS::JUMP_HEIGHT || !canMoveUp()) {
 				jumping = false;
 				canJump = false;
 				falling = true;
-			} else {
+			}
+			else {
 				if (!jumping)
 					velocityY = -playerNS::JUMP_SPEED * frameTime;
 				else
@@ -181,7 +185,8 @@ void Player::update(float frameTime, LevelController* lc) {
 		if (falling && !jumping) {
 			if (canMoveDown()) {
 				velocityY = playerNS::FALLING_SPEED * frameTime;
-			} else {
+			}
+			else {
 				velocityY = 0;
 			}
 		}
@@ -201,20 +206,20 @@ void Player::update(float frameTime, LevelController* lc) {
 		else if (input->isKeyDown(PLAYER_DOWN))
 			orientation = Down;
 		switch (orientation) {
-			case Right:
-				currentFrame = 953;
-				spriteData.flipHorizontal = true;
-				break;
-			case Down:
-				currentFrame = 954;
-				break;
-			case Left:
-				currentFrame = 953;
-				spriteData.flipHorizontal = false;
-				break;
-			case Up:
-				currentFrame = 952;
-				break;
+		case Right:
+			currentFrame = 953;
+			spriteData.flipHorizontal = true;
+			break;
+		case Down:
+			currentFrame = 954;
+			break;
+		case Left:
+			currentFrame = 953;
+			spriteData.flipHorizontal = false;
+			break;
+		case Up:
+			currentFrame = 952;
+			break;
 		}
 		// Draw Items
 		Item* activeItem = inventory->getActiveItem()->getItem();
@@ -227,52 +232,53 @@ void Player::update(float frameTime, LevelController* lc) {
 
 		if (lc->collidedWithCrate() == 1 && lc->getCrateItem() != -1)
 		{
-			audio->playCue(RELOAD);
-		/* REMOVE ME 
-		if (lc->collidedWithCrate() == 1 && lc->getCrateItem() != -1) {
-			int itemid = lc->getCrateItem();
-			InventoryItem *invItem;
-			vector<InventoryItem*>* itemList = inventory->getItems();
-			switch (itemid) {
-				case playerNS::ItemType::shotGun:
-					shotgun = new Shotgun();
-					shotgun->initialize(gameptr, 136, 41, 2, gunTexture);
-					shotgun->setCurrentFrame(6);
-					invItem = new InventoryItem(shotgun);
-					break;
-				case playerNS::ItemType::machineGun:
-					machineGun = new MachineGun();
-					machineGun->initialize(gameptr, 136, 41, 2, gunTexture);
-					machineGun->setCurrentFrame(0);
-					invItem = new InventoryItem(machineGun);
-					break;
-				case 3:
-					break;
-			}
-			for (int i = 0; i < itemList->size(); i++) {
-				InventoryItem *iItem = itemList->at(i);
-				Item* item = iItem->getItem();
-				Item* newItem = invItem->getItem();
-				if (item->getItemType() == Item::Equipable && newItem->getItemType() == Item::Equipable) {
-					Gun* gunInvItem = dynamic_cast<Gun*>(item);
-					Gun* gunNewItem = dynamic_cast<Gun*>(newItem);
-					if (gunInvItem->getGunId() == gunNewItem->getGunId()) {
-						gunInvItem->addAmmo();
+			//audio->playCue(RELOAD);
+			/* REMOVE ME
+			if (lc->collidedWithCrate() == 1 && lc->getCrateItem() != -1) {
+				int itemid = lc->getCrateItem();
+				InventoryItem *invItem;
+				vector<InventoryItem*>* itemList = inventory->getItems();
+				switch (itemid) {
+					case playerNS::ItemType::shotGun:
+						shotgun = new Shotgun();
+						shotgun->initialize(gameptr, 136, 41, 2, gunTexture);
+						shotgun->setCurrentFrame(6);
+						invItem = new InventoryItem(shotgun);
+						break;
+					case playerNS::ItemType::machineGun:
+						machineGun = new MachineGun();
+						machineGun->initialize(gameptr, 136, 41, 2, gunTexture);
+						machineGun->setCurrentFrame(0);
+						invItem = new InventoryItem(machineGun);
+						break;
+					case 3:
+						break;
+				}
+				for (int i = 0; i < itemList->size(); i++) {
+					InventoryItem *iItem = itemList->at(i);
+					Item* item = iItem->getItem();
+					Item* newItem = invItem->getItem();
+					if (item->getItemType() == Item::Equipable && newItem->getItemType() == Item::Equipable) {
+						Gun* gunInvItem = dynamic_cast<Gun*>(item);
+						Gun* gunNewItem = dynamic_cast<Gun*>(newItem);
+						if (gunInvItem->getGunId() == gunNewItem->getGunId()) {
+							gunInvItem->addAmmo();
+							lc->setCrateCollided(0);
+							return;
+						}
+					} else if (item->getItemType() == Item::Usable && newItem->getItemType() == Item::Usable) {
 						lc->setCrateCollided(0);
 						return;
 					}
-				} else if (item->getItemType() == Item::Usable && newItem->getItemType() == Item::Usable) {
-					lc->setCrateCollided(0);
-					return;
 				}
-			}
-			inventory->addItem(invItem);
-			lc->setCrateCollided(0);
-			lc->setCrateItem(-1);
-			*/
-		
+				inventory->addItem(invItem);
+				lc->setCrateCollided(0);
+				lc->setCrateItem(-1);
+				*/
+
+		}
+		Entity::update(frameTime);
 	}
-	Entity::update(frameTime);
 }
 void Player::updateCoords() {
 	playerBottomLeftX = getX();
