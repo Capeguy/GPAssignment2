@@ -181,11 +181,11 @@ std::string Console::getCommand() {
 		return "";
 
 	//check for console key
-	if (input->wasKeyPressed(CONSOLE_KEY))
+	if (input->wasKeyPressed(VK_F1))
 		hide();                                 // turn off console
 
 	//check for Esc key
-	if (input->wasKeyPressed(ESC_KEY))
+	if (input->wasKeyPressed(VK_F1))
 		return "";
 
 	// check for scroll

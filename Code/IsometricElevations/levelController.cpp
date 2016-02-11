@@ -184,6 +184,7 @@ void LevelController::collisions() {
 				crateIter = crateList->erase(crateIter);
 				projectileIter = projectiles.erase(projectileIter);
 				crateLocIter = crateLocList->erase(crateLocIter);
+				
 				removed = true;
 			} else {
 				++crateIter;

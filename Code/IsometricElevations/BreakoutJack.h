@@ -63,6 +63,7 @@ private:
 	TextureManager* creditsTexture;
 	TextureManager* instructionsTexture;
 	TextureManager* iconTexture;
+	TextureManager* winLoseButtonTexture;
 	Image* instructions;
 	Image* menu;
 	Image* pauseMenu;
@@ -79,6 +80,7 @@ private:
 	int room = Menu;
 	list<Button*>* buttonList;
 	list<Button*>* pauseMenuButtonList;
+	list<Button*>* winLoseButtonList;
 	bool pause = false;
 	bool skipFirstClick = false;
 
@@ -101,6 +103,7 @@ public:
 	void resetGame();
 	enum Room { Menu, Start, Instructions, Credits, Exit };
 	enum PauseMenu { Resume, Restart, MainMenu };
+	enum WinLose {Redo, Main, QuitGame};
 };
 
 #endif

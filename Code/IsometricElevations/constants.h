@@ -62,16 +62,22 @@ const char TEXTURE_PAUSE_MENU_BUTTONS[] = "pictures\\pause_menu_buttons.png";
 const char TEXTURE_CREDITS[] = "pictures\\credit.png";
 const char TEXTURE_INSTRUCTIONS[] = "pictures\\instructions.png";
 const char TEXTURE_ICON[] = "pictures\\minimap_icon.png";
+const char TEXTURE_WINLOSE_BUTTON[] = "pictures\\win_lose_buttons.png";
 // audio files required by audio.cpp
 // WAVE_BANK must be location of .xwb file.
-const char WAVE_BANK[] = "";
+const char WAVE_BANK[] = "audio\\Win\\BreakoutJackWaveBank.xwb";
 // SOUND_BANK must be location of .xsb file.
-const char SOUND_BANK[] = "";
-
+const char SOUND_BANK[] = "audio\\Win\\BreakoutJackSoundBank.xsb";
+// Audio cues
+const char BEEP2[] = "beep2";
+const char PISTOLSHOT[] = "pistol";
+const char MACHINEGUNSHOT[] = "machinegun";
+const char SHOTGUNSHOT[] = "shotgun";
+const char RELOAD[] = "reload";
 // key mappings
 // In this game simple constants are used for key mappings. If variables were used
 // it would be possible to save and restore key mappings from a data file.
-const UCHAR CONSOLE_KEY = VK_OEM_3;    // `~ key for U.S.
+const UCHAR CONSOLE_KEY = VK_F1;    // `~ key for U.S.
 const UCHAR ESC_KEY = VK_ESCAPE;   // escape key
 const UCHAR ALT_KEY = VK_MENU;     // Alt key
 const UCHAR ENTER_KEY = VK_RETURN;   // Enter key
