@@ -32,6 +32,7 @@ void BreakoutJack::initialize(HWND hwnd) {
 	creditsTexture = new TextureManager();
 	instructionsTexture = new TextureManager();
 	iconTexture = new TextureManager();
+	winLoseButtonTexture = new TextureManager();
 	// map textures
 	if (!textures.initialize(graphics, TEXTURES_IMAGE))
 		throw(GameError(gameErrorNS::FATAL_ERROR, "Error initializing textures"));
@@ -68,7 +69,8 @@ void BreakoutJack::initialize(HWND hwnd) {
 		throw(GameError(gameErrorNS::FATAL_ERROR, "Error initializing credits texture"));
 	if (!iconTexture->initialize(graphics, TEXTURE_ICON))
 		throw(GameError(gameErrorNS::FATAL_ERROR, "Error initializing  icon texture"));
-
+	if(!winLoseButtonTexture->initialize(graphics, TEXTURE_WINLOSE_BUTTON))
+		throw(GameError(gameErrorNS::FATAL_ERROR, "Error initializing win lose button icon texture"));
 	//player image
 	player->setColorFilter(graphicsNS::MAGENTA);
 	player->initialize(this, playerNS::PLAYER_WIDTH, playerNS::PLAYER_HEIGHT, 32, playerTexture); // to change
@@ -137,6 +139,15 @@ void BreakoutJack::initialize(HWND hwnd) {
 		b->setY((GAME_HEIGHT + i* buttonNS::spacing - 500));
 		pauseMenuButtonList->push_back(b);
 	}
+	winLoseButtonList = new list<Button*>();
+	for (int i = 0; i < 3; i++) {
+		Button* b = new Button(i);
+		b->initialize(this, buttonNS::winLose_width, buttonNS::winLose_height, buttonNS::winLose_cols, winLoseButtonTexture);
+		b->setCurrentFrame(i);
+		b->setX(GAME_WIDTH / 2 - 250 + (buttonNS::winLose_spacing * i));
+		b->setY((GAME_HEIGHT -300));
+		winLoseButtonList->push_back(b);
+	}
 	credits = new Image();
 	credits->initialize(graphics, GAME_WIDTH, GAME_HEIGHT, 1, creditsTexture);
 	credits->setX(0);
@@ -192,20 +203,38 @@ void BreakoutJack::update() {
 				(*bList)->update(frameTime);
 			}
 		} else {
-			//if player loses (dies)
-			if (player->getHealthStatus() == Player::PlayerHealthStatus::Dead)
+			//if player loses or wins
+			if (player->getHealthStatus() == Player::PlayerHealthStatus::Dead || npcController->getNPCs().empty())
 			{
-				if (input->anyKeyPressed() || input->getMouseLButton())
-					resetGame();
-			}
-			//if player wins
-			if (npcController->getNPCs().empty())
-			{
-				if (input->anyKeyPressed() || input->getMouseLButton())
+				for (list<Button*>::iterator bList = winLoseButtonList->begin(); bList != winLoseButtonList->end(); ++bList)
 				{
-					room = Menu;
-					resetGame();
-				}		
+					int i = -1;
+					if ((*bList)->isClicked(input)) 
+					{
+						i = (*bList)->getID();
+					}
+					if (i == Redo) 
+					{
+						resetGame();
+						pause = false;
+						return;
+					}
+					else if (i == Main) 
+					{
+						//restart level
+						pause = false;
+						room = Menu;
+						resetGame();
+						return;
+					}
+					else if (i == QuitGame) 
+					{
+						exitGame();
+						return;
+					}
+					skipFirstClick = true;
+					(*bList)->update(frameTime);
+				}
 			}
 			// Variables for scrolling
 			float playerX;
@@ -252,7 +281,6 @@ void BreakoutJack::update() {
 			npcController->setMapX(mapX);
 			npcController->chaseIfInRange(VECTOR2(player->getX(), player->getY()));
 			npcController->update(frameTime, levelController);
-
 		}
 	} else if (room == Instructions) {
 		//display instructions or whatever
@@ -369,11 +397,17 @@ void BreakoutJack::render() {
 			{
 				text = "         YOU LOSE\nPress any button to restart";
 				loseFont->print(text, GAME_WIDTH / 2 - 300, GAME_HEIGHT / 2);
+				for (list<Button*>::iterator bList = winLoseButtonList->begin(); bList != winLoseButtonList->end(); ++bList) {
+					(*bList)->draw();
+				}
 			}
 			if (npcController->getNPCs().empty())
 			{
 				text = "        YOU WIN\nPress any button to continue";
 				loseFont->print(text, GAME_WIDTH / 2 - 300, GAME_HEIGHT / 2);
+				for (list<Button*>::iterator bList = winLoseButtonList->begin(); bList != winLoseButtonList->end(); ++bList) {
+					(*bList)->draw();
+				}
 			}
 			
 		}
