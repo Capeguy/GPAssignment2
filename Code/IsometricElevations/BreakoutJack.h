@@ -98,6 +98,7 @@ public:
 	void render();      // "
 	void releaseAll();
 	void resetAll();
+	void stopAllMusic();
 	bool tileIsSolid(int x, int y);
 	void consoleCommand();
 	void resetGame();

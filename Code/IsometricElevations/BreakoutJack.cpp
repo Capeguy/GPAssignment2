@@ -156,6 +156,8 @@ void BreakoutJack::initialize(HWND hwnd) {
 	instructions->initialize(graphics, GAME_WIDTH, GAME_HEIGHT, 1, instructionsTexture);
 	instructions->setX(0);
 	instructions->setY(0);
+
+	audio->playCue(BKMUSIC);
 }
 
 //=============================================================================
@@ -178,6 +180,7 @@ void BreakoutJack::update() {
 			}
 		}
 	} else if (room == Start) {
+
 		//if pause button is pressed, display menu 
 		if (input->isKeyDown(PAUSE))
 			pause = true;
@@ -191,11 +194,15 @@ void BreakoutJack::update() {
 				if (i == Resume) {
 					pause = false;
 				} else if (i == Restart) {
+					stopAllMusic();
 					//restart level
-					resetGame();
+					resetGame();					
 					pause = false;
 					return;
 				} else if (i == MainMenu) {
+					audio->stopCue(BOSSMUSIC);
+					audio->stopCue(VICTORYMUSIC);
+					audio->stopCue(LOSEMUSIC);
 					pause = false;
 					room = Menu;
 					skipFirstClick = true;
@@ -205,7 +212,7 @@ void BreakoutJack::update() {
 		} else {
 			//if player loses or wins
 			if (player->getHealthStatus() == Player::PlayerHealthStatus::Dead || npcController->getNPCs().empty())
-			{
+			{				
 				for (list<Button*>::iterator bList = winLoseButtonList->begin(); bList != winLoseButtonList->end(); ++bList)
 				{
 					int i = -1;
@@ -215,12 +222,15 @@ void BreakoutJack::update() {
 					}
 					if (i == Redo) 
 					{
+						stopAllMusic();
+						// Restart Level
 						resetGame();
 						pause = false;
 						return;
 					}
 					else if (i == Main) 
 					{
+						stopAllMusic();
 						//restart level
 						pause = false;
 						room = Menu;
@@ -395,6 +405,8 @@ void BreakoutJack::render() {
 			string text;
 			if (player->getHealthStatus() == Player::PlayerHealthStatus::Dead)
 			{
+				audio->stopCue(BKMUSIC);
+				audio->playCue(LOSEMUSIC);
 				text = "         YOU LOSE\nPress any button to restart";
 				loseFont->print(text, GAME_WIDTH / 2 - 300, GAME_HEIGHT / 2);
 				for (list<Button*>::iterator bList = winLoseButtonList->begin(); bList != winLoseButtonList->end(); ++bList) {
@@ -403,6 +415,8 @@ void BreakoutJack::render() {
 			}
 			if (npcController->getNPCs().empty())
 			{
+				audio->stopCue(BKMUSIC);
+				audio->playCue(VICTORYMUSIC);
 				text = "        YOU WIN\nPress any button to continue";
 				loseFont->print(text, GAME_WIDTH / 2 - 300, GAME_HEIGHT / 2);
 				for (list<Button*>::iterator bList = winLoseButtonList->begin(); bList != winLoseButtonList->end(); ++bList) {
@@ -441,6 +455,13 @@ void BreakoutJack::resetAll() {
 	itemTexture.onResetDevice();
 	Game::resetAll();
 	return;
+}
+void BreakoutJack::stopAllMusic()
+{
+	audio->stopCue(BOSSMUSIC);
+	audio->stopCue(VICTORYMUSIC);
+	audio->stopCue(LOSEMUSIC);
+	audio->stopCue(BKMUSIC);
 }
 void BreakoutJack::consoleCommand() {
 	command = console->getCommand();    // get command from console

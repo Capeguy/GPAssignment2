@@ -74,6 +74,12 @@ const char PISTOLSHOT[] = "pistol";
 const char MACHINEGUNSHOT[] = "machinegun";
 const char SHOTGUNSHOT[] = "shotgun";
 const char RELOAD[] = "reload";
+const char DIE[] = "die";
+const char HURT[] = "hurt";
+const char BKMUSIC[] = "bkmusic";
+const char BOSSMUSIC[] = "bossmusic";
+const char LOSEMUSIC[] = "lose";
+const char VICTORYMUSIC[] = "victory";
 // key mappings
 // In this game simple constants are used for key mappings. If variables were used
 // it would be possible to save and restore key mappings from a data file.
