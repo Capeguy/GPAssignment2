@@ -71,7 +71,7 @@ const char SOUND_BANK[] = "";
 // key mappings
 // In this game simple constants are used for key mappings. If variables were used
 // it would be possible to save and restore key mappings from a data file.
-const UCHAR CONSOLE_KEY = VK_OEM_3;    // `~ key for U.S.
+const UCHAR CONSOLE_KEY = VK_F1;    // `~ key for U.S.
 const UCHAR ESC_KEY = VK_ESCAPE;   // escape key
 const UCHAR ALT_KEY = VK_MENU;     // Alt key
 const UCHAR ENTER_KEY = VK_RETURN;   // Enter key

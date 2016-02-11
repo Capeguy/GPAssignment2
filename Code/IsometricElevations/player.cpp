@@ -139,6 +139,8 @@ void Player::update(float frameTime, LevelController* lc) {
 			orientation = Up;
 		if (input->isKeyDown(PLAYER_DOWN))
 			orientation = Down;
+	
+		//JUMPING CODE
 		if (jumping || (((input->isKeyDown(PLAYER_JUMP) || input->isKeyDown(PLAYER_UP)) && canMoveUp() && canJump))) {
 			jumpdistance = jumpOriginY - getY();
 			if (canJump && !jumping)
@@ -163,11 +165,22 @@ void Player::update(float frameTime, LevelController* lc) {
 		OSD::instance()->addLine("Can | Left: " + to_string(canMoveLeft()) + " | Right: " + to_string(canMoveRight()) + " | Up: " + to_string(canMoveUp()) + " | Down: " + to_string(canMoveDown()));
 		if (falling && !jumping) {
 			if (canMoveDown()) {
-				velocityY = playerNS::FALLING_SPEED * frameTime;
-			}
-			else {
-				velocityY = 0;
-			}
+				//VECTOR2 futurePos = VECTOR2(getX() - mapx, getY() + velocity.y * frameTime);
+				//if (!lc->getTile(futurePos)->isSolid())
+				//{
+					velocityY = playerNS::FALLING_SPEED * frameTime;
+				//}
+				//else
+			//	{
+				//	futurePos = VECTOR2(getX() - mapx, getY() + velocity.y * frameTime);
+					//if (lc->getTile(futurePos)->isSolid() && futurePos.y >=0)
+					//{
+					//	spriteData.y -= 2;
+						//futurePos = VECTOR2(getX() - mapx, getY() + velocity.y * frameTime);
+					//}
+				//}
+			//	velocityY = playerNS::FALLING_SPEED * frameTime
+			}	
 		}
 		if (!canFall && !jumping) {
 			velocityY = 0;

@@ -252,7 +252,6 @@ void BreakoutJack::update() {
 			npcController->setMapX(mapX);
 			npcController->chaseIfInRange(VECTOR2(player->getX(), player->getY()));
 			npcController->update(frameTime, levelController);
-
 		}
 	} else if (room == Instructions) {
 		//display instructions or whatever
