@@ -40,6 +40,8 @@
     <ClCompile Include="medic.cpp" />
     <ClCompile Include="dog.cpp" />
     <ClCompile Include="jack.cpp" />
+    <ClCompile Include="warden.cpp" />
+    <ClCompile Include="bossGun.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="audio.h" />
@@ -82,6 +84,8 @@
     <ClInclude Include="medic.h" />
     <ClInclude Include="dog.h" />
     <ClInclude Include="jack.h" />
+    <ClInclude Include="warden.h" />
+    <ClInclude Include="bossGun.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="ClassDiagram.cd" />

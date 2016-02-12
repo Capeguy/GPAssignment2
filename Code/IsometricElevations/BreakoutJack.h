@@ -20,6 +20,7 @@
 #include "medic.h"
 #include "dog.h"
 #include "jack.h"
+#include "warden.h"
 
 //#include "machineGun.h"
 namespace breakoutJackNS {

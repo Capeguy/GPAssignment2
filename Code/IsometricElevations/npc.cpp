@@ -67,14 +67,7 @@ void NPC::update(float frameTime, float mapX, float pVelo, LevelController* lc) 
 	OSD::instance()->addLine("NPC is at (" + std::to_string(getX()) + ", " + std::to_string(getY()) + ") | Update called with mapX: " + std::to_string(mapX));
 	pVelocity = pVelo;
 	offsetNew.x = mapX;
-	npcHealth->setX(spriteData.x + 1);
-	npcHealth->setY(spriteData.y - 19);
-	RECT r = npcHealth->getSpriteDataRect();
-	r.right = npcHealth->getWidth() * (hp / hpMax);
-	npcHealth->setSpriteDataRect(r);
-	npcHealthBack->setX(spriteData.x);
-	npcHealthBack->setY(spriteData.y - 20);
-	npcHealthBack->draw();
+	renderHealthbar();
 	bool flip = false;
 	ai(frameTime, *this, mapX, lc);
 	switch (orientation) {
@@ -185,6 +178,17 @@ void NPC::setAiState(int state) {
 				currDest = pathList.at(pathCount);
 			}
 	}
+}
+
+void NPC::renderHealthbar()
+{
+	npcHealth->setX(spriteData.x + 2 * getScale());
+	npcHealth->setY(spriteData.y - 19);
+	RECT r = npcHealth->getSpriteDataRect();
+	r.right = npcHealth->getWidth() * (hp / hpMax);
+	npcHealth->setSpriteDataRect(r);
+	npcHealthBack->setX(spriteData.x);
+	npcHealthBack->setY(spriteData.y - 20);
 }
 
 

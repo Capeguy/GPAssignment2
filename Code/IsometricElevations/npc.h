@@ -15,6 +15,7 @@
 #include "machineGun.h"
 #include "shotgun.h"
 #include "pistol.h"
+#include "bossGun.h"
 #include "levelController.h"
 #include "npcController.h"
 // TODO: Create an NPCController to control the spawning of NPCs
@@ -120,7 +121,7 @@ public:
 	float getAttackRange();
 	void setDest(VECTOR2 d);
 	void setAiState(int);
-
+	virtual void renderHealthbar();
 
 	bool canMoveUp();
 	bool canMoveDown();

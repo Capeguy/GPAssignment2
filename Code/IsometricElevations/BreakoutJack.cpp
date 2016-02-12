@@ -104,6 +104,7 @@ void BreakoutJack::initialize(HWND hwnd) {
 	Medic* medic = new Medic();
 	Jack* jack = new Jack();
 	Dog* dog = new Dog();
+	Warden* warden = new Warden();
 	TextureManager* npcTexture = new TextureManager();
 	if (!npcTexture->initialize(graphics, TEXTURE_NPC))
 		throw(GameError(gameErrorNS::FATAL_ERROR, "Error initializing npc texture"));
@@ -151,11 +152,10 @@ void BreakoutJack::initialize(HWND hwnd) {
 	medic->addPath(VECTOR2(2591, 736));
 	npcController->addNPC(medic, 6, levelController, graphics);
 
-	/* //commented this out - @clarence
-	dog->addPath(VECTOR2(725, 544));
-	dog->addPath(VECTOR2(1200, 544));
-	npcController->addNPC(dog, 5, levelController);
-	*/
+	//Warden
+	warden->addPath(VECTOR2(3393, 390));
+	warden->setScale(3);
+	npcController->addNPC(warden, 8, levelController, graphics);
 	
 	// End of stuff
 	menu = new Image();
@@ -203,7 +203,7 @@ void BreakoutJack::initialize(HWND hwnd) {
 	instructions->setY(0);
 
 	// Need to spawn player in the middle for scrolling
-	player->setX(GAME_WIDTH / 2);
+	player->setX(2500); //GAME_WIDTH / 2
 	player->setY(50);
 	player->setVelocity(VECTOR2(0, 0));
 

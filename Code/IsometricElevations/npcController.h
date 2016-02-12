@@ -13,7 +13,7 @@ class Guard;
 class LevelController;
 namespace npcControllerNS
 {
-	const int npcSpriteQty = 8;
+	const int npcSpriteQty = 9;
 	const int npcSpriteOrientationQty = 4;
 	const int npcSpriteMap[npcSpriteQty][npcSpriteOrientationQty] = {
 		568, 569, 570, 571,
@@ -23,7 +23,8 @@ namespace npcControllerNS
 		856, 857, 858, 859, 
 		408, 409, 410, 411,
 		344, 345, 346, 347,
-		376, 377, 378, 379
+		376, 377, 378, 379,
+		760, 761, 762, 763
 	};
 
 	const std::string npcSpriteNameList[npcSpriteQty] = {
@@ -34,7 +35,8 @@ namespace npcControllerNS
 		"Prisoner Jack",
 		"My Name is Dog",
 		"Medic",
-		"Doctor"
+		"Doctor",
+		"Warden"
 	};
 }
 

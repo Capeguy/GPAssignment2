@@ -55,8 +55,8 @@ public:
 	~Gun ();
 	bool initialize (Game * gamePtr, int width, int height, int ncols, TextureManager * textureM);
 	virtual Projectile* shoot(LevelController* lc, float frametime) { return nullptr; };
-	void update (float frametime, int orientation, float x, float y, Input* input, LevelController* lc);
-	void update(float frametime, int orientation, float x, float y, Input* input, LevelController* lc, float, float, bool);
+	virtual void update (float frametime, int orientation, float x, float y, Input* input, LevelController* lc);
+	virtual void update(float frametime, int orientation, float x, float y, Input* input, LevelController* lc, float, float, bool);
 	void update(float frametime, int orientation, float x, float y, Input* input, bool flip);
 	void draw();
 	void collision();
