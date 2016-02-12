@@ -5,9 +5,9 @@ Pistol::Pistol() {
 	ammo = -1;
 	maxAmmo = -1;
 	id = pistol;
-	cooldown = 0.4f;
-	damage = 10;
-	bullet_speed = 80.0f;
+	cooldown = 0.6f;
+	damage = 4;
+	bullet_speed = 400.0f;
 	Gun();
 }
 
@@ -44,6 +44,10 @@ Projectile* Pistol::shoot(LevelController* lc, float frametime) {
 		cooldowncurrent -= frametime;
 	}
 	return nullptr;
+}
+void Pistol::setCooldown(float c)
+{
+	cooldown = c;
 }
 void Projectile::setOwner(int o) {
 	owner = o;

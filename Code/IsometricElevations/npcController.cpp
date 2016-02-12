@@ -106,6 +106,7 @@ void NPCController::getPlayerVelocity(float v) {
 }
 
 void NPCController::chaseIfInRange(VECTOR2 v) {
+	return;
 	for (std::list<NPC*>::iterator npcIt = npcs.begin(); npcIt != npcs.end(); ++npcIt) {
 		float y2 = v.y;
 		float x2 = v.x;

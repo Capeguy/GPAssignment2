@@ -19,5 +19,6 @@ public:
 	Pistol ();
 	~Pistol ();
 	Projectile* shoot (LevelController* lc, float frametime);
+	void setCooldown(float);
 };
 #endif

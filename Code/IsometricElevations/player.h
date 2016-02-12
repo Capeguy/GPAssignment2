@@ -18,7 +18,7 @@ namespace playerNS
 {
 	const int	X = 0;
 	const int	Y = 0;
-	const float SPEED = 32 * 400;
+	const float SPEED = 32 * 300;
 	const float FALLING_SPEED = 32 * 200;
 	const float MASS = 300.0f;
 	const float JUMP_HEIGHT = 32 * 2;

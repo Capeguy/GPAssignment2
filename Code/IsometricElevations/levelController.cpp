@@ -7,7 +7,7 @@ LevelController::LevelController(Graphics*& graphics, Game* gp, TextureManager* 
 	gameptr = gp;
 	dxFont.initialize(graphics, 12, false, false, "Courier New");
 	dxFont.setFontColor(SETCOLOR_ARGB(192, 255, 255, 255));
-	iController = new ItemController(graphics);
+	iController = new ItemController(graphics, pt);
 	//npcController = new NPCController(graphics);
 	projectiles = std::list<Projectile*>();
 	crateCollided = 0;
@@ -24,6 +24,8 @@ LevelController::~LevelController() {}
 Tile* LevelController::getTile(float x, float y) {
 	int tileX = (int)(floor(x) / TEXTURE_SIZE);
 	int tileY = (int)(floor(y) / TEXTURE_SIZE);
+	if (tileX < 0 || tileY < 0)
+		return nullptr;
 	return mapTile[tileY][tileX];
 }
 
@@ -152,7 +154,7 @@ void LevelController::update(float frameTime, VECTOR2 pv) {
 		(*it)->setY((*it)->getY() + (*it)->getVelocity().y * frameTime * (*it)->getSpeed());
 		(*it)->update(frameTime);
 	}
-	iController->update(frameTime);
+	iController->update(frameTime, mapX);
 	//npcController->update(frameTime);
 	playerIcon.setX((pv.x*0.120) + (GAME_WIDTH*0.6) + (-mapX*0.125));
 	playerIcon.setY((pv.y*0.125 + 40));
@@ -227,3 +229,15 @@ float LevelController::getMapX() {
 	return mapX;
 }
 
+void LevelController::releaseJack() {
+	for (int col = 0; col < MAP_SIZE_Y; col++) {
+		for (int row = 0; row < MAP_SIZE_X; row++) {
+			// Scroll map according to mapX
+			Tile* tile = mapTile[col][row];
+			if (tile->getId() == 392) {
+				tile->setId(215);
+				tile->initialize(gameptr, TEXTURE2_SIZE, TEXTURE2_SIZE, TEXTURE2_COLS, tileTexture);
+			}
+		}
+	}
+}

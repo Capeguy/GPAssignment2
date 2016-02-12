@@ -2,7 +2,7 @@
 
 ItemController::ItemController() {}
 
-ItemController::ItemController(Graphics *graphics) {
+ItemController::ItemController(Graphics *graphics, TextureManager* iTxt) {
 	itemTexture = new TextureManager();
 	if (!itemTexture->initialize(graphics, TEXTURE_ITEM))
 		throw(GameError(gameErrorNS::FATAL_ERROR, "Error initializing item texture"));
@@ -27,6 +27,7 @@ ItemController::ItemController(Graphics *graphics) {
 	levelCrateItemType[0]->push_back(itemControllerNS::ItemType::machineGun);	// crate 3.1
 	levelCrateItemType[0]->push_back(itemControllerNS::ItemType::shotGun);		// crate 3.2
 	
+	itemIconTexture = iTxt;
 	
 
 	gunTexture = new TextureManager();
@@ -35,6 +36,10 @@ ItemController::ItemController(Graphics *graphics) {
 	gunImage = new Image();
 	gunImage->initialize(graphics, itemControllerNS::GUN_TEXTURE_WIDTH, itemControllerNS::GUN_TEXTURE_HEIGHT, 1, gunTexture);
 	//gunImage->setCurrentFrame(0);
+
+	itemIconTexture = new TextureManager();
+	if (!gunTexture->initialize(graphics, ITEMICON_TEXTURE))
+		throw(GameError(gameErrorNS::FATAL_ERROR, "Error initializing item icon texture"));
 }
 
 ItemController::~ItemController() {}
@@ -56,6 +61,15 @@ void ItemController::spawnCrates(int level, Game *gamePtr) {
 				c->setX((*crateLocationIter).x);
 				c->setY((*crateLocationIter).y);
 				crateList->push_back(c);
+
+				//Create Crate Icon
+				Image* itemIco = new Image();
+				itemIco->initialize(graphics, itemControllerNS::ICO_TEXTURE_SIZE, itemControllerNS::ICO_TEXTURE_SIZE, 2, itemIconTexture);
+				itemIco->setCurrentFrame(0);
+				itemIco->setScale(0.5);
+				itemIco->setX(GAME_WIDTH*0.6);
+				itemIco->setY(50);
+				crateIcons.push_back(itemIco);
 			}
 		}
 	}
@@ -69,9 +83,20 @@ std::list<VECTOR2>* ItemController::getCrateLoc()
 	return levelCrateLoc[0];
 }
 
-void ItemController::update(float frameTime) {
-	for (std::list<Crate*>::iterator it = crateList->begin(); it != crateList->end(); ++it) {
-		(*it)->update(frameTime);
+void ItemController::update(float frameTime, float mapX) {
+	int crateCount = 0;
+	for (std::list<Crate*>::iterator crateIter = crateList->begin(); crateIter != crateList->end(); ++crateIter) {
+		(*crateIter)->update(frameTime);
+		int crateIconCount = 0;
+		for (std::list<Image*>::iterator crateIcoIter = crateIcons.begin(); crateIcoIter != crateIcons.end(); ++crateIcoIter) {
+			if (crateCount == crateIconCount)
+			{
+				(*crateIcoIter)->setX(((*crateIter)->getX()*0.120) + (GAME_WIDTH*0.60 + 5) + (-mapX*0.125));
+				(*crateIcoIter)->setY((*crateIter)->getY()*0.120 + 42);
+			}
+			crateIconCount++;
+		}
+		crateCount++;
 	}
 }
 
@@ -96,6 +121,9 @@ void ItemController::render(float mapX) {
 			crateLocCount++;
 		}
 		crateCount++;
+	}
+	for (std::list<Image*>::iterator itr = crateIcons.begin(); itr != crateIcons.end(); ++itr) {
+		(*itr)->draw();
 	}
 }
 

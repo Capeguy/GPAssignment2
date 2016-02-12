@@ -63,8 +63,29 @@ void NPC::draw() {
 	*/
 }
 
+void NPC::stateChange() {
+	// Start of state change
+	VECTOR2 v = VECTOR2(gameptr->getPlayer()->getX(), gameptr->getPlayer()->getY());
+	float y2 = v.y;
+	float x2 = v.x;
+	float y1 = getY();
+	float x1 = getX();
+	float distance = sqrt(pow(y2 - y1, 2) + (pow(x2 - x1, 2)));
+	if (distance > getChaseRange()) {
+		setAiState(NPC::Patrol);
+	} else if (distance > getAttackRange()) {
+		setAiState(NPC::Chase);
+		setDest(v);
+	} else {
+		setAiState(NPC::Attack);
+		setDest(v);
+	}
+	// End of state change
+}
+
 void NPC::update(float frameTime, float mapX, float pVelo, LevelController* lc) {
 	OSD::instance()->addLine("NPC is at (" + std::to_string(getX()) + ", " + std::to_string(getY()) + ") | Update called with mapX: " + std::to_string(mapX));
+	stateChange();
 	pVelocity = pVelo;
 	offsetNew.x = mapX;
 	renderHealthbar();

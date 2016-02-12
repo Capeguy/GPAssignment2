@@ -21,6 +21,7 @@ namespace itemControllerNS
 	const int GUN_MACHINEGUN_FRAME = 0;
 	const int GUN_SHOTGUN_FRAME = 3;
 	const enum ItemType { machineGun, shotGun, pistol };
+	const int ICO_TEXTURE_SIZE = 32;
 }
 
 class ItemController : public Entity
@@ -29,17 +30,19 @@ private:
 	std::list<VECTOR2>* levelCrateLoc[NUM_LEVEL];
 	std::list<int>* levelCrateItemType[NUM_LEVEL];
 	std::list<Crate*>* crateList;
+	std::list<Image*> crateIcons;
 	std::vector<Item*> itemList;
 	TextureManager* itemTexture;
+	TextureManager* itemIconTexture;
 	enum ItemType{healthPack};
 public:
 	ItemController();
-	ItemController(Graphics*);
+	ItemController(Graphics*, TextureManager*);
 	virtual ~ItemController();
 	void spawnCrates(int, Game*);
 	void spawnItem(Game*, int x, int y);
 	std::list<VECTOR2>* getCrateLoc();
-	void update(float);
+	void update(float, float);
 	void render(float);
 	void collisions();
 	std::list<Crate*>* getCrateList();

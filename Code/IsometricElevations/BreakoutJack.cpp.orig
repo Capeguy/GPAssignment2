@@ -100,11 +100,18 @@ void BreakoutJack::initialize(HWND hwnd) {
 	npcController = new NPCController(graphics, iconTexture, this);
 	// Stuff that should have been in the NPC Controller
 	NPC* npc;
+<<<<<<< HEAD
+	Guard* guard = new Guard();
+	Medic* medic = new Medic();
+	Jack* jack = new Jack();
+	Dog* dog = new Dog();
+	Warden* warden = new Warden();
+=======
 	guard = new Guard();
 	medic = new Medic();
 	jack = new Jack();
 	dog = new Dog();
-	Warden* warden = new Warden();
+>>>>>>> 6d879175e379cfc9afccbd0642b55254218f0803
 	TextureManager* npcTexture = new TextureManager();
 	if (!npcTexture->initialize(graphics, TEXTURE_NPC))
 		throw(GameError(gameErrorNS::FATAL_ERROR, "Error initializing npc texture"));

@@ -62,6 +62,7 @@ const char TEXTURE_PAUSE_MENU_BUTTONS[] = "pictures\\pause_menu_buttons.png";
 const char TEXTURE_CREDITS[] = "pictures\\credit.png";
 const char TEXTURE_INSTRUCTIONS[] = "pictures\\instructions.png";
 const char TEXTURE_ICON[] = "pictures\\minimap_icon.png";
+const char ITEMICON_TEXTURE[] = "pictures\\crate_ico.png";
 const char TEXTURE_WINLOSE_BUTTON[] = "pictures\\win_lose_buttons.png";
 const char TEXTURE_BOSS_GUN_SPRITE[] = "pictures\\boss gun sprite.png";
 // audio files required by audio.cpp

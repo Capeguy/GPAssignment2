@@ -7,6 +7,7 @@ Guard::Guard() : NPC()
 	hp = guardNS::HP;
 	hpMax = guardNS::MAXHP;
 	pistol = new Pistol();
+	pistol->setCooldown(0.3f);
 	gunTexture = new TextureManager();
 }
 

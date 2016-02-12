@@ -172,6 +172,6 @@ public:
 	int getCrateItem();
 	void setMapX(float x);
 	float getMapX();
-	
+	void releaseJack();
 };
 #endif
