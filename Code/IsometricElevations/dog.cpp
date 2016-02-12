@@ -113,6 +113,7 @@ void Dog::ai(float frameTime, Entity & ent, float mapX, LevelController* lc)
 			orientation = Right;
 		else
 			orientation = Up;
+		bite(frameTime);
 		break;
 	}
 	OSD::instance()->addLine("MapX: " + std::to_string(mapX));
@@ -127,8 +128,6 @@ void Dog::draw()
 
 void Dog::update(float frameTime, float mapX, float pVelo, LevelController * lc)
 {
-	if (aiState == Attack)
-		bite();
 	NPC::update(frameTime, mapX, pVelo, lc);
 }
 
@@ -155,9 +154,16 @@ bool Dog::moveRight(float frameTime)
 	return true;
 }
 
-void Dog::bite()
+void Dog::bite(float frameTime)
 {
-
+	if (cooldownCurrent <= 0)
+	{
+		cooldownCurrent = cooldown;
+		gameptr->getPlayer()->damage(biteDamage);
+	}
+	else
+		cooldownCurrent -= frameTime;
+	
 }
 
 Dog::~Dog() {}
