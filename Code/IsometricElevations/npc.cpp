@@ -27,8 +27,6 @@ NPC::NPC() : Entity() {
 NPC::~NPC() {}
 bool NPC::initialize(Game *gamePtr, int width, int height, int ncols, TextureManager *textureM, int spriteNumber, LevelController* lc) {
 	levelController = lc;
-	chaseRange = npcNS::NPC_CHASE_RANGE;
-	shootRange = npcNS::NPC_SHOOT_RANGE;
 	pathCount = 0;
 	gameptr = gamePtr;
 	sprIndex = spriteNumber;
@@ -78,7 +76,7 @@ void NPC::update(float frameTime, float mapX, float pVelo, LevelController* lc) 
 	npcHealthBack->setY(spriteData.y - 20);
 	npcHealthBack->draw();
 	bool flip = false;
-	ai(frameTime, *this, mapX);
+	ai(frameTime, *this, mapX, lc);
 	switch (orientation) {
 		case Right:
 			currentFrame = npcControllerNS::npcSpriteMap[sprIndex][1];
@@ -200,8 +198,8 @@ void NPC::setMapX(float x) {
 float NPC::getChaseRange() {
 	return chaseRange;
 }
-float NPC::getShootRange() {
-	return shootRange;
+float NPC::getAttackRange() {
+	return attackRange;
 }
 void NPC::setDest(VECTOR2 d) {
 	currDest = d;

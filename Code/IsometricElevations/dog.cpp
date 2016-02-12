@@ -2,11 +2,13 @@
 
 Dog::Dog() : NPC() 
 {
-	
-	
+	attackRange = dogNS::NPC_ATTACK_RANGE;
+	chaseRange = dogNS::NPC_CHASE_RANGE;
+	hp = dogNS::HP;
+	hpMax = dogNS::MAXHP;
 }
 
-void Dog::ai(float frameTime, Entity & ent, float mapX)
+void Dog::ai(float frameTime, Entity & ent, float mapX, LevelController* lc)
 {
 	OSD::instance()->addLine("AI Can | Left: " + std::to_string(canMoveLeft()) + " | Right: " + std::to_string(canMoveRight()) + " | Up: " + std::to_string(canMoveUp()) + " | Down: " + std::to_string(canMoveDown()));
 	// derivedDest.y = spriteData.y; // Because we're not gonna climb mountains to chase Player
@@ -111,6 +113,7 @@ void Dog::ai(float frameTime, Entity & ent, float mapX)
 			orientation = Right;
 		else
 			orientation = Up;
+		bite(frameTime);
 		break;
 	}
 	OSD::instance()->addLine("MapX: " + std::to_string(mapX));
@@ -136,6 +139,36 @@ int Dog::getPoints()
 bool Dog::initialize(Game * gamePtr, int width, int height, int ncols, TextureManager * textureM, int spriteNumber, LevelController * lc)
 {
 	return NPC::initialize(gamePtr, width, height, ncols, textureM, spriteNumber, lc);
+}
+
+bool Dog::moveLeft(float frameTime)
+{
+	if (!canMoveLeft())
+		return false;
+	orientation = Left;
+	velocity.x = -dogNS::SPEED * frameTime;
+	return true;
+}
+
+bool Dog::moveRight(float frameTime)
+{
+	if (!canMoveRight())
+		return false;
+	orientation = Right;
+	velocity.x = dogNS::SPEED * frameTime;
+	return true;
+}
+
+void Dog::bite(float frameTime)
+{
+	if (cooldownCurrent <= 0)
+	{
+		cooldownCurrent = cooldown;
+		gameptr->getPlayer()->damage(biteDamage);
+	}
+	else
+		cooldownCurrent -= frameTime;
+	
 }
 
 Dog::~Dog() {}

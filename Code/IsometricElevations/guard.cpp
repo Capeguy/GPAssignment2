@@ -2,13 +2,17 @@
 
 Guard::Guard() : NPC() 
 {
+	chaseRange = npcNS::NPC_CHASE_RANGE;
+	attackRange = npcNS::NPC_SHOOT_RANGE;
+	hp = guardNS::HP;
+	hpMax = guardNS::MAXHP;
 	pistol = new Pistol();
 	gunTexture = new TextureManager();
 }
 
 Guard::~Guard() {}
 
-void Guard::ai(float frameTime, Entity &ent, float mapX) {
+void Guard::ai(float frameTime, Entity &ent, float mapX, LevelController* lc) {
 	OSD::instance()->addLine("AI Can | Left: " + std::to_string(canMoveLeft()) + " | Right: " + std::to_string(canMoveRight()) + " | Up: " + std::to_string(canMoveUp()) + " | Down: " + std::to_string(canMoveDown()));
 	// derivedDest.y = spriteData.y; // Because we're not gonna climb mountains to chase Player
 
@@ -112,6 +116,8 @@ void Guard::ai(float frameTime, Entity &ent, float mapX) {
 			orientation = Right;
 		else
 			orientation = Up;
+		bool shoot = aiState == Attack;
+		pistol->update(frameTime, orientation, spriteData.x, spriteData.y, input, lc, derivedDest.x, derivedDest.y, shoot);
 		break;
 	}
 	OSD::instance()->addLine("MapX: " + std::to_string(mapX));
@@ -126,8 +132,7 @@ void Guard::draw()
 
 void Guard::update(float frameTime, float mapX, float pVelo, LevelController * lc)
 {
-	bool shoot = aiState == Attack;
-	pistol->update(frameTime, orientation, spriteData.x, spriteData.y, input, lc, derivedDest.x, derivedDest.y, shoot);
+	
 	NPC::update(frameTime, mapX, pVelo, lc);
 }
 

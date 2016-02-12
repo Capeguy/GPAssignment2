@@ -114,10 +114,10 @@ void BreakoutJack::initialize(HWND hwnd) {
 	npcController->addNPC(guard, 0, levelController, graphics);
 
 	// Guard 1.2
-	guard = new Guard();
-	guard->addPath(VECTOR2(725, 544));
-	guard->addPath(VECTOR2(1200, 544));
-	npcController->addNPC(guard, 3, levelController, graphics);
+	dog = new Dog();
+	dog->addPath(VECTOR2(725, 544));
+	dog->addPath(VECTOR2(1200, 544));
+	npcController->addNPC(dog, 5, levelController, graphics);
 
 	//Guard 1.5
 	guard = new Guard();
@@ -142,7 +142,8 @@ void BreakoutJack::initialize(HWND hwnd) {
 	npcController->addNPC(medic, 6, levelController, graphics);
 
 	//Agent Jack
-	jack->addPath(VECTOR2(2618, 320));
+	jack->addPath(VECTOR2(2596, 320));
+	jack->addPath(VECTOR2(2718, 320));
 	npcController->addNPC(jack, 4, levelController, graphics);
 
 	//Medic 3.1
@@ -529,5 +530,9 @@ void BreakoutJack::consoleCommand() {
 
 void BreakoutJack::resetGame() {
 	initialize(hwnd);
+}
+
+Player* BreakoutJack::getPlayer() {
+	return player;
 }
 

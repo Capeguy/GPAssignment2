@@ -103,5 +103,6 @@ public:
 	int getHealthStatus();
 	int	getTotalPoints();
 	float getPlayerVelocity();
+	void setHealth(float);
 };
 #endif
