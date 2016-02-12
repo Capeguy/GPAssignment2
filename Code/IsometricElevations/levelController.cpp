@@ -7,7 +7,7 @@ LevelController::LevelController(Graphics*& graphics, Game* gp, TextureManager* 
 	gameptr = gp;
 	dxFont.initialize(graphics, 12, false, false, "Courier New");
 	dxFont.setFontColor(SETCOLOR_ARGB(192, 255, 255, 255));
-	iController = new ItemController(graphics);
+	iController = new ItemController(graphics, pt);
 	//npcController = new NPCController(graphics);
 	projectiles = std::list<Projectile*>();
 	crateCollided = 0;
@@ -152,7 +152,7 @@ void LevelController::update(float frameTime, VECTOR2 pv) {
 		(*it)->setY((*it)->getY() + (*it)->getVelocity().y * frameTime * (*it)->getSpeed());
 		(*it)->update(frameTime);
 	}
-	iController->update(frameTime);
+	iController->update(frameTime, mapX);
 	//npcController->update(frameTime);
 	playerIcon.setX((pv.x*0.120) + (GAME_WIDTH*0.6) + (-mapX*0.125));
 	playerIcon.setY((pv.y*0.125 + 40));
