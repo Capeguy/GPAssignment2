@@ -20,6 +20,7 @@
 #include "medic.h"
 #include "dog.h"
 #include "jack.h"
+#include "warden.h"
 
 //#include "machineGun.h"
 namespace breakoutJackNS {
@@ -88,6 +89,10 @@ private:
 	std::list<Button*>* winLoseButtonList;
 	bool pause = false;
 	bool skipFirstClick = false;
+	Guard* guard;
+	Medic* medic;
+	Jack* jack;
+	Dog* dog;
 
 public:
 	LevelController* levelController;

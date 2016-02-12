@@ -229,7 +229,7 @@ void Player::update(float frameTime, LevelController* lc) {
 		if (inventory->getActiveItem()->getItem()->getItemType() == Item::Equipable) {
 			Gun* gun = dynamic_cast<Gun*>(activeItem);
 			if (gun != 0) {
-				gun->update(frameTime, orientation, spriteData.x, spriteData.y, input, lc);
+				gun->update(frameTime, orientation, getX(), getY(), input, lc);
 			}
 		}
 

@@ -6,6 +6,12 @@
 #include "constants.h"
 #include "npc.h"
 
+namespace JackNS {
+	const float HEAL_SPEED = 10;
+	const float SPEED = 32 * 400;
+	const float NPC_ATTACK_RANGE = 64;
+	const float NPC_CHASE_RANGE = 32 * 100;
+}
 class Jack : public NPC 
 {
 public:
@@ -14,6 +20,7 @@ public:
 	void draw();
 	void update(float frameTime, float mapX, float pVelo, LevelController* lc);
 	bool initialize(Game *gamePtr, int width, int height, int ncols, TextureManager *textureM, int spriteNumber, LevelController* lc);
+	void stateChange();
 	~Jack();
 };
 #endif

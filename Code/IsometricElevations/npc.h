@@ -15,6 +15,7 @@
 #include "machineGun.h"
 #include "shotgun.h"
 #include "pistol.h"
+#include "bossGun.h"
 #include "levelController.h"
 #include "npcController.h"
 // TODO: Create an NPCController to control the spawning of NPCs
@@ -103,6 +104,7 @@ public:
 	virtual bool moveDown(float frameTime);
 	virtual void ai(float frameTime, Entity & ent, float mapX, LevelController* lc) {};
 	virtual int getPoints() { return 0; };
+	virtual void stateChange();
 	// TODO: Make NPC AI walk between 2 points / cycle between points in a vector array
 	void setFalling(bool f);
 	void damage(float amt);
@@ -120,7 +122,7 @@ public:
 	float getAttackRange();
 	void setDest(VECTOR2 d);
 	void setAiState(int);
-
+	virtual void renderHealthbar();
 
 	bool canMoveUp();
 	bool canMoveDown();

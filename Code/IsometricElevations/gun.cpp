@@ -53,6 +53,7 @@ void Gun::update(float frametime, int orientation, float x, float y, Input* inpu
 		setY(y + 5);
 		flipHorizontal(false);
 	}
+	angle = atan((mouseY - getY()) / (mouseX - getX()));
 	//fire bullet
 	if (input->getMouseLButton()) {
 		shoot(lc, frametime);
@@ -80,6 +81,7 @@ void Gun::update(float frametime, int orientation, float x, float y, Input* inpu
 		setY(y + 5);
 		flipHorizontal(false);
 	}
+	angle = atan((destY - getY()) / (destX - getX()));
 	//fire bullet
 	if (shouldShoot) { // Cause AI calls this
 		Projectile* p = shoot(lc, frametime);

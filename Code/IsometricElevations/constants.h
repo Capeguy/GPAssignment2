@@ -64,6 +64,7 @@ const char TEXTURE_INSTRUCTIONS[] = "pictures\\instructions.png";
 const char TEXTURE_ICON[] = "pictures\\minimap_icon.png";
 const char ITEMICON_TEXTURE[] = "pictures\\crate_ico.png";
 const char TEXTURE_WINLOSE_BUTTON[] = "pictures\\win_lose_buttons.png";
+const char TEXTURE_BOSS_GUN_SPRITE[] = "pictures\\boss gun sprite.png";
 // audio files required by audio.cpp
 // WAVE_BANK must be location of .xwb file.
 const char WAVE_BANK[] = "audio\\Win\\BreakoutJackWaveBank.xwb";

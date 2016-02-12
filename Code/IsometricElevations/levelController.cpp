@@ -24,6 +24,8 @@ LevelController::~LevelController() {}
 Tile* LevelController::getTile(float x, float y) {
 	int tileX = (int)(floor(x) / TEXTURE_SIZE);
 	int tileY = (int)(floor(y) / TEXTURE_SIZE);
+	if (tileX < 0 || tileY < 0)
+		return nullptr;
 	return mapTile[tileY][tileX];
 }
 
@@ -227,3 +229,15 @@ float LevelController::getMapX() {
 	return mapX;
 }
 
+void LevelController::releaseJack() {
+	for (int col = 0; col < MAP_SIZE_Y; col++) {
+		for (int row = 0; row < MAP_SIZE_X; row++) {
+			// Scroll map according to mapX
+			Tile* tile = mapTile[col][row];
+			if (tile->getId() == 392) {
+				tile->setId(215);
+				tile->initialize(gameptr, TEXTURE2_SIZE, TEXTURE2_SIZE, TEXTURE2_COLS, tileTexture);
+			}
+		}
+	}
+}

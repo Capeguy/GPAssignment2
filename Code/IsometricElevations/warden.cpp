@@ -1,27 +1,23 @@
-#include "jack.h"
+#include "warden.h"
 
-Jack::Jack() {
-	chaseRange = JackNS::NPC_CHASE_RANGE;
-	attackRange = JackNS::NPC_ATTACK_RANGE;
+Warden::Warden()
+{
+	attackRange = wardenNS::NPC_ATTACK_RANGE;
+	chaseRange = wardenNS::NPC_CHASE_RANGE;
+	hp = wardenNS::HP;
+	hpMax = wardenNS::MAXHP;
+	gun = new BossGun();
+	gunTexture = new TextureManager();
 }
 
-void Jack::stateChange() {
-	// Start of state change
-	VECTOR2 v = VECTOR2(gameptr->getPlayer()->getX(), gameptr->getPlayer()->getY());
-	float y2 = v.y;
-	float x2 = v.x;
-	float y1 = getY();
-	float x1 = getX();
-	float distance = sqrt(pow(y2 - y1, 2) + (pow(x2 - x1, 2)));
-	if (distance < getAttackRange()) {
-		setAiState(NPC::Attack); // Jump up and down
-		setDest(v);
-	}
-	// End of state change
+Warden::~Warden()
+{
 }
 
-void Jack::ai(float frameTime, Entity & ent, float mapX, LevelController* lc) {
+void Warden::ai(float frameTime, Entity & ent, float mapX, LevelController * lc)
+{
 	OSD::instance()->addLine("AI Can | Left: " + std::to_string(canMoveLeft()) + " | Right: " + std::to_string(canMoveRight()) + " | Up: " + std::to_string(canMoveUp()) + " | Down: " + std::to_string(canMoveDown()));
+	// derivedDest.y = spriteData.y; // Because we're not gonna climb mountains to chase Player
 	switch (aiState) {
 	case Patrol:
 		if (currDest != VECTOR2(-1, -1)) {
@@ -43,23 +39,27 @@ void Jack::ai(float frameTime, Entity & ent, float mapX, LevelController* lc) {
 			if (velocity.x > 0 && spriteData.x - derivedDest.x < 1 && canMoveLeft()) {
 				velocity.x = 0;
 				setX(derivedDest.x);
-			} else {
+			}
+			else {
 				orientation = Left;
 				if (!moveLeft(frameTime)) {
 					currDest = VECTOR2(-1, -1);
 				}
 			}
-		} else if (spriteData.x < derivedDest.x) {
+		}
+		else if (spriteData.x < derivedDest.x) {
 			if (velocity.x < 0 && derivedDest.x - spriteData.x < 1 && canMoveRight()) {
 				velocity.x = 0;
 				setX(derivedDest.x);
-			} else {
+			}
+			else {
 				orientation = Right;
 				if (!moveRight(frameTime)) {
 					currDest = VECTOR2(-1, -1);
 				}
 			}
-		} else {
+		}
+		else {
 			velocity.x = 0;
 		}
 		break;
@@ -79,25 +79,29 @@ void Jack::ai(float frameTime, Entity & ent, float mapX, LevelController* lc) {
 			if (velocity.x > 0 && spriteData.x - derivedDest.x < 1) {
 				velocity.x = 0;
 				setX(derivedDest.x);
-			} else {
+			}
+			else {
 				orientation = Left;
 				if (!moveLeft(frameTime)) {
 					currDest = VECTOR2(-1, -1);
 					setAiState(Patrol);
 				}
 			}
-		} else if (spriteData.x < derivedDest.x) {
+		}
+		else if (spriteData.x < derivedDest.x) {
 			if (velocity.x < 0 && derivedDest.x - spriteData.x < 1) {
 				velocity.x = 0;
 				setX(derivedDest.x);
-			} else {
+			}
+			else {
 				orientation = Right;
 				if (!moveRight(frameTime)) {
 					currDest = VECTOR2(-1, -1);
 					setAiState(Patrol);
 				}
 			}
-		} else {
+		}
+		else {
 			velocity.x = 0;
 		}
 		break;
@@ -116,21 +120,65 @@ void Jack::ai(float frameTime, Entity & ent, float mapX, LevelController* lc) {
 			orientation = Up;
 		break;
 	}
+	bool shoot = aiState == Attack;
+	gun->update(frameTime, orientation, spriteData.x, spriteData.y, input, lc, derivedDest.x, derivedDest.y, shoot);
 	OSD::instance()->addLine("MapX: " + std::to_string(mapX));
 	OSD::instance()->addLine("NPC AI (" + std::to_string(aiState) + ") at (" + std::to_string(spriteData.x) + ", " + std::to_string(spriteData.y) + ") going to (" + std::to_string((derivedDest.x)) + ", " + std::to_string(derivedDest.y) + ") Moving at: (" + std::to_string((velocity.x)) + ", " + std::to_string(velocity.y) + ") ");
-
 }
 
-void Jack::draw() {
+void Warden::draw()
+{
 	NPC::draw();
+	gun->draw();
 }
 
-void Jack::update(float frameTime, float mapX, float pVelo, LevelController * lc) {
+void Warden::update(float frameTime, float mapX, float pVelo, LevelController * lc)
+{
 	NPC::update(frameTime, mapX, pVelo, lc);
 }
 
-bool Jack::initialize(Game * gamePtr, int width, int height, int ncols, TextureManager * textureM, int spriteNumber, LevelController * lc) {
+int Warden::getPoints()
+{
+	return point;
+}
+
+bool Warden::initialize(Game * gamePtr, int width, int height, int ncols, TextureManager * textureM, int spriteNumber, LevelController * lc)
+{
+	if (!gunTexture->initialize(gamePtr->getGraphics(), TEXTURE_BOSS_GUN_SPRITE))
+		throw(GameError(gameErrorNS::FATAL_ERROR, "Error initializing gun texture"));
+	gun->initialize(gamePtr, 150, 35, 0, gunTexture); //dont be lazy
+	gun->setCurrentFrame(0);
 	return NPC::initialize(gamePtr, width, height, ncols, textureM, spriteNumber, lc);
 }
 
-Jack::~Jack() {}
+bool Warden::moveLeft(float frameTime)
+{
+	if (!canMoveLeft())
+		return false;
+	orientation = Left;
+	velocity.x = -wardenNS::SPEED * frameTime;
+	return true;
+}
+
+bool Warden::moveRight(float frameTime)
+{
+	if (!canMoveRight())
+		return false;
+	orientation = Right;
+	velocity.x = wardenNS::SPEED * frameTime;
+	return true;
+}
+
+void Warden::renderHealthbar()
+{
+	npcHealthBack->setScale(3);
+	npcHealthBack->setX(spriteData.x + 45);
+	npcHealthBack->setY(spriteData.y - 20);
+	npcHealth->setScale(3);
+	npcHealth->setX(npcHealthBack->getX() + 3);
+	npcHealth->setY(npcHealthBack->getY() + 3);
+	RECT r = npcHealth->getSpriteDataRect();
+	r.right = npcHealth->getWidth() * (hp / hpMax);
+	npcHealth->setSpriteDataRect(r);
+	
+}

@@ -37,7 +37,8 @@ ItemController::ItemController(Graphics *graphics, TextureManager* iTxt) {
 	gunImage->initialize(graphics, itemControllerNS::GUN_TEXTURE_WIDTH, itemControllerNS::GUN_TEXTURE_HEIGHT, 1, gunTexture);
 	//gunImage->setCurrentFrame(0);
 
-	if (!gunTexture->initialize(graphics, ITEMICON_TEXTURE))
+	itemIconTexture = new TextureManager();
+	if (!itemIconTexture->initialize(graphics, ITEMICON_TEXTURE))
 		throw(GameError(gameErrorNS::FATAL_ERROR, "Error initializing item icon texture"));
 }
 
