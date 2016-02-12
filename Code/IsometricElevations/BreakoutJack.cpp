@@ -142,7 +142,8 @@ void BreakoutJack::initialize(HWND hwnd) {
 	npcController->addNPC(medic, 6, levelController, graphics);
 
 	//Agent Jack
-	jack->addPath(VECTOR2(2618, 320));
+	jack->addPath(VECTOR2(2596, 320));
+	jack->addPath(VECTOR2(2718, 320));
 	npcController->addNPC(jack, 4, levelController, graphics);
 
 	//Medic 3.1
@@ -314,7 +315,7 @@ void BreakoutJack::update() {
 				//player->setVelocityX(0);
 			}
 			// Check if map is at end in the left direction
-			if (levelController->getMapX() > 0) {
+			if (levelController->getMapX() > -5) {
 				mapX = 0;
 				bndL = 0;
 				//player->setVelocityX(0);
@@ -380,7 +381,7 @@ void BreakoutJack::ai() {}
 void BreakoutJack::collisions() {
 	if (room == Start) {
 		VECTOR2 collisionVector;
-		npcController->collisions(levelController);
+		npcController->collisions(levelController, player);
 		levelController->collisions();
 		// Player collision with projectile
 		std::list<Projectile*>::iterator projectileIter = levelController->projectiles.begin();

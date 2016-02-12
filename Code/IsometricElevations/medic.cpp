@@ -1,9 +1,12 @@
 #include "medic.h"
 
-Medic::Medic() {
+Medic::Medic() 
+{
+	chaseRange = MedicNS::NPC_CHASE_RANGE;
+	attackRange = MedicNS::NPC_ATTACK_RANGE;
 }
 
-void Medic::ai(float frameTime, Entity & ent, float mapX)
+void Medic::ai(float frameTime, Entity & ent, float mapX, LevelController* lc)
 {
 	OSD::instance()->addLine("AI Can | Left: " + std::to_string(canMoveLeft()) + " | Right: " + std::to_string(canMoveRight()) + " | Up: " + std::to_string(canMoveUp()) + " | Down: " + std::to_string(canMoveDown()));
 	// derivedDest.y = spriteData.y; // Because we're not gonna climb mountains to chase Player

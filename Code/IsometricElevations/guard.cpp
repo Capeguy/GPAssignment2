@@ -116,10 +116,10 @@ void Guard::ai(float frameTime, Entity &ent, float mapX, LevelController* lc) {
 			orientation = Right;
 		else
 			orientation = Up;
-		bool shoot = aiState == Attack;
-		pistol->update(frameTime, orientation, spriteData.x, spriteData.y, input, lc, derivedDest.x, derivedDest.y, shoot);
 		break;
 	}
+	bool shoot = aiState == Attack;
+	pistol->update(frameTime, orientation, spriteData.x, spriteData.y, input, lc, derivedDest.x, derivedDest.y, shoot);
 	OSD::instance()->addLine("MapX: " + std::to_string(mapX));
 	OSD::instance()->addLine("NPC AI (" + std::to_string(aiState) + ") at (" + std::to_string(spriteData.x) + ", " + std::to_string(spriteData.y) + ") going to (" + std::to_string((derivedDest.x)) + ", " + std::to_string(derivedDest.y) + ") Moving at: (" + std::to_string((velocity.x)) + ", " + std::to_string(velocity.y) + ") ");
 }
@@ -134,6 +134,11 @@ void Guard::update(float frameTime, float mapX, float pVelo, LevelController * l
 {
 	
 	NPC::update(frameTime, mapX, pVelo, lc);
+}
+
+int Guard::getPoints()
+{
+	return point;
 }
 
 bool Guard::initialize(Game * gamePtr, int width, int height, int ncols, TextureManager * textureM, int spriteNumber, LevelController * lc)

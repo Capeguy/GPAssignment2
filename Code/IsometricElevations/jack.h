@@ -10,7 +10,7 @@ class Jack : public NPC
 {
 public:
 	Jack();
-	void ai(float frameTime, Entity & ent, float mapX);
+	void ai(float frameTime, Entity & ent, float mapX, LevelController* lc);
 	void draw();
 	void update(float frameTime, float mapX, float pVelo, LevelController* lc);
 	bool initialize(Game *gamePtr, int width, int height, int ncols, TextureManager *textureM, int spriteNumber, LevelController* lc);

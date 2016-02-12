@@ -12,7 +12,6 @@ void Dog::ai(float frameTime, Entity & ent, float mapX, LevelController* lc)
 {
 	OSD::instance()->addLine("AI Can | Left: " + std::to_string(canMoveLeft()) + " | Right: " + std::to_string(canMoveRight()) + " | Up: " + std::to_string(canMoveUp()) + " | Down: " + std::to_string(canMoveDown()));
 	// derivedDest.y = spriteData.y; // Because we're not gonna climb mountains to chase Player
-
 	switch (aiState) {
 	case Patrol:
 		if (currDest != VECTOR2(-1, -1)) {
@@ -115,6 +114,8 @@ void Dog::ai(float frameTime, Entity & ent, float mapX, LevelController* lc)
 			orientation = Up;
 		break;
 	}
+	if (aiState == Attack)
+		bite(frameTime);
 	OSD::instance()->addLine("MapX: " + std::to_string(mapX));
 	OSD::instance()->addLine("NPC AI (" + std::to_string(aiState) + ") at (" + std::to_string(spriteData.x) + ", " + std::to_string(spriteData.y) + ") going to (" + std::to_string((derivedDest.x)) + ", " + std::to_string(derivedDest.y) + ") Moving at: (" + std::to_string((velocity.x)) + ", " + std::to_string(velocity.y) + ") ");
 
@@ -127,9 +128,12 @@ void Dog::draw()
 
 void Dog::update(float frameTime, float mapX, float pVelo, LevelController * lc)
 {
-	if (aiState == Attack)
-		bite();
 	NPC::update(frameTime, mapX, pVelo, lc);
+}
+
+int Dog::getPoints()
+{
+	return point;
 }
 
 bool Dog::initialize(Game * gamePtr, int width, int height, int ncols, TextureManager * textureM, int spriteNumber, LevelController * lc)
@@ -155,9 +159,16 @@ bool Dog::moveRight(float frameTime)
 	return true;
 }
 
-void Dog::bite()
+void Dog::bite(float frameTime)
 {
-
+	if (cooldownCurrent <= 0)
+	{
+		cooldownCurrent = cooldown;
+		gameptr->getPlayer()->damage(biteDamage);
+	}
+	else
+		cooldownCurrent -= frameTime;
+	
 }
 
 Dog::~Dog() {}
