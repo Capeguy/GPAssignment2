@@ -6,6 +6,9 @@
 #include "constants.h"
 #include "npc.h"
 
+namespace MedicNS {
+	const float HEAL_SPEED = 10;
+}
 class Medic : public NPC 
 {
 public:
