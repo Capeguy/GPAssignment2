@@ -56,6 +56,7 @@ void LevelController::render(Graphics* graphics) {
 	// Render Minimap
 	renderMinimap(graphics);
 	playerIcon.draw();
+	iController->render(mapX);
 }
 
 void LevelController::renderProjectiles(Graphics* graphics) {
@@ -86,8 +87,7 @@ void LevelController::renderTiles(Graphics* graphics) {
 				dxFont.print(buffer, row * TEXTURE2_SIZE, col * TEXTURE2_SIZE + 14);
 			}
 		}
-	}
-	iController->render(mapX);
+	}	
 }
 
 void LevelController::renderMinimap(Graphics * graphics)

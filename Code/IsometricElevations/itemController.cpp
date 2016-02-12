@@ -37,7 +37,6 @@ ItemController::ItemController(Graphics *graphics, TextureManager* iTxt) {
 	gunImage->initialize(graphics, itemControllerNS::GUN_TEXTURE_WIDTH, itemControllerNS::GUN_TEXTURE_HEIGHT, 1, gunTexture);
 	//gunImage->setCurrentFrame(0);
 
-	itemIconTexture = new TextureManager();
 	if (!gunTexture->initialize(graphics, ITEMICON_TEXTURE))
 		throw(GameError(gameErrorNS::FATAL_ERROR, "Error initializing item icon texture"));
 }
@@ -64,8 +63,8 @@ void ItemController::spawnCrates(int level, Game *gamePtr) {
 
 				//Create Crate Icon
 				Image* itemIco = new Image();
-				itemIco->initialize(graphics, itemControllerNS::ICO_TEXTURE_SIZE, itemControllerNS::ICO_TEXTURE_SIZE, 2, itemIconTexture);
-				itemIco->setCurrentFrame(0);
+				itemIco->initialize(graphics, itemControllerNS::ICO_TEXTURE_SIZE, itemControllerNS::ICO_TEXTURE_SIZE, 5, itemIconTexture);
+				itemIco->setCurrentFrame(1);
 				itemIco->setScale(0.5);
 				itemIco->setX(GAME_WIDTH*0.6);
 				itemIco->setY(50);
@@ -91,6 +90,8 @@ void ItemController::update(float frameTime, float mapX) {
 		for (std::list<Image*>::iterator crateIcoIter = crateIcons.begin(); crateIcoIter != crateIcons.end(); ++crateIcoIter) {
 			if (crateCount == crateIconCount)
 			{
+				float testX = ((*crateIter)->getX()*0.120) + (GAME_WIDTH*0.60 + 5) + (-mapX*0.125);
+				float testY = (*crateIter)->getY()*0.120 + 42;
 				(*crateIcoIter)->setX(((*crateIter)->getX()*0.120) + (GAME_WIDTH*0.60 + 5) + (-mapX*0.125));
 				(*crateIcoIter)->setY((*crateIter)->getY()*0.120 + 42);
 			}
@@ -107,7 +108,6 @@ void ItemController::render(float mapX) {
 	for (std::list<Crate*>::iterator crateIter = crateList->begin(); crateIter != crateList->end(); ++crateIter) {
 		int crateLocCount = 0;
 		for (std::list<VECTOR2>::iterator crateLocationIter = crateLocations->begin(); crateLocationIter != crateLocations->end(); ++crateLocationIter) {
-			// do shit
 			if (crateCount == crateLocCount) {
 				(*crateIter)->setX(float((*crateLocationIter).x + mapX));
 				(*crateIter)->draw();
