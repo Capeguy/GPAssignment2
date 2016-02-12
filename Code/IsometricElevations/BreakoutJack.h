@@ -107,6 +107,7 @@ public:
 	bool tileIsSolid(int x, int y);
 	void consoleCommand();
 	void resetGame();
+	Player* getPlayer();
 	enum Room { Menu, Start, Instructions, Credits, Exit };
 	enum PauseMenu { Resume, Restart, MainMenu };
 	enum WinLose {Redo, Main, QuitGame};

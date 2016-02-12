@@ -100,5 +100,6 @@ public:
 	bool canMoveRight();
 	int getHealthStatus();
 	float getPlayerVelocity();
+	void setHealth(float);
 };
 #endif

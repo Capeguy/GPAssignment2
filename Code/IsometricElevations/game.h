@@ -26,7 +26,7 @@ namespace gameNS
 	const int POINT_SIZE = 14;          // point size
 	const COLOR_ARGB FONT_COLOR = SETCOLOR_ARGB (255, 255, 255, 255);    // white
 }
-
+class Player;
 class Game {
 protected:
 	// common game properties
@@ -122,6 +122,7 @@ public:
 	// Call graphics->spriteEnd();
 	//   draw non-sprites
 	virtual void render () = 0;
+	virtual Player* getPlayer() { return nullptr; };
 };
 
 #endif

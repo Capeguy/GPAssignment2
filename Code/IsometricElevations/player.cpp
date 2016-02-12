@@ -332,3 +332,10 @@ void Player::die() {
 	currentFrame = 953;
 	spriteData.angle = PI / 2;
 }
+void Player::setHealth(float f) {
+	if (f > hpMax)
+		health = hpMax;
+	else if (f < 0)
+		health = 0;
+	else health = f;
+}

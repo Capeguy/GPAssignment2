@@ -531,3 +531,7 @@ void BreakoutJack::resetGame() {
 	initialize(hwnd);
 }
 
+Player* BreakoutJack::getPlayer() {
+	return player;
+}
+

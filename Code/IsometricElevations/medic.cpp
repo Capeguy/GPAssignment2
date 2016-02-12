@@ -7,7 +7,6 @@ void Medic::ai(float frameTime, Entity & ent, float mapX)
 {
 	OSD::instance()->addLine("AI Can | Left: " + std::to_string(canMoveLeft()) + " | Right: " + std::to_string(canMoveRight()) + " | Up: " + std::to_string(canMoveUp()) + " | Down: " + std::to_string(canMoveDown()));
 	// derivedDest.y = spriteData.y; // Because we're not gonna climb mountains to chase Player
-
 	switch (aiState) {
 	case Patrol:
 		if (currDest != VECTOR2(-1, -1)) {
@@ -108,6 +107,8 @@ void Medic::ai(float frameTime, Entity & ent, float mapX)
 			orientation = Right;
 		else
 			orientation = Up;
+		
+		gameptr->getPlayer()->setHealth(gameptr->getPlayer()->getHealth() + MedicNS::HEAL_SPEED * frameTime);
 		break;
 	}
 	OSD::instance()->addLine("MapX: " + std::to_string(mapX));
