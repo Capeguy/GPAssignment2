@@ -103,6 +103,7 @@ public:
 	virtual bool moveDown(float frameTime);
 	virtual void ai(float frameTime, Entity & ent, float mapX, LevelController* lc) {};
 	virtual int getPoints() { return 0; };
+	virtual void stateChange();
 	// TODO: Make NPC AI walk between 2 points / cycle between points in a vector array
 	void setFalling(bool f);
 	void damage(float amt);

@@ -20,6 +20,12 @@ void Tile::draw () {
 int Tile::getId () {
 	return id;
 }
+void Tile::setId(int i) {
+	id = i;
+	currentFrame = i;
+}
 bool Tile::isSolid () {
+	if (this == nullptr)
+		return true;
 	return solid;
 }

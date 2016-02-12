@@ -100,10 +100,10 @@ void BreakoutJack::initialize(HWND hwnd) {
 	npcController = new NPCController(graphics, iconTexture, this);
 	// Stuff that should have been in the NPC Controller
 	NPC* npc;
-	Guard* guard = new Guard();
-	Medic* medic = new Medic();
-	Jack* jack = new Jack();
-	Dog* dog = new Dog();
+	guard = new Guard();
+	medic = new Medic();
+	jack = new Jack();
+	dog = new Dog();
 	TextureManager* npcTexture = new TextureManager();
 	if (!npcTexture->initialize(graphics, TEXTURE_NPC))
 		throw(GameError(gameErrorNS::FATAL_ERROR, "Error initializing npc texture"));
@@ -439,10 +439,12 @@ void BreakoutJack::render() {
 					(*bList)->draw();
 				}
 			}
-			if (npcController->getNPCs().empty()) {
+			if (npcController->getNPCs().empty() || npcController->getNPCs().size() < 3) {
 				audio->stopCue(BKMUSIC);
 				audio->playCue(VICTORYMUSIC);
 				text = "        YOU WIN\nPress any button to continue";
+				levelController->releaseJack();
+				jack->setAiState(NPC::Chase);
 				loseFont->print(text, GAME_WIDTH / 2 - 300, GAME_HEIGHT / 2);
 				for (std::list<Button*>::iterator bList = winLoseButtonList->begin(); bList != winLoseButtonList->end(); ++bList) {
 					(*bList)->draw();
