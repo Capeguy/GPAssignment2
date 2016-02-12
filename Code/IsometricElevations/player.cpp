@@ -97,6 +97,10 @@ bool Player::canMoveRight() {
 int Player::getHealthStatus() {
 	return healthStatus;
 }
+int Player::getTotalPoints()
+{
+	return totalPoints;
+}
 float Player::getPlayerVelocity() {
 	return velocityX;
 }
@@ -287,6 +291,10 @@ void Player::updateCoords() {
 	playerTopLeftY = getY();
 	playerTopRightX = getX() - 1 + playerNS::PLAYER_WIDTH * 0.5;
 	playerTopRightY = getY();
+}
+void Player::setTotalPoints(int points)
+{
+	totalPoints += points;
 }
 float Player::getHP() {
 	return hp;

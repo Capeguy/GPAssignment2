@@ -17,6 +17,7 @@ namespace dogNS
 class Dog : public NPC 
 {
 private:
+	int point = 20;
 	float biteDamage = 2;
 	float cooldown = 0.4f;
 	float cooldownCurrent = 0;
@@ -25,6 +26,7 @@ public:
 	void ai(float frameTime, Entity & ent, float mapX, LevelController* lc);
 	void draw();
 	void update(float frameTime, float mapX, float pVelo, LevelController* lc);
+	int	 getPoints();
 	bool initialize(Game *gamePtr, int width, int height, int ncols, TextureManager *textureM, int spriteNumber, LevelController* lc);
 	bool moveLeft(float frameTime);
 	bool moveRight(float frameTime);

@@ -28,8 +28,10 @@ private:
 	Image* hp;
 	Image* hpHUD;
 	Image* gunHud;
+	Image* pointHud;
 	TextDX* ammoFont;
 	Item* currentItem;
+	Player* currentPlayer;
 	Graphics* graphics;
 	
 public:

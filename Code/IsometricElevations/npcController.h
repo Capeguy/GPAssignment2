@@ -48,13 +48,14 @@ private:
 	std::list<Image*> npcIcon;
 	float mapX = 0;
 	float pVelocity = 0;
+	int totalPoints = 0;
 public:
 	NPCController();
 	NPCController(Graphics*, TextureManager*, Game*);
 	NPC* spawnNPCs(int, Game*, float, float, int, LevelController*, Graphics*);
 	void update(float, LevelController*);
 	void render();
-	void collisions(LevelController*);
+	void collisions(LevelController*, Player* p);
 	void setMapX(float x);
 	void getPlayerVelocity(float v);
 	void chaseIfInRange(VECTOR2);

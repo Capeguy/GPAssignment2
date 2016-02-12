@@ -13,7 +13,7 @@ HUD::HUD(Graphics*& g) {
 	hpHUD = new Image();
 	hpHUD->initialize(graphics, hudNS::HP_HUD_WIDTH, hudNS::HP_HUD_HEIGHT, 1, hpHUDTexture);
 	hpHUD->setCurrentFrame(0);
-	hpHUD->setX(100);
+	hpHUD->setX(50);
 	hpHUD->setY(60);
 	if (!hpTexture->initialize(graphics, TEXTURE_HUD_HP_RED))
 		throw(GameError(gameErrorNS::FATAL_ERROR, "Error initializing hp texture"));
@@ -41,11 +41,19 @@ HUD::HUD(Graphics*& g) {
 	currentItemImage->setY(gunHud->getY() + 10);
 	currentItemImage->setScale(0.8);
 
+	//Load and set up Points HUD texture
+	pointHud = new Image();
+	pointHud->initialize(graphics, hudNS::GUN_HUD_WIDTH, hudNS::GUN_HUD_HEIGHT, 1, gunHUDTexture);
+	pointHud->setCurrentFrame(0);
+	pointHud->setX(gunHud->getX() + gunHud->getWidth() + 50);
+	pointHud->setY(50);
+
 	//set up font 
 	ammoFont = new TextDX();
 	ammoFont->initialize(graphics, 20, false, false, "Courier New");
 	ammoFont->setFontColor(SETCOLOR_ARGB(192, 0, 0, 0));
 	currentItem = nullptr;
+	currentPlayer = nullptr;
 }
 
 HUD::~HUD()
@@ -58,11 +66,13 @@ HUD::~HUD()
 	SAFE_DELETE(gunHud);
 	SAFE_DELETE(ammoFont);
 	SAFE_DELETE(currentItem);
+	SAFE_DELETE(pointHud);
 }
 
 void HUD::update(float frameTime, InventoryItem* const &item, Player* player)
 {
 	currentItem = item->getItem();
+	currentPlayer = player;
 	Gun* gun = dynamic_cast<Gun*>(currentItem);
 	if (gun != 0)
 	{
@@ -91,6 +101,7 @@ void HUD::update(float frameTime, InventoryItem* const &item, Player* player)
 	gunHud->update(frameTime);
 	hpHUD->update(frameTime);
 	hp->update(frameTime);
+	pointHud->update(frameTime);
 }
 
 void HUD::draw()
@@ -99,8 +110,12 @@ void HUD::draw()
 	currentItemImage->draw();
 	hpHUD->draw();
 	hp->draw();
+	pointHud->draw();
 	if (currentItem != nullptr && currentItem->getItemType() == Item::Equipable) {
 		Gun* gun = (Gun*)currentItem;
 		ammoFont->print("X (" + gun->getAmmoDisplay() + ") ", currentItemImage->getX() + 100, currentItemImage->getY() + 8);
+	}
+	if (currentPlayer != nullptr){
+		ammoFont->print("Carnage: " + std::to_string(currentPlayer->getTotalPoints()), pointHud->getX() + 20, pointHud->getY() + 15);
 	}
 }
