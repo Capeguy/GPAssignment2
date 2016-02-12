@@ -6,8 +6,8 @@ MachineGun::MachineGun() : Gun() {
 	maxAmmo = 150;
 	id = machineGun;
 	cooldown = 0.2f;
-	damage = 10;
-	bullet_speed = 200.0f;
+	damage = 5;
+	bullet_speed = 400.0f;
 	Gun();
 }
 

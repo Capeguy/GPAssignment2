@@ -37,8 +37,8 @@ namespace npcNS
 	const float NPC_ANIMATION_DELAY = 0.2f;
 	const float NPC_WIDTH = 64.0;
 	const float NPC_HEIGHT = 64.0;
-	const float NPC_CHASE_RANGE = 32.0 * 5;
-	const float NPC_SHOOT_RANGE = 32.0 * 3;
+	const float NPC_CHASE_RANGE = 32.0 * 10;
+	const float NPC_SHOOT_RANGE = 32.0 * 5;
 	const int NPC_HEALTH_WIDTH = 30;
 	const int NPC_HEALTH_HEIGHT = 4;
 	const int NPC_HEALTHBACK_WIDTH = 32;
