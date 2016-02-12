@@ -7,7 +7,7 @@ Shotgun::Shotgun () {
 	id = shotGun;
 	cooldown = 1.0f;
 	damage = 20;
-	bullet_speed = 400.0f;
+	bullet_speed = 800.0f;
 	Gun();
 }
 
