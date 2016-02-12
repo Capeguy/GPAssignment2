@@ -53,8 +53,8 @@ protected:
 	bool	doubleJump = false;
 	int		orientation = Left;
 	int		healthStatus = Alive;
-	float	hp = 10;
-	float	hpMax = 10;
+	float	hp;
+	float	hpMax;
 	int		aiState = Patrol;
 	Game*	gameptr;
 	TextureManager npcTexture;
@@ -73,7 +73,7 @@ protected:
 	float originX;
 	float originY;
 	float chaseRange;
-	float shootRange;
+	float attackRange;
 	VECTOR2 derivedDest;
 	LevelController* levelController;
 
@@ -97,11 +97,11 @@ public:
 	virtual void draw();
 	virtual bool initialize(Game *gamePtr, int width, int height, int ncols, TextureManager *textureM, int spriteNumber, LevelController* lc);
 	virtual void update(float frameTime, float mapX, float pVelo, LevelController* lc);
-	bool moveLeft(float frameTime);
-	bool moveRight(float frameTime);
-	bool moveUp(float frameTime);
-	bool moveDown(float frameTime);
-	virtual void ai(float frameTime, Entity & ent, float mapX) {};
+	virtual bool moveLeft(float frameTime);
+	virtual bool moveRight(float frameTime);
+	virtual bool moveUp(float frameTime);
+	virtual bool moveDown(float frameTime);
+	virtual void ai(float frameTime, Entity & ent, float mapX, LevelController* lc) {};
 	// TODO: Make NPC AI walk between 2 points / cycle between points in a vector array
 	void setFalling(bool f);
 	void damage(float amt);
@@ -116,7 +116,7 @@ public:
 	int getMaxHP();
 	void setMapX(float x);
 	float getChaseRange();
-	float getShootRange();
+	float getAttackRange();
 	void setDest(VECTOR2 d);
 	void setAiState(int);
 
