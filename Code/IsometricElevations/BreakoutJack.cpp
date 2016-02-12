@@ -111,44 +111,44 @@ void BreakoutJack::initialize(HWND hwnd) {
 	// Guard 1.1
 	guard->addPath(VECTOR2(325, 320));
 	guard->addPath(VECTOR2(900, 320));
-	npcController->addNPC(guard, 0, levelController);
+	npcController->addNPC(guard, 0, levelController, graphics);
 
 	// Guard 1.2
 	guard = new Guard();
 	guard->addPath(VECTOR2(725, 544));
 	guard->addPath(VECTOR2(1200, 544));
-	npcController->addNPC(guard, 3, levelController);
+	npcController->addNPC(guard, 3, levelController, graphics);
 
 	//Guard 1.5
 	guard = new Guard();
 	guard->addPath(VECTOR2(1345, 352));
 	guard->addPath(VECTOR2(1468, 352));
-	npcController->addNPC(guard, 2, levelController);
+	npcController->addNPC(guard, 2, levelController, graphics);
 
 	//Guard 2.1
 	guard = new Guard();
 	guard->addPath(VECTOR2(1569, 320));
 	guard->addPath(VECTOR2(2200, 320));
-	npcController->addNPC(guard, 1, levelController);
+	npcController->addNPC(guard, 1, levelController, graphics);
 	
 	// Guard 2.2
 	guard = new Guard();
 	guard->addPath(VECTOR2(1985, 544));
 	guard->addPath(VECTOR2(2325, 544));
-	npcController->addNPC(guard, 0, levelController);
+	npcController->addNPC(guard, 0, levelController, graphics);
 	
 	//Medic 1.1
 	medic->addPath(VECTOR2(210, 608));
-	npcController->addNPC(medic, 6, levelController);
+	npcController->addNPC(medic, 6, levelController, graphics);
 
 	//Agent Jack
 	jack->addPath(VECTOR2(2618, 320));
-	npcController->addNPC(jack, 4, levelController);
+	npcController->addNPC(jack, 4, levelController, graphics);
 
 	//Medic 3.1
 	medic = new Medic();
 	medic->addPath(VECTOR2(2591, 736));
-	npcController->addNPC(medic, 6, levelController);
+	npcController->addNPC(medic, 6, levelController, graphics);
 
 	/* //commented this out - @clarence
 	dog->addPath(VECTOR2(725, 544));

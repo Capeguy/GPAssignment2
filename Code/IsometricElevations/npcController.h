@@ -59,7 +59,7 @@ public:
 	void getPlayerVelocity(float v);
 	void chaseIfInRange(VECTOR2);
 	std::list<NPC*> getNPCs();
-	void addNPC(NPC* npc, int type, LevelController* lc);
+	void addNPC(NPC* npc, int type, LevelController* lc, Graphics* graphics);
 
 };
 #endif

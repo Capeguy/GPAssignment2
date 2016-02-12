@@ -37,7 +37,7 @@ void NPCController::update(float frameTime, LevelController* lc) {
 		int npcIconCount = 0;
 		for (std::list<Image*>::iterator npcIconIter = npcIcon.begin(); npcIconIter != npcIcon.end(); npcIconIter++) {
 			if (npcCount == npcIconCount) {
-				(*npcIconIter)->setX(((*it)->getX()*0.120) + (GAME_WIDTH*0.6) + (-mapX*0.125));
+				(*npcIconIter)->setX(((*it)->getX()*0.120) + (GAME_WIDTH*0.60 + 5) + (-mapX*0.125));
 				(*npcIconIter)->setY((*it)->getY()*0.120 + 42);
 			}
 			npcIconCount++;
@@ -126,9 +126,28 @@ void NPCController::chaseIfInRange(VECTOR2 v) {
 std::list<NPC*> NPCController::getNPCs() {
 	return npcs;
 }
-void NPCController::addNPC(NPC* npc, int type, LevelController* lc) {
+void NPCController::addNPC(NPC* npc, int type, LevelController* lc, Graphics* graphics) {
 	if (!npc->initialized) {
 		npc->initialize(gameptr, npcNS::NPC_WIDTH, npcNS::NPC_HEIGHT, npcNS::TEXTURE_COLS, npcTexture, type, lc);
 	}
 	npcs.push_back(npc);
+	// Create Npc Icon for minimap
+	Image* npcIco = new Image();
+	npcIco->initialize(graphics, TEXTURE_SIZE, TEXTURE_SIZE, 5, iconTexture);
+	switch (type)
+	{
+		case 4: // Agent Jack
+			npcIco->setCurrentFrame(4);
+			break;
+		case 6: // Friendly
+			npcIco->setCurrentFrame(2);
+			break;
+		default:
+			npcIco->setCurrentFrame(0);
+			break;
+	}
+	npcIco->setScale(0.5);
+	npcIco->setX(GAME_WIDTH*0.6);
+	npcIco->setY(50);
+	npcIcon.push_back(npcIco);
 }
