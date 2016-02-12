@@ -57,7 +57,7 @@ void NPCController::render() {
 	}
 }
 
-void NPCController::collisions(LevelController* lc) {
+void NPCController::collisions(LevelController* lc, Player* p) {
 	D3DXVECTOR2 collisionVector = D3DXVECTOR2();
 	//list<Crate*>* crateList = iController->getCrateList();
 	std::list<NPC*>::iterator npcIter;
@@ -78,8 +78,9 @@ void NPCController::collisions(LevelController* lc) {
 				(*npcIter)->damage((*projectileIter)->getDamage());
 				//(*npcIter)->healthUpdate();
 				if ((*npcIter)->isDying()) {
+					p->setTotalPoints((*npcIter)->getPoints()); // Add points to player
 					npcIter = npcs.erase(npcIter); // remove npc
-					iconIter = npcIcon.erase(iconIter);
+					iconIter = npcIcon.erase(iconIter); // remove icon from minimap				
 				}
 				projectileIter = lc->projectiles.erase(projectileIter); //remove projectile
 				removed = true;

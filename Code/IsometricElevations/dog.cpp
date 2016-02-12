@@ -128,6 +128,11 @@ void Dog::update(float frameTime, float mapX, float pVelo, LevelController * lc)
 	NPC::update(frameTime, mapX, pVelo, lc);
 }
 
+int Dog::getPoints()
+{
+	return point;
+}
+
 bool Dog::initialize(Game * gamePtr, int width, int height, int ncols, TextureManager * textureM, int spriteNumber, LevelController * lc)
 {
 	return NPC::initialize(gamePtr, width, height, ncols, textureM, spriteNumber, lc);

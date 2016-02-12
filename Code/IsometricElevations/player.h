@@ -43,6 +43,7 @@ private:
 	bool	doubleJump = false;
 	int		orientation = Right;
 	int		healthStatus = Alive;
+	int		totalPoints = 0;
 	float	hp;
 	float	hpMax;
 	Game*	gameptr;
@@ -89,6 +90,7 @@ public:
 	void healthUpdate ();
 	void die ();
 	void updateCoords ();
+	void setTotalPoints(int);
 	float getHP();
 	float getMaxHP();
 	Inventory* getInventory();
@@ -99,6 +101,7 @@ public:
 	bool canMoveLeft();
 	bool canMoveRight();
 	int getHealthStatus();
+	int	getTotalPoints();
 	float getPlayerVelocity();
 };
 #endif
