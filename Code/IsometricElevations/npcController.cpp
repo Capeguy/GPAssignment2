@@ -113,7 +113,7 @@ void NPCController::chaseIfInRange(VECTOR2 v) {
 		float distance = sqrt(pow(y2 - y1, 2) + (pow(x2 - x1, 2)));
 		if (distance > (*npcIt)->getChaseRange()) {
 			(*npcIt)->setAiState(NPC::Patrol);
-		} else if (distance > (*npcIt)->getShootRange()) {
+		} else if (distance > (*npcIt)->getAttackRange()) {
 			(*npcIt)->setAiState(NPC::Chase);
 			(*npcIt)->setDest(v);
 		} else {

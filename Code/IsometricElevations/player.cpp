@@ -41,22 +41,10 @@ bool Player::initialize(Game *gamePtr, int width, int height, int ncols, Texture
 		throw(GameError(gameErrorNS::FATAL_ERROR, "Error initializing gun texture"));
 	// We should move this elsewhere - Ben
 
-	machineGun = new MachineGun();
-	machineGun->initialize(gameptr, gunNS::TEXTURE_WIDTH, gunNS::TEXTURE_HEIGHT, gunNS::TEXTURE_COLS, gunTexture);
-	machineGun->setCurrentFrame(gunNS::MACHINEGUN_FRAME);
-
 	pistol = new Pistol();
 	pistol->initialize(gameptr, gunNS::TEXTURE_WIDTH, gunNS::TEXTURE_HEIGHT, gunNS::TEXTURE_COLS, gunTexture);
 	pistol->setCurrentFrame(gunNS::PISTOL_FRAME);
 
-	shotgun = new Shotgun();
-	shotgun->initialize(gameptr, gunNS::TEXTURE_WIDTH, gunNS::TEXTURE_HEIGHT, gunNS::TEXTURE_COLS, gunTexture);
-	shotgun->setCurrentFrame(gunNS::SHOTGUN_FRAME);
-	// End
-	defaultItem = new InventoryItem(machineGun);
-	inventory->addItem(defaultItem);
-	defaultItem = new InventoryItem(shotgun);
-	inventory->addItem(defaultItem);
 	defaultItem = new InventoryItem(pistol);
 	inventory->addItem(defaultItem);
 	updateCoords();
@@ -243,27 +231,26 @@ void Player::update(float frameTime, LevelController* lc) {
 
 		if (lc->collidedWithCrate() == 1 && lc->getCrateItem() != -1)
 		{
-			//audio->playCue(RELOAD);
-			/* REMOVE ME
+			audio->playCue(RELOAD);
 			if (lc->collidedWithCrate() == 1 && lc->getCrateItem() != -1) {
 				int itemid = lc->getCrateItem();
 				InventoryItem *invItem;
-				vector<InventoryItem*>* itemList = inventory->getItems();
+				std::vector<InventoryItem*>* itemList = inventory->getItems();
 				switch (itemid) {
-					case playerNS::ItemType::shotGun:
-						shotgun = new Shotgun();
-						shotgun->initialize(gameptr, 136, 41, 2, gunTexture);
-						shotgun->setCurrentFrame(6);
-						invItem = new InventoryItem(shotgun);
-						break;
-					case playerNS::ItemType::machineGun:
-						machineGun = new MachineGun();
-						machineGun->initialize(gameptr, 136, 41, 2, gunTexture);
-						machineGun->setCurrentFrame(0);
-						invItem = new InventoryItem(machineGun);
-						break;
-					case 3:
-						break;
+				case playerNS::ItemType::shotGun:
+					shotgun = new Shotgun();
+					shotgun->initialize(gameptr, 136, 41, 2, gunTexture);
+					shotgun->setCurrentFrame(6);
+					invItem = new InventoryItem(shotgun);
+					break;
+				case playerNS::ItemType::machineGun:
+					machineGun = new MachineGun();
+					machineGun->initialize(gameptr, 136, 41, 2, gunTexture);
+					machineGun->setCurrentFrame(0);
+					invItem = new InventoryItem(machineGun);
+					break;
+				case 3:
+					break;
 				}
 				for (int i = 0; i < itemList->size(); i++) {
 					InventoryItem *iItem = itemList->at(i);
@@ -277,7 +264,8 @@ void Player::update(float frameTime, LevelController* lc) {
 							lc->setCrateCollided(0);
 							return;
 						}
-					} else if (item->getItemType() == Item::Usable && newItem->getItemType() == Item::Usable) {
+					}
+					else if (item->getItemType() == Item::Usable && newItem->getItemType() == Item::Usable) {
 						lc->setCrateCollided(0);
 						return;
 					}
@@ -285,8 +273,7 @@ void Player::update(float frameTime, LevelController* lc) {
 				inventory->addItem(invItem);
 				lc->setCrateCollided(0);
 				lc->setCrateItem(-1);
-				*/
-
+			}
 		}
 		Entity::update(frameTime);
 	}
