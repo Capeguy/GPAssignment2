@@ -205,30 +205,14 @@ void NPC::setDest(VECTOR2 d) {
 	currDest = d;
 }
 bool NPC::canMoveUp() {
-	bottomLeft = VECTOR2(getX(), getY() - 1 + getHeight() * getScale());
-	bottomRight = VECTOR2(getX() - 1 + getWidth() * getScale(), getY() - 1 + getHeight() * getScale());
-	topLeft = VECTOR2(getX(), getY());
-	topRight = VECTOR2(getX() - 1 + getWidth() * getScale(), getY());
 	return !(levelController->getTile(topLeft.x + levelController->getMapX() * -1.0, topLeft.y - 1)->isSolid() || levelController->getTile(topRight.x + levelController->getMapX() * -1.0, topRight.y - 1)->isSolid());
 }
 bool NPC::canMoveDown() {
-	bottomLeft = VECTOR2(getX(), getY() - 1 + getHeight() * getScale());
-	bottomRight = VECTOR2(getX() - 1 + getWidth() * getScale(), getY() - 1 + getHeight() * getScale());
-	topLeft = VECTOR2(getX(), getY());
-	topRight = VECTOR2(getX() - 1 + getWidth() * getScale(), getY());
 	return !(levelController->getTile(bottomLeft.x + levelController->getMapX() * -1.0, bottomLeft.y + 1)->isSolid() || levelController->getTile(bottomRight.x + levelController->getMapX() * -1.0, bottomRight.y + 1)->isSolid());
 }
 bool NPC::canMoveLeft() {
-	bottomLeft = VECTOR2(getX(), getY() - 1 + getHeight() * getScale());
-	bottomRight = VECTOR2(getX() - 1 + getWidth() * getScale(), getY() - 1 + getHeight() * getScale());
-	topLeft = VECTOR2(getX(), getY());
-	topRight = VECTOR2(getX() - 1 + getWidth() * getScale(), getY());
-	return !(levelController->getTile(topLeft.x + levelController->getMapX() * -1.0 - 1, topLeft.y)->isSolid() || levelController->getTile(bottomLeft.x + levelController->getMapX() * -1.0 - 1, bottomLeft.y)->isSolid());
+	return (!(levelController->getTile(topLeft.x + levelController->getMapX() * -1.0 - 1, topLeft.y)->isSolid() || levelController->getTile(bottomLeft.x + levelController->getMapX() * -1.0 - 1, bottomLeft.y)->isSolid())) && (levelController->getTile(bottomLeft.x + levelController->getMapX() * -1.0, bottomLeft.y + 1)->isSolid());
 }
 bool NPC::canMoveRight() {
-	bottomLeft = VECTOR2(getX(), getY() - 1 + getHeight() * getScale());
-	bottomRight = VECTOR2(getX() - 1 + getWidth() * getScale(), getY() - 1 + getHeight() * getScale());
-	topLeft = VECTOR2(getX(), getY());
-	topRight = VECTOR2(getX() - 1 + getWidth() * getScale(), getY());
-	return !(levelController->getTile(topRight.x + levelController->getMapX() * -1.0 + 1, topRight.y)->isSolid() || levelController->getTile(bottomRight.x + levelController->getMapX() * -1.0 + 1, bottomRight.y)->isSolid());
+	return (!(levelController->getTile(topRight.x + levelController->getMapX() * -1.0 + 1, topRight.y)->isSolid() || levelController->getTile(bottomRight.x + levelController->getMapX() * -1.0 + 1, bottomRight.y)->isSolid())) && (levelController->getTile(bottomRight.x + levelController->getMapX() * -1.0, bottomRight.y + 1)->isSolid());
 }
