@@ -10,22 +10,23 @@ ItemController::ItemController(Graphics *graphics) {
 	itemList = std::vector<Item*>();
 	//init crate location first
 	levelCrateLoc[0] = new std::list<VECTOR2>();
-	levelCrateLoc[0]->push_back(VECTOR2(321, 568));
-	levelCrateLoc[0]->push_back(VECTOR2(1152, 250));
-	/*
-	levelCrateLoc[0]->push_back(VECTOR2(2462, 256));
-	levelCrateLoc[0]->push_back(VECTOR2(2815, 608));
-	levelCrateLoc[0]->push_back(VECTOR2(2758, 608));
-	*/
+	levelCrateLoc[0]->push_back(VECTOR2(321, 568));		// crate 1.1
+	levelCrateLoc[0]->push_back(VECTOR2(1152, 250));	// crate 2.1
+	
+	levelCrateLoc[0]->push_back(VECTOR2(2447, 250));	//crate 2.5.1
+	levelCrateLoc[0]->push_back(VECTOR2(2688, 668));	// crate 3.1 
+	levelCrateLoc[0]->push_back(VECTOR2(2815, 602));	// crate 3.2
+
+	
 	//init crate item second
 	levelCrateItemType[0] = new std::list<int>();
-	levelCrateItemType[0]->push_back(itemControllerNS::ItemType::machineGun);
-	levelCrateItemType[0]->push_back(itemControllerNS::ItemType::shotGun);
-	/*
-	levelCrateItemType[0]->push_back(itemControllerNS::ItemType::machineGun);
-	levelCrateItemType[0]->push_back(itemControllerNS::ItemType::shotGun);
-	levelCrateItemType[0]->push_back(itemControllerNS::ItemType::shotGun);
-	*/
+	levelCrateItemType[0]->push_back(itemControllerNS::ItemType::machineGun);	// crate 1.1
+	levelCrateItemType[0]->push_back(itemControllerNS::ItemType::shotGun);		// crate 2.1
+	
+	levelCrateItemType[0]->push_back(itemControllerNS::ItemType::machineGun);	// craet 2.5.1
+	levelCrateItemType[0]->push_back(itemControllerNS::ItemType::machineGun);	// crate 3.1
+	levelCrateItemType[0]->push_back(itemControllerNS::ItemType::shotGun);		// crate 3.2
+	
 	
 
 	gunTexture = new TextureManager();
