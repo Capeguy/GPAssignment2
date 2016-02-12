@@ -315,7 +315,7 @@ void BreakoutJack::update() {
 				//player->setVelocityX(0);
 			}
 			// Check if map is at end in the left direction
-			if (levelController->getMapX() > 0) {
+			if (levelController->getMapX() > -5) {
 				mapX = 0;
 				bndL = 0;
 				//player->setVelocityX(0);
@@ -381,7 +381,7 @@ void BreakoutJack::ai() {}
 void BreakoutJack::collisions() {
 	if (room == Start) {
 		VECTOR2 collisionVector;
-		npcController->collisions(levelController);
+		npcController->collisions(levelController, player);
 		levelController->collisions();
 		// Player collision with projectile
 		std::list<Projectile*>::iterator projectileIter = levelController->projectiles.begin();
