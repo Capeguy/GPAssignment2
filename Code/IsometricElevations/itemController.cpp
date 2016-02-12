@@ -75,20 +75,26 @@ void ItemController::update(float frameTime) {
 }
 
 void ItemController::render(float mapX) {
-	int count = 0;
+	int crateCount = 0;
 	std::list<VECTOR2> *crateLocations = levelCrateLoc[0];
-	std::list<VECTOR2>::iterator l_front = crateLocations->begin();
-	for (std::list<Crate*>::iterator it = crateList->begin(); it != crateList->end(); ++it) {
-		std::advance(l_front, count);
-		(*it)->setX(float((*l_front).x + mapX));
-		(*it)->draw();
-		int itemid = (*it)->getItemId();
-		gunImage->setCurrentFrame(getGunFrameByItemType(itemid));
-		gunImage->setX((*it)->getX());
-		gunImage->setY((*it)->getY()+18);
-		gunImage->setScale(0.3);
-		gunImage->draw();
-		count++;
+	//std::list<VECTOR2>::iterator l_front = crateLocations->begin();
+	for (std::list<Crate*>::iterator crateIter = crateList->begin(); crateIter != crateList->end(); ++crateIter) {
+		int crateLocCount = 0;
+		for (std::list<VECTOR2>::iterator crateLocationIter = crateLocations->begin(); crateLocationIter != crateLocations->end(); ++crateLocationIter) {
+			// do shit
+			if (crateCount == crateLocCount) {
+				(*crateIter)->setX(float((*crateLocationIter).x + mapX));
+				(*crateIter)->draw();
+				int itemid = (*crateIter)->getItemId();
+				gunImage->setCurrentFrame(getGunFrameByItemType(itemid));
+				gunImage->setX((*crateIter)->getX());
+				gunImage->setY((*crateIter)->getY() + 18);
+				gunImage->setScale(0.3);
+				gunImage->draw();
+			}
+			crateLocCount++;
+		}
+		crateCount++;
 	}
 }
 
