@@ -110,6 +110,7 @@ void BreakoutJack::initialize(HWND hwnd) {
 		throw(GameError(gameErrorNS::FATAL_ERROR, "Error initializing npc texture"));
 
 	// Guard 1.1
+	
 	guard->addPath(VECTOR2(325, 320));
 	guard->addPath(VECTOR2(900, 320));
 	npcController->addNPC(guard, 0, levelController, graphics);
@@ -141,12 +142,12 @@ void BreakoutJack::initialize(HWND hwnd) {
 	//Medic 1.1
 	medic->addPath(VECTOR2(210, 608));
 	npcController->addNPC(medic, 6, levelController, graphics);
-
+	
 	//Agent Jack
 	jack->addPath(VECTOR2(2596, 320));
 	jack->addPath(VECTOR2(2718, 320));
 	npcController->addNPC(jack, 4, levelController, graphics);
-
+	
 	//Medic 3.1
 	medic = new Medic();
 	medic->addPath(VECTOR2(2591, 736));
@@ -436,6 +437,7 @@ void BreakoutJack::render() {
 					(*bList)->draw();
 				}
 			}
+
 			if (npcController->getBossDeathStatus()) {
 				audio->stopCue(BKMUSIC);
 				audio->playCue(VICTORYMUSIC);
@@ -507,6 +509,9 @@ void BreakoutJack::consoleCommand() {
 		console->print("(" + std::to_string(player->bottomLeft.x) + ", " + std::to_string(player->bottomLeft.y) + ") ---- (" + std::to_string(player->bottomRight.x) + ", " + std::to_string(player->bottomRight.y) + ")");
 	} else if (command == "mouse") {
 		mouseOn = !mouseOn;
+	}
+	else if (command == "noclip") {
+		// do something
 	}
 }
 

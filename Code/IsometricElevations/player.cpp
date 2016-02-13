@@ -114,6 +114,7 @@ void Player::update(float frameTime, LevelController* lc) {
 		setX(spawnPos.x);
 		setY(spawnPos.y);
 	}
+
 	//updateCoords();
 	// Update Guns
 	inventory->update(frameTime, input);
@@ -127,6 +128,7 @@ void Player::update(float frameTime, LevelController* lc) {
 
 	velocityX = getVelocity().x;
 	velocityY = getVelocity().y;
+
 	
 	if (healthStatus != Dead) {
 		if (!canMoveDown()) {
@@ -282,6 +284,7 @@ void Player::update(float frameTime, LevelController* lc) {
 				lc->setCrateItem(-1);
 			}
 		}
+		
 		Entity::update(frameTime);
 	}
 }

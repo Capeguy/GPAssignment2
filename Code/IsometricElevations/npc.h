@@ -96,6 +96,7 @@ public:
 
 	//	inherited member functions
 	virtual void draw();
+	virtual void draw(TextDX&); //TextDX&
 	virtual bool initialize(Game *gamePtr, int width, int height, int ncols, TextureManager *textureM, int spriteNumber, LevelController* lc);
 	virtual void update(float frameTime, float mapX, float pVelo, LevelController* lc);
 	virtual bool moveLeft(float frameTime);

@@ -10,6 +10,8 @@ NPCController::NPCController(Graphics *graphics, TextureManager* iconTxt, Game* 
 	npcs = std::list<NPC*>();
 	if (!npcTexture->initialize(graphics, TEXTURE_NPC))
 		throw(GameError(gameErrorNS::FATAL_ERROR, "Error initializing npc texture"));
+	dxFont.initialize(graphics, 14, false, false, "Courier New");
+	dxFont.setFontColor(SETCOLOR_ARGB(192, 0, 0, 0));
 };
 
 NPC* NPCController::spawnNPCs(int level, Game *gamePtr, float x, float y, int spriteNumber, LevelController* lc, Graphics* graphics) {
@@ -47,10 +49,9 @@ void NPCController::update(float frameTime, LevelController* lc) {
 
 }
 void NPCController::render() {
-	//int count = 0;
-	//list<VECTOR2>::iterator l_front = NPCSpawnLoc.begin();
 	for (std::list<NPC*>::iterator it = npcs.begin(); it != npcs.end(); ++it) {
-		(*it)->draw();
+		(*it)->draw(dxFont);
+
 	}
 	for (std::list<Image*>::iterator itr = npcIcon.begin(); itr != npcIcon.end(); ++itr) {
 		(*itr)->draw();

@@ -16,11 +16,14 @@ class Jack : public NPC
 {
 public:
 	Jack();
+	Jack(Graphics*& g);
 	void ai(float frameTime, Entity & ent, float mapX, LevelController* lc);
-	void draw();
+	void draw(TextDX&); //TextDX&
 	void update(float frameTime, float mapX, float pVelo, LevelController* lc);
 	bool initialize(Game *gamePtr, int width, int height, int ncols, TextureManager *textureM, int spriteNumber, LevelController* lc);
 	void stateChange();
 	~Jack();
+private:
+	TextDX dxFont;
 };
 #endif

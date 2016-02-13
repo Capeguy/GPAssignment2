@@ -1,8 +1,13 @@
 #include "jack.h"
 
 Jack::Jack() {
+}
+Jack::Jack(Graphics*& graphics) {
 	chaseRange = JackNS::NPC_CHASE_RANGE;
 	attackRange = JackNS::NPC_ATTACK_RANGE;
+
+	//dxFont.initialize(graphics, 12, false, false, "Courier New");
+	//dxFont.setFontColor(SETCOLOR_ARGB(192, 255, 255, 255));
 }
 
 void Jack::stateChange() {
@@ -121,8 +126,13 @@ void Jack::ai(float frameTime, Entity & ent, float mapX, LevelController* lc) {
 
 }
 
-void Jack::draw() {
-	NPC::draw();
+void Jack::draw(TextDX &dxFont) { //TextDX &dxFont
+	std::string buffer;
+	buffer = "SAVE ME PLEASE!";
+	dxFont.print(buffer, spriteData.x, spriteData.y - 43);
+	NPC::draw(dxFont);
+
+	
 }
 
 void Jack::update(float frameTime, float mapX, float pVelo, LevelController * lc) {
