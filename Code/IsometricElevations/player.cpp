@@ -122,9 +122,6 @@ void Player::update(float frameTime, LevelController* lc) {
 		audio->stopCue(BKMUSIC);
 		audio->playCue(BOSSMUSIC);
 	}
-	// Render Debug Stuffs
-
-	
 
 	// Start of Player Movement
 
@@ -195,7 +192,13 @@ void Player::update(float frameTime, LevelController* lc) {
 		}
 		// Handle Stuck
 		while (canMoveUp() && !canMoveDown() && !canMoveLeft() && !canMoveRight()) {
-			spriteData.y -= 1;
+			spriteData.y -= 0.1;
+		}
+		while (!canMoveUp() && !canMoveDown() && !canMoveLeft() && canMoveRight()) {
+			spriteData.x += 0.1;
+		}
+		while (!canMoveUp() && !canMoveDown() && canMoveLeft() && !canMoveRight()) {
+			spriteData.x -= 0.1;
 		}
 		// Final Sanity Check
 		if (!canMoveLeft() && velocityX < 0 || !canMoveRight() && velocityX > 0)
@@ -203,6 +206,7 @@ void Player::update(float frameTime, LevelController* lc) {
 		if (!canMoveUp() && velocityY < 0 || !canMoveDown() && velocityY > 0)
 			velocityY = 0;
 		setVelocity(VECTOR2(velocityX, velocityY));
+		
 		// Handle Orientations
 		if (input->isKeyDown(PLAYER_UP))
 			orientation = Up;
@@ -224,6 +228,7 @@ void Player::update(float frameTime, LevelController* lc) {
 			currentFrame = 952;
 			break;
 		}
+
 		// Draw Items
 		Item* activeItem = inventory->getActiveItem()->getItem();
 		if (inventory->getActiveItem()->getItem()->getItemType() == Item::Equipable) {
@@ -232,7 +237,7 @@ void Player::update(float frameTime, LevelController* lc) {
 				gun->update(frameTime, orientation, getX(), getY(), input, lc);
 			}
 		}
-
+		// Crate Collision
 		if (lc->collidedWithCrate() == 1 && lc->getCrateItem() != -1) {
 			audio->playCue(RELOAD);
 			if (lc->collidedWithCrate() == 1 && lc->getCrateItem() != -1) {
@@ -265,12 +270,12 @@ void Player::update(float frameTime, LevelController* lc) {
 						if (gunInvItem->getGunId() == gunNewItem->getGunId()) {
 							gunInvItem->addAmmo();
 							lc->setCrateCollided(0);
-							return;
+							return; // Should this be return or break?
 						}
 					} else if (item->getItemType() == Item::Usable && newItem->getItemType() == Item::Usable) {
 						lc->setCrateCollided(0);
 						return;
-					}
+					} // Should this be return or break?
 				}
 				inventory->addItem(invItem);
 				lc->setCrateCollided(0);
