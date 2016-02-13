@@ -111,7 +111,7 @@ void Jack::ai(float frameTime, Entity & ent, float mapX, LevelController* lc) {
 		if (currDest != VECTOR2(-1, -1)) {
 			derivedDest = VECTOR2(currDest.x, currDest.y);
 		}
-		OSD::instance()->addLine("NPC Shoot Orientation: " + std::to_string(derivedDest.x - getX()) + " (" + std::to_string((int)(derivedDest.x)) + " - " + std::to_string((int)getX()) + ")");
+		//OSD::instance()->addLine("NPC Shoot Orientation: " + std::to_string(derivedDest.x - getX()) + " (" + std::to_string((int)(derivedDest.x)) + " - " + std::to_string((int)getX()) + ")");
 		VECTOR2 delta = VECTOR2(derivedDest.x - getX(), 0);
 		if (delta.x < 0)
 			orientation = Left;
@@ -121,8 +121,8 @@ void Jack::ai(float frameTime, Entity & ent, float mapX, LevelController* lc) {
 			orientation = Up;
 		break;
 	}
-	OSD::instance()->addLine("MapX: " + std::to_string(mapX));
-	OSD::instance()->addLine("NPC AI (" + std::to_string(aiState) + ") at (" + std::to_string(spriteData.x) + ", " + std::to_string(spriteData.y) + ") going to (" + std::to_string((derivedDest.x)) + ", " + std::to_string(derivedDest.y) + ") Moving at: (" + std::to_string((velocity.x)) + ", " + std::to_string(velocity.y) + ") ");
+	//OSD::instance()->addLine("MapX: " + std::to_string(mapX));
+	//OSD::instance()->addLine("NPC AI (" + std::to_string(aiState) + ") at (" + std::to_string(spriteData.x) + ", " + std::to_string(spriteData.y) + ") going to (" + std::to_string((derivedDest.x)) + ", " + std::to_string(derivedDest.y) + ") Moving at: (" + std::to_string((velocity.x)) + ", " + std::to_string(velocity.y) + ") ");
 
 }
 

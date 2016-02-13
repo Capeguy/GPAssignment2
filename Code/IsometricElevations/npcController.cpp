@@ -79,9 +79,13 @@ void NPCController::collisions(LevelController* lc, Player* p) {
 				(*npcIter)->damage((*projectileIter)->getDamage());
 				//(*npcIter)->healthUpdate();
 				if ((*npcIter)->isDying()) {
+					if ((*npcIter)->bossDefeated())
+					{
+						bossDead = true;
+					}
 					p->setTotalPoints((*npcIter)->getPoints()); // Add points to player
 					npcIter = npcs.erase(npcIter); // remove npc
-					iconIter = npcIcon.erase(iconIter); // remove icon from minimap				
+					iconIter = npcIcon.erase(iconIter); // remove icon from minimap
 				}
 				projectileIter = lc->projectiles.erase(projectileIter); //remove projectile
 				removed = true;
@@ -153,4 +157,9 @@ void NPCController::addNPC(NPC* npc, int type, LevelController* lc, Graphics* gr
 	npcIco->setX(GAME_WIDTH*0.6);
 	npcIco->setY(50);
 	npcIcon.push_back(npcIco);
+}
+
+bool NPCController::getBossDeathStatus()
+{
+	return bossDead;
 }

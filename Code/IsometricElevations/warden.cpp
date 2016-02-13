@@ -182,3 +182,8 @@ void Warden::renderHealthbar()
 	npcHealth->setSpriteDataRect(r);
 	
 }
+
+bool Warden::bossDefeated()
+{
+	return isDying();
+}

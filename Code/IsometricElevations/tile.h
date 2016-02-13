@@ -7,8 +7,7 @@
 #include "entity.h"
 #include "constants.h"
 
-namespace tileNS
-{
+namespace tileNS {
 	const int	X = 0;
 	const int	Y = 0;
 	const float SPEED = 64;
@@ -24,19 +23,28 @@ namespace tileNS
 	const float PLAYER_HEIGHT = 64.0;
 }
 
-class Tile : public Entity {
+class Tile : public Entity
+{
 private:
 	int id;
 	bool solid;
+	Game *gamePtr;
+	int width;
+	int height;
+	int ncols;
+	TextureManager *textureM;
+	float stayTime = 0;
 
 public:
-	Tile ();
-	Tile (int id, bool solid);
-	~Tile ();
-	int getId ();
+	Tile();
+	Tile(int id, bool solid);
+	~Tile();
+	int getId();
 	void setId(int i);
-	bool isSolid ();
-	virtual void draw ();
-	virtual bool initialize (Game *gamePtr, int width, int height, int ncols, TextureManager *textureM);
+	bool isSolid(bool skip = false);
+	void refresh(float);
+	virtual void draw();
+	virtual bool initialize();
+	virtual bool initialize(Game *gamePtr, int width, int height, int ncols, TextureManager *textureM);
 };
 #endif

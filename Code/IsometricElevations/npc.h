@@ -124,6 +124,7 @@ public:
 	void setDest(VECTOR2 d);
 	void setAiState(int);
 	virtual void renderHealthbar();
+	virtual bool bossDefeated() { return false; };
 
 	bool canMoveUp();
 	bool canMoveDown();

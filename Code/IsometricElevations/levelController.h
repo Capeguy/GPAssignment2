@@ -173,5 +173,6 @@ public:
 	void setMapX(float x);
 	float getMapX();
 	void releaseJack();
+	void refreshTiles(float);
 };
 #endif
