@@ -51,6 +51,7 @@ protected:
 	bool    initialized;
 	std::string  command;           // command from console
 	bool drawTileNo = true;
+	bool drawOSD = false;
 	bool audioInitialized = false;
 
 public:

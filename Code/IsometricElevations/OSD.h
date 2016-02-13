@@ -24,7 +24,7 @@ public:
 	void setGraphics(Graphics* graphics);
 	static void addLine(std::string text);
 	int getLine();
-	void draw();
+	void draw(bool draw = true);
 
 };
 #endif

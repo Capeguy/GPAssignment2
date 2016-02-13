@@ -87,7 +87,6 @@ private:
 	std::list<Button*>* buttonList;
 	std::list<Button*>* pauseMenuButtonList;
 	std::list<Button*>* winLoseButtonList;
-	bool pause = false;
 	bool skipFirstClick = false;
 	Guard* guard;
 	Medic* medic;

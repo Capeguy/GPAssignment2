@@ -183,7 +183,6 @@ std::string Console::getCommand() {
 	//check for console key
 	if (input->wasKeyPressed(VK_F1))
 		hide();                                 // turn off console
-
 	//check for Esc key
 	if (input->wasKeyPressed(VK_F1))
 		return "";

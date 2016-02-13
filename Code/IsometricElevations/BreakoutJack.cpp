@@ -78,7 +78,7 @@ void BreakoutJack::initialize(HWND hwnd) {
 	player->setCurrentFrame(952);
 	//player->setX(GAME_WIDTH / breakoutJackNS::TEXTURE_SIZE);
 	//player->setY((GAME_HEIGHT - GAME_HEIGHT / breakoutJackNS::TEXTURE_SIZE - 2 * breakoutJackNS::TEXTURE_SIZE) - 100);
-	
+
 	// Initialize Map Tile
 	mapTile.initialize(graphics, breakoutJackNS::TEXTURE_SIZE, breakoutJackNS::TEXTURE_SIZE, breakoutJackNS::TEXTURE_COLS, &textures);
 	mapTile.setFrames(0, 0);
@@ -108,7 +108,7 @@ void BreakoutJack::initialize(HWND hwnd) {
 	TextureManager* npcTexture = new TextureManager();
 	if (!npcTexture->initialize(graphics, TEXTURE_NPC))
 		throw(GameError(gameErrorNS::FATAL_ERROR, "Error initializing npc texture"));
-	
+
 	// Guard 1.1
 	guard->addPath(VECTOR2(325, 320));
 	guard->addPath(VECTOR2(900, 320));
@@ -131,13 +131,13 @@ void BreakoutJack::initialize(HWND hwnd) {
 	guard->addPath(VECTOR2(1569, 320));
 	guard->addPath(VECTOR2(2200, 320));
 	npcController->addNPC(guard, 1, levelController, graphics);
-	
+
 	// Guard 2.2
 	guard = new Guard();
 	guard->addPath(VECTOR2(1985, 544));
 	guard->addPath(VECTOR2(2325, 544));
 	npcController->addNPC(guard, 0, levelController, graphics);
-	
+
 	//Medic 1.1
 	medic->addPath(VECTOR2(210, 608));
 	npcController->addNPC(medic, 6, levelController, graphics);
@@ -156,7 +156,7 @@ void BreakoutJack::initialize(HWND hwnd) {
 	warden->addPath(VECTOR2(3393, 390));
 	warden->setScale(3);
 	npcController->addNPC(warden, 8, levelController, graphics);
-	
+
 	// End of stuff
 	menu = new Image();
 	menu->initialize(graphics, GAME_WIDTH, GAME_HEIGHT, 1, menuTexture);
@@ -234,8 +234,8 @@ void BreakoutJack::update() {
 
 		//if pause button is pressed, display menu 
 		if (input->isKeyDown(PAUSE))
-			pause = true;
-		if (pause) {
+			paused = true;
+		if (paused) {
 			pauseMenu->update(frameTime);
 			for (std::list<Button*>::iterator bList = pauseMenuButtonList->begin(); bList != pauseMenuButtonList->end(); ++bList) {
 				int i = -1;
@@ -243,18 +243,18 @@ void BreakoutJack::update() {
 					i = (*bList)->getID();
 				}
 				if (i == Resume) {
-					pause = false;
+					paused = false;
 				} else if (i == Restart) {
 					stopAllMusic();
 					//restart level
-					resetGame();					
-					pause = false;
+					resetGame();
+					paused = false;
 					return;
 				} else if (i == MainMenu) {
 					audio->stopCue(BOSSMUSIC);
 					audio->stopCue(VICTORYMUSIC);
 					audio->stopCue(LOSEMUSIC);
-					pause = false;
+					paused = false;
 					room = Menu;
 					skipFirstClick = true;
 				}
@@ -268,19 +268,16 @@ void BreakoutJack::update() {
 					if ((*bList)->isClicked(input)) {
 						i = (*bList)->getID();
 					}
-					if (i == Redo) 
-					{
+					if (i == Redo) {
 						stopAllMusic();
 						// Restart Level
 						resetGame();
 						//pause = false;
 						return;
-					}
-					else if (i == Main) 
-					{
+					} else if (i == Main) {
 						stopAllMusic();
 						//restart level
-						pause = false;
+						paused = false;
 						room = Menu;
 						resetGame();
 						return;
@@ -411,13 +408,13 @@ void BreakoutJack::render() {
 			(*bList)->draw();
 		}
 	} else if (room == Start) {
-		if (pause) {
+		if (paused) {
 			levelController->render(graphics);
 			npcController->render();
 			player->draw();
 			crate.draw();
 			hud->draw();
-			OSD::instance()->draw();
+			OSD::instance()->draw(drawOSD);
 			pauseMenu->draw();
 			for (std::list<Button*>::iterator bList = pauseMenuButtonList->begin(); bList != pauseMenuButtonList->end(); ++bList) {
 				(*bList)->draw();
@@ -428,10 +425,9 @@ void BreakoutJack::render() {
 			player->draw();
 			crate.draw();
 			hud->draw();
-			OSD::instance()->draw();
+			OSD::instance()->draw(drawOSD);
 			std::string text;
-			if (player->getHealthStatus() == Player::PlayerHealthStatus::Dead)
-			{
+			if (player->getHealthStatus() == Player::PlayerHealthStatus::Dead) {
 				audio->stopCue(BKMUSIC);
 				audio->playCue(LOSEMUSIC);
 				text = "         YOU LOSE\nPress any button to restart";
@@ -451,7 +447,6 @@ void BreakoutJack::render() {
 					(*bList)->draw();
 				}
 			}
-
 		}
 	} else if (room == Instructions) {
 		instructions->draw();
@@ -482,8 +477,7 @@ void BreakoutJack::resetAll() {
 	Game::resetAll();
 	return;
 }
-void BreakoutJack::stopAllMusic()
-{
+void BreakoutJack::stopAllMusic() {
 	audio->stopCue(BOSSMUSIC);
 	audio->stopCue(VICTORYMUSIC);
 	audio->stopCue(LOSEMUSIC);
@@ -491,43 +485,28 @@ void BreakoutJack::stopAllMusic()
 }
 void BreakoutJack::consoleCommand() {
 	command = console->getCommand();    // get command from console
-	if (command == "")                   // if no command
+	if (command == "") {
 		return;
-
-	if (command == "help")              // if "help" command
-	{
+	} else if (command == "help") {
 		console->print("Console Commands:");
 		console->print("fps - toggle display of frames per second");
-		return;
-	}
-
-	if (command == "fps") {
-		fpsOn = !fpsOn;                 // toggle display of fps
-		if (fpsOn)
-			console->print("fps On");
-		else
-			console->print("fps Off");
+		console->print("osd - toggle display of On-Screen Display");
+		console->print("tile - toggle display of Tile Info");
+		console->print("p - Display Player co-ordinates");
+		console->print("mouse - toggle display of mouse position");
+	} else if (command == "osd") {
+		drawOSD = !drawOSD;
+	} else if (command == "fps") {
+		fpsOn = !fpsOn;
 	} else if (command == "tile") {
 		levelController->debugInfo = !levelController->debugInfo;
 	} else if (command == "p") {
-		int playerBottomLeftX = player->getX();
-		int playerBottomLeftY = player->getY() + playerNS::PLAYER_HEIGHT * 0.5;
-		int playerBottomRightX = player->getX() + playerNS::PLAYER_WIDTH * 0.5;
-		int playerBottomRightY = player->getY() + playerNS::PLAYER_HEIGHT * 0.5;
-		int playerTopLeftX = player->getX();
-		int playerTopLeftY = player->getY();
-		int playerTopRightX = player->getX() + playerNS::PLAYER_WIDTH;
-		int playerTopRightY = player->getY();
 		console->print("Player is at (" + std::to_string(player->getX()) + ", " + std::to_string(player->getY()) + ")");
-		console->print("(" + std::to_string(playerTopLeftX) + ", " + std::to_string(playerTopLeftY) + ") ---- (" + std::to_string(playerTopRightX) + ", " + std::to_string(playerTopRightY) + ")");
+		console->print("(" + std::to_string(player->topLeft.x) + ", " + std::to_string(player->topLeft.y) + ") ---- (" + std::to_string(player->topRight.x) + ", " + std::to_string(player->topRight.y) + ")");
 		console->print("  |   ----   |  ");
-		console->print("(" + std::to_string(playerBottomLeftX) + ", " + std::to_string(playerBottomLeftY) + ") ---- (" + std::to_string(playerBottomRightX) + ", " + std::to_string(playerBottomRightY) + ")");
+		console->print("(" + std::to_string(player->bottomLeft.x) + ", " + std::to_string(player->bottomLeft.y) + ") ---- (" + std::to_string(player->bottomRight.x) + ", " + std::to_string(player->bottomRight.y) + ")");
 	} else if (command == "mouse") {
-		mouseOn = !mouseOn;                 // toggle display of fps
-		if (mouseOn)
-			console->print("mouse position On");
-		else
-			console->print("mouse position Off");
+		mouseOn = !mouseOn;
 	}
 }
 

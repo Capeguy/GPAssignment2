@@ -9,12 +9,14 @@ void OSD::addLine(std::string text) {
 	OSD::instance()->displayList.push_back(text);
 }
 
-void OSD::draw() {
-	std::string output = "";
-	for each(std::string text in displayList) {
-		output += text + "\n";
+void OSD::draw(bool draw) {
+	if (draw) {
+		std::string output = "";
+		for each(std::string text in displayList) {
+			output += text + "\n";
+		}
+		dxFont.print(output, 0, 0);
 	}
-	dxFont.print(output, 0, 0);
 	displayList.clear();
 }
 void OSD::setGraphics(Graphics* graphics) {
