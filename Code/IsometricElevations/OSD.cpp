@@ -18,6 +18,6 @@ void OSD::draw() {
 	displayList.clear();
 }
 void OSD::setGraphics(Graphics* graphics) {
-	dxFont.initialize(graphics, 20, false, false, "Courier New");
-	dxFont.setFontColor(SETCOLOR_ARGB(192, 0, 0, 0));
+	dxFont.initialize(graphics, 20, true, false, "Courier New");
+	dxFont.setFontColor(SETCOLOR_ARGB(192, 255, 255, 255));
 }

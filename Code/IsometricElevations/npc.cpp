@@ -84,7 +84,7 @@ void NPC::stateChange() {
 }
 
 void NPC::update(float frameTime, float mapX, float pVelo, LevelController* lc) {
-	OSD::instance()->addLine("NPC is at (" + std::to_string(getX()) + ", " + std::to_string(getY()) + ") | Update called with mapX: " + std::to_string(mapX));
+	// OSD::instance()->addLine("NPC is at (" + std::to_string(getX()) + ", " + std::to_string(getY()) + ") | Update called with mapX: " + std::to_string(mapX));
 	stateChange();
 	pVelocity = pVelo;
 	offsetNew.x = mapX;
