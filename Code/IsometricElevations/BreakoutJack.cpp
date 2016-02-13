@@ -496,6 +496,9 @@ void BreakoutJack::consoleCommand() {
 		console->print("tile - toggle display of Tile Info");
 		console->print("p - Display Player co-ordinates");
 		console->print("mouse - toggle display of mouse position");
+		console->print("noclip - toggle display of mouse position");
+	} else if (command == "noclip") {
+		player->noClip = !player->noClip;
 	} else if (command == "osd") {
 		drawOSD = !drawOSD;
 	} else if (command == "fps") {

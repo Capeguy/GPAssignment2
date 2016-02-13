@@ -70,7 +70,7 @@ void Jack::ai(float frameTime, Entity & ent, float mapX, LevelController* lc) {
 		break;
 	case Chase:
 		if (currDest != VECTOR2(-1, -1)) {
-			derivedDest = VECTOR2(currDest.x, currDest.y);
+			derivedDest = VECTOR2(gameptr->getPlayer()->getX(), gameptr->getPlayer()->getY());
 		}
 		if (pathList.size() == 0)
 			return;
@@ -88,7 +88,6 @@ void Jack::ai(float frameTime, Entity & ent, float mapX, LevelController* lc) {
 				orientation = Left;
 				if (!moveLeft(frameTime)) {
 					currDest = VECTOR2(-1, -1);
-					setAiState(Patrol);
 				}
 			}
 		} else if (spriteData.x < derivedDest.x) {
@@ -99,7 +98,6 @@ void Jack::ai(float frameTime, Entity & ent, float mapX, LevelController* lc) {
 				orientation = Right;
 				if (!moveRight(frameTime)) {
 					currDest = VECTOR2(-1, -1);
-					setAiState(Patrol);
 				}
 			}
 		} else {

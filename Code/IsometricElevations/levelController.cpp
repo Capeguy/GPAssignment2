@@ -246,6 +246,7 @@ void LevelController::releaseJack() {
 			Tile* tile = mapTile[col][row];
 			if (tile->getId() == 392) {
 				tile->setId(215);
+				tile->setSolid(false);
 				tile->initialize(gameptr, TEXTURE2_SIZE, TEXTURE2_SIZE, TEXTURE2_COLS, tileTexture);
 			}
 		}

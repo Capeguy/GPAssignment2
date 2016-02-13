@@ -104,6 +104,47 @@ float Player::getPlayerVelocity() {
 	return velocityX;
 }
 void Player::update(float frameTime, LevelController* lc) {
+	// 1-Press NoClip
+	if (noClipButtonReleased && input->isKeyDown(VK_F2)) {
+		noClip = !noClip;
+		noClipButtonReleased = false;
+	} else {
+		noClipButtonReleased = true;
+	}
+	velocityX = getVelocity().x;
+	velocityY = getVelocity().y;
+	// Handle NoClip
+	if (noClip) {
+		if (input->isKeyDown(PLAYER_RIGHT)) {
+			velocityX = playerNS::NOCLIP_SPEED * frameTime;
+			orientation = Right;
+		} else if (input->isKeyDown(PLAYER_LEFT)) {
+			velocityX = -playerNS::NOCLIP_SPEED * frameTime;
+			orientation = Left;
+		} else {
+			velocityX = 0;
+		}
+		if (input->isKeyDown(PLAYER_UP)) {
+			velocityY = -playerNS::NOCLIP_SPEED * frameTime;
+			orientation = Up;
+		} else if (input->isKeyDown(PLAYER_DOWN)) {
+			velocityY = playerNS::NOCLIP_SPEED * frameTime;
+			orientation = Down;
+		} else {
+			velocityY = 0;
+		}
+		velocity = VECTOR2(velocityX, velocityY);
+		frameDelay = 1000000;
+		Item* activeItem = inventory->getActiveItem()->getItem();
+		if (inventory->getActiveItem()->getItem()->getItemType() == Item::Equipable) {
+			Gun* gun = dynamic_cast<Gun*>(activeItem);
+			if (gun != 0) {
+				gun->update(frameTime, orientation, getX(), getY(), input, lc);
+			}
+		}
+		Entity::update(frameTime);
+		return;
+	}
 	// Set Obj Vars
 	levelController = lc;
 	// Debug Messages
@@ -125,11 +166,6 @@ void Player::update(float frameTime, LevelController* lc) {
 	}
 
 	// Start of Player Movement
-
-	velocityX = getVelocity().x;
-	velocityY = getVelocity().y;
-
-	
 	if (healthStatus != Dead) {
 		if (!canMoveDown()) {
 			if (!input->isKeyDown(PLAYER_UP) && !input->isKeyDown(PLAYER_JUMP))
@@ -284,7 +320,6 @@ void Player::update(float frameTime, LevelController* lc) {
 				lc->setCrateItem(-1);
 			}
 		}
-		
 		Entity::update(frameTime);
 	}
 }

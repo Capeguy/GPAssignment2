@@ -55,3 +55,6 @@ bool Tile::isSolid(bool skip) {
 	}
 	return solid;
 }
+void Tile::setSolid(bool s) {
+	solid = s;
+}

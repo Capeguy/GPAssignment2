@@ -19,6 +19,7 @@ namespace playerNS
 	const int	X = 0;
 	const int	Y = 0;
 	const float SPEED = 32 * 300;
+	const float NOCLIP_SPEED = 32 * 300 * 10;
 	const float FALLING_SPEED = 32 * 200;
 	const float MASS = 300.0f;
 	const float JUMP_HEIGHT = 32 * 2;
@@ -59,8 +60,10 @@ private:
 	InventoryItem* defaultItem;
 	LevelController* levelController;
 	VECTOR2 spawnPos = VECTOR2(GAME_WIDTH / 2, 64);
+	bool noClipButtonReleased = true;
 
 public:
+	bool noClip = false;
 	bool canJump = true;
 	bool jumping = false;
 	bool canFall = true;

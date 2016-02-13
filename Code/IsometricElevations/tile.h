@@ -43,6 +43,7 @@ public:
 	void setId(int i);
 	bool isSolid(bool skip = false);
 	void refresh(float);
+	void setSolid(bool);
 	virtual void draw();
 	virtual bool initialize();
 	virtual bool initialize(Game *gamePtr, int width, int height, int ncols, TextureManager *textureM);
