@@ -63,6 +63,19 @@ void NPC::draw() {
 	*/
 }
 
+void NPC::draw(TextDX &dxFont) { //TextDX &dxFont
+	//NPC::draw();
+	Image::draw();
+	npcHealthBack->draw();
+	npcHealth->draw();
+
+	//std::string buffer;
+	//buffer = "kappa";
+	//buffer = std::to_string((int)getX());
+	//buffer += ", ";
+	//buffer += std::to_string((int)getY());
+	//dxFont.print(buffer, spriteData.x, spriteData.y - 16);
+}
 void NPC::stateChange() {
 	// Start of state change
 	VECTOR2 v = VECTOR2(gameptr->getPlayer()->getX(), gameptr->getPlayer()->getY());

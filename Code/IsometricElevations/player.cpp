@@ -123,6 +123,7 @@ void Player::update(float frameTime, LevelController* lc) {
 		setX(spawnPos.x);
 		setY(spawnPos.y);
 	}
+	
 	if (healthStatus != Dead) {
 		// Handle Fall Logic and Jump Ability
 		if (!canMoveDown()) {
@@ -279,6 +280,7 @@ void Player::update(float frameTime, LevelController* lc) {
 				lc->setCrateItem(-1);
 			}
 		}
+		
 		Entity::update(frameTime);
 	}
 }
