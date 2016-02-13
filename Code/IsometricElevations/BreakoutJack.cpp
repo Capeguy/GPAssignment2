@@ -150,7 +150,7 @@ void BreakoutJack::initialize(HWND hwnd) {
 	
 	//Medic 3.1
 	medic = new Medic();
-	medic->addPath(VECTOR2(2591, 736));
+	medic->addPath(VECTOR2(2463, 544));
 	npcController->addNPC(medic, 6, levelController, graphics);
 
 	//Warden
@@ -430,6 +430,7 @@ void BreakoutJack::render() {
 			std::string text;
 			if (player->getHealthStatus() == Player::PlayerHealthStatus::Dead) {
 				audio->stopCue(BKMUSIC);
+				// play lose music
 				audio->playCue(LOSEMUSIC);
 				text = "         YOU LOSE\nPress any button to restart";
 				loseFont->print(text, GAME_WIDTH / 2 - 300, GAME_HEIGHT / 2);
@@ -440,6 +441,7 @@ void BreakoutJack::render() {
 
 			if (npcController->getBossDeathStatus()) {
 				audio->stopCue(BKMUSIC);
+				audio->stopCue(BOSSMUSIC);
 				audio->playCue(VICTORYMUSIC);
 				text = "        YOU WIN\nPress any button to continue";
 				levelController->releaseJack();
