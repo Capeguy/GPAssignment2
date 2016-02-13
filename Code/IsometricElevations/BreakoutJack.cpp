@@ -104,7 +104,7 @@ void BreakoutJack::initialize(HWND hwnd) {
 	medic = new Medic();
 	jack = new Jack();
 	dog = new Dog();
-	Warden* warden = new Warden();
+	warden = new Warden();
 	TextureManager* npcTexture = new TextureManager();
 	if (!npcTexture->initialize(graphics, TEXTURE_NPC))
 		throw(GameError(gameErrorNS::FATAL_ERROR, "Error initializing npc texture"));
@@ -262,7 +262,7 @@ void BreakoutJack::update() {
 			}
 		} else {
 			//if player loses or wins
-			if (player->getHealthStatus() == Player::PlayerHealthStatus::Dead || npcController->getNPCs().empty()) {
+			if (player->getHealthStatus() == Player::PlayerHealthStatus::Dead || npcController->getBossDeathStatus()) {
 				for (std::list<Button*>::iterator bList = winLoseButtonList->begin(); bList != winLoseButtonList->end(); ++bList) {
 					int i = -1;
 					if ((*bList)->isClicked(input)) {
@@ -440,7 +440,7 @@ void BreakoutJack::render() {
 					(*bList)->draw();
 				}
 			}
-			if (npcController->getNPCs().empty() || npcController->getNPCs().size() < 3) {
+			if (npcController->getBossDeathStatus()) {
 				audio->stopCue(BKMUSIC);
 				audio->playCue(VICTORYMUSIC);
 				text = "        YOU WIN\nPress any button to continue";
@@ -538,4 +538,3 @@ void BreakoutJack::resetGame() {
 Player* BreakoutJack::getPlayer() {
 	return player;
 }
-

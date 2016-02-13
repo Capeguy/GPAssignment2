@@ -33,5 +33,6 @@ public:
 	bool moveLeft(float frameTime);
 	bool moveRight(float frameTime);
 	void renderHealthbar();
+	bool bossDefeated();
 };
 #endif

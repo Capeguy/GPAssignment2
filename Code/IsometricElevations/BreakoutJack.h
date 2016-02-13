@@ -93,6 +93,7 @@ private:
 	Medic* medic;
 	Jack* jack;
 	Dog* dog;
+	Warden* warden;
 
 public:
 	LevelController* levelController;

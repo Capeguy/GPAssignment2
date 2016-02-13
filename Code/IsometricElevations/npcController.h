@@ -51,6 +51,7 @@ private:
 	float mapX = 0;
 	float pVelocity = 0;
 	int totalPoints = 0;
+	bool bossDead = false;
 public:
 	NPCController();
 	NPCController(Graphics*, TextureManager*, Game*);
@@ -63,6 +64,6 @@ public:
 	void chaseIfInRange(VECTOR2);
 	std::list<NPC*> getNPCs();
 	void addNPC(NPC* npc, int type, LevelController* lc, Graphics* graphics);
-
+	bool getBossDeathStatus();
 };
 #endif
