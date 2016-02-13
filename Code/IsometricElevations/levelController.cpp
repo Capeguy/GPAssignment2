@@ -51,7 +51,16 @@ void LevelController::loadTiles(TextureManager* tt, Game* gameptr) {
 	iController->spawnCrates(1, gameptr);
 }
 
+void LevelController::refreshTiles(float frameTime) { // For post debug
+	for (int col = 0; col < MAP_SIZE_Y; col++) {
+		for (int row = 0; row < MAP_SIZE_X; row++) {
+			mapTile[col][row]->refresh(frameTime);
+		}
+	}
+}
+
 void LevelController::render(Graphics* graphics) {
+	
 	renderTiles(graphics);
 	renderProjectiles(graphics);
 	//npcController->render();
@@ -126,6 +135,7 @@ void LevelController::update(float frameTime, VECTOR2 pv) {
 			mapTile[col][row]->update(frameTime);
 		}
 	}
+	refreshTiles(frameTime);
 	bool removed;
 	std::list<Projectile*>::iterator projectileIter = projectiles.begin();
 	while (!projectiles.empty() && projectileIter != projectiles.end()) {

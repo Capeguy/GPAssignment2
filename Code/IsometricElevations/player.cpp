@@ -65,73 +65,76 @@ void Player::draw() {
 	OSD::instance()->addLine("(" + std::to_string(int(bottomLeft.x)) + ", " + std::to_string(int(bottomRight.y)) + ") ---- (" + std::to_string(int(bottomRight.x)) + ", " + std::to_string(int(bottomRight.y)) + ")");
 
 }
-bool Player::canMoveUp() {
+bool Player::canMoveUp(bool s = false) {
 	bottomLeft = VECTOR2(getX(), getY() - 1 + getHeight() * getScale());
 	bottomRight = VECTOR2(getX() - 1 + getWidth() * getScale(), getY() - 1 + getHeight() * getScale());
 	topLeft = VECTOR2(getX(), getY());
 	topRight = VECTOR2(getX() - 1 + getWidth() * getScale(), getY());
-	return !(levelController->getTile(topLeft.x + levelController->getMapX() * -1.0, topLeft.y - 1)->isSolid() || levelController->getTile(topRight.x + levelController->getMapX() * -1.0, topRight.y - 1)->isSolid());
+	return !(levelController->getTile(topLeft.x + levelController->getMapX() * -1.0, topLeft.y - 1)->isSolid(s) || levelController->getTile(topRight.x + levelController->getMapX() * -1.0, topRight.y - 1)->isSolid(s));
 }
-bool Player::canMoveDown() {
+bool Player::canMoveDown(bool s = false) {
 	bottomLeft = VECTOR2(getX(), getY() - 1 + getHeight() * getScale());
 	bottomRight = VECTOR2(getX() - 1 + getWidth() * getScale(), getY() - 1 + getHeight() * getScale());
 	topLeft = VECTOR2(getX(), getY());
 	topRight = VECTOR2(getX() - 1 + getWidth() * getScale(), getY());
-	return !(levelController->getTile(bottomLeft.x + levelController->getMapX() * -1.0, bottomLeft.y + 1)->isSolid() || levelController->getTile(bottomRight.x + levelController->getMapX() * -1.0, bottomRight.y + 1)->isSolid());
+	return !(levelController->getTile(bottomLeft.x + levelController->getMapX() * -1.0, bottomLeft.y + 1)->isSolid(s) || levelController->getTile(bottomRight.x + levelController->getMapX() * -1.0, bottomRight.y + 1)->isSolid(s));
 }
-bool Player::canMoveLeft() {
+bool Player::canMoveLeft(bool s = false) {
 	bottomLeft = VECTOR2(getX(), getY() - 1 + getHeight() * getScale());
 	bottomRight = VECTOR2(getX() - 1 + getWidth() * getScale(), getY() - 1 + getHeight() * getScale());
 	topLeft = VECTOR2(getX(), getY());
 	topRight = VECTOR2(getX() - 1 + getWidth() * getScale(), getY());
-	return !(levelController->getTile(topLeft.x + levelController->getMapX() * -1.0 - 1, topLeft.y)->isSolid() || levelController->getTile(bottomLeft.x + levelController->getMapX() * -1.0 - 1, bottomLeft.y)->isSolid());
+	return !(levelController->getTile(topLeft.x + levelController->getMapX() * -1.0 - 1, topLeft.y)->isSolid(s) || levelController->getTile(bottomLeft.x + levelController->getMapX() * -1.0 - 1, bottomLeft.y)->isSolid(s));
 }
-bool Player::canMoveRight() {
+bool Player::canMoveRight(bool s = false) {
 	bottomLeft = VECTOR2(getX(), getY() - 1 + getHeight() * getScale());
 	bottomRight = VECTOR2(getX() - 1 + getWidth() * getScale(), getY() - 1 + getHeight() * getScale());
 	topLeft = VECTOR2(getX(), getY());
 	topRight = VECTOR2(getX() - 1 + getWidth() * getScale(), getY());
-	return !(levelController->getTile(topRight.x + levelController->getMapX() * -1.0 + 1, topRight.y)->isSolid() || levelController->getTile(bottomRight.x + levelController->getMapX() * -1.0 + 1, bottomRight.y)->isSolid());
+	return !(levelController->getTile(topRight.x + levelController->getMapX() * -1.0 + 1, topRight.y)->isSolid(s) || levelController->getTile(bottomRight.x + levelController->getMapX() * -1.0 + 1, bottomRight.y)->isSolid(s));
 }
 
 int Player::getHealthStatus() {
 	return healthStatus;
 }
-int Player::getTotalPoints()
-{
+int Player::getTotalPoints() {
 	return totalPoints;
 }
 float Player::getPlayerVelocity() {
 	return velocityX;
 }
 void Player::update(float frameTime, LevelController* lc) {
+	// Set Obj Vars
 	levelController = lc;
-	updateCoords();
-	inventory->update(frameTime, input);
-	float mapx = lc->getMapX() * -1.0;
-	if (mapx > 1900)
-	{
-		audio->stopCue(BKMUSIC);
-		audio->playCue(BOSSMUSIC);
-	}
-	velocityX = getVelocity().x;
-	velocityY = getVelocity().y;
 	// Debug Messages
 	OSD::instance()->addLine("Jump Distance: " + std::to_string(jumpdistance) + " / " + std::to_string(playerNS::JUMP_HEIGHT));
-	OSD::instance()->addLine("Can | Left: " + std::to_string(canMoveLeft()) + " | Right: " + std::to_string(canMoveRight()) + " | Up: " + std::to_string(canMoveUp()) + " | Down: " + std::to_string(canMoveDown()));
+	OSD::instance()->addLine("Can | Left: " + std::to_string(canMoveLeft(true)) + " | Right: " + std::to_string(canMoveRight(true)) + " | Up: " + std::to_string(canMoveUp(true)) + " | Down: " + std::to_string(canMoveDown(true)));
+	// Stuck Hotfix
 	if (!canMoveLeft() && !canMoveRight() && !canMoveUp() && !canMoveDown()) {
 		setX(spawnPos.x);
 		setY(spawnPos.y);
 	}
+	//updateCoords();
+	// Update Guns
+	inventory->update(frameTime, input);
+	// Boss Audio
+	if (lc->getMapX() * -1.0 > 1900) {
+		audio->stopCue(BKMUSIC);
+		audio->playCue(BOSSMUSIC);
+	}
+
+	// Start of Player Movement
+
+	velocityX = getVelocity().x;
+	velocityY = getVelocity().y;
+	
 	if (healthStatus != Dead) {
-		// Handle Fall Logic and Jump Ability
 		if (!canMoveDown()) {
 			if (!input->isKeyDown(PLAYER_UP) && !input->isKeyDown(PLAYER_JUMP))
 				canJump = true;
 			canFall = false;
 			falling = false;
-		}
-		else {
+		} else {
 			canFall = true;
 			falling = true;
 		}
@@ -143,24 +146,20 @@ void Player::update(float frameTime, LevelController* lc) {
 				velocityX = 0;
 			}
 			orientation = Right;
-		}
-		else if (input->isKeyDown(PLAYER_LEFT) && canMoveLeft()) {
+		} else if (input->isKeyDown(PLAYER_LEFT) && canMoveLeft()) {
 			velocityX = -playerNS::SPEED * frameTime;
 			while (!canMoveLeft()) {
 				spriteData.x += 0.1;
 				velocityX = 0;
 			}
 			orientation = Left;
-		}
-		else {
+		} else {
 			velocityX = 0;
-			if (input->isKeyDown(PLAYER_UP))
-			{
+			if (input->isKeyDown(PLAYER_UP)) {
 				orientation = Up;
 			}
 
-			if (input->isKeyDown(PLAYER_DOWN))
-			{
+			if (input->isKeyDown(PLAYER_DOWN)) {
 				orientation = Down;
 			}
 		}
@@ -173,8 +172,7 @@ void Player::update(float frameTime, LevelController* lc) {
 				jumping = false;
 				canJump = false;
 				falling = true;
-			}
-			else {
+			} else {
 				if (!jumping)
 					velocityY = -playerNS::JUMP_SPEED * frameTime;
 				else
@@ -188,14 +186,19 @@ void Player::update(float frameTime, LevelController* lc) {
 		if (falling && !jumping) {
 			if (canMoveDown()) {
 				velocityY = playerNS::FALLING_SPEED * frameTime;
-			}
-			else {
+			} else {
 				velocityY = 0;
 			}
 		}
 		// Handle Stuck
 		while (canMoveUp() && !canMoveDown() && !canMoveLeft() && !canMoveRight()) {
-			spriteData.y -= 1;
+			spriteData.y -= 0.1;
+		}
+		while (!canMoveUp() && !canMoveDown() && !canMoveLeft() && canMoveRight()) {
+			spriteData.x += 0.1;
+		}
+		while (!canMoveUp() && !canMoveDown() && canMoveLeft() && !canMoveRight()) {
+			spriteData.x -= 0.1;
 		}
 		// Final Sanity Check
 		if (!canMoveLeft() && velocityX < 0 || !canMoveRight() && velocityX > 0)
@@ -203,6 +206,7 @@ void Player::update(float frameTime, LevelController* lc) {
 		if (!canMoveUp() && velocityY < 0 || !canMoveDown() && velocityY > 0)
 			velocityY = 0;
 		setVelocity(VECTOR2(velocityX, velocityY));
+		
 		// Handle Orientations
 		if (input->isKeyDown(PLAYER_UP))
 			orientation = Up;
@@ -224,6 +228,7 @@ void Player::update(float frameTime, LevelController* lc) {
 			currentFrame = 952;
 			break;
 		}
+
 		// Draw Items
 		Item* activeItem = inventory->getActiveItem()->getItem();
 		if (inventory->getActiveItem()->getItem()->getItemType() == Item::Equipable) {
@@ -232,9 +237,8 @@ void Player::update(float frameTime, LevelController* lc) {
 				gun->update(frameTime, orientation, getX(), getY(), input, lc);
 			}
 		}
-
-		if (lc->collidedWithCrate() == 1 && lc->getCrateItem() != -1)
-		{
+		// Crate Collision
+		if (lc->collidedWithCrate() == 1 && lc->getCrateItem() != -1) {
 			audio->playCue(RELOAD);
 			if (lc->collidedWithCrate() == 1 && lc->getCrateItem() != -1) {
 				int itemid = lc->getCrateItem();
@@ -266,13 +270,12 @@ void Player::update(float frameTime, LevelController* lc) {
 						if (gunInvItem->getGunId() == gunNewItem->getGunId()) {
 							gunInvItem->addAmmo();
 							lc->setCrateCollided(0);
-							return;
+							return; // Should this be return or break?
 						}
-					}
-					else if (item->getItemType() == Item::Usable && newItem->getItemType() == Item::Usable) {
+					} else if (item->getItemType() == Item::Usable && newItem->getItemType() == Item::Usable) {
 						lc->setCrateCollided(0);
 						return;
-					}
+					} // Should this be return or break?
 				}
 				inventory->addItem(invItem);
 				lc->setCrateCollided(0);
@@ -292,8 +295,7 @@ void Player::updateCoords() {
 	playerTopRightX = getX() - 1 + playerNS::PLAYER_WIDTH * 0.5;
 	playerTopRightY = getY();
 }
-void Player::setTotalPoints(int points)
-{
+void Player::setTotalPoints(int points) {
 	totalPoints += points;
 }
 float Player::getHP() {
@@ -332,8 +334,8 @@ void Player::healthUpdate() {
 			return;
 		else
 			audio->playCue(DIE);
-		healthStatus = Dead;		
-		die();		
+		healthStatus = Dead;
+		die();
 	}
 }
 void Player::die() {

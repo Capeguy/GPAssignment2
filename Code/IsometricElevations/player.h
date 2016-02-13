@@ -96,10 +96,10 @@ public:
 	Inventory* getInventory();
 	Game* getGamePtr();
 	TextureManager* getTexture();
-	bool canMoveUp();
-	bool canMoveDown();
-	bool canMoveLeft();
-	bool canMoveRight();
+	bool canMoveUp(bool);
+	bool canMoveDown(bool);
+	bool canMoveLeft(bool);
+	bool canMoveRight(bool);
 	int getHealthStatus();
 	int	getTotalPoints();
 	float getPlayerVelocity();
