@@ -5,7 +5,7 @@ Jack::Jack() {
 Jack::Jack(Graphics*& graphics) {
 	chaseRange = JackNS::NPC_CHASE_RANGE;
 	attackRange = JackNS::NPC_ATTACK_RANGE;
-
+	chatString = "";
 	//dxFont.initialize(graphics, 12, false, false, "Courier New");
 	//dxFont.setFontColor(SETCOLOR_ARGB(192, 255, 255, 255));
 }
@@ -67,6 +67,7 @@ void Jack::ai(float frameTime, Entity & ent, float mapX, LevelController* lc) {
 		} else {
 			velocity.x = 0;
 		}
+		chatString = "SAVE ME PLEASE!";
 		break;
 	case Chase:
 		if (currDest != VECTOR2(-1, -1)) {
@@ -103,6 +104,7 @@ void Jack::ai(float frameTime, Entity & ent, float mapX, LevelController* lc) {
 		} else {
 			velocity.x = 0;
 		}
+		chatString = "THANK YOU AGENT FOR SAVING ME! <3";
 		break;
 	case Attack:
 		velocity = VECTOR2(0, 0);
@@ -125,10 +127,13 @@ void Jack::ai(float frameTime, Entity & ent, float mapX, LevelController* lc) {
 }
 
 void Jack::draw(TextDX &dxFont) { //TextDX &dxFont
-	std::string buffer;
-	buffer = "SAVE ME PLEASE!";
-	dxFont.print(buffer, spriteData.x, spriteData.y - 43);
-	NPC::draw(dxFont);
+	if (chatString != "") {
+		dxFont.print(chatString, spriteData.x, spriteData.y - 43);
+		NPC::draw(dxFont);
+	}
+	else {
+		NPC::draw();
+	}
 
 	
 }
