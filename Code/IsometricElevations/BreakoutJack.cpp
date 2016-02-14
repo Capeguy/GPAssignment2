@@ -204,7 +204,7 @@ void BreakoutJack::initialize(HWND hwnd) {
 	instructions->setY(0);
 
 	// Need to spawn player in the middle for scrolling
-	player->setX(2500); //GAME_WIDTH / 2
+	player->setX(GAME_WIDTH / 2); 
 	player->setY(50);
 	player->setVelocity(VECTOR2(0, 0));
 
@@ -235,8 +235,8 @@ void BreakoutJack::update() {
 
 		//if pause button is pressed, display menu 
 		if (input->isKeyDown(PAUSE))
-			paused = true;
-		if (paused) {
+			pause = true;
+		if (pause) {
 			pauseMenu->update(frameTime);
 			for (std::list<Button*>::iterator bList = pauseMenuButtonList->begin(); bList != pauseMenuButtonList->end(); ++bList) {
 				int i = -1;
@@ -244,18 +244,18 @@ void BreakoutJack::update() {
 					i = (*bList)->getID();
 				}
 				if (i == Resume) {
-					paused = false;
+					pause = false;
 				} else if (i == Restart) {
 					stopAllMusic();
 					//restart level
 					resetGame();
-					paused = false;
+					pause = false;
 					return;
 				} else if (i == MainMenu) {
 					audio->stopCue(BOSSMUSIC);
 					audio->stopCue(VICTORYMUSIC);
 					audio->stopCue(LOSEMUSIC);
-					paused = false;
+					pause = false;
 					room = Menu;
 					skipFirstClick = true;
 				}
@@ -278,7 +278,7 @@ void BreakoutJack::update() {
 					} else if (i == Main) {
 						stopAllMusic();
 						//restart level
-						paused = false;
+						pause = false;
 						room = Menu;
 						resetGame();
 						return;
@@ -409,7 +409,7 @@ void BreakoutJack::render() {
 			(*bList)->draw();
 		}
 	} else if (room == Start) {
-		if (paused) {
+		if (pause) {
 			levelController->render(graphics);
 			npcController->render();
 			player->draw();

@@ -93,6 +93,7 @@ private:
 	Jack* jack;
 	Dog* dog;
 	Warden* warden;
+	bool pause = false;
 
 public:
 	LevelController* levelController;
