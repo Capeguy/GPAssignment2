@@ -70,7 +70,8 @@ void NPCController::collisions(LevelController* lc, Player* p) {
 		removed = false;
 		while (!npcs.empty() && npcIter != npcs.end() && !removed) {
 			if ((*projectileIter)->collidesWith(**npcIter, collisionVector) && (*projectileIter)->getOwner() == Projectile::Player) {
-				++iconIter;
+				//++iconIter;
+				std::advance(iconIter, count);
 				(*npcIter)->damage((*projectileIter)->getDamage());
 				if ((*npcIter)->isDying()) {
 					if ((*npcIter)->bossDefeated()) {
