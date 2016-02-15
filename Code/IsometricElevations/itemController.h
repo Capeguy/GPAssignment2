@@ -1,3 +1,12 @@
+//  Module:             Games Programming
+//  Assignment2:        Breakout Jack
+//  Student Name 
+//	Student Number:  
+//						Ng Syn Kae				S10147534B
+//						Lau Jun Hao Benjamin	S10138434C
+//						Clarence Chew Kai Wei	S10147015J
+//						Isaac Hong				S10148698F
+
 #pragma once
 #ifndef _ITEMCONTROLLER_H                 // Prevent multiple definitions if this 
 #define _ITEMCONTROLLER_H                 // file is included in more than one place
