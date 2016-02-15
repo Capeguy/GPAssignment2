@@ -12,11 +12,11 @@ namespace wardenNS {
 	const float NPC_CHASE_RANGE = 500;
 	const float HP = 1000;
 	const float MAXHP = HP;
+	const int	POINT = 1000;
 }
 class Warden : public NPC
 {
 private:
-	int point = 1000;
 	float cooldown = 0.4f;
 	float cooldownCurrent = 0;
 	BossGun* gun;
@@ -27,7 +27,6 @@ public:
 	void ai(float frameTime, Entity & ent, float mapX, LevelController* lc);
 	void draw(TextDX&);
 	void update(float frameTime, float mapX, float pVelo, LevelController* lc);
-	int	 getPoints();
 	bool initialize(Game *gamePtr, int width, int height, int ncols, TextureManager *textureM, int spriteNumber, LevelController* lc);
 	bool moveLeft(float frameTime);
 	bool moveRight(float frameTime);

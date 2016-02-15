@@ -59,6 +59,10 @@ void NPC::draw(TextDX &dxFont) {
 		dxFont.print(chatString, spriteData.x, spriteData.y - 43);
 	}
 }
+int NPC::getPoints()
+{
+	return points;
+}
 void NPC::stateChange() {
 	// Start of state change
 	VECTOR2 v = VECTOR2(gameptr->getPlayer()->getX(), gameptr->getPlayer()->getY());

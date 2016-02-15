@@ -45,7 +45,7 @@ void Gun::update(float frametime, int orientation, float x, float y, Input* inpu
 		setY(y + 5);
 		flipHorizontal(false);
 	}
-	angle = atan((mouseY - getY()) / (mouseX - getX()));
+	//angle = atan((mouseY - getY()) / (mouseX - getX()));
 	// Fire bullet
 	if (input->getMouseLButton()) {
 		shoot(lc, frametime);
@@ -129,7 +129,7 @@ bool Gun::hasAmmo() {
 }
 std::string Gun::getAmmoDisplay() {
 	if (ammo == -1) {
-		return "?";
+		return "-";
 	} else
 		return std::to_string(ammo);
 }

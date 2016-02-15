@@ -8,6 +8,7 @@ Guard::Guard() : NPC() {
 	pistol = new Pistol();
 	pistol->setCooldown(0.3f);
 	gunTexture = new TextureManager();
+	points = guardNS::POINT;
 }
 
 Guard::~Guard() {}
@@ -123,9 +124,6 @@ void Guard::update(float frameTime, float mapX, float pVelo, LevelController * l
 	NPC::update(frameTime, mapX, pVelo, lc);
 }
 
-int Guard::getPoints() {
-	return point;
-}
 
 bool Guard::initialize(Game * gamePtr, int width, int height, int ncols, TextureManager * textureM, int spriteNumber, LevelController * lc) {
 	if (!gunTexture->initialize(gamePtr->getGraphics(), TEXTURE_GUNS))

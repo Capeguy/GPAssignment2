@@ -51,6 +51,7 @@ protected:
 	float	hp;
 	float	hpMax;
 	int		aiState = Patrol;
+	int		points = 0;
 	Game*	gameptr;
 	TextureManager npcTexture;
 	TextureManager* npcHealthTexture;
@@ -95,7 +96,7 @@ public:
 	virtual bool moveUp(float frameTime);
 	virtual bool moveDown(float frameTime);
 	virtual void ai(float frameTime, Entity & ent, float mapX, LevelController* lc) {};
-	virtual int getPoints() { return 0; };
+	int getPoints();
 	virtual void stateChange();
 	void setFalling(bool f);
 	void damage(float amt);

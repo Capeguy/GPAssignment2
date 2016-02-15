@@ -5,6 +5,7 @@ Dog::Dog() : NPC() {
 	chaseRange = dogNS::NPC_CHASE_RANGE;
 	hp = dogNS::HP;
 	hpMax = dogNS::MAXHP;
+	points = dogNS::POINT;
 }
 
 Dog::~Dog() {}
@@ -120,9 +121,6 @@ void Dog::update(float frameTime, float mapX, float pVelo, LevelController * lc)
 	NPC::update(frameTime, mapX, pVelo, lc);
 }
 
-int Dog::getPoints() {
-	return point;
-}
 
 bool Dog::initialize(Game * gamePtr, int width, int height, int ncols, TextureManager * textureM, int spriteNumber, LevelController * lc) {
 	return NPC::initialize(gamePtr, width, height, ncols, textureM, spriteNumber, lc);
