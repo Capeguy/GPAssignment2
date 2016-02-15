@@ -25,7 +25,7 @@ public:
 	Warden();
 	~Warden();
 	void ai(float frameTime, Entity & ent, float mapX, LevelController* lc);
-	void draw();
+	void draw(TextDX&);
 	void update(float frameTime, float mapX, float pVelo, LevelController* lc);
 	int	 getPoints();
 	bool initialize(Game *gamePtr, int width, int height, int ncols, TextureManager *textureM, int spriteNumber, LevelController* lc);

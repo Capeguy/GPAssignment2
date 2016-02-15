@@ -108,8 +108,8 @@ void Medic::ai(float frameTime, Entity & ent, float mapX, LevelController* lc) {
 	//OSD::instance()->addLine("NPC AI (" + std::to_string(aiState) + ") at (" + std::to_string(spriteData.x) + ", " + std::to_string(spriteData.y) + ") going to (" + std::to_string((derivedDest.x)) + ", " + std::to_string(derivedDest.y) + ") Moving at: (" + std::to_string((velocity.x)) + ", " + std::to_string(velocity.y) + ") ");
 }
 
-void Medic::draw() {
-	NPC::draw();
+void Medic::draw(TextDX &dxFont) {
+	NPC::draw(dxFont);
 }
 
 void Medic::update(float frameTime, float mapX, float pVelo, LevelController * lc) {

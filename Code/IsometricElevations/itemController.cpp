@@ -55,7 +55,7 @@ void ItemController::spawnCrates(int level, Game *gamePtr) {
 
 				//Create Crate Icon
 				Image* itemIco = new Image();
-				itemIco->initialize(graphics, itemControllerNS::ICO_TEXTURE_SIZE, itemControllerNS::ICO_TEXTURE_SIZE, 5, itemIconTexture);
+				itemIco->initialize(graphics, itemControllerNS::ICO_TEXTURE_SIZE, itemControllerNS::ICO_TEXTURE_SIZE, 1, itemIconTexture);
 				itemIco->setCurrentFrame(1);
 				itemIco->setScale(0.5);
 				itemIco->setX(GAME_WIDTH*0.6);

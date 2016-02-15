@@ -123,12 +123,7 @@ void Jack::ai(float frameTime, Entity & ent, float mapX, LevelController* lc) {
 }
 
 void Jack::draw(TextDX &dxFont) {
-	if (chatString != "") {
-		dxFont.print(chatString, spriteData.x, spriteData.y - 43);
-		NPC::draw(dxFont);
-	} else {
-		NPC::draw();
-	}
+	NPC::draw(dxFont);
 }
 
 void Jack::update(float frameTime, float mapX, float pVelo, LevelController * lc) {

@@ -25,6 +25,5 @@ public:
 	~Jack();
 private:
 	TextDX dxFont;
-	std::string chatString;
 };
 #endif

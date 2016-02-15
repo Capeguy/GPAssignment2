@@ -50,16 +50,14 @@ bool NPC::initialize(Game *gamePtr, int width, int height, int ncols, TextureMan
 	originY = getY();
 	return(Entity::initialize(gamePtr, width, height, ncols, textureM));
 }
-void NPC::draw() {
-	Image::draw();
-	npcHealthBack->draw();
-	npcHealth->draw();
-}
 
 void NPC::draw(TextDX &dxFont) {
 	Image::draw();
 	npcHealthBack->draw();
 	npcHealth->draw();
+	if (chatString != "") {
+		dxFont.print(chatString, spriteData.x, spriteData.y - 43);
+	}
 }
 void NPC::stateChange() {
 	// Start of state change
