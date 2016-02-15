@@ -302,12 +302,12 @@ void BreakoutJack::update() {
 			}
 			// Adjust map to the right if player exceeds boundary to the left
 			if (playerX < bndL) {
-				mapX = (player->getVelocity().x * frameTime * 2);
+				mapX = (player->getVelocity().x * frameTime);
 				bndR = (GAME_WIDTH / 2) + (1 * playerNS::WIDTH);
 				player->setX(bndL);
 			} else if (playerX > bndR) { // Adjust map to the left if player exceeds boundary to the Right
 				float test = player->getVelocity().x;
-				mapX = (player->getVelocity().x * frameTime * 2);
+				mapX = (player->getVelocity().x * frameTime);
 				bndL = (GAME_WIDTH / 2) - (1 * playerNS::WIDTH);
 				player->setX(bndR);
 			}

@@ -8,6 +8,7 @@ Warden::Warden()
 	hpMax = wardenNS::MAXHP;
 	gun = new BossGun();
 	gunTexture = new TextureManager();
+	points = wardenNS::POINT;
 }
 
 Warden::~Warden()
@@ -137,10 +138,6 @@ void Warden::update(float frameTime, float mapX, float pVelo, LevelController * 
 	NPC::update(frameTime, mapX, pVelo, lc);
 }
 
-int Warden::getPoints()
-{
-	return point;
-}
 
 bool Warden::initialize(Game * gamePtr, int width, int height, int ncols, TextureManager * textureM, int spriteNumber, LevelController * lc)
 {

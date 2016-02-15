@@ -61,6 +61,10 @@ void NPC::draw(TextDX &dxFont) {
 	npcHealthBack->draw();
 	npcHealth->draw();
 }
+int NPC::getPoints()
+{
+	return points;
+}
 void NPC::stateChange() {
 	// Start of state change
 	VECTOR2 v = VECTOR2(gameptr->getPlayer()->getX(), gameptr->getPlayer()->getY());

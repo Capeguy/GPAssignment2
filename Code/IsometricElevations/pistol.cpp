@@ -5,7 +5,7 @@ Pistol::Pistol() {
 	ammo = -1;
 	maxAmmo = -1;
 	id = pistol;
-	cooldown = 0.6f;
+	cooldown = 0.3f;
 	damage = 4;
 	bullet_speed = 400.0f;
 	Gun();
