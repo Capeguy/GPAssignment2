@@ -11,10 +11,7 @@
 #include "list.h"
 #include "levelController.h"
 
-
-
-namespace gunNS
-{
+namespace gunNS {
 	const int TEXTURE_WIDTH = 136;
 	const int TEXTURE_HEIGHT = 41;
 	const int TEXTURE_COLS = 2;
@@ -34,7 +31,7 @@ protected:
 	int ammo = 10;
 	int maxAmmo = 10;
 	float cooldown = 0;
-	float cooldowncurrent = 0;
+	float cooldownCurrent = 0;
 	int previousOreintation = -1;
 	Projectile* bullet;
 	std::vector<Projectile*> bullets;
@@ -48,15 +45,14 @@ protected:
 	double damage = 0;
 	float bullet_speed = 0;
 public:
-	enum Orientation { Right, Down, Left, Up };;
-	//explicit
+	enum Orientation { Right, Down, Left, Up };
+	enum ItemType { machineGun, shotGun, pistol };
 	Gun();
-	Gun (std::string);
-	~Gun ();
-	bool initialize (Game * gamePtr, int width, int height, int ncols, TextureManager * textureM);
+	~Gun();
+	bool initialize(Game * gamePtr, int width, int height, int ncols, TextureManager * textureM);
 	virtual Projectile* shoot(LevelController* lc, float frametime) { return nullptr; };
 	virtual void setCooldown(float) {};
-	virtual void update (float frametime, int orientation, float x, float y, Input* input, LevelController* lc);
+	virtual void update(float frametime, int orientation, float x, float y, Input* input, LevelController* lc);
 	virtual void update(float frametime, int orientation, float x, float y, Input* input, LevelController* lc, float, float, bool);
 	void update(float frametime, int orientation, float x, float y, Input* input, bool flip);
 	void draw();
@@ -65,6 +61,5 @@ public:
 	std::string getAmmoDisplay();
 	void addAmmo();
 	int getGunId();
-	enum ItemType { machineGun, shotGun, pistol };
 };
 #endif

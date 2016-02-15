@@ -8,7 +8,6 @@ LevelController::LevelController(Graphics*& graphics, Game* gp, TextureManager* 
 	dxFont.initialize(graphics, 12, false, false, "Courier New");
 	dxFont.setFontColor(SETCOLOR_ARGB(192, 255, 255, 255));
 	iController = new ItemController(graphics, pt);
-	//npcController = new NPCController(graphics);
 	projectiles = std::list<Projectile*>();
 	crateCollided = 0;
 	crateItem = -1;
@@ -60,11 +59,9 @@ void LevelController::refreshTiles(float frameTime) { // For post debug
 }
 
 void LevelController::render(Graphics* graphics) {
-	
+
 	renderTiles(graphics);
 	renderProjectiles(graphics);
-	//npcController->render();
-	// Render Minimap
 	renderMinimap(graphics);
 	playerIcon.draw();
 	iController->render(mapX);
@@ -98,11 +95,10 @@ void LevelController::renderTiles(Graphics* graphics) {
 				dxFont.print(buffer, row * TEXTURE2_SIZE, col * TEXTURE2_SIZE + 14);
 			}
 		}
-	}	
+	}
 }
 
-void LevelController::renderMinimap(Graphics * graphics)
-{
+void LevelController::renderMinimap(Graphics * graphics) {
 	std::string buffer;
 	for (int col = 0; col < MAP_SIZE_Y; col++) {
 		for (int row = 0; row < MAP_SIZE_X; row++) {
@@ -110,7 +106,7 @@ void LevelController::renderMinimap(Graphics * graphics)
 			Tile* tile = mapTile[col][row];
 			tile->setScale(0.125);
 			float x = (float)((row * (tileNS::TEXTURE_SIZE / 16)) + (GAME_WIDTH*0.60));
-			float y = (float)(col * (tileNS::TEXTURE_SIZE / 16 ) + 50);
+			float y = (float)(col * (tileNS::TEXTURE_SIZE / 16) + 50);
 			tile->setY(y);
 			tile->setX(x);
 			tile->draw();
@@ -158,14 +154,12 @@ void LevelController::update(float frameTime, VECTOR2 pv) {
 		if (!removed)
 			++projectileIter;
 	}
-
 	for (std::list<Projectile*>::iterator it = projectiles.begin(); it != projectiles.end(); ++it) {
 		(*it)->setX((*it)->getX() + (*it)->getVelocity().x * frameTime * (*it)->getSpeed());
 		(*it)->setY((*it)->getY() + (*it)->getVelocity().y * frameTime * (*it)->getSpeed());
 		(*it)->update(frameTime);
 	}
 	iController->update(frameTime, mapX);
-	//npcController->update(frameTime);
 	playerIcon.setX((pv.x*0.120) + (GAME_WIDTH*0.6) + (-mapX*0.125));
 	playerIcon.setY((pv.y*0.125 + 40));
 	playerIcon.update(frameTime);
@@ -196,7 +190,6 @@ void LevelController::collisions() {
 				crateIter = crateList->erase(crateIter);
 				projectileIter = projectiles.erase(projectileIter);
 				crateLocIter = crateLocList->erase(crateLocIter);
-				
 				removed = true;
 			} else {
 				++crateIter;

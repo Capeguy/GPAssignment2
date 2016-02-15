@@ -2,8 +2,6 @@
 
 
 Player::Player() : Entity() {
-	//spriteData.width = playerNS::WIDTH;           // size of player ship
-	//spriteData.height = playerNS::HEIGHT;
 	spriteData.x = playerNS::X;                   // location on screen
 	spriteData.y = playerNS::Y;
 	spriteData.rect.bottom = playerNS::HEIGHT;    // rectangle to select parts of an image
@@ -11,8 +9,8 @@ Player::Player() : Entity() {
 	velocity.x = 0;                             // velocity X
 	velocity.y = 0;                             // velocity Y
 	frameDelay = playerNS::PLAYER_ANIMATION_DELAY;
-	startFrame = playerNS::PLAYER_START_FRAME;     // first frame of ship animation
-	endFrame = playerNS::PLAYER_END_FRAME;     // last frame of ship animation
+	startFrame = playerNS::PLAYER_START_FRAME;
+	endFrame = playerNS::PLAYER_END_FRAME;
 	currentFrame = startFrame;
 	collisionType = entityNS::BOX;
 	spriteData.scale = 0.5;
@@ -28,26 +26,18 @@ Player::Player() : Entity() {
 	setVelocity(VECTOR2(0, 0));
 }
 
-Player::~Player() {
-
-}
+Player::~Player() {}
 
 bool Player::initialize(Game *gamePtr, int width, int height, int ncols, TextureManager *textureM) {
-
 	gameptr = gamePtr;
-	gameptr->console->print("THIS CAME FROM PLAYER");
 	gunTexture = new TextureManager();
 	if (!gunTexture->initialize(gamePtr->getGraphics(), TEXTURE_GUNS))
 		throw(GameError(gameErrorNS::FATAL_ERROR, "Error initializing gun texture"));
-	// We should move this elsewhere - Ben
-
 	pistol = new Pistol();
 	pistol->initialize(gameptr, gunNS::TEXTURE_WIDTH, gunNS::TEXTURE_HEIGHT, gunNS::TEXTURE_COLS, gunTexture);
 	pistol->setCurrentFrame(gunNS::PISTOL_FRAME);
-
 	defaultItem = new InventoryItem(pistol);
 	inventory->addItem(defaultItem);
-	updateCoords();
 	jumpOriginY = getY();
 	setVelocity(VECTOR2(0, 0));
 	return(Entity::initialize(gamePtr, width, height, ncols, textureM));
@@ -155,14 +145,12 @@ void Player::update(float frameTime, LevelController* lc) {
 		setX(spawnPos.x);
 		setY(spawnPos.y);
 	}
-
-	//updateCoords();
 	// Update Guns
 	inventory->update(frameTime, input);
 	// Boss Audio
 	if (lc->getMapX() * -1.0 > 1900) {
-		audio->stopCue(BKMUSIC);
-		audio->playCue(BOSSMUSIC);
+		audio->stopCue(BK_MUSIC);
+		audio->playCue(BOSS_MUSIC);
 	}
 
 	// Start of Player Movement
@@ -244,7 +232,7 @@ void Player::update(float frameTime, LevelController* lc) {
 		if (!canMoveUp() && velocityY < 0 || !canMoveDown() && velocityY > 0)
 			velocityY = 0;
 		setVelocity(VECTOR2(velocityX, velocityY));
-		
+
 		// Handle Orientations
 		if (input->isKeyDown(PLAYER_UP))
 			orientation = Up;
@@ -323,16 +311,6 @@ void Player::update(float frameTime, LevelController* lc) {
 		Entity::update(frameTime);
 	}
 }
-void Player::updateCoords() {
-	playerBottomLeftX = getX();
-	playerBottomLeftY = getY() - 1 + playerNS::PLAYER_HEIGHT * 0.5;
-	playerBottomRightX = getX() - 1 + playerNS::PLAYER_WIDTH * 0.5;
-	playerBottomRightY = getY() - 1 + playerNS::PLAYER_HEIGHT * 0.5;
-	playerTopLeftX = getX();
-	playerTopLeftY = getY();
-	playerTopRightX = getX() - 1 + playerNS::PLAYER_WIDTH * 0.5;
-	playerTopRightY = getY();
-}
 void Player::setTotalPoints(int points) {
 	totalPoints += points;
 }
@@ -358,12 +336,6 @@ void Player::damage(float amt) {
 	audio->playCue(HURT);
 	health -= amt;
 	healthUpdate();
-}
-void Player::damage(Weapon w) {
-
-}
-void Player::damage(Projectile p) {
-
 }
 void Player::healthUpdate() {
 	if (health <= 0) {

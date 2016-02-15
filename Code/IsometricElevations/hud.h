@@ -8,8 +8,8 @@
 #include "inventoryItem.h"
 #include "gun.h"
 #include "player.h"
-namespace hudNS
-{
+
+namespace hudNS {
 	const int GUN_HUD_WIDTH = 200;
 	const int GUN_HUD_HEIGHT = 50;
 	const int HP_HUD_WIDTH = 200;
@@ -18,7 +18,8 @@ namespace hudNS
 	const int HP_HEIGHT = 30;
 }
 
-class HUD {
+class HUD
+{
 private:
 	TextureManager* itemTexture;
 	TextureManager* hpHUDTexture;
@@ -33,13 +34,12 @@ private:
 	Item* currentItem;
 	Player* currentPlayer;
 	Graphics* graphics;
-	
+
 public:
 	HUD(Graphics*& graphics);
 	~HUD();
 	void update(float frameTime, InventoryItem* const &item, Player* player);
 	void draw();
-
 };
 
 #endif

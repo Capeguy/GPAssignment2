@@ -7,18 +7,13 @@
 #include "constants.h"
 #include "list.h"
 
-
-
-namespace itemNS
-{
-
-}
+namespace itemNS {}
 
 class Item : public Entity // Abstract class
 {
-	
+
 protected:
-	
+
 	int id;
 	std::string name;
 	std::string desc;
@@ -32,6 +27,5 @@ public:
 	virtual void update(float frametime, int orientation, float x, float y);
 	int getItemType();
 	std::string getItemName();
-
 };
 #endif

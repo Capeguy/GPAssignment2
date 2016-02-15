@@ -22,8 +22,6 @@ bool Tile::initialize(Game *gp, int w, int h, int n, TextureManager *t) {
 	return(Entity::initialize(gamePtr, width, height, ncols, textureM));
 }
 void Tile::draw() {
-
-	//spriteData.scale = 0.5;
 	Entity::draw();              // draw ship
 }
 int Tile::getId() {
@@ -43,7 +41,7 @@ void Tile::refresh(float frameTime) {
 bool Tile::isSolid(bool skip) {
 	if (this == nullptr)
 		return true;
-	if (!skip) {
+	if (!skip && false) { // Remove false for debug
 		stayTime = 0.2;
 		if (solid) {
 			currentFrame = 1;

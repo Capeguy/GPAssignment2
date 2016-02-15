@@ -12,7 +12,7 @@ namespace JackNS {
 	const float NPC_ATTACK_RANGE = 64;
 	const float NPC_CHASE_RANGE = 32 * 100;
 }
-class Jack : public NPC 
+class Jack : public NPC
 {
 public:
 	Jack();

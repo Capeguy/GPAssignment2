@@ -12,8 +12,7 @@
 #include <vector>
 #include <list>
 
-namespace itemControllerNS
-{
+namespace itemControllerNS {
 	const int GUN_TEXTURE_WIDTH = 136;
 	const int GUN_TEXTURE_HEIGHT = 41;
 	const int GUN_TEXTURE_COLS = 2;
@@ -34,7 +33,7 @@ private:
 	std::vector<Item*> itemList;
 	TextureManager* itemTexture;
 	TextureManager* itemIconTexture;
-	enum ItemType{healthPack};
+	enum ItemType { healthPack };
 public:
 	ItemController();
 	ItemController(Graphics*, TextureManager*);

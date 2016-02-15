@@ -4,15 +4,15 @@
 #define WIN32_LEAN_AND_MEAN
 
 #include "constants.h"
-class NPC;
-class Guard;
 #include "entity.h"
 #include "player.h"
 #include <vector>
 #include "npc.h"
+
+class NPC;
+class Guard;
 class LevelController;
-namespace npcControllerNS
-{
+namespace npcControllerNS {
 	const int npcSpriteQty = 9;
 	const int npcSpriteOrientationQty = 4;
 	const int npcSpriteMap[npcSpriteQty][npcSpriteOrientationQty] = {
@@ -20,7 +20,7 @@ namespace npcControllerNS
 		504, 505, 506, 507,
 		472, 473, 474, 475,
 		312, 313, 314, 315,
-		856, 857, 858, 859, 
+		856, 857, 858, 859,
 		408, 409, 410, 411,
 		344, 345, 346, 347,
 		376, 377, 378, 379,
@@ -63,7 +63,6 @@ public:
 	void collisions(LevelController*, Player* p);
 	void setMapX(float x);
 	void getPlayerVelocity(float v);
-	void chaseIfInRange(VECTOR2);
 	std::list<NPC*> getNPCs();
 	void addNPC(NPC* npc, int type, LevelController* lc, Graphics* graphics);
 	bool getBossDeathStatus();

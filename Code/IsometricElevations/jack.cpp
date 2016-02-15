@@ -1,13 +1,10 @@
 #include "jack.h"
 
-Jack::Jack() {
-}
+Jack::Jack() {}
 Jack::Jack(Graphics*& graphics) {
 	chaseRange = JackNS::NPC_CHASE_RANGE;
 	attackRange = JackNS::NPC_ATTACK_RANGE;
 	chatString = "";
-	//dxFont.initialize(graphics, 12, false, false, "Courier New");
-	//dxFont.setFontColor(SETCOLOR_ARGB(192, 255, 255, 255));
 }
 
 void Jack::stateChange() {
@@ -123,19 +120,15 @@ void Jack::ai(float frameTime, Entity & ent, float mapX, LevelController* lc) {
 	}
 	//OSD::instance()->addLine("MapX: " + std::to_string(mapX));
 	//OSD::instance()->addLine("NPC AI (" + std::to_string(aiState) + ") at (" + std::to_string(spriteData.x) + ", " + std::to_string(spriteData.y) + ") going to (" + std::to_string((derivedDest.x)) + ", " + std::to_string(derivedDest.y) + ") Moving at: (" + std::to_string((velocity.x)) + ", " + std::to_string(velocity.y) + ") ");
-
 }
 
-void Jack::draw(TextDX &dxFont) { //TextDX &dxFont
+void Jack::draw(TextDX &dxFont) {
 	if (chatString != "") {
 		dxFont.print(chatString, spriteData.x, spriteData.y - 43);
 		NPC::draw(dxFont);
-	}
-	else {
+	} else {
 		NPC::draw();
 	}
-
-	
 }
 
 void Jack::update(float frameTime, float mapX, float pVelo, LevelController * lc) {

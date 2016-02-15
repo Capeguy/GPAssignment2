@@ -9,12 +9,12 @@
 #include <vector>
 #include "inventoryItem.h"
 
-namespace inventoryControllerNS
-{
+namespace inventoryControllerNS {
 	const int MAX_INVENTORY_SIZE = 5;
 }
 
-class Inventory {
+class Inventory
+{
 private:
 	std::vector<InventoryItem*>	*InventoryItems;
 	InventoryItem* activeItem;
@@ -23,13 +23,10 @@ private:
 public:
 	Inventory();
 	~Inventory();
-
 	void update(float frameTime, Input* input);
-
 	std::vector<InventoryItem*>* getItems();
 	bool addItem(InventoryItem *item);
 	bool addItems(std::vector<InventoryItem> items);
 	InventoryItem* getActiveItem();
-
 };
 #endif

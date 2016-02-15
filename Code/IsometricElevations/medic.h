@@ -12,7 +12,7 @@ namespace MedicNS {
 	const float NPC_ATTACK_RANGE = npcNS::NPC_SHOOT_RANGE;
 	const float NPC_CHASE_RANGE = npcNS::NPC_CHASE_RANGE;
 }
-class Medic : public NPC 
+class Medic : public NPC
 {
 public:
 	Medic();

@@ -6,15 +6,13 @@
 #include "graphics.h"
 #include "textDX.h"
 
-
-
-class OSD {
-
+class OSD
+{
 private:
 	int currLine = 0;
 	TextDX	dxFont;
-	
-	
+
+
 public:
 	std::list<std::string> displayList;
 	static OSD* instance() {
@@ -25,6 +23,5 @@ public:
 	static void addLine(std::string text);
 	int getLine();
 	void draw(bool draw = true);
-
 };
 #endif

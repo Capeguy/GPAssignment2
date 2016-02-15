@@ -7,25 +7,25 @@
 #include "list.h"
 #include "constants.h"
 
-namespace projectileNS
-{
+namespace projectileNS {
 	const int PISTOL_BULLET_FRAME = 1;
 	const int MACHINEGUN_BULLET_FRAME = 2;
 	const int SHOTGUN_BULLET_FRAME = 4;
 }
 
-class Projectile : public Entity {
+class Projectile : public Entity
+{
 private:
 	double damage;
 	float speed;
 	int owner;
 public:
-	enum Owners {Player, NPC};
-	Projectile ();
-	~Projectile ();
-	virtual void draw (TextDX&);
-	virtual bool initialize (Game *gamePtr, int width, int height, int ncols, TextureManager *textureM, double dmg = 0);
-	void update (float frameTime);
+	enum Owners { Player, NPC };
+	Projectile();
+	~Projectile();
+	virtual void draw(TextDX&);
+	virtual bool initialize(Game *gamePtr, int width, int height, int ncols, TextureManager *textureM, double dmg = 0);
+	void update(float frameTime);
 	void collision();
 	double getDamage();
 	void setDamage(double d);

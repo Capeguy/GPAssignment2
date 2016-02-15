@@ -12,33 +12,25 @@ ItemController::ItemController(Graphics *graphics, TextureManager* iTxt) {
 	levelCrateLoc[0] = new std::list<VECTOR2>();
 	levelCrateLoc[0]->push_back(VECTOR2(321, 568));		// crate 1.1
 	levelCrateLoc[0]->push_back(VECTOR2(1152, 250));	// crate 2.1
-	
 	levelCrateLoc[0]->push_back(VECTOR2(2447, 250));	//crate 2.5.1
 	levelCrateLoc[0]->push_back(VECTOR2(2688, 668));	// crate 3.1 
 	levelCrateLoc[0]->push_back(VECTOR2(2815, 602));	// crate 3.2
-
-	
 	//init crate item second
 	levelCrateItemType[0] = new std::list<int>();
 	levelCrateItemType[0]->push_back(itemControllerNS::ItemType::machineGun);	// crate 1.1
 	levelCrateItemType[0]->push_back(itemControllerNS::ItemType::shotGun);		// crate 2.1
-	
-	levelCrateItemType[0]->push_back(itemControllerNS::ItemType::machineGun);	// craet 2.5.1
+
+	levelCrateItemType[0]->push_back(itemControllerNS::ItemType::machineGun);	// crate 2.5.1
 	levelCrateItemType[0]->push_back(itemControllerNS::ItemType::machineGun);	// crate 3.1
 	levelCrateItemType[0]->push_back(itemControllerNS::ItemType::shotGun);		// crate 3.2
-	
 	itemIconTexture = iTxt;
-	
-
 	gunTexture = new TextureManager();
 	if (!gunTexture->initialize(graphics, TEXTURE_GUNS))
 		throw(GameError(gameErrorNS::FATAL_ERROR, "Error initializing gun texture"));
 	gunImage = new Image();
 	gunImage->initialize(graphics, itemControllerNS::GUN_TEXTURE_WIDTH, itemControllerNS::GUN_TEXTURE_HEIGHT, 1, gunTexture);
-	//gunImage->setCurrentFrame(0);
-
 	itemIconTexture = new TextureManager();
-	if (!itemIconTexture->initialize(graphics, ITEMICON_TEXTURE))
+	if (!itemIconTexture->initialize(graphics, ITEM_ICON_TEXTURE))
 		throw(GameError(gameErrorNS::FATAL_ERROR, "Error initializing item icon texture"));
 }
 
@@ -51,10 +43,9 @@ void ItemController::spawnCrates(int level, Game *gamePtr) {
 		locCounter++;
 		int itemCounter = 0;
 		std::list<int>* crateItem = levelCrateItemType[0];
-		for (std::list<int>::iterator crateItemTypeIter = crateItem->begin(); crateItemTypeIter!= crateItem->end(); ++crateItemTypeIter) {
+		for (std::list<int>::iterator crateItemTypeIter = crateItem->begin(); crateItemTypeIter != crateItem->end(); ++crateItemTypeIter) {
 			itemCounter++;
-			if (locCounter == itemCounter)
-			{
+			if (locCounter == itemCounter) {
 				Crate* c = new Crate();
 				int itemtype = (*crateItemTypeIter);
 				c->initialize(gamePtr, itemTexture, itemtype);
@@ -75,11 +66,9 @@ void ItemController::spawnCrates(int level, Game *gamePtr) {
 	}
 }
 
-void ItemController::spawnItem(Game *gamePtr, int x, int y) {
-}
+void ItemController::spawnItem(Game *gamePtr, int x, int y) {}
 
-std::list<VECTOR2>* ItemController::getCrateLoc()
-{
+std::list<VECTOR2>* ItemController::getCrateLoc() {
 	return levelCrateLoc[0];
 }
 
@@ -89,8 +78,7 @@ void ItemController::update(float frameTime, float mapX) {
 		(*crateIter)->update(frameTime);
 		int crateIconCount = 0;
 		for (std::list<Image*>::iterator crateIcoIter = crateIcons.begin(); crateIcoIter != crateIcons.end(); ++crateIcoIter) {
-			if (crateCount == crateIconCount)
-			{
+			if (crateCount == crateIconCount) {
 				float testX = ((*crateIter)->getX()*0.120) + (GAME_WIDTH*0.60 + 5) + (-mapX*0.125);
 				float testY = (*crateIter)->getY()*0.120 + 42;
 				(*crateIcoIter)->setX(((*crateIter)->getX()*0.120) + (GAME_WIDTH*0.60 + 5) + (-mapX*0.125));
@@ -105,7 +93,6 @@ void ItemController::update(float frameTime, float mapX) {
 void ItemController::render(float mapX) {
 	int crateCount = 0;
 	std::list<VECTOR2> *crateLocations = levelCrateLoc[0];
-	//std::list<VECTOR2>::iterator l_front = crateLocations->begin();
 	for (std::list<Crate*>::iterator crateIter = crateList->begin(); crateIter != crateList->end(); ++crateIter) {
 		int crateLocCount = 0;
 		for (std::list<VECTOR2>::iterator crateLocationIter = crateLocations->begin(); crateLocationIter != crateLocations->end(); ++crateLocationIter) {
@@ -131,10 +118,8 @@ void ItemController::render(float mapX) {
 std::list<Crate*>* ItemController::getCrateList() {
 	return crateList;
 }
-int ItemController::getGunFrameByItemType(int i)
-{
-	switch (i)
-	{
+int ItemController::getGunFrameByItemType(int i) {
+	switch (i) {
 	case itemControllerNS::ItemType::machineGun:
 		return itemControllerNS::GUN_MACHINEGUN_FRAME;
 		break;

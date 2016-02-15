@@ -3,29 +3,27 @@
 #include "list.h"
 #include <sstream>
 
-
-
 template<class ItemType>
-List<ItemType>::List () {
+List<ItemType>::List() {
 	firstNode = NULL;
 	size = 0;
 }
 
 template<class ItemType>
-bool List<ItemType>::add (ItemType newItem) {
-	return add (size + 1, newItem);
+bool List<ItemType>::add(ItemType newItem) {
+	return add(size + 1, newItem);
 }
 
 template<class ItemType>
-bool List<ItemType>::add (int location, ItemType newItem) {
+bool List<ItemType>::add(int location, ItemType newItem) {
 	if (location <= 0 || location > size + 1) {
 		return false;
 	}
-	Node *newNode = new Node ();
+	Node *newNode = new Node();
 	newNode->item = newItem;
 	newNode->next = NULL;
 	if (firstNode == NULL) {
-		//Location is definitely 1
+		// Location is definitely 1
 		firstNode = newNode;
 	} else {
 		Node *nodeToChange = firstNode;
@@ -40,7 +38,7 @@ bool List<ItemType>::add (int location, ItemType newItem) {
 }
 
 template<class ItemType>
-ItemType List<ItemType>::get (int location) {
+ItemType List<ItemType>::get(int location) {
 	if (location <= 0 || location > size + 1) {
 		return NULL;
 	}
@@ -52,7 +50,7 @@ ItemType List<ItemType>::get (int location) {
 }
 
 template<class ItemType>
-void List<ItemType>::remove (int location) {
+void List<ItemType>::remove(int location) {
 	if (location <= 0 || location > size) {
 		return;
 	}
@@ -75,29 +73,29 @@ void List<ItemType>::remove (int location) {
 }
 
 template<class ItemType>
-void List<ItemType>::clear () {
-	while (!isEmpty ()) {
-		remove (1);
+void List<ItemType>::clear() {
+	while (!isEmpty()) {
+		remove(1);
 	}
 }
 
 template<class ItemType>
-int List<ItemType>::getLength () {
+int List<ItemType>::getLength() {
 	return size;
 }
 
 template<class ItemType>
-bool List<ItemType>::isEmpty () {
+bool List<ItemType>::isEmpty() {
 	return size == 0;
 }
 
 template<class ItemType>
-void List<ItemType>::print () {
+void List<ItemType>::print() {
 	stringstream ss;
-	ss << "Printing list with size " << getLength () << "..." << endl;
-	for (int i = 1; i <= getLength (); i++) {
-		ss << i << ": " << get (i) << endl;
+	ss << "Printing list with size " << getLength() << "..." << endl;
+	for (int i = 1; i <= getLength(); i++) {
+		ss << i << ": " << get(i) << endl;
 	}
 	ss << "Printing completed." << endl;
-	OutputDebugString (ss.str ().c_str ());
+	OutputDebugString(ss.str().c_str());
 }

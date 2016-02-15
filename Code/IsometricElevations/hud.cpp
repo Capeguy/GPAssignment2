@@ -56,8 +56,7 @@ HUD::HUD(Graphics*& g) {
 	currentPlayer = nullptr;
 }
 
-HUD::~HUD()
-{
+HUD::~HUD() {
 	SAFE_DELETE(itemTexture);
 	SAFE_DELETE(hpHUDTexture);
 	SAFE_DELETE(gunHUDTexture);
@@ -69,27 +68,18 @@ HUD::~HUD()
 	SAFE_DELETE(pointHud);
 }
 
-void HUD::update(float frameTime, InventoryItem* const &item, Player* player)
-{
+void HUD::update(float frameTime, InventoryItem* const &item, Player* player) {
 	currentItem = item->getItem();
 	currentPlayer = player;
 	Gun* gun = dynamic_cast<Gun*>(currentItem);
-	if (gun != 0)
-	{
-		if (gun->getGunId() == Gun::ItemType::pistol)
-		{
+	if (gun != 0) {
+		if (gun->getGunId() == Gun::ItemType::pistol) {
 			currentItemImage->setCurrentFrame(gunNS::PISTOL_FRAME);
-		}
-		else if (gun->getGunId() == Gun::ItemType::machineGun)
-		{
+		} else if (gun->getGunId() == Gun::ItemType::machineGun) {
 			currentItemImage->setCurrentFrame(gunNS::MACHINEGUN_FRAME);
-		}
-		else if (gun->getGunId() == Gun::ItemType::shotGun)
-		{
+		} else if (gun->getGunId() == Gun::ItemType::shotGun) {
 			currentItemImage->setCurrentFrame(gunNS::SHOTGUN_FRAME);
-		}
-		else // to be taken out, for testing purposes
-		{
+		} else { // For testing purposes
 			currentItemImage->setCurrentFrame(10);
 		}
 	}
@@ -104,8 +94,7 @@ void HUD::update(float frameTime, InventoryItem* const &item, Player* player)
 	pointHud->update(frameTime);
 }
 
-void HUD::draw()
-{
+void HUD::draw() {
 	gunHud->draw();
 	currentItemImage->draw();
 	hpHUD->draw();
@@ -115,7 +104,7 @@ void HUD::draw()
 		Gun* gun = (Gun*)currentItem;
 		ammoFont->print("X (" + gun->getAmmoDisplay() + ") ", currentItemImage->getX() + 100, currentItemImage->getY() + 8);
 	}
-	if (currentPlayer != nullptr){
+	if (currentPlayer != nullptr) {
 		ammoFont->print("Carnage: " + std::to_string(currentPlayer->getTotalPoints()), pointHud->getX() + 20, pointHud->getY() + 15);
 	}
 }

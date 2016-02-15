@@ -20,20 +20,20 @@
 #include "inputDialog.h"
 
 
-namespace gameNS
-{
+namespace gameNS {
 	const char FONT[] = "Courier New";  // font
 	const int POINT_SIZE = 14;          // point size
-	const COLOR_ARGB FONT_COLOR = SETCOLOR_ARGB (255, 255, 255, 255);    // white
+	const COLOR_ARGB FONT_COLOR = SETCOLOR_ARGB(255, 255, 255, 255);    // white
 }
 class Player;
-class Game {
+class Game
+{
 protected:
 	// common game properties
 	Graphics *graphics;             // pointer to Graphics
 	Input   *input;                 // pointer to Input
 	Audio   *audio;                 // pointer to Audio
-	               // pointer to Console
+	Console *console;			   // pointer to Console
 	MessageDialog *messageDialog;   // pointer to MessageDialog
 	InputDialog *inputDialog;       // pointer to InputDialog
 	HWND    hwnd;                   // window handle
@@ -50,79 +50,79 @@ protected:
 	bool    paused;                 // true if game is paused
 	bool    initialized;
 	std::string  command;           // command from console
-	bool drawTileNo = true;
-	bool drawOSD = false;
-	bool audioInitialized = false;
+	bool	drawTileNo = true;
+	bool	drawOSD = false;
+	bool	audioInitialized = false;
 
 public:
-	Console *console;
+	
 	// Constructor
-	Game ();
+	Game();
 	// Destructor
-	virtual ~Game ();
+	virtual ~Game();
 	// Member functions
 	// Window message handler
-	LRESULT messageHandler (HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam);
+	LRESULT messageHandler(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam);
 
 	// Initialize the game
 	// Pre: hwnd is handle to window
-	virtual void initialize (HWND hwnd);
+	virtual void initialize(HWND hwnd);
 
 	// Call run repeatedly by the main message loop in WinMain
-	virtual void run (HWND);
+	virtual void run(HWND);
 
 	// Call when the graphics device was lost.
 	// Release all reserved video memory so graphics device may be reset.
-	virtual void releaseAll ();
+	virtual void releaseAll();
 
 	// Recreate all surfaces and reset all entities.
-	virtual void resetAll ();
+	virtual void resetAll();
 
 	// Delete all reserved memory.
-	virtual void deleteAll ();
+	virtual void deleteAll();
 
 	// Process console commands.
-	virtual void consoleCommand ();
+	virtual void consoleCommand();
 
 	// Render game items.
-	virtual void renderGame ();
+	virtual void renderGame();
 
 	// Handle lost graphics device
-	virtual void handleLostGraphicsDevice ();
+	virtual void handleLostGraphicsDevice();
 
 	// Set display mode (fullscreen, window or toggle)
-	void setDisplayMode (graphicsNS::DISPLAY_MODE mode = graphicsNS::TOGGLE);
+	void setDisplayMode(graphicsNS::DISPLAY_MODE mode = graphicsNS::TOGGLE);
 
 	// Return pointer to Graphics.
-	Graphics* getGraphics () { return graphics; }
+	Graphics* getGraphics() { return graphics; }
 
 	// Return pointer to Input.
-	Input* getInput () { return input; }
+	Input* getInput() { return input; }
 
 	// Exit the game
-	void exitGame () { PostMessage (hwnd, WM_DESTROY, 0, 0); }
+	void exitGame() { PostMessage(hwnd, WM_DESTROY, 0, 0); }
 
 	// Return pointer to Audio.
-	Audio* getAudio () { return audio; }
+	Audio* getAudio() { return audio; }
 
 	// Pure virtual function declarations
 	// These functions MUST be written in any class that inherits from Game
 
 	// Update game items.
-	virtual void update () = 0;
+	virtual void update() = 0;
 
 	// Perform AI calculations.
-	virtual void ai () = 0;
+	virtual void ai() = 0;
 
 	// Check for collisions.
-	virtual void collisions () = 0;
+	virtual void collisions() = 0;
 
 	// Render graphics.
 	// Call graphics->spriteBegin();
 	//   draw sprites
 	// Call graphics->spriteEnd();
 	//   draw non-sprites
-	virtual void render () = 0;
+	virtual void render() = 0;
 	virtual Player* getPlayer() { return nullptr; };
 };
 

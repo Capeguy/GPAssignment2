@@ -6,8 +6,7 @@
 #include "constants.h"
 #include "npc.h"
 
-namespace wardenNS
-{
+namespace wardenNS {
 	const float SPEED = 32 * 400;
 	const float NPC_ATTACK_RANGE = 1000;
 	const float NPC_CHASE_RANGE = 500;

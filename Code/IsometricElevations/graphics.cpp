@@ -9,7 +9,7 @@
 //=============================================================================
 // Constructor
 //=============================================================================
-Graphics::Graphics () {
+Graphics::Graphics() {
 	direct3d = NULL;
 	device3d = NULL;
 	sprite = NULL;
@@ -22,59 +22,59 @@ Graphics::Graphics () {
 //=============================================================================
 // Destructor
 //=============================================================================
-Graphics::~Graphics () {
-	releaseAll ();
+Graphics::~Graphics() {
+	releaseAll();
 }
 
 //=============================================================================
 // Release all
 //=============================================================================
-void Graphics::releaseAll () {
-	SAFE_RELEASE (sprite);
-	SAFE_RELEASE (device3d);
-	SAFE_RELEASE (direct3d);
+void Graphics::releaseAll() {
+	SAFE_RELEASE(sprite);
+	SAFE_RELEASE(device3d);
+	SAFE_RELEASE(direct3d);
 }
 
 //=============================================================================
 // Initialize DirectX graphics
 // throws GameError on error
 //=============================================================================
-void Graphics::initialize (HWND hw, int w, int h, bool full) {
+void Graphics::initialize(HWND hw, int w, int h, bool full) {
 	hwnd = hw;
 	width = w;
 	height = h;
 	fullscreen = full;
 
 	//initialize Direct3D
-	direct3d = Direct3DCreate9 (D3D_SDK_VERSION);
+	direct3d = Direct3DCreate9(D3D_SDK_VERSION);
 	if (direct3d == NULL)
-		throw(GameError (gameErrorNS::FATAL_ERROR, "Error initializing Direct3D"));
+		throw(GameError(gameErrorNS::FATAL_ERROR, "Error initializing Direct3D"));
 
-	initD3Dpp ();        // init D3D presentation parameters
+	initD3Dpp();        // init D3D presentation parameters
 	if (fullscreen)      // if full-screen mode
 	{
-		if (isAdapterCompatible ())   // is the adapter compatible
+		if (isAdapterCompatible())   // is the adapter compatible
 			// set the refresh rate with a compatible one
 			d3dpp.FullScreen_RefreshRateInHz = pMode.RefreshRate;
 		else
-			throw(GameError (gameErrorNS::FATAL_ERROR,
-							 "The graphics device does not support the specified resolution and/or format."));
+			throw(GameError(gameErrorNS::FATAL_ERROR,
+				"The graphics device does not support the specified resolution and/or format."));
 	}
 
 	// determine if graphics card supports harware texturing and lighting and vertex shaders
 	D3DCAPS9 caps;
 	DWORD behavior;
-	result = direct3d->GetDeviceCaps (D3DADAPTER_DEFAULT, D3DDEVTYPE_HAL, &caps);
+	result = direct3d->GetDeviceCaps(D3DADAPTER_DEFAULT, D3DDEVTYPE_HAL, &caps);
 	// If device doesn't support HW T&L or doesn't support 1.1 vertex 
 	// shaders in hardware, then switch to software vertex processing.
 	if ((caps.DevCaps & D3DDEVCAPS_HWTRANSFORMANDLIGHT) == 0 ||
-		caps.VertexShaderVersion < D3DVS_VERSION (1, 1))
+		caps.VertexShaderVersion < D3DVS_VERSION(1, 1))
 		behavior = D3DCREATE_SOFTWARE_VERTEXPROCESSING;  // use software only processing
 	else
 		behavior = D3DCREATE_HARDWARE_VERTEXPROCESSING;  // use hardware only processing
 
 	//create Direct3D device
-	result = direct3d->CreateDevice (
+	result = direct3d->CreateDevice(
 		D3DADAPTER_DEFAULT,
 		D3DDEVTYPE_HAL,
 		hwnd,
@@ -82,25 +82,25 @@ void Graphics::initialize (HWND hw, int w, int h, bool full) {
 		&d3dpp,
 		&device3d);
 
-	if (FAILED (result))
-		throw(GameError (gameErrorNS::FATAL_ERROR, "Error creating Direct3D device"));
+	if (FAILED(result))
+		throw(GameError(gameErrorNS::FATAL_ERROR, "Error creating Direct3D device"));
 
-	result = D3DXCreateSprite (device3d, &sprite);
-	if (FAILED (result))
-		throw(GameError (gameErrorNS::FATAL_ERROR, "Error creating Direct3D sprite"));
+	result = D3DXCreateSprite(device3d, &sprite);
+	if (FAILED(result))
+		throw(GameError(gameErrorNS::FATAL_ERROR, "Error creating Direct3D sprite"));
 
 	// Configure for alpha blend of primitives
-	device3d->SetRenderState (D3DRS_BLENDOP, D3DBLENDOP_ADD);
-	device3d->SetRenderState (D3DRS_SRCBLEND, D3DBLEND_SRCALPHA);
-	device3d->SetRenderState (D3DRS_DESTBLEND, D3DBLEND_INVSRCALPHA);
+	device3d->SetRenderState(D3DRS_BLENDOP, D3DBLENDOP_ADD);
+	device3d->SetRenderState(D3DRS_SRCBLEND, D3DBLEND_SRCALPHA);
+	device3d->SetRenderState(D3DRS_DESTBLEND, D3DBLEND_INVSRCALPHA);
 }
 
 //=============================================================================
 // Initialize D3D presentation parameters
 //=============================================================================
-void Graphics::initD3Dpp () {
+void Graphics::initD3Dpp() {
 	try {
-		ZeroMemory (&d3dpp, sizeof (d3dpp));              // fill the structure with 0
+		ZeroMemory(&d3dpp, sizeof(d3dpp));              // fill the structure with 0
 		// fill in the parameters we need
 		d3dpp.BackBufferWidth = width;
 		d3dpp.BackBufferHeight = height;
@@ -114,8 +114,8 @@ void Graphics::initD3Dpp () {
 		d3dpp.Windowed = (!fullscreen);
 		d3dpp.PresentationInterval = D3DPRESENT_INTERVAL_IMMEDIATE;
 	} catch (...) {
-		throw(GameError (gameErrorNS::FATAL_ERROR,
-						 "Error initializing D3D presentation parameters"));
+		throw(GameError(gameErrorNS::FATAL_ERROR,
+			"Error initializing D3D presentation parameters"));
 	}
 }
 
@@ -128,8 +128,8 @@ void Graphics::initD3Dpp () {
 //       texture points to texture
 // Returns HRESULT
 //=============================================================================
-HRESULT Graphics::loadTexture (const char *filename, COLOR_ARGB transcolor,
-							   UINT &width, UINT &height, LP_TEXTURE &texture) {
+HRESULT Graphics::loadTexture(const char *filename, COLOR_ARGB transcolor,
+	UINT &width, UINT &height, LP_TEXTURE &texture) {
 	// The struct for reading file info
 	D3DXIMAGE_INFO info;
 	result = E_FAIL;
@@ -141,14 +141,14 @@ HRESULT Graphics::loadTexture (const char *filename, COLOR_ARGB transcolor,
 		}
 
 		// Get width and height from file
-		result = D3DXGetImageInfoFromFile (filename, &info);
+		result = D3DXGetImageInfoFromFile(filename, &info);
 		if (result != D3D_OK)
 			return result;
 		width = info.Width;
 		height = info.Height;
 
 		// Create the new texture by loading from file
-		result = D3DXCreateTextureFromFileEx (
+		result = D3DXCreateTextureFromFileEx(
 			device3d,           //3D device
 			filename,           //image filename
 			info.Width,         //texture width
@@ -165,7 +165,7 @@ HRESULT Graphics::loadTexture (const char *filename, COLOR_ARGB transcolor,
 			&texture);         //destination texture
 
 	} catch (...) {
-		throw(GameError (gameErrorNS::FATAL_ERROR, "Error in Graphics::loadTexture"));
+		throw(GameError(gameErrorNS::FATAL_ERROR, "Error in Graphics::loadTexture"));
 	}
 	return result;
 }
@@ -180,8 +180,8 @@ HRESULT Graphics::loadTexture (const char *filename, COLOR_ARGB transcolor,
 //       texture points to texture
 // Returns HRESULT and fills TextureData structure.
 //=============================================================================
-HRESULT Graphics::loadTextureSystemMem (const char *filename, COLOR_ARGB transcolor,
-										UINT &width, UINT &height, LP_TEXTURE &texture) {
+HRESULT Graphics::loadTextureSystemMem(const char *filename, COLOR_ARGB transcolor,
+	UINT &width, UINT &height, LP_TEXTURE &texture) {
 	// The struct for reading bitmap file info
 	D3DXIMAGE_INFO info;
 	result = E_FAIL;        // Standard Windows return value
@@ -193,14 +193,14 @@ HRESULT Graphics::loadTextureSystemMem (const char *filename, COLOR_ARGB transco
 		}
 
 		// Get width and height from bitmap file
-		result = D3DXGetImageInfoFromFile (filename, &info);
+		result = D3DXGetImageInfoFromFile(filename, &info);
 		if (result != D3D_OK)
 			return result;
 		width = info.Width;
 		height = info.Height;
 
 		// Create the new texture by loading a bitmap image file
-		result = D3DXCreateTextureFromFileEx (
+		result = D3DXCreateTextureFromFileEx(
 			device3d,           //3D device
 			filename,           //bitmap filename
 			info.Width,         //bitmap image width
@@ -217,7 +217,7 @@ HRESULT Graphics::loadTextureSystemMem (const char *filename, COLOR_ARGB transco
 			&texture);         //destination texture
 
 	} catch (...) {
-		throw(GameError (gameErrorNS::FATAL_ERROR, "Error in Graphics::loadTexture"));
+		throw(GameError(gameErrorNS::FATAL_ERROR, "Error in Graphics::loadTexture"));
 	}
 	return result;
 }
@@ -228,23 +228,23 @@ HRESULT Graphics::loadTextureSystemMem (const char *filename, COLOR_ARGB transco
 //      size = size of verts[]
 // Post: &vertexBuffer points to buffer if successful.
 //=============================================================================
-HRESULT Graphics::createVertexBuffer (VertexC verts[], UINT size, LP_VERTEXBUFFER &vertexBuffer) {
+HRESULT Graphics::createVertexBuffer(VertexC verts[], UINT size, LP_VERTEXBUFFER &vertexBuffer) {
 	// Standard Windows return value
 	HRESULT result = E_FAIL;
 
 	// Create a vertex buffer
-	result = device3d->CreateVertexBuffer (size, D3DUSAGE_WRITEONLY, D3DFVF_VERTEX,
-										   D3DPOOL_DEFAULT, &vertexBuffer, NULL);
-	if (FAILED (result))
+	result = device3d->CreateVertexBuffer(size, D3DUSAGE_WRITEONLY, D3DFVF_VERTEX,
+		D3DPOOL_DEFAULT, &vertexBuffer, NULL);
+	if (FAILED(result))
 		return result;
 
 	void *ptr;
 	// must lock buffer before data can be transferred in
-	result = vertexBuffer->Lock (0, size, (void**)&ptr, 0);
-	if (FAILED (result))
+	result = vertexBuffer->Lock(0, size, (void**)&ptr, 0);
+	if (FAILED(result))
 		return result;
-	memcpy (ptr, verts, size);   // copy vertex data into buffer
-	vertexBuffer->Unlock ();     // unlock buffer
+	memcpy(ptr, verts, size);   // copy vertex data into buffer
+	vertexBuffer->Unlock();     // unlock buffer
 
 	return result;
 }
@@ -256,21 +256,21 @@ HRESULT Graphics::createVertexBuffer (VertexC verts[], UINT size, LP_VERTEXBUFFE
 //      g3ddev->BeginScene was called
 // Post: Quad is drawn
 //=============================================================================
-bool Graphics::drawQuad (LP_VERTEXBUFFER vertexBuffer) {
+bool Graphics::drawQuad(LP_VERTEXBUFFER vertexBuffer) {
 	HRESULT result = E_FAIL;    // standard Windows return value
 
 	if (vertexBuffer == NULL)
 		return false;
 
-	device3d->SetRenderState (D3DRS_ALPHABLENDENABLE, true); // enable alpha blend
+	device3d->SetRenderState(D3DRS_ALPHABLENDENABLE, true); // enable alpha blend
 
-	device3d->SetStreamSource (0, vertexBuffer, 0, sizeof (VertexC));
-	device3d->SetFVF (D3DFVF_VERTEX);
-	result = device3d->DrawPrimitive (D3DPT_TRIANGLEFAN, 0, 2);
+	device3d->SetStreamSource(0, vertexBuffer, 0, sizeof(VertexC));
+	device3d->SetFVF(D3DFVF_VERTEX);
+	result = device3d->DrawPrimitive(D3DPT_TRIANGLEFAN, 0, 2);
 
-	device3d->SetRenderState (D3DRS_ALPHABLENDENABLE, false); // alpha blend off
+	device3d->SetRenderState(D3DRS_ALPHABLENDENABLE, false); // alpha blend off
 
-	if (FAILED (result))
+	if (FAILED(result))
 		return false;
 
 	return true;
@@ -279,10 +279,10 @@ bool Graphics::drawQuad (LP_VERTEXBUFFER vertexBuffer) {
 //=============================================================================
 // Display the backbuffer
 //=============================================================================
-HRESULT Graphics::showBackbuffer () {
+HRESULT Graphics::showBackbuffer() {
 	result = E_FAIL;    // default to fail, replace on success
 	// Display backbuffer to screen
-	result = device3d->Present (NULL, NULL, NULL, NULL);
+	result = device3d->Present(NULL, NULL, NULL, NULL);
 	return result;
 }
 
@@ -294,13 +294,13 @@ HRESULT Graphics::showBackbuffer () {
 // Post: Returns true if compatible mode found and pMode structure is filled.
 //       Returns false if no compatible mode found.
 //=============================================================================
-bool Graphics::isAdapterCompatible () {
-	UINT modes = direct3d->GetAdapterModeCount (D3DADAPTER_DEFAULT,
-												d3dpp.BackBufferFormat);
+bool Graphics::isAdapterCompatible() {
+	UINT modes = direct3d->GetAdapterModeCount(D3DADAPTER_DEFAULT,
+		d3dpp.BackBufferFormat);
 	for (UINT i = 0; i < modes; i++) {
-		result = direct3d->EnumAdapterModes (D3DADAPTER_DEFAULT,
-											 d3dpp.BackBufferFormat,
-											 i, &pMode);
+		result = direct3d->EnumAdapterModes(D3DADAPTER_DEFAULT,
+			d3dpp.BackBufferFormat,
+			i, &pMode);
 		if (pMode.Height == d3dpp.BackBufferHeight &&
 			pMode.Width == d3dpp.BackBufferWidth &&
 			pMode.RefreshRate >= d3dpp.FullScreen_RefreshRateInHz)
@@ -318,17 +318,17 @@ bool Graphics::isAdapterCompatible () {
 //   spriteData.rect.right must be right edge + 1
 //   spriteData.rect.bottom must be bottom edge + 1
 //=============================================================================
-void Graphics::drawSprite (const SpriteData &spriteData, COLOR_ARGB color) {
+void Graphics::drawSprite(const SpriteData &spriteData, COLOR_ARGB color) {
 	if (spriteData.texture == NULL)      // if no texture
 		return;
 
 	// Find center of sprite
-	D3DXVECTOR2 spriteCenter = D3DXVECTOR2 ((float)(spriteData.width / 2 * spriteData.scale),
-											(float)(spriteData.height / 2 * spriteData.scale));
+	D3DXVECTOR2 spriteCenter = D3DXVECTOR2((float)(spriteData.width / 2 * spriteData.scale),
+		(float)(spriteData.height / 2 * spriteData.scale));
 	// Screen position of the sprite
-	D3DXVECTOR2 translate = D3DXVECTOR2 ((float)spriteData.x, (float)spriteData.y);
+	D3DXVECTOR2 translate = D3DXVECTOR2((float)spriteData.x, (float)spriteData.y);
 	// Scaling X,Y
-	D3DXVECTOR2 scaling (spriteData.scale, spriteData.scale);
+	D3DXVECTOR2 scaling(spriteData.scale, spriteData.scale);
 	if (spriteData.flipHorizontal)  // if flip horizontal
 	{
 		scaling.x *= -1;            // negative X scale to flip
@@ -349,7 +349,7 @@ void Graphics::drawSprite (const SpriteData &spriteData, COLOR_ARGB color) {
 	}
 	// Create a matrix to rotate, scale and position our sprite
 	D3DXMATRIX matrix;
-	D3DXMatrixTransformation2D (
+	D3DXMatrixTransformation2D(
 		&matrix,                // the matrix
 		NULL,                   // keep origin at top left when scaling
 		0.0f,                   // no scaling rotation
@@ -359,38 +359,38 @@ void Graphics::drawSprite (const SpriteData &spriteData, COLOR_ARGB color) {
 		&translate);            // X,Y location
 
 	// Tell the sprite about the matrix "Hello Neo"
-	sprite->SetTransform (&matrix);
+	sprite->SetTransform(&matrix);
 
 	// Draw the sprite
-	sprite->Draw (spriteData.texture, &spriteData.rect, NULL, NULL, color);
+	sprite->Draw(spriteData.texture, &spriteData.rect, NULL, NULL, color);
 }
 
 //=============================================================================
 // Test for lost device
 //=============================================================================
-HRESULT Graphics::getDeviceState () {
+HRESULT Graphics::getDeviceState() {
 	result = E_FAIL;    // default to fail, replace on success
 	if (device3d == NULL)
 		return  result;
-	result = device3d->TestCooperativeLevel ();
+	result = device3d->TestCooperativeLevel();
 	return result;
 }
 
 //=============================================================================
 // Reset the graphics device
 //=============================================================================
-HRESULT Graphics::reset () {
+HRESULT Graphics::reset() {
 	result = E_FAIL;    // default to fail, replace on success
-	initD3Dpp ();                        // init D3D presentation parameters
-	sprite->OnLostDevice ();
-	result = device3d->Reset (&d3dpp);   // attempt to reset graphics device
+	initD3Dpp();                        // init D3D presentation parameters
+	sprite->OnLostDevice();
+	result = device3d->Reset(&d3dpp);   // attempt to reset graphics device
 
 // Configure for alpha blend of primitives
-	device3d->SetRenderState (D3DRS_BLENDOP, D3DBLENDOP_ADD);
-	device3d->SetRenderState (D3DRS_SRCBLEND, D3DBLEND_SRCALPHA);
-	device3d->SetRenderState (D3DRS_DESTBLEND, D3DBLEND_INVSRCALPHA);
+	device3d->SetRenderState(D3DRS_BLENDOP, D3DBLENDOP_ADD);
+	device3d->SetRenderState(D3DRS_SRCBLEND, D3DBLEND_SRCALPHA);
+	device3d->SetRenderState(D3DRS_DESTBLEND, D3DBLEND_INVSRCALPHA);
 
-	sprite->OnResetDevice ();
+	sprite->OnResetDevice();
 	return result;
 }
 
@@ -399,55 +399,55 @@ HRESULT Graphics::reset () {
 // Pre: All user created D3DPOOL_DEFAULT surfaces are freed.
 // Post: All user surfaces are recreated.
 //=============================================================================
-void Graphics::changeDisplayMode (graphicsNS::DISPLAY_MODE mode) {
+void Graphics::changeDisplayMode(graphicsNS::DISPLAY_MODE mode) {
 	try {
 		switch (mode) {
-			case graphicsNS::FULLSCREEN:
-				if (fullscreen)      // if already in fullscreen mode
-					return;
-				fullscreen = true; break;
-			case graphicsNS::WINDOW:
-				if (fullscreen == false) // if already in window mode
-					return;
-				fullscreen = false; break;
-			default:        // default to toggle window/fullscreen
-				fullscreen = !fullscreen;
+		case graphicsNS::FULLSCREEN:
+			if (fullscreen)      // if already in fullscreen mode
+				return;
+			fullscreen = true; break;
+		case graphicsNS::WINDOW:
+			if (fullscreen == false) // if already in window mode
+				return;
+			fullscreen = false; break;
+		default:        // default to toggle window/fullscreen
+			fullscreen = !fullscreen;
 		}
-		reset ();
+		reset();
 		if (fullscreen)  // fullscreen
 		{
-			SetWindowLong (hwnd, GWL_STYLE, WS_EX_TOPMOST | WS_VISIBLE | WS_POPUP);
+			SetWindowLong(hwnd, GWL_STYLE, WS_EX_TOPMOST | WS_VISIBLE | WS_POPUP);
 		} else            // windowed
 		{
-			SetWindowLong (hwnd, GWL_STYLE, WS_OVERLAPPEDWINDOW);
-			SetWindowPos (hwnd, HWND_TOP, 0, 0, GAME_WIDTH, GAME_HEIGHT,
-						  SWP_FRAMECHANGED | SWP_NOMOVE | SWP_NOSIZE | SWP_SHOWWINDOW);
+			SetWindowLong(hwnd, GWL_STYLE, WS_OVERLAPPEDWINDOW);
+			SetWindowPos(hwnd, HWND_TOP, 0, 0, GAME_WIDTH, GAME_HEIGHT,
+				SWP_FRAMECHANGED | SWP_NOMOVE | SWP_NOSIZE | SWP_SHOWWINDOW);
 
 			// Adjust window size so client area is GAME_WIDTH x GAME_HEIGHT
 			RECT clientRect;
-			GetClientRect (hwnd, &clientRect);   // get size of client area of window
-			MoveWindow (hwnd,
-						0,                                           // Left
-						0,                                           // Top
-						GAME_WIDTH + (GAME_WIDTH - clientRect.right),    // Right
-						GAME_HEIGHT + (GAME_HEIGHT - clientRect.bottom), // Bottom
-						TRUE);                                       // Repaint the window
+			GetClientRect(hwnd, &clientRect);   // get size of client area of window
+			MoveWindow(hwnd,
+				0,                                           // Left
+				0,                                           // Top
+				GAME_WIDTH + (GAME_WIDTH - clientRect.right),    // Right
+				GAME_HEIGHT + (GAME_HEIGHT - clientRect.bottom), // Bottom
+				TRUE);                                       // Repaint the window
 		}
 
 	} catch (...) {
 		// An error occured, try windowed mode 
-		SetWindowLong (hwnd, GWL_STYLE, WS_OVERLAPPEDWINDOW);
-		SetWindowPos (hwnd, HWND_TOP, 0, 0, GAME_WIDTH, GAME_HEIGHT,
-					  SWP_FRAMECHANGED | SWP_NOMOVE | SWP_NOSIZE | SWP_SHOWWINDOW);
+		SetWindowLong(hwnd, GWL_STYLE, WS_OVERLAPPEDWINDOW);
+		SetWindowPos(hwnd, HWND_TOP, 0, 0, GAME_WIDTH, GAME_HEIGHT,
+			SWP_FRAMECHANGED | SWP_NOMOVE | SWP_NOSIZE | SWP_SHOWWINDOW);
 
 		// Adjust window size so client area is GAME_WIDTH x GAME_HEIGHT
 		RECT clientRect;
-		GetClientRect (hwnd, &clientRect);   // get size of client area of window
-		MoveWindow (hwnd,
-					0,                                           // Left
-					0,                                           // Top
-					GAME_WIDTH + (GAME_WIDTH - clientRect.right),    // Right
-					GAME_HEIGHT + (GAME_HEIGHT - clientRect.bottom), // Bottom
-					TRUE);                                       // Repaint the window
+		GetClientRect(hwnd, &clientRect);   // get size of client area of window
+		MoveWindow(hwnd,
+			0,                                           // Left
+			0,                                           // Top
+			GAME_WIDTH + (GAME_WIDTH - clientRect.right),    // Right
+			GAME_HEIGHT + (GAME_HEIGHT - clientRect.bottom), // Bottom
+			TRUE);                                       // Repaint the window
 	}
 }

@@ -6,16 +6,15 @@
 #include "constants.h"
 #include "gun.h"
 
-namespace bossgunNS
-{
+namespace bossGunNS {
 	const int spacing = 32;
 }
 
-class BossGun : public Gun {
+class BossGun : public Gun
+{
 private:
 
 public:
-	//explict
 	BossGun();
 	~BossGun();
 	void update(float frametime, int orientation, float x, float y, Input* input, LevelController* lc, float, float, bool);

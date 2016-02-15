@@ -8,8 +8,7 @@
 #include "constants.h"
 
 
-namespace inventoryItemNS
-{
+namespace inventoryItemNS {
 
 }
 
@@ -23,9 +22,7 @@ public:
 	InventoryItem();
 	InventoryItem(Item* i);
 	InventoryItem(Item*& i, int cnt);
-
 	~InventoryItem();
-
 	void update(float frameTime);
 	Item* getItem();
 };

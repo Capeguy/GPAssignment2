@@ -9,16 +9,13 @@
 #include "list.h"
 #include "input.h"
 
-
-
-namespace buttonNS
-{
+namespace buttonNS {
 	const int width = 400;
 	const int height = 65;
 	const int cols = 1;
 	const int spacing = 105;
 
-	const int pMenu_width = 200; 
+	const int pMenu_width = 200;
 	const int pMenu_height = 71;
 	const int pMenu_cols = 1;
 
@@ -27,7 +24,7 @@ namespace buttonNS
 	const int winLose_cols = 1;
 	const int winLose_spacing = 200;
 }
-class Button : public Entity // Abstract class
+class Button : public Entity
 {
 
 protected:

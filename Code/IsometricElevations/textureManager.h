@@ -10,7 +10,8 @@
 #include "graphics.h"
 #include "constants.h"
 
-class TextureManager {
+class TextureManager
+{
 	// TextureManager properties
 private:
 	UINT       width;       // width of texture in pixels
@@ -23,31 +24,31 @@ private:
 
 public:
 	// Constructor
-	TextureManager ();
+	TextureManager();
 
 	// Destructor
-	virtual ~TextureManager ();
+	virtual ~TextureManager();
 
 	// Returns a pointer to the texture
-	LP_TEXTURE getTexture () const { return texture; }
+	LP_TEXTURE getTexture() const { return texture; }
 
 	// Returns the texture width
-	UINT getWidth () const { return width; }
+	UINT getWidth() const { return width; }
 
 	// Return the texture height
-	UINT getHeight () const { return height; }
+	UINT getHeight() const { return height; }
 
 	// Initialize the textureManager
 	// Pre: *g points to Graphics object
 	//      *file points to name of texture file to load
 	// Post: The texture file is loaded
-	virtual bool initialize (Graphics *g, const char *file);
+	virtual bool initialize(Graphics *g, const char *file);
 
 	// Release resources
-	virtual void onLostDevice ();
+	virtual void onLostDevice();
 
 	// Restore resourses
-	virtual void onResetDevice ();
+	virtual void onResetDevice();
 };
 
 #endif

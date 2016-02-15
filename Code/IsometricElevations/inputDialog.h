@@ -14,14 +14,14 @@
 #include "input.h"
 #include "messageDialog.h"
 
-namespace inputDialogNS
-{
+namespace inputDialogNS {
 	const COLOR_ARGB TEXT_BACK_COLOR = graphicsNS::WHITE;   // input text background
 	const COLOR_ARGB TEXT_COLOR = graphicsNS::BLACK;        // input text color
 }
 
 // Input Dialog, inherits from Message Dialog
-class InputDialog : public MessageDialog {
+class InputDialog : public MessageDialog
+{
 private:
 	std::string inText;                 // input text
 	RECT        inTextRect;
@@ -32,18 +32,18 @@ private:
 
 public:
 	// Constructor
-	InputDialog ();
+	InputDialog();
 	// Destructor
-	virtual ~InputDialog ();
+	virtual ~InputDialog();
 
 	// Prepare vertex buffers
-	void prepareVerts ();
+	void prepareVerts();
 
 	// Display the InputDialog.
-	const void draw ();
+	const void draw();
 
 	// Return input text.
-	std::string getText () {
+	std::string getText() {
 		if (!visible)
 			return inText;
 		else
@@ -51,19 +51,19 @@ public:
 	}
 
 	// Set input text font color
-	void setTextFontColor (COLOR_ARGB fc) { textFontColor = fc; }
+	void setTextFontColor(COLOR_ARGB fc) { textFontColor = fc; }
 
 	// Set input text background color
-	void setTextBackColor (COLOR_ARGB bc) { textBackColor = bc; }
+	void setTextBackColor(COLOR_ARGB bc) { textBackColor = bc; }
 
 	// Display text str in InputDialog
-	void print (const std::string &str);
+	void print(const std::string &str);
 
 	// Checks for Close event
-	void update ();
+	void update();
 
 	// Call when graphics device is lost.
-	void onLostDevice ();
+	void onLostDevice();
 };
 
 #endif

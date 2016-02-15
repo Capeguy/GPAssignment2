@@ -22,34 +22,17 @@
 #include "jack.h"
 #include "warden.h"
 
-//#include "machineGun.h"
 namespace breakoutJackNS {
 	// Map textures
 	const int TEXTURE_COLS = 19;
 	const int TEXTURE_SIZE = 32;
 	const int TILE_COUNT = 600;
 	// size of height change in pixels for current tile set
-	const int HEIGHT_CHANGE = 64;
-	//const int HEIGHT_CHANGE = 32;     
+	const int HEIGHT_CHANGE = 64; 
 	const int MAP_SIZE_X = 40;
 	const int MAP_SIZE_Y = 25;
 	const int SCREEN_X = GAME_WIDTH / 2 - TEXTURE_SIZE / 2;
 	const int SCREEN_Y = GAME_HEIGHT / 8;
-
-	// Object textures
-	const int TEXTURE2_COLS = 32;
-	const int TEXTURE2_SIZE = 32;
-	const int TREE0_FRAME = 0;
-	const int TREE1_FRAME = 1;
-	const int TREE_OFFSET_X = -32;  // add to map X to get tree X
-	const int TREE_OFFSET_Y = -96;  // add to map Y to get tree Y
-	const int TREE0_SHADOW = 2;
-	const int TREE1_SHADOW = 3;
-	const float TREE_SHADOW_DEGREES = 335;
-	const float TREE_SHADOW_X = -21;  // offset after rotation
-	const float TREE_SHADOW_Y = 5;
-
-
 }
 
 // BreakoutJack is the class we create, it inherits from the Game class
@@ -57,11 +40,10 @@ class BreakoutJack : public Game
 {
 private:
 	// game items
-	TextureManager textures;    // textures
-	TextureManager textures2;   // object texture
-	TextureManager* playerTexture; // player texture
+	TextureManager* textures;    
+	TextureManager* playerTexture; 
 	TextureManager* tileTexture;
-	TextureManager itemTexture;		// item texture
+	TextureManager* itemTexture;		
 	TextureManager* menuTexture;
 	TextureManager* buttonTexture;
 	TextureManager* pauseMenuTexture;
@@ -70,32 +52,33 @@ private:
 	TextureManager* instructionsTexture;
 	TextureManager* iconTexture;
 	TextureManager* winLoseButtonTexture;
+	TextureManager* npcTexture;
+	NPCController*	npcController;
 	Image* instructions;
 	Image* menu;
 	Image* pauseMenu;
-	Image   mapTile;
 	Image* credits;
-	Crate crate;
 	TextDX	dxFont;
 	TextDX* loseFont;
 	COLOR_ARGB fontColor;
 	RECT	textRect;
 	Player* player;
 	HUD* hud;
-	NPCController* npcController;
-	int room = Menu;
 	std::list<Button*>* buttonList;
 	std::list<Button*>* pauseMenuButtonList;
 	std::list<Button*>* winLoseButtonList;
-	bool skipFirstClick = false;
-	Guard* guard;
-	Medic* medic;
-	Jack* jack;
-	Dog* dog;
+	Guard*	guard;
+	Medic*	medic;
+	Jack*	jack;
+	Dog*	dog;
 	Warden* warden;
-	bool pause = false;
-
+	bool	pause = false;
+	bool	skipFirstClick = false;
+	int		room = Menu;
 public:
+	enum Room { Menu, Start, Instructions, Credits, Exit };
+	enum PauseMenu { Resume, Restart, MainMenu };
+	enum WinLose { Redo, Main, QuitGame };
 	LevelController* levelController;
 	// Constructor
 	BreakoutJack();
@@ -103,21 +86,15 @@ public:
 	virtual ~BreakoutJack();
 	// Initialize the game
 	void initialize(HWND hwnd);
-	void update();      // must override pure virtual from Game
-	void ai();          // "
-	void collisions();  // "
-	void render();      // "
+	void update();      
+	void ai();          
+	void collisions();  
+	void render();      
 	void releaseAll();
 	void resetAll();
 	void stopAllMusic();
-	bool tileIsSolid(int x, int y);
 	void consoleCommand();
 	void resetGame();
 	Player* getPlayer();
-	enum Room { Menu, Start, Instructions, Credits, Exit };
-	enum PauseMenu { Resume, Restart, MainMenu };
-	enum WinLose {Redo, Main, QuitGame};
 };
-
 #endif
-// TODO: Ensure all classes have proper memory deallocation in destructor

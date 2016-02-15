@@ -1,15 +1,15 @@
 #include "dog.h"
 
-Dog::Dog() : NPC() 
-{
+Dog::Dog() : NPC() {
 	attackRange = dogNS::NPC_ATTACK_RANGE;
 	chaseRange = dogNS::NPC_CHASE_RANGE;
 	hp = dogNS::HP;
 	hpMax = dogNS::MAXHP;
 }
 
-void Dog::ai(float frameTime, Entity & ent, float mapX, LevelController* lc)
-{
+Dog::~Dog() {}
+
+void Dog::ai(float frameTime, Entity & ent, float mapX, LevelController* lc) {
 	OSD::instance()->addLine("AI Can | Left: " + std::to_string(canMoveLeft()) + " | Right: " + std::to_string(canMoveRight()) + " | Up: " + std::to_string(canMoveUp()) + " | Down: " + std::to_string(canMoveDown()));
 	// derivedDest.y = spriteData.y; // Because we're not gonna climb mountains to chase Player
 	switch (aiState) {
@@ -33,27 +33,23 @@ void Dog::ai(float frameTime, Entity & ent, float mapX, LevelController* lc)
 			if (velocity.x > 0 && spriteData.x - derivedDest.x < 1 && canMoveLeft()) {
 				velocity.x = 0;
 				setX(derivedDest.x);
-			}
-			else {
+			} else {
 				orientation = Left;
 				if (!moveLeft(frameTime)) {
 					currDest = VECTOR2(-1, -1);
 				}
 			}
-		}
-		else if (spriteData.x < derivedDest.x) {
+		} else if (spriteData.x < derivedDest.x) {
 			if (velocity.x < 0 && derivedDest.x - spriteData.x < 1 && canMoveRight()) {
 				velocity.x = 0;
 				setX(derivedDest.x);
-			}
-			else {
+			} else {
 				orientation = Right;
 				if (!moveRight(frameTime)) {
 					currDest = VECTOR2(-1, -1);
 				}
 			}
-		}
-		else {
+		} else {
 			velocity.x = 0;
 		}
 		break;
@@ -73,29 +69,25 @@ void Dog::ai(float frameTime, Entity & ent, float mapX, LevelController* lc)
 			if (velocity.x > 0 && spriteData.x - derivedDest.x < 1) {
 				velocity.x = 0;
 				setX(derivedDest.x);
-			}
-			else {
+			} else {
 				orientation = Left;
 				if (!moveLeft(frameTime)) {
 					currDest = VECTOR2(-1, -1);
 					setAiState(Patrol);
 				}
 			}
-		}
-		else if (spriteData.x < derivedDest.x) {
+		} else if (spriteData.x < derivedDest.x) {
 			if (velocity.x < 0 && derivedDest.x - spriteData.x < 1) {
 				velocity.x = 0;
 				setX(derivedDest.x);
-			}
-			else {
+			} else {
 				orientation = Right;
 				if (!moveRight(frameTime)) {
 					currDest = VECTOR2(-1, -1);
 					setAiState(Patrol);
 				}
 			}
-		}
-		else {
+		} else {
 			velocity.x = 0;
 		}
 		break;
@@ -118,31 +110,25 @@ void Dog::ai(float frameTime, Entity & ent, float mapX, LevelController* lc)
 		bite(frameTime);
 	//OSD::instance()->addLine("MapX: " + std::to_string(mapX));
 	//OSD::instance()->addLine("NPC AI (" + std::to_string(aiState) + ") at (" + std::to_string(spriteData.x) + ", " + std::to_string(spriteData.y) + ") going to (" + std::to_string((derivedDest.x)) + ", " + std::to_string(derivedDest.y) + ") Moving at: (" + std::to_string((velocity.x)) + ", " + std::to_string(velocity.y) + ") ");
-
 }
 
-void Dog::draw()
-{
+void Dog::draw() {
 	NPC::draw();
 }
 
-void Dog::update(float frameTime, float mapX, float pVelo, LevelController * lc)
-{
+void Dog::update(float frameTime, float mapX, float pVelo, LevelController * lc) {
 	NPC::update(frameTime, mapX, pVelo, lc);
 }
 
-int Dog::getPoints()
-{
+int Dog::getPoints() {
 	return point;
 }
 
-bool Dog::initialize(Game * gamePtr, int width, int height, int ncols, TextureManager * textureM, int spriteNumber, LevelController * lc)
-{
+bool Dog::initialize(Game * gamePtr, int width, int height, int ncols, TextureManager * textureM, int spriteNumber, LevelController * lc) {
 	return NPC::initialize(gamePtr, width, height, ncols, textureM, spriteNumber, lc);
 }
 
-bool Dog::moveLeft(float frameTime)
-{
+bool Dog::moveLeft(float frameTime) {
 	if (!canMoveLeft())
 		return false;
 	orientation = Left;
@@ -150,8 +136,7 @@ bool Dog::moveLeft(float frameTime)
 	return true;
 }
 
-bool Dog::moveRight(float frameTime)
-{
+bool Dog::moveRight(float frameTime) {
 	if (!canMoveRight())
 		return false;
 	orientation = Right;
@@ -159,16 +144,10 @@ bool Dog::moveRight(float frameTime)
 	return true;
 }
 
-void Dog::bite(float frameTime)
-{
-	if (cooldownCurrent <= 0)
-	{
+void Dog::bite(float frameTime) {
+	if (cooldownCurrent <= 0) {
 		cooldownCurrent = cooldown;
 		gameptr->getPlayer()->damage(biteDamage);
-	}
-	else
+	} else
 		cooldownCurrent -= frameTime;
-	
 }
-
-Dog::~Dog() {}

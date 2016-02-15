@@ -10,7 +10,7 @@
 //=============================================================================
 // default constructor
 //=============================================================================
-TextureManager::TextureManager () {
+TextureManager::TextureManager() {
 	texture = NULL;
 	width = 0;
 	height = 0;
@@ -22,22 +22,22 @@ TextureManager::TextureManager () {
 //=============================================================================
 // destructor
 //=============================================================================
-TextureManager::~TextureManager () {
-	SAFE_RELEASE (texture);
+TextureManager::~TextureManager() {
+	SAFE_RELEASE(texture);
 }
 
 //=============================================================================
 // Loads the texture file from disk.
 // Post: returns true if successful, false if failed
 //=============================================================================
-bool TextureManager::initialize (Graphics *g, const char *f) {
+bool TextureManager::initialize(Graphics *g, const char *f) {
 	try {
 		graphics = g;                       // the graphics object
 		file = f;                           // the texture file
 
-		hr = graphics->loadTexture (file, TRANSCOLOR, width, height, texture);
-		if (FAILED (hr)) {
-			SAFE_RELEASE (texture);
+		hr = graphics->loadTexture(file, TRANSCOLOR, width, height, texture);
+		if (FAILED(hr)) {
+			SAFE_RELEASE(texture);
 			return false;
 		}
 	} catch (...) { return false; }
@@ -48,19 +48,19 @@ bool TextureManager::initialize (Graphics *g, const char *f) {
 //=============================================================================
 // called when graphics device is lost
 //=============================================================================
-void TextureManager::onLostDevice () {
+void TextureManager::onLostDevice() {
 	if (!initialized)
 		return;
-	SAFE_RELEASE (texture);
+	SAFE_RELEASE(texture);
 }
 
 //=============================================================================
 // called when graphics device is reset
 //=============================================================================
-void TextureManager::onResetDevice () {
+void TextureManager::onResetDevice() {
 	if (!initialized)
 		return;
-	graphics->loadTexture (file, TRANSCOLOR, width, height, texture);
+	graphics->loadTexture(file, TRANSCOLOR, width, height, texture);
 }
 
 

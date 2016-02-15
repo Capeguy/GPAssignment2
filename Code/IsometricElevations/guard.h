@@ -6,8 +6,7 @@
 #include "constants.h"
 #include "npc.h"
 
-namespace guardNS
-{
+namespace guardNS {
 	const float SPEED = 32 * 400 * 1.25;
 	const float NPC_ATTACK_RANGE = npcNS::NPC_SHOOT_RANGE;
 	const float NPC_CHASE_RANGE = npcNS::NPC_CHASE_RANGE;
@@ -15,14 +14,14 @@ namespace guardNS
 	const float MAXHP = HP;
 }
 
-class Guard : public NPC 
+class Guard : public NPC
 {
 private:
 	Pistol* pistol;
 	TextureManager* gunTexture;
 	int point = 50;
 public:
-	Guard();	
+	Guard();
 	~Guard();
 	void ai(float frameTime, Entity & ent, float mapX, LevelController* lc);
 	void draw();

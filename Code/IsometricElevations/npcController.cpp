@@ -4,7 +4,6 @@ NPCController::NPCController() {}
 
 NPCController::NPCController(Graphics *graphics, TextureManager* iconTxt, Game* gp) {
 	gameptr = gp;
-	// item texture initialize
 	npcTexture = new TextureManager();
 	iconTexture = iconTxt;
 	npcs = std::list<NPC*>();
@@ -20,7 +19,7 @@ NPC* NPCController::spawnNPCs(int level, Game *gamePtr, float x, float y, int sp
 	npc->setX(x);
 	npc->setY(y);
 	npcs.push_back(npc);
-	// Create Npc Icon for minimap
+	// Create NPC Icon for minimap
 	Image* npcIco = new Image();
 	npcIco->initialize(graphics, TEXTURE_SIZE, TEXTURE_SIZE, 2, iconTexture);
 	npcIco->setCurrentFrame(0);
@@ -60,12 +59,10 @@ void NPCController::render() {
 
 void NPCController::collisions(LevelController* lc, Player* p) {
 	D3DXVECTOR2 collisionVector = D3DXVECTOR2();
-	//list<Crate*>* crateList = iController->getCrateList();
 	std::list<NPC*>::iterator npcIter;
 	std::list<NPC*>::iterator selectedNPC;
-	std::list<Projectile*>::iterator projectileIter = lc->projectiles.begin(); //how to get projectiles from whereever
+	std::list<Projectile*>::iterator projectileIter = lc->projectiles.begin();
 	std::list<Image*>::iterator iconIter = npcIcon.begin();
-	//NPC** selectedNPC;
 	bool removed = false;
 	int count = 0;
 	while (!lc->projectiles.empty() && projectileIter != lc->projectiles.end()) {
@@ -73,14 +70,10 @@ void NPCController::collisions(LevelController* lc, Player* p) {
 		removed = false;
 		while (!npcs.empty() && npcIter != npcs.end() && !removed) {
 			if ((*projectileIter)->collidesWith(**npcIter, collisionVector) && (*projectileIter)->getOwner() == Projectile::Player) {
-				// TODO: Handle health reduction & check if health < 0
-				// health reduction code
-				std::advance(iconIter, count); //here1
+				++iconIter;
 				(*npcIter)->damage((*projectileIter)->getDamage());
-				//(*npcIter)->healthUpdate();
 				if ((*npcIter)->isDying()) {
-					if ((*npcIter)->bossDefeated())
-					{
+					if ((*npcIter)->bossDefeated()) {
 						bossDead = true;
 					}
 					p->setTotalPoints((*npcIter)->getPoints()); // Add points to player
@@ -110,26 +103,6 @@ void NPCController::getPlayerVelocity(float v) {
 	pVelocity = v;
 }
 
-void NPCController::chaseIfInRange(VECTOR2 v) {
-	return;
-	for (std::list<NPC*>::iterator npcIt = npcs.begin(); npcIt != npcs.end(); ++npcIt) {
-		float y2 = v.y;
-		float x2 = v.x;
-		float y1 = (*npcIt)->getY();
-		float x1 = (*npcIt)->getX();
-		float distance = sqrt(pow(y2 - y1, 2) + (pow(x2 - x1, 2)));
-		if (distance > (*npcIt)->getChaseRange()) {
-			(*npcIt)->setAiState(NPC::Patrol);
-		} else if (distance > (*npcIt)->getAttackRange()) {
-			(*npcIt)->setAiState(NPC::Chase);
-			(*npcIt)->setDest(v);
-		} else {
-			(*npcIt)->setAiState(NPC::Attack);
-			(*npcIt)->setDest(v);
-		}
-	}
-}
-
 std::list<NPC*> NPCController::getNPCs() {
 	return npcs;
 }
@@ -141,17 +114,16 @@ void NPCController::addNPC(NPC* npc, int type, LevelController* lc, Graphics* gr
 	// Create Npc Icon for minimap
 	Image* npcIco = new Image();
 	npcIco->initialize(graphics, TEXTURE_SIZE, TEXTURE_SIZE, 5, iconTexture);
-	switch (type)
-	{
-		case 4: // Agent Jack
-			npcIco->setCurrentFrame(4);
-			break;
-		case 6: // Friendly
-			npcIco->setCurrentFrame(2);
-			break;
-		default:
-			npcIco->setCurrentFrame(0);
-			break;
+	switch (type) {
+	case 4: // Agent Jack
+		npcIco->setCurrentFrame(4);
+		break;
+	case 6: // Friendly
+		npcIco->setCurrentFrame(2);
+		break;
+	default:
+		npcIco->setCurrentFrame(0);
+		break;
 	}
 	npcIco->setScale(0.5);
 	npcIco->setX(GAME_WIDTH*0.6);
@@ -159,7 +131,6 @@ void NPCController::addNPC(NPC* npc, int type, LevelController* lc, Graphics* gr
 	npcIcon.push_back(npcIco);
 }
 
-bool NPCController::getBossDeathStatus()
-{
+bool NPCController::getBossDeathStatus() {
 	return bossDead;
 }

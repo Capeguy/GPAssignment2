@@ -1,16 +1,12 @@
 #include "item.h"
 
-
-Item::Item () {
-	textureManager = TextureManager ();
+Item::Item() {
+	textureManager = TextureManager();
 }
 
-Item::~Item () {
-
-}
-
-bool Item::initialize (Game * gamePtr, int width, int height, int ncols, std::string file) {
-	textureManager.initialize (gamePtr->getGraphics (), file.c_str ());
+Item::~Item() {}
+bool Item::initialize(Game * gamePtr, int width, int height, int ncols, std::string file) {
+	textureManager.initialize(gamePtr->getGraphics(), file.c_str());
 	return false;
 }
 void Item::update(float frametime, int orientation, float x, float y) {
@@ -20,7 +16,6 @@ int Item::getItemType() {
 	return type;
 }
 
-std::string Item::getItemName()
-{
+std::string Item::getItemName() {
 	return name;
 }

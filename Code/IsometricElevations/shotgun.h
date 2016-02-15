@@ -6,15 +6,14 @@
 #include "constants.h"
 #include "gun.h"
 
-
-
-class Shotgun : public Gun {
+class Shotgun : public Gun
+{
 private:
 
 public:
 	//explict
-	Shotgun ();
-	~Shotgun ();
-	Projectile* shoot (LevelController* lc, float frametime);
+	Shotgun();
+	~Shotgun();
+	Projectile* shoot(LevelController* lc, float frametime);
 };
 #endif

@@ -18,10 +18,8 @@
 #include "bossGun.h"
 #include "levelController.h"
 #include "npcController.h"
-// TODO: Create an NPCController to control the spawning of NPCs
 
-namespace npcNS
-{
+namespace npcNS {
 	const int	X = 0;
 	const int	Y = 0;
 	const float SPEED = 32 * 400 * 0.75;
@@ -31,10 +29,6 @@ namespace npcNS
 	const float JUMP_SPEED = 32 * 400;
 	const int   TEXTURE_SIZE = 64;
 	const int   TEXTURE_COLS = 32;
-	//const int   NPC_START_FRAME = 568;
-	//const int   NPC_END_FRAME = 571;
-	//const int   NPC_START_FRAME = 474;
-	//const int   NPC_END_FRAME = 477;
 	const float NPC_ANIMATION_DELAY = 0.2f;
 	const float NPC_WIDTH = 64.0;
 	const float NPC_HEIGHT = 64.0;
@@ -46,9 +40,9 @@ namespace npcNS
 	const int NPC_HEALTHBACK_HEIGHT = 6;
 }
 
-class NPC : public Entity 
+class NPC : public Entity
 {
-	
+
 protected:
 	bool	jump = false;
 	bool	doubleJump = false;
@@ -63,7 +57,6 @@ protected:
 	TextureManager* npcHealthBackTexture;
 	Image* npcHealth;
 	Image* npcHealthBack;
-
 	float	jumpdistance = 0;
 	VECTOR2 startPoint;
 	VECTOR2 endPoint;
@@ -90,7 +83,6 @@ public:
 	int sprIndex = -1;
 	float mapX = 0;
 	float pVelocity = 0;
-	//explicit
 	NPC();
 	~NPC();
 
@@ -106,11 +98,8 @@ public:
 	virtual void ai(float frameTime, Entity & ent, float mapX, LevelController* lc) {};
 	virtual int getPoints() { return 0; };
 	virtual void stateChange();
-	// TODO: Make NPC AI walk between 2 points / cycle between points in a vector array
 	void setFalling(bool f);
 	void damage(float amt);
-	void damage(Weapon w);
-	void damage();
 	void healthUpdate();
 	void die();
 	void setDying(bool d);
@@ -130,6 +119,5 @@ public:
 	bool canMoveDown();
 	bool canMoveLeft();
 	bool canMoveRight();
-
 };
 #endif

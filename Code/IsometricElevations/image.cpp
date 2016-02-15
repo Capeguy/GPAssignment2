@@ -8,7 +8,7 @@
 //=============================================================================
 // default constructor
 //=============================================================================
-Image::Image () {
+Image::Image() {
 	initialized = false;            // set true when successfully initialized
 	spriteData.width = 2;
 	spriteData.height = 2;
@@ -40,7 +40,7 @@ Image::Image () {
 //=============================================================================
 // destructor
 //=============================================================================
-Image::~Image () {}
+Image::~Image() {}
 
 //=============================================================================
 // Initialize the Image.
@@ -51,18 +51,18 @@ Image::~Image () {}
 // number of columns in texture (1 to n) (0 same as 1)
 // pointer to TextureManager
 //=============================================================================
-bool Image::initialize (Graphics *g, int width, int height, int ncols,
-						TextureManager *textureM) {
+bool Image::initialize(Graphics *g, int width, int height, int ncols,
+	TextureManager *textureM) {
 	try {
 		graphics = g;                               // the graphics object
 		textureManager = textureM;                  // pointer to texture object
 
-		spriteData.texture = textureManager->getTexture ();
+		spriteData.texture = textureManager->getTexture();
 		if (width == 0)
-			width = textureManager->getWidth ();     // use full width of texture
+			width = textureManager->getWidth();     // use full width of texture
 		spriteData.width = width;
 		if (height == 0)
-			height = textureManager->getHeight ();   // use full height of texture
+			height = textureManager->getHeight();   // use full height of texture
 		spriteData.height = height;
 		cols = ncols;
 		if (cols == 0)
@@ -87,15 +87,15 @@ bool Image::initialize (Graphics *g, int width, int height, int ncols,
 // Pre : spriteBegin() is called
 // Post: spriteEnd() is called
 //=============================================================================
-void Image::draw (COLOR_ARGB color) {
+void Image::draw(COLOR_ARGB color) {
 	if (!visible || graphics == NULL)
 		return;
 	// get fresh texture incase onReset() was called
-	spriteData.texture = textureManager->getTexture ();
+	spriteData.texture = textureManager->getTexture();
 	if (color == graphicsNS::FILTER)                     // if draw with filter
-		graphics->drawSprite (spriteData, colorFilter);  // use colorFilter
+		graphics->drawSprite(spriteData, colorFilter);  // use colorFilter
 	else
-		graphics->drawSprite (spriteData, color);        // use color as filter
+		graphics->drawSprite(spriteData, color);        // use color as filter
 }
 
 //=============================================================================
@@ -104,16 +104,16 @@ void Image::draw (COLOR_ARGB color) {
 // Pre : spriteBegin() is called
 // Post: spriteEnd() is called
 //=============================================================================
-void Image::draw (SpriteData sd, COLOR_ARGB color) {
+void Image::draw(SpriteData sd, COLOR_ARGB color) {
 	if (!visible || graphics == NULL)
 		return;
 	sd.rect = spriteData.rect;                  // use this Images rect to select texture
-	sd.texture = textureManager->getTexture ();  // get fresh texture incase onReset() was called
+	sd.texture = textureManager->getTexture();  // get fresh texture incase onReset() was called
 
 	if (color == graphicsNS::FILTER)             // if draw with filter
-		graphics->drawSprite (sd, colorFilter);  // use colorFilter
+		graphics->drawSprite(sd, colorFilter);  // use colorFilter
 	else
-		graphics->drawSprite (sd, color);        // use color as filter
+		graphics->drawSprite(sd, color);        // use color as filter
 }
 
 //=============================================================================
@@ -121,23 +121,21 @@ void Image::draw (SpriteData sd, COLOR_ARGB color) {
 // typically called once per frame
 // frameTime is used to regulate the speed of movement and animation
 //=============================================================================
-void Image::update (float frameTime) {
-	if (endFrame - startFrame > 0)          // if animated sprite
-	{
+void Image::update(float frameTime) {
+	if (endFrame - startFrame > 0) {		// if animated sprite
 		animTimer += frameTime;             // total elapsed time
 		if (animTimer > frameDelay) {
 			animTimer -= frameDelay;
 			currentFrame++;
 			if (currentFrame < startFrame || currentFrame > endFrame) {
-				if (loop == true)            // if looping animation
+				if (loop)					// if looping animation
 					currentFrame = startFrame;
-				else                        // not looping animation
-				{
+				else {                      // not looping animation
 					currentFrame = endFrame;
 					animComplete = true;    // animation complete
 				}
 			}
-			setRect ();                      // set spriteData.rect
+			setRect();                      // set spriteData.rect
 		}
 	}
 }
@@ -145,18 +143,18 @@ void Image::update (float frameTime) {
 //=============================================================================
 // Set the current frame of the image
 //=============================================================================
-void Image::setCurrentFrame (int c) {
+void Image::setCurrentFrame(int c) {
 	if (c >= 0) {
 		currentFrame = c;
 		animComplete = false;
-		setRect ();                          // set spriteData.rect
+		setRect();                          // set spriteData.rect
 	}
 }
 
 //=============================================================================
 //  Set spriteData.rect to draw currentFrame
 //=============================================================================
-inline void Image::setRect () {
+inline void Image::setRect() {
 	// configure spriteData.rect to draw currentFrame
 	spriteData.rect.left = (currentFrame % cols) * spriteData.width;
 	// right edge + 1

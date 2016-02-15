@@ -10,7 +10,8 @@
 #include <xact3.h>
 #include "constants.h"
 
-class Audio {
+class Audio
+{
 	// properties
 private:
 	IXACT3Engine* xactEngine;   // pointer to XACT sound engine
@@ -23,26 +24,26 @@ private:
 
 public:
 	// Constructor
-	Audio ();
+	Audio();
 
 	// Destructor
-	virtual ~Audio ();
+	virtual ~Audio();
 
 	// member functions
 
 	// Initialize Audio
-	HRESULT initialize ();
+	HRESULT initialize();
 
 	// Perform periodic sound engine tasks.
-	void run ();
+	void run();
 
 	// Play sound specified by cue from sound bank.
 	// If cue does not exist no error occurs, there is simply no sound played.
-	void playCue (const char cue[]);
+	void playCue(const char cue[]);
 
 	// Stop a playing sound specified by cue from sound bank.
 	// If cue does not exist no error occurs.
-	void stopCue (const char cue[]);
+	void stopCue(const char cue[]);
 
 	//Stop all tracks
 	void stopAllTracks();

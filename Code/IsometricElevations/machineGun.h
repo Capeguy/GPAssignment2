@@ -8,13 +8,13 @@
 
 
 
-class MachineGun : public Gun {
+class MachineGun : public Gun
+{
 private:
 
 public:
-	//explict
-	MachineGun ();
-	~MachineGun ();
+	MachineGun();
+	~MachineGun();
 	Projectile* shoot(LevelController* lc, float frametime);
 	void draw();
 };

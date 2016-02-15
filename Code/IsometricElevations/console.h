@@ -14,22 +14,21 @@
 #include "graphics.h"
 #include "input.h"
 
-namespace consoleNS
-{
-	const UINT WIDTH = 500;             // width of console
-	const UINT HEIGHT = 400;            // height of console
-	const UINT X = 5;                   // console location
-	const UINT Y = 5;
-	const UINT MARGIN = 4;              // text margin from console edge
-	const char FONT[] = "Courier New";  // console font
-	const int FONT_HEIGHT = 14;         // height of the font in pixels
+namespace consoleNS {
+	const UINT	WIDTH = 500;             // width of console
+	const UINT	HEIGHT = 400;            // height of console
+	const UINT	X = 5;                   // console location
+	const UINT	Y = 5;
+	const UINT	MARGIN = 4;              // text margin from console edge
+	const char	FONT[] = "Courier New";  // console font
+	const int	FONT_HEIGHT = 14;         // height of the font in pixels
+	const int	MAX_LINES = 256;          // maximun number of lines in text buffer
 	const COLOR_ARGB FONT_COLOR = graphicsNS::WHITE;    // color of console text
-	const COLOR_ARGB BACK_COLOR = SETCOLOR_ARGB (192, 128, 128, 128);    // backdrop color
-	const int MAX_LINES = 256;          // maximun number of lines in text buffer
+	const COLOR_ARGB BACK_COLOR = SETCOLOR_ARGB(192, 128, 128, 128);    // backdrop color
 }
 
-// 
-class Console {
+class Console
+{
 private:
 	Graphics    *graphics;              // graphics system
 	Input       *input;                 // input system
@@ -42,7 +41,7 @@ private:
 	RECT        textRect;               // text rectangle
 	COLOR_ARGB  fontColor;              // font color (a,r,g,b)
 	COLOR_ARGB  backColor;              // background color (a,r,g,b)
-	VertexC vtx[4];                     // vertex data for background
+	VertexC		vtx[4];                     // vertex data for background
 	LP_VERTEXBUFFER vertexBuffer;       // buffer to hold vertex data
 	int         scrollAmount;           // number of lines to scroll the display up
 	bool        initialized;            // true when initialized successfully
@@ -51,51 +50,51 @@ private:
 
 public:
 	// Constructor
-	Console ();
+	Console();
 
 	// Destructor
-	virtual ~Console ();
+	virtual ~Console();
 
 	// Initialize the Console
 	// Pre: *g points to Graphics
 	//      *in points to Input
-	bool initialize (Graphics *g, Input *in);
+	bool initialize(Graphics *g, Input *in);
 
 	// Display the Console.
-	const void draw ();
+	const void draw();
 
 	// Show/Hide the Console.
-	void showHide ();
+	void showHide();
 
 	// Return visible.
-	bool getVisible () { return visible; }
+	bool getVisible() { return visible; }
 
 	// Set visible = true;
-	void show () { visible = true; }
+	void show() { visible = true; }
 
 	// Set visible = false;
-	void hide () { visible = false; }
+	void hide() { visible = false; }
 
 	// Add text str to Console display.
 	// Only the first line of text in str will be displayed.
-	void print (const std::string &str);
+	void print(const std::string &str);
 
 	// Return Console command
-	std::string getCommand ();
+	std::string getCommand();
 
 	// Return Console Input text
-	std::string getInput () { return inputStr; }
+	std::string getInput() { return inputStr; }
 
 	// Clear Input text
-	void clearInput () { inputStr = ""; }
+	void clearInput() { inputStr = ""; }
 
 	// Call when graphics device is lost.
-	void onLostDevice ();
+	void onLostDevice();
 
 	// Call when graphics device is reset.
-	void onResetDevice ();
+	void onResetDevice();
 
-	static Console* getInstance ();
+	static Console* getInstance();
 };
 
 #endif

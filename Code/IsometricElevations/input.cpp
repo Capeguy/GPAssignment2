@@ -8,7 +8,7 @@
 //=============================================================================
 // default constructor
 //=============================================================================
-Input::Input () {
+Input::Input() {
 	// clear key down array
 	for (size_t i = 0; i < inputNS::KEYS_ARRAY_LEN; i++)
 		keysDown[i] = false;
@@ -39,9 +39,9 @@ Input::Input () {
 //=============================================================================
 // destructor
 //=============================================================================
-Input::~Input () {
+Input::~Input() {
 	if (mouseCaptured)
-		ReleaseCapture ();               // release mouse
+		ReleaseCapture();               // release mouse
 }
 
 //=============================================================================
@@ -49,7 +49,7 @@ Input::~Input () {
 // Set capture=true to capture mouse
 // Throws GameError
 //=============================================================================
-void Input::initialize (HWND hwnd, bool capture) {
+void Input::initialize(HWND hwnd, bool capture) {
 	try {
 		mouseCaptured = capture;
 
@@ -58,17 +58,17 @@ void Input::initialize (HWND hwnd, bool capture) {
 		Rid[0].usUsage = HID_USAGE_GENERIC_MOUSE;
 		Rid[0].dwFlags = RIDEV_INPUTSINK;
 		Rid[0].hwndTarget = hwnd;
-		RegisterRawInputDevices (Rid, 1, sizeof (Rid[0]));
+		RegisterRawInputDevices(Rid, 1, sizeof(Rid[0]));
 
 		if (mouseCaptured)
-			SetCapture (hwnd);           // capture mouse
+			SetCapture(hwnd);           // capture mouse
 
 		// Clear controllers state
-		ZeroMemory (controllers, sizeof (ControllerState) * MAX_CONTROLLERS);
+		ZeroMemory(controllers, sizeof(ControllerState) * MAX_CONTROLLERS);
 
-		checkControllers ();             // check for connected controllers
+		checkControllers();             // check for connected controllers
 	} catch (...) {
-		throw(GameError (gameErrorNS::FATAL_ERROR, "Error initializing input system"));
+		throw(GameError(gameErrorNS::FATAL_ERROR, "Error initializing input system"));
 	}
 }
 
@@ -76,7 +76,7 @@ void Input::initialize (HWND hwnd, bool capture) {
 // Set true in the keysDown and keysPessed array for this key
 // Pre: wParam contains the virtual key code (0--255)
 //=============================================================================
-void Input::keyDown (WPARAM wParam) {
+void Input::keyDown(WPARAM wParam) {
 	// make sure key code is within buffer range
 	if (wParam < inputNS::KEYS_ARRAY_LEN) {
 		keysDown[wParam] = true;    // update keysDown array
@@ -89,7 +89,7 @@ void Input::keyDown (WPARAM wParam) {
 // Set false in the keysDown array for this key
 // Pre: wParam contains the virtual key code (0--255)
 //=============================================================================
-void Input::keyUp (WPARAM wParam) {
+void Input::keyUp(WPARAM wParam) {
 	// make sure key code is within buffer range
 	if (wParam < inputNS::KEYS_ARRAY_LEN)
 		// update state table
@@ -100,17 +100,17 @@ void Input::keyUp (WPARAM wParam) {
 // Save the char just entered in textIn string
 // Pre: wParam contains the char
 //=============================================================================
-void Input::keyIn (WPARAM wParam) {
+void Input::keyIn(WPARAM wParam) {
 	if (newLine)                            // if start of new line
 	{
-		textIn.clear ();
+		textIn.clear();
 		newLine = false;
 	}
 
 	if (wParam == '\b')                     // if backspace
 	{
-		if (textIn.length () > 0)             // if characters exist
-			textIn.erase (textIn.size () - 1);  // erase last character entered
+		if (textIn.length() > 0)             // if characters exist
+			textIn.erase(textIn.size() - 1);  // erase last character entered
 	} else {
 		textIn += wParam;                   // add character to textIn
 		charIn = wParam;                    // save last char entered
@@ -123,7 +123,7 @@ void Input::keyIn (WPARAM wParam) {
 //=============================================================================
 // Returns true if the specified VIRTUAL KEY is down, otherwise false.
 //=============================================================================
-bool Input::isKeyDown (UCHAR vkey) const {
+bool Input::isKeyDown(UCHAR vkey) const {
 	if (vkey < inputNS::KEYS_ARRAY_LEN)
 		return keysDown[vkey];
 	else
@@ -134,7 +134,7 @@ bool Input::isKeyDown (UCHAR vkey) const {
 // Return true if the specified VIRTUAL KEY has been pressed in the most recent
 // frame. Key presses are erased at the end of each frame.
 //=============================================================================
-bool Input::wasKeyPressed (UCHAR vkey) const {
+bool Input::wasKeyPressed(UCHAR vkey) const {
 	if (vkey < inputNS::KEYS_ARRAY_LEN)
 		return keysPressed[vkey];
 	else
@@ -145,7 +145,7 @@ bool Input::wasKeyPressed (UCHAR vkey) const {
 // Return true if any key was pressed in the most recent frame.
 // Key presses are erased at the end of each frame.
 //=============================================================================
-bool Input::anyKeyPressed () const {
+bool Input::anyKeyPressed() const {
 	for (size_t i = 0; i < inputNS::KEYS_ARRAY_LEN; i++)
 		if (keysPressed[i] == true)
 			return true;
@@ -155,7 +155,7 @@ bool Input::anyKeyPressed () const {
 //=============================================================================
 // Clear the specified key press
 //=============================================================================
-void Input::clearKeyPress (UCHAR vkey) {
+void Input::clearKeyPress(UCHAR vkey) {
 	if (vkey < inputNS::KEYS_ARRAY_LEN)
 		keysPressed[vkey] = false;
 }
@@ -164,7 +164,7 @@ void Input::clearKeyPress (UCHAR vkey) {
 // Clear specified input buffers
 // See input.h for what values
 //=============================================================================
-void Input::clear (UCHAR what) {
+void Input::clear(UCHAR what) {
 	if (what & inputNS::KEYS_DOWN)       // if clear keys down
 	{
 		for (size_t i = 0; i < inputNS::KEYS_ARRAY_LEN; i++)
@@ -183,27 +183,27 @@ void Input::clear (UCHAR what) {
 		mouseRawY = 0;
 	}
 	if (what & inputNS::TEXT_IN)
-		clearTextIn ();
+		clearTextIn();
 }
 
 //=============================================================================
 // Reads mouse screen position into mouseX, mouseY
 //=============================================================================
-void Input::mouseIn (LPARAM lParam) {
-	mouseX = GET_X_LPARAM (lParam);
-	mouseY = GET_Y_LPARAM (lParam);
+void Input::mouseIn(LPARAM lParam) {
+	mouseX = GET_X_LPARAM(lParam);
+	mouseY = GET_Y_LPARAM(lParam);
 }
 
 //=============================================================================
 // Reads raw mouse data into mouseRawX, mouseRawY
 // This routine is compatible with a high-definition mouse
 //=============================================================================
-void Input::mouseRawIn (LPARAM lParam) {
+void Input::mouseRawIn(LPARAM lParam) {
 	UINT dwSize = 40;
 	static BYTE lpb[40];
 
-	GetRawInputData ((HRAWINPUT)lParam, RID_INPUT,
-					 lpb, &dwSize, sizeof (RAWINPUTHEADER));
+	GetRawInputData((HRAWINPUT)lParam, RID_INPUT,
+		lpb, &dwSize, sizeof(RAWINPUTHEADER));
 
 	RAWINPUT* raw = (RAWINPUT*)lpb;
 
@@ -216,10 +216,10 @@ void Input::mouseRawIn (LPARAM lParam) {
 //=============================================================================
 // Check for connected controllers
 //=============================================================================
-void Input::checkControllers () {
+void Input::checkControllers() {
 	DWORD result;
 	for (DWORD i = 0; i < MAX_CONTROLLERS; i++) {
-		result = XInputGetState (i, &controllers[i].state);
+		result = XInputGetState(i, &controllers[i].state);
 		if (result == ERROR_SUCCESS)
 			controllers[i].connected = true;
 		else
@@ -230,11 +230,11 @@ void Input::checkControllers () {
 //=============================================================================
 // Read state of connected controllers
 //=============================================================================
-void Input::readControllers () {
+void Input::readControllers() {
 	DWORD result;
 	for (DWORD i = 0; i < MAX_CONTROLLERS; i++) {
 		if (controllers[i].connected) {
-			result = XInputGetState (i, &controllers[i].state);
+			result = XInputGetState(i, &controllers[i].state);
 			if (result == ERROR_DEVICE_NOT_CONNECTED)    // if controller disconnected
 				controllers[i].connected = false;
 		}
@@ -244,7 +244,7 @@ void Input::readControllers () {
 //=============================================================================
 // Vibrate connected controllers
 //=============================================================================
-void Input::vibrateControllers (float frameTime) {
+void Input::vibrateControllers(float frameTime) {
 	for (int i = 0; i < MAX_CONTROLLERS; i++) {
 		if (controllers[i].connected) {
 			controllers[i].vibrateTimeLeft -= frameTime;
@@ -257,7 +257,7 @@ void Input::vibrateControllers (float frameTime) {
 				controllers[i].vibrateTimeRight = 0;
 				controllers[i].vibration.wRightMotorSpeed = 0;
 			}
-			XInputSetState (i, &controllers[i].vibration);
+			XInputSetState(i, &controllers[i].vibration);
 		}
 	}
 }

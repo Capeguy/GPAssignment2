@@ -8,7 +8,7 @@
 //=============================================================================
 // Constructor
 //=============================================================================
-MessageDialog::MessageDialog () {
+MessageDialog::MessageDialog() {
 	initialized = false;                // set true when successfully initialized
 	graphics = NULL;
 	visible = false;                    // not visible
@@ -35,24 +35,24 @@ MessageDialog::MessageDialog () {
 //=============================================================================
 // Destructor
 //=============================================================================
-MessageDialog::~MessageDialog () {
-	onLostDevice ();            // call onLostDevice() for every graphics item
+MessageDialog::~MessageDialog() {
+	onLostDevice();            // call onLostDevice() for every graphics item
 }
 
 //=============================================================================
 // Initialize the MessageDialog
 //=============================================================================
-bool MessageDialog::initialize (Graphics *g, Input *in, HWND h) {
+bool MessageDialog::initialize(Graphics *g, Input *in, HWND h) {
 	try {
 		graphics = g;                   // the graphics object
 		input = in;                     // the input object
 		hwnd = h;
 
 		// initialize DirectX font
-		if (dxFont.initialize (graphics, messageDialogNS::FONT_HEIGHT, false,
-							   false, messageDialogNS::FONT) == false)
+		if (dxFont.initialize(graphics, messageDialogNS::FONT_HEIGHT, false,
+			false, messageDialogNS::FONT) == false)
 			return false;               // if failed
-		dxFont.setFontColor (fontColor);
+		dxFont.setFontColor(fontColor);
 	} catch (...) {
 		return false;
 	}
@@ -64,11 +64,11 @@ bool MessageDialog::initialize (Graphics *g, Input *in, HWND h) {
 //=============================================================================
 // Prepare the vertex buffers for drawing dialog background and buttons
 //=============================================================================
-void MessageDialog::prepareVerts () {
-	SAFE_RELEASE (dialogVerts);
-	SAFE_RELEASE (borderVerts);
-	SAFE_RELEASE (buttonVerts);
-	SAFE_RELEASE (button2Verts);
+void MessageDialog::prepareVerts() {
+	SAFE_RELEASE(dialogVerts);
+	SAFE_RELEASE(borderVerts);
+	SAFE_RELEASE(buttonVerts);
+	SAFE_RELEASE(button2Verts);
 
 	// border top left
 	vtx[0].x = x;
@@ -98,7 +98,7 @@ void MessageDialog::prepareVerts () {
 	vtx[3].rhw = 1.0f;
 	vtx[3].color = borderColor;
 
-	graphics->createVertexBuffer (vtx, sizeof vtx, borderVerts);
+	graphics->createVertexBuffer(vtx, sizeof vtx, borderVerts);
 
 	// background top left
 	vtx[0].x = x + messageDialogNS::BORDER;
@@ -128,7 +128,7 @@ void MessageDialog::prepareVerts () {
 	vtx[3].rhw = 1.0f;
 	vtx[3].color = backColor;
 
-	graphics->createVertexBuffer (vtx, sizeof vtx, dialogVerts);
+	graphics->createVertexBuffer(vtx, sizeof vtx, dialogVerts);
 
 	// button top left
 	vtx[0].x = x + width / 2.0f - messageDialogNS::BUTTON_WIDTH / 2.0f;
@@ -158,7 +158,7 @@ void MessageDialog::prepareVerts () {
 	vtx[3].rhw = 1.0f;
 	vtx[3].color = buttonColor;
 
-	graphics->createVertexBuffer (vtx, sizeof vtx, buttonVerts);
+	graphics->createVertexBuffer(vtx, sizeof vtx, buttonVerts);
 
 	// set buttonRect
 	buttonRect.left = (long)vtx[0].x;
@@ -190,7 +190,7 @@ void MessageDialog::prepareVerts () {
 	vtx[3].z = 0.0f;
 	vtx[3].rhw = 1.0f;
 	vtx[3].color = buttonColor;
-	graphics->createVertexBuffer (vtx, sizeof vtx, button2Verts);
+	graphics->createVertexBuffer(vtx, sizeof vtx, button2Verts);
 
 	// set button2Rect
 	button2Rect.left = (long)vtx[0].x;
@@ -202,71 +202,71 @@ void MessageDialog::prepareVerts () {
 //=============================================================================
 // Draw the MessageDialog
 //=============================================================================
-const void MessageDialog::draw () {
+const void MessageDialog::draw() {
 	if (!visible || graphics == NULL || !initialized)
 		return;
 
-	graphics->drawQuad (borderVerts);        // draw border
-	graphics->drawQuad (dialogVerts);        // draw backdrop
-	graphics->drawQuad (buttonVerts);        // draw button
-	graphics->drawQuad (button2Verts);       // draw button2
+	graphics->drawQuad(borderVerts);        // draw border
+	graphics->drawQuad(dialogVerts);        // draw backdrop
+	graphics->drawQuad(buttonVerts);        // draw button
+	graphics->drawQuad(button2Verts);       // draw button2
 
-	graphics->spriteBegin ();                // begin drawing sprites
+	graphics->spriteBegin();                // begin drawing sprites
 
-	if (text.size () == 0)
+	if (text.size() == 0)
 		return;
 	// display text on MessageDialog
-	dxFont.setFontColor (fontColor);
-	dxFont.print (text, textRect, DT_CENTER | DT_WORDBREAK);
+	dxFont.setFontColor(fontColor);
+	dxFont.print(text, textRect, DT_CENTER | DT_WORDBREAK);
 
 	// display text on buttons
-	dxFont.setFontColor (buttonFontColor);
-	dxFont.print (messageDialogNS::BUTTON1_TEXT[buttonType], buttonRect,
-				  DT_SINGLELINE | DT_CENTER | DT_VCENTER);
-	dxFont.print (messageDialogNS::BUTTON2_TEXT[buttonType], button2Rect,
-				  DT_SINGLELINE | DT_CENTER | DT_VCENTER);
+	dxFont.setFontColor(buttonFontColor);
+	dxFont.print(messageDialogNS::BUTTON1_TEXT[buttonType], buttonRect,
+		DT_SINGLELINE | DT_CENTER | DT_VCENTER);
+	dxFont.print(messageDialogNS::BUTTON2_TEXT[buttonType], button2Rect,
+		DT_SINGLELINE | DT_CENTER | DT_VCENTER);
 
-	graphics->spriteEnd ();                  // end drawing sprites
+	graphics->spriteEnd();                  // end drawing sprites
 }
 
 //=============================================================================
 // Checks for DIALOG_CLOSE_KEY and mouse click on OK button
 //=============================================================================
-void MessageDialog::update () {
+void MessageDialog::update() {
 	if (!initialized || !visible)
 		return;
-	if (input->wasKeyPressed (messageDialogNS::DIALOG_CLOSE_KEY)) {
+	if (input->wasKeyPressed(messageDialogNS::DIALOG_CLOSE_KEY)) {
 		visible = false;
 		buttonClicked = 1;              // button1 was clicked
 		return;
 	}
 
-	if (graphics->getFullscreen () == false) // if windowed
+	if (graphics->getFullscreen() == false) // if windowed
 	{
 		// calculate screen ratios incase window was resized
 		RECT clientRect;
-		GetClientRect (hwnd, &clientRect);
+		GetClientRect(hwnd, &clientRect);
 		screenRatioX = (float)GAME_WIDTH / clientRect.right;
 		screenRatioY = (float)GAME_HEIGHT / clientRect.bottom;
 	}
 
-	if (input->getMouseLButton ())       // if mouse left button
+	if (input->getMouseLButton())       // if mouse left button
 	{
 		// if mouse clicked inside button1 (OK)
-		if (input->getMouseX ()*screenRatioX >= buttonRect.left &&
-			input->getMouseX ()*screenRatioX <= buttonRect.right &&
-			input->getMouseY ()*screenRatioY >= buttonRect.top &&
-			input->getMouseY ()*screenRatioY <= buttonRect.bottom) {
+		if (input->getMouseX()*screenRatioX >= buttonRect.left &&
+			input->getMouseX()*screenRatioX <= buttonRect.right &&
+			input->getMouseY()*screenRatioY >= buttonRect.top &&
+			input->getMouseY()*screenRatioY <= buttonRect.bottom) {
 			visible = false;            // hide message dialog
 			buttonClicked = 1;          // button1 was clicked
 			return;
 		}
 
 		// if mouse clicked inside button2 (cancel)
-		if (input->getMouseX ()*screenRatioX >= button2Rect.left &&
-			input->getMouseX ()*screenRatioX <= button2Rect.right &&
-			input->getMouseY ()*screenRatioY >= button2Rect.top &&
-			input->getMouseY ()*screenRatioY <= button2Rect.bottom) {
+		if (input->getMouseX()*screenRatioX >= button2Rect.left &&
+			input->getMouseX()*screenRatioX <= button2Rect.right &&
+			input->getMouseY()*screenRatioY >= button2Rect.top &&
+			input->getMouseY()*screenRatioY <= button2Rect.bottom) {
 			visible = false;            // hide message dialog
 			buttonClicked = 2;          // button2 was clicked
 		}
@@ -276,7 +276,7 @@ void MessageDialog::update () {
 //=============================================================================
 // Set text string, size dialog bottom to fit text and set visible = true
 //=============================================================================
-void MessageDialog::print (const std::string &str) {
+void MessageDialog::print(const std::string &str) {
 	if (!initialized || visible)    // if not initialized or already in use
 		return;
 	text = str + "\n\n\n\n";        // leave some room for buttons
@@ -289,10 +289,10 @@ void MessageDialog::print (const std::string &str) {
 
 	// Set textRect.bottom to precise height required for text
 	// No text is printed with DT_CALDRECT option.
-	dxFont.print (text, textRect, DT_CENTER | DT_WORDBREAK | DT_CALCRECT);
+	dxFont.print(text, textRect, DT_CENTER | DT_WORDBREAK | DT_CALCRECT);
 	height = textRect.bottom - (int)y + messageDialogNS::BORDER + messageDialogNS::MARGIN;
 
-	prepareVerts ();                 // prepare the vertex buffers
+	prepareVerts();                 // prepare the vertex buffers
 	buttonClicked = 0;              // clear buttonClicked
 	visible = true;
 }
@@ -300,23 +300,23 @@ void MessageDialog::print (const std::string &str) {
 //=============================================================================
 // Called when graphics device is lost
 //=============================================================================
-void MessageDialog::onLostDevice () {
+void MessageDialog::onLostDevice() {
 	if (!initialized)
 		return;
-	dxFont.onLostDevice ();
-	SAFE_RELEASE (dialogVerts);
-	SAFE_RELEASE (borderVerts);
-	SAFE_RELEASE (buttonVerts);
-	SAFE_RELEASE (button2Verts);
+	dxFont.onLostDevice();
+	SAFE_RELEASE(dialogVerts);
+	SAFE_RELEASE(borderVerts);
+	SAFE_RELEASE(buttonVerts);
+	SAFE_RELEASE(button2Verts);
 }
 
 //=============================================================================
 // Called when graphics device is reset
 //=============================================================================
-void MessageDialog::onResetDevice () {
+void MessageDialog::onResetDevice() {
 	if (!initialized)
 		return;
-	prepareVerts ();
-	dxFont.onResetDevice ();
+	prepareVerts();
+	dxFont.onResetDevice();
 }
 

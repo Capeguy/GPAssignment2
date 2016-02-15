@@ -27,7 +27,6 @@ Console::Console() {
 
 	rows = 0;
 	scrollAmount = 0;
-	//Console::setInstance(this);
 }
 
 //=============================================================================
@@ -74,17 +73,13 @@ bool Console::initialize(Graphics *g, Input *in) {
 		vtx[3].color = backColor;
 
 		graphics->createVertexBuffer(vtx, sizeof vtx, vertexBuffer);
-
 		// initialize DirectX font
-		if (dxFont.initialize(graphics, consoleNS::FONT_HEIGHT, false,
-							  false, consoleNS::FONT) == false)
+		if (dxFont.initialize(graphics, consoleNS::FONT_HEIGHT, false, false, consoleNS::FONT) == false)
 			return false;      // if failed
 		dxFont.setFontColor(fontColor);
-
 	} catch (...) {
 		return false;
 	}
-
 	initialized = true;
 	return true;
 }

@@ -1,13 +1,11 @@
 #include "medic.h"
 
-Medic::Medic() 
-{
+Medic::Medic() {
 	chaseRange = MedicNS::NPC_CHASE_RANGE;
 	attackRange = MedicNS::NPC_ATTACK_RANGE;
 }
 
-void Medic::ai(float frameTime, Entity & ent, float mapX, LevelController* lc)
-{
+void Medic::ai(float frameTime, Entity & ent, float mapX, LevelController* lc) {
 	OSD::instance()->addLine("AI Can | Left: " + std::to_string(canMoveLeft()) + " | Right: " + std::to_string(canMoveRight()) + " | Up: " + std::to_string(canMoveUp()) + " | Down: " + std::to_string(canMoveDown()));
 	// derivedDest.y = spriteData.y; // Because we're not gonna climb mountains to chase Player
 	switch (aiState) {
@@ -31,27 +29,23 @@ void Medic::ai(float frameTime, Entity & ent, float mapX, LevelController* lc)
 			if (velocity.x > 0 && spriteData.x - derivedDest.x < 1 && canMoveLeft()) {
 				velocity.x = 0;
 				setX(derivedDest.x);
-			}
-			else {
+			} else {
 				orientation = Left;
 				if (!moveLeft(frameTime)) {
 					currDest = VECTOR2(-1, -1);
 				}
 			}
-		}
-		else if (spriteData.x < derivedDest.x) {
+		} else if (spriteData.x < derivedDest.x) {
 			if (velocity.x < 0 && derivedDest.x - spriteData.x < 1 && canMoveRight()) {
 				velocity.x = 0;
 				setX(derivedDest.x);
-			}
-			else {
+			} else {
 				orientation = Right;
 				if (!moveRight(frameTime)) {
 					currDest = VECTOR2(-1, -1);
 				}
 			}
-		}
-		else {
+		} else {
 			velocity.x = 0;
 		}
 		break;
@@ -71,29 +65,25 @@ void Medic::ai(float frameTime, Entity & ent, float mapX, LevelController* lc)
 			if (velocity.x > 0 && spriteData.x - derivedDest.x < 1) {
 				velocity.x = 0;
 				setX(derivedDest.x);
-			}
-			else {
+			} else {
 				orientation = Left;
 				if (!moveLeft(frameTime)) {
 					currDest = VECTOR2(-1, -1);
 					setAiState(Patrol);
 				}
 			}
-		}
-		else if (spriteData.x < derivedDest.x) {
+		} else if (spriteData.x < derivedDest.x) {
 			if (velocity.x < 0 && derivedDest.x - spriteData.x < 1) {
 				velocity.x = 0;
 				setX(derivedDest.x);
-			}
-			else {
+			} else {
 				orientation = Right;
 				if (!moveRight(frameTime)) {
 					currDest = VECTOR2(-1, -1);
 					setAiState(Patrol);
 				}
 			}
-		}
-		else {
+		} else {
 			velocity.x = 0;
 		}
 		break;
@@ -110,27 +100,23 @@ void Medic::ai(float frameTime, Entity & ent, float mapX, LevelController* lc)
 			orientation = Right;
 		else
 			orientation = Up;
-		
+
 		gameptr->getPlayer()->setHealth(gameptr->getPlayer()->getHealth() + MedicNS::HEAL_SPEED * frameTime);
 		break;
 	}
 	//OSD::instance()->addLine("MapX: " + std::to_string(mapX));
 	//OSD::instance()->addLine("NPC AI (" + std::to_string(aiState) + ") at (" + std::to_string(spriteData.x) + ", " + std::to_string(spriteData.y) + ") going to (" + std::to_string((derivedDest.x)) + ", " + std::to_string(derivedDest.y) + ") Moving at: (" + std::to_string((velocity.x)) + ", " + std::to_string(velocity.y) + ") ");
-
 }
 
-void Medic::draw()
-{
+void Medic::draw() {
 	NPC::draw();
 }
 
-void Medic::update(float frameTime, float mapX, float pVelo, LevelController * lc)
-{
+void Medic::update(float frameTime, float mapX, float pVelo, LevelController * lc) {
 	NPC::update(frameTime, mapX, pVelo, lc);
 }
 
-bool Medic::initialize(Game * gamePtr, int width, int height, int ncols, TextureManager * textureM, int spriteNumber, LevelController * lc)
-{
+bool Medic::initialize(Game * gamePtr, int width, int height, int ncols, TextureManager * textureM, int spriteNumber, LevelController * lc) {
 	return NPC::initialize(gamePtr, width, height, ncols, textureM, spriteNumber, lc);
 }
 

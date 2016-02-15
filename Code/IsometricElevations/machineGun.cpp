@@ -11,17 +11,13 @@ MachineGun::MachineGun() : Gun() {
 	Gun();
 }
 
-MachineGun::~MachineGun() {
-
-}
+MachineGun::~MachineGun() {}
 Projectile* MachineGun::shoot(LevelController* lc, float frametime) {
-	if (cooldowncurrent <= 0 && hasAmmo()) {
-		audio->playCue(MACHINEGUNSHOT);
+	if (cooldownCurrent <= 0 && hasAmmo()) {
+		audio->playCue(MACHINEGUN_SHOT);
 		if (ammo != -1)
 			ammo--;
-		gameptr->console->print("Remaining ammo: ");
-		gameptr->console->print(std::to_string(ammo));
-		cooldowncurrent = cooldown;
+		cooldownCurrent = cooldown;
 		bullet = new Projectile();
 		bullet->initialize(gameptr, 32, 32, 1, bulletTexture);
 		bullet->setCurrentFrame(projectileNS::MACHINEGUN_BULLET_FRAME);
@@ -41,10 +37,10 @@ Projectile* MachineGun::shoot(LevelController* lc, float frametime) {
 		bullets.push_back(bullet);
 		return bullet;
 	} else {
-		cooldowncurrent -= frametime;
+		cooldownCurrent -= frametime;
 	}
 	return nullptr;
 }
 void MachineGun::draw() {
-
+	Gun::draw();
 }

@@ -11,17 +11,13 @@ Pistol::Pistol() {
 	Gun();
 }
 
-Pistol::~Pistol() {
-
-}
+Pistol::~Pistol() {}
 Projectile* Pistol::shoot(LevelController* lc, float frametime) {
-	if (cooldowncurrent <= 0 && hasAmmo()) {
-		audio->playCue(PISTOLSHOT);
+	if (cooldownCurrent <= 0 && hasAmmo()) {
+		audio->playCue(PISTOL_SHOT);
 		if (ammo != -1)
 			ammo--;
-		gameptr->console->print("Remaining ammo: ");
-		gameptr->console->print(std::to_string(ammo));
-		cooldowncurrent = cooldown;
+		cooldownCurrent = cooldown;
 		bullet = new Projectile();
 		bullet->initialize(gameptr, 32, 32, 1, bulletTexture);
 		bullet->setCurrentFrame(projectileNS::PISTOL_BULLET_FRAME);
@@ -41,12 +37,11 @@ Projectile* Pistol::shoot(LevelController* lc, float frametime) {
 		bullets.push_back(bullet);
 		return bullet;
 	} else {
-		cooldowncurrent -= frametime;
+		cooldownCurrent -= frametime;
 	}
 	return nullptr;
 }
-void Pistol::setCooldown(float c)
-{
+void Pistol::setCooldown(float c) {
 	cooldown = c;
 }
 void Projectile::setOwner(int o) {

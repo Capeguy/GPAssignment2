@@ -13,8 +13,7 @@
 #include "graphics.h"
 #include "input.h"
 
-namespace messageDialogNS
-{
+namespace messageDialogNS {
 	const UINT WIDTH = 400;             // default width of dialog
 	const UINT HEIGHT = 100;            // default height
 	const UINT BORDER = 5;
@@ -22,8 +21,8 @@ namespace messageDialogNS
 	const char FONT[] = "Arial";        // font
 	const int FONT_HEIGHT = 18;         // font height
 	const COLOR_ARGB FONT_COLOR = graphicsNS::WHITE;        // text color
-	const COLOR_ARGB BORDER_COLOR = D3DCOLOR_ARGB (192, 192, 192, 192); // border color
-	const COLOR_ARGB BACK_COLOR = SETCOLOR_ARGB (255, 100, 100, 192);   // backdrop color
+	const COLOR_ARGB BORDER_COLOR = D3DCOLOR_ARGB(192, 192, 192, 192); // border color
+	const COLOR_ARGB BACK_COLOR = SETCOLOR_ARGB(255, 100, 100, 192);   // backdrop color
 	const UINT X = GAME_WIDTH / 2 - WIDTH / 2; // default location
 	const UINT Y = GAME_HEIGHT / 4 - HEIGHT / 2;
 	const UINT BUTTON_WIDTH = (UINT)(FONT_HEIGHT * 4.5);
@@ -31,15 +30,16 @@ namespace messageDialogNS
 	const int MAX_TYPE = 2;
 	const int OK_CANCEL = 0;            // OK Cancel button type
 	const int YES_NO = 1;               // Yes No button type
-	static const char* BUTTON1_TEXT[MAX_TYPE] = { "OK", "YES" };
-	static const char* BUTTON2_TEXT[MAX_TYPE] = { "CANCEL", "NO" };
+	static const char* BUTTON1_TEXT[MAX_TYPE] = {"OK", "YES"};
+	static const char* BUTTON2_TEXT[MAX_TYPE] = {"CANCEL", "NO"};
 	const byte DIALOG_CLOSE_KEY = VK_RETURN;    // Enter key
 	const COLOR_ARGB BUTTON_COLOR = graphicsNS::GRAY;       // button background
 	const COLOR_ARGB BUTTON_FONT_COLOR = graphicsNS::WHITE; // button text color
 }
 
 // Message Dialog
-class MessageDialog {
+class MessageDialog
+{
 protected:
 	Graphics    *graphics;              // graphics system
 	Input       *input;                 // input system
@@ -70,65 +70,65 @@ protected:
 
 public:
 	// Constructor
-	MessageDialog ();
+	MessageDialog();
 	// Destructor
-	virtual ~MessageDialog ();
+	virtual ~MessageDialog();
 
 	// Initialize the MessageDialog.
 	// Pre: *g points to Graphics object
 	//      *in points to Input object
 	//      hwnd = window handle
-	bool initialize (Graphics *g, Input *in, HWND hwnd);
+	bool initialize(Graphics *g, Input *in, HWND hwnd);
 
 	// Prepare vertex buffers
-	void prepareVerts ();
+	void prepareVerts();
 
 	// Display the MessageDialog.
-	const void draw ();
+	const void draw();
 
 	// Return button clicked
 	// 0 = no button clicked
 	// 1 is left button, 2 is right button
-	int getButtonClicked () { return buttonClicked; }
+	int getButtonClicked() { return buttonClicked; }
 
 	// Return visible.
-	bool getVisible () { return visible; }
+	bool getVisible() { return visible; }
 
 	// Set font color
-	void setFontColor (COLOR_ARGB fc) { fontColor = fc; }
+	void setFontColor(COLOR_ARGB fc) { fontColor = fc; }
 
 	// Set border color
-	void setBorderColor (COLOR_ARGB bc) { borderColor = bc; }
+	void setBorderColor(COLOR_ARGB bc) { borderColor = bc; }
 
 	// Set background color
-	void setBackColor (COLOR_ARGB bc) { backColor = bc; }
+	void setBackColor(COLOR_ARGB bc) { backColor = bc; }
 
 	// Set button color
-	void setButtonColor (COLOR_ARGB bc) { buttonColor = bc; }
+	void setButtonColor(COLOR_ARGB bc) { buttonColor = bc; }
 
 	// Set buitton font color
-	void setButtonFontColor (COLOR_ARGB bfc) { buttonFontColor = bfc; }
+	void setButtonFontColor(COLOR_ARGB bfc) { buttonFontColor = bfc; }
 
 	// Set visible;
-	void setVisible (bool v) { visible = v; }
+	void setVisible(bool v) { visible = v; }
 
 	// Set button type 0 = OK/CANCEL, 1 = YES/NO
-	void setButtonType (UINT t) {
+	void setButtonType(UINT t) {
 		if (t < messageDialogNS::MAX_TYPE)
 			buttonType = t;
 	}
 
 	// Display text str in MessageDialog
-	void print (const std::string &str);
+	void print(const std::string &str);
 
 	// Checks for Close event
-	void update ();
+	void update();
 
 	// Call when graphics device is lost.
-	void onLostDevice ();
+	void onLostDevice();
 
 	// Call when graphics device is reset.
-	void onResetDevice ();
+	void onResetDevice();
 };
 
 #endif

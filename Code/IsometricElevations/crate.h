@@ -10,10 +10,7 @@
 #include "entity.h"
 #include <vector>
 
-// TODO: Handle collision between Crate and Player --> Should give item in crate to player
-// TODO: Get ItemController / LevelController to spawn the crates
-namespace crateNS
-{
+namespace crateNS {
 	const int	TEXTURE_COLS = 2;
 	const int	WIDTH = 32;
 	const int	HEIGHT = 41;
@@ -24,18 +21,16 @@ namespace crateNS
 	const enum ItemType { machineGun, shotGun, pistol };
 }
 
-class Crate : public Entity {
+class Crate : public Entity
+{
 private:
-	//HealthPack* hp;
 	int itemId;
 	std::vector<Entity> itemList;
 public:
-	Crate();
-	void spawnItem(Crate* c);
-	//void addItem(Inventory* i, Game* gameptr, TextureManager* gunTexture, int id);
-	bool initialize(Game *gamePtr, TextureManager* itemTexture, int itemtype);
 	enum item { pistol, machineGun, shotGun, healthPack };
-	int getItemId();
-	void setItemId(int i);
+	Crate();
+	bool	initialize(Game *gamePtr, TextureManager* itemTexture, int itemtype);
+	int		getItemId();
+	void	setItemId(int i);
 };
 #endif

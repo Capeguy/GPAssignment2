@@ -34,9 +34,9 @@ bool NPC::initialize(Game *gamePtr, int width, int height, int ncols, TextureMan
 	endFrame = npcControllerNS::npcSpriteMap[sprIndex][3];
 	if (!npcTexture.initialize(gamePtr->getGraphics(), TEXTURE_NPC))
 		throw(GameError(gameErrorNS::FATAL_ERROR, "Error initializing npc texture"));
-	if (!npcHealthTexture->initialize(gamePtr->getGraphics(), TEXTURE_NPCHEALTH))
+	if (!npcHealthTexture->initialize(gamePtr->getGraphics(), TEXTURE_NPC_HEALTH))
 		throw(GameError(gameErrorNS::FATAL_ERROR, "Error initializing npc health texture"));
-	if (!npcHealthBackTexture->initialize(gamePtr->getGraphics(), TEXTURE_NPCHEALTHBACK))
+	if (!npcHealthBackTexture->initialize(gamePtr->getGraphics(), TEXTURE_NPC_HEALTH_BACK))
 		throw(GameError(gameErrorNS::FATAL_ERROR, "Error initializing npc health back texture"));
 	npcHealth = new Image();
 	npcHealth->initialize(gamePtr->getGraphics(), npcNS::NPC_HEALTH_WIDTH, npcNS::NPC_HEALTH_HEIGHT, 1, npcHealthTexture);
@@ -54,27 +54,12 @@ void NPC::draw() {
 	Image::draw();
 	npcHealthBack->draw();
 	npcHealth->draw();
-	/*
-	Item* activeItem = inventory->getActiveItem()->getItem();
-	if (activeItem->getItemType() == Item::Equipable) {
-		Gun* gun = (Gun*)activeItem;
-		gun->draw();
-	}
-	*/
 }
 
-void NPC::draw(TextDX &dxFont) { //TextDX &dxFont
-	//NPC::draw();
+void NPC::draw(TextDX &dxFont) {
 	Image::draw();
 	npcHealthBack->draw();
 	npcHealth->draw();
-
-	//std::string buffer;
-	//buffer = "kappa";
-	//buffer = std::to_string((int)getX());
-	//buffer += ", ";
-	//buffer += std::to_string((int)getY());
-	//dxFont.print(buffer, spriteData.x, spriteData.y - 16);
 }
 void NPC::stateChange() {
 	// Start of state change
@@ -105,22 +90,22 @@ void NPC::update(float frameTime, float mapX, float pVelo, LevelController* lc) 
 	bool flip = false;
 	ai(frameTime, *this, mapX, lc);
 	switch (orientation) {
-		case Right:
-			currentFrame = npcControllerNS::npcSpriteMap[sprIndex][1];
-			spriteData.flipHorizontal = true;
-			flip = false;
-			break;
-		case Down:
-			currentFrame = npcControllerNS::npcSpriteMap[sprIndex][2];
-			break;
-		case Left:
-			currentFrame = npcControllerNS::npcSpriteMap[sprIndex][1];
-			spriteData.flipHorizontal = false;
-			flip = true;
-			break;
-		case Up:
-			currentFrame = npcControllerNS::npcSpriteMap[sprIndex][0];
-			break;
+	case Right:
+		currentFrame = npcControllerNS::npcSpriteMap[sprIndex][1];
+		spriteData.flipHorizontal = true;
+		flip = false;
+		break;
+	case Down:
+		currentFrame = npcControllerNS::npcSpriteMap[sprIndex][2];
+		break;
+	case Left:
+		currentFrame = npcControllerNS::npcSpriteMap[sprIndex][1];
+		spriteData.flipHorizontal = false;
+		flip = true;
+		break;
+	case Up:
+		currentFrame = npcControllerNS::npcSpriteMap[sprIndex][0];
+		break;
 	}
 	if (velocity.x < 0 && !canMoveLeft() || velocity.x > 0 && !canMoveRight())
 		velocity.x = 0;
@@ -133,22 +118,13 @@ void NPC::damage(float amt) {
 	hp -= amt;
 	healthUpdate();
 }
-void NPC::damage(Weapon w) {
-
-}
-void NPC::damage() {
-	hp--;
-	healthUpdate();
-}
 void NPC::healthUpdate() {
 	if (hp <= 0) {
 		healthStatus = Dead;
 		setDying(true);
 	}
 }
-void NPC::die() {
-
-}
+void NPC::die() {}
 
 void NPC::setDying(bool d) {
 	dying = d;
@@ -200,22 +176,21 @@ bool NPC::moveDown(float frameTime) {
 void NPC::setAiState(int state) {
 	aiState = state;
 	switch (state) {
-		case Patrol:
-			bool found = false;
-			for (std::vector<VECTOR2>::iterator pathIt = pathList.begin(); pathIt != pathList.end(); ++pathIt) {
-				if ((*pathIt).x == currDest.x && (*pathIt).y == currDest.y) {
-					found = true;
-					break;
-				}
+	case Patrol:
+		bool found = false;
+		for (std::vector<VECTOR2>::iterator pathIt = pathList.begin(); pathIt != pathList.end(); ++pathIt) {
+			if ((*pathIt).x == currDest.x && (*pathIt).y == currDest.y) {
+				found = true;
+				break;
 			}
-			if (!found) {
-				currDest = pathList.at(pathCount);
-			}
+		}
+		if (!found) {
+			currDest = pathList.at(pathCount);
+		}
 	}
 }
 
-void NPC::renderHealthbar()
-{
+void NPC::renderHealthbar() {
 	npcHealth->setX(spriteData.x + 2 * getScale());
 	npcHealth->setY(spriteData.y - 19);
 	RECT r = npcHealth->getSpriteDataRect();

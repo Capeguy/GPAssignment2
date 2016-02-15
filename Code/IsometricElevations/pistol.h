@@ -6,19 +6,18 @@
 #include "constants.h"
 #include "gun.h"
 
-namespace pistolNS
-{
+namespace pistolNS {
 	const int spacing = 32;
 }
 
-class Pistol : public Gun {
+class Pistol : public Gun
+{
 private:
-	
+
 public:
-	//explict
-	Pistol ();
-	~Pistol ();
-	Projectile* shoot (LevelController* lc, float frametime);
+	Pistol();
+	~Pistol();
+	Projectile* shoot(LevelController* lc, float frametime);
 	void setCooldown(float);
 };
 #endif

@@ -8,15 +8,15 @@
 //=============================================================================
 // default constructor
 //=============================================================================
-Audio::Audio () {
+Audio::Audio() {
 	xactEngine = NULL;
 	waveBank = NULL;
 	soundBank = NULL;
 	cueI = 0;
 	mapWaveBank = NULL;         // Call UnmapViewOfFile() to release file
 	soundBankData = NULL;
-	HRESULT hr = CoInitializeEx (NULL, COINIT_MULTITHREADED);
-	if (SUCCEEDED (hr))
+	HRESULT hr = CoInitializeEx(NULL, COINIT_MULTITHREADED);
+	if (SUCCEEDED(hr))
 		coInitialized = true;
 	else
 		coInitialized = false;
@@ -25,11 +25,11 @@ Audio::Audio () {
 //=============================================================================
 // destructor
 //=============================================================================
-Audio::~Audio () {
+Audio::~Audio() {
 	// Shutdown XACT
 	if (xactEngine) {
-		xactEngine->ShutDown (); // shut down XACT engine and free resources
-		xactEngine->Release ();
+		xactEngine->ShutDown(); // shut down XACT engine and free resources
+		xactEngine->Release();
 	}
 
 	if (soundBankData)
@@ -38,11 +38,11 @@ Audio::~Audio () {
 
 	// After xactEngine->ShutDown() returns, release memory mapped files
 	if (mapWaveBank)
-		UnmapViewOfFile (mapWaveBank);
+		UnmapViewOfFile(mapWaveBank);
 	mapWaveBank = NULL;
 
 	if (coInitialized)        // if CoInitializeEx succeeded
-		CoUninitialize ();
+		CoUninitialize();
 }
 
 //=============================================================================
@@ -53,7 +53,7 @@ Audio::~Audio () {
 //      3. Create the XACT sound bank(s) you want to use
 //      4. Store indices to the XACT cue(s) your game uses
 //=============================================================================
-HRESULT Audio::initialize () {
+HRESULT Audio::initialize() {
 	HRESULT result = E_FAIL;
 	HANDLE hFile;
 	DWORD fileSize;
@@ -63,53 +63,53 @@ HRESULT Audio::initialize () {
 	if (coInitialized == false)
 		return E_FAIL;
 
-	result = XACT3CreateEngine (0, &xactEngine);
-	if (FAILED (result) || xactEngine == NULL)
+	result = XACT3CreateEngine(0, &xactEngine);
+	if (FAILED(result) || xactEngine == NULL)
 		return E_FAIL;
 
 	// Initialize & create the XACT runtime 
-	XACT_RUNTIME_PARAMETERS xactParams = { 0 };
+	XACT_RUNTIME_PARAMETERS xactParams = {0};
 	xactParams.lookAheadTime = XACT_ENGINE_LOOKAHEAD_DEFAULT;
-	result = xactEngine->Initialize (&xactParams);
-	if (FAILED (result))
+	result = xactEngine->Initialize(&xactParams);
+	if (FAILED(result))
 		return result;
 
 	// Create an "in memory" XACT wave bank file using memory mapped file IO
 	result = E_FAIL; // default to failure code, replaced on success
-	hFile = CreateFile (WAVE_BANK, GENERIC_READ, FILE_SHARE_READ, NULL, OPEN_EXISTING, 0, NULL);
+	hFile = CreateFile(WAVE_BANK, GENERIC_READ, FILE_SHARE_READ, NULL, OPEN_EXISTING, 0, NULL);
 	if (hFile != INVALID_HANDLE_VALUE) {
-		fileSize = GetFileSize (hFile, NULL);
+		fileSize = GetFileSize(hFile, NULL);
 		if (fileSize != -1) {
-			hMapFile = CreateFileMapping (hFile, NULL, PAGE_READONLY, 0, fileSize, NULL);
+			hMapFile = CreateFileMapping(hFile, NULL, PAGE_READONLY, 0, fileSize, NULL);
 			if (hMapFile) {
-				mapWaveBank = MapViewOfFile (hMapFile, FILE_MAP_READ, 0, 0, 0);
+				mapWaveBank = MapViewOfFile(hMapFile, FILE_MAP_READ, 0, 0, 0);
 				if (mapWaveBank)
-					result = xactEngine->CreateInMemoryWaveBank (mapWaveBank, fileSize, 0, 0, &waveBank);
+					result = xactEngine->CreateInMemoryWaveBank(mapWaveBank, fileSize, 0, 0, &waveBank);
 
-				CloseHandle (hMapFile);    // mapWaveBank maintains a handle on the file so close this unneeded handle
+				CloseHandle(hMapFile);    // mapWaveBank maintains a handle on the file so close this unneeded handle
 			}
 		}
-		CloseHandle (hFile);    // mapWaveBank maintains a handle on the file so close this unneeded handle
+		CloseHandle(hFile);    // mapWaveBank maintains a handle on the file so close this unneeded handle
 	}
-	if (FAILED (result))
-		return HRESULT_FROM_WIN32 (ERROR_FILE_NOT_FOUND);
+	if (FAILED(result))
+		return HRESULT_FROM_WIN32(ERROR_FILE_NOT_FOUND);
 
 	// Read and register the sound bank file with XACT.
 	result = E_FAIL;    // default to failure code, replaced on success
-	hFile = CreateFile (SOUND_BANK, GENERIC_READ, FILE_SHARE_READ, NULL, OPEN_EXISTING, 0, NULL);
+	hFile = CreateFile(SOUND_BANK, GENERIC_READ, FILE_SHARE_READ, NULL, OPEN_EXISTING, 0, NULL);
 	if (hFile != INVALID_HANDLE_VALUE) {
-		fileSize = GetFileSize (hFile, NULL);
+		fileSize = GetFileSize(hFile, NULL);
 		if (fileSize != -1) {
 			soundBankData = new BYTE[fileSize];    // reserve memory for sound bank
 			if (soundBankData) {
-				if (0 != ReadFile (hFile, soundBankData, fileSize, &bytesRead, NULL))
-					result = xactEngine->CreateSoundBank (soundBankData, fileSize, 0, 0, &soundBank);
+				if (0 != ReadFile(hFile, soundBankData, fileSize, &bytesRead, NULL))
+					result = xactEngine->CreateSoundBank(soundBankData, fileSize, 0, 0, &soundBank);
 			}
 		}
-		CloseHandle (hFile);
+		CloseHandle(hFile);
 	}
-	if (FAILED (result))
-		return HRESULT_FROM_WIN32 (ERROR_FILE_NOT_FOUND);
+	if (FAILED(result))
+		return HRESULT_FROM_WIN32(ERROR_FILE_NOT_FOUND);
 
 	return S_OK;
 }
@@ -117,36 +117,33 @@ HRESULT Audio::initialize () {
 //=============================================================================
 // perform periodic sound engine tasks
 //=============================================================================
-void Audio::run () {
+void Audio::run() {
 	if (xactEngine == NULL)
 		return;
-	xactEngine->DoWork ();
+	xactEngine->DoWork();
 }
 
 //=============================================================================
 // play sound specified by cue from sound bank
 // if cue does not exist no error occurs, there is simply no sound played
 //=============================================================================
-void Audio::playCue (const char cue[]) {
+void Audio::playCue(const char cue[]) {
 	if (soundBank == NULL)
 		return;
-	cueI = soundBank->GetCueIndex (cue);        // get cue index from sound bank
-	soundBank->Play (cueI, 0, 0, NULL);
+	cueI = soundBank->GetCueIndex(cue);        // get cue index from sound bank
+	soundBank->Play(cueI, 0, 0, NULL);
 }
 
 //=============================================================================
 // stop a playing sound specified by cue from sound bank
 // if cue does not exist no error occurs
 //=============================================================================
-void Audio::stopCue (const char cue[]) {
+void Audio::stopCue(const char cue[]) {
 	if (soundBank == NULL)
 		return;
-	cueI = soundBank->GetCueIndex (cue);        // get cue index from sound bank
-	if(cueI)
-	soundBank->Stop (cueI, XACT_FLAG_SOUNDBANK_STOP_IMMEDIATE);
+	cueI = soundBank->GetCueIndex(cue);        // get cue index from sound bank
+	if (cueI)
+		soundBank->Stop(cueI, XACT_FLAG_SOUNDBANK_STOP_IMMEDIATE);
 }
 
-void Audio::stopAllTracks()
-{
-
-}
+void Audio::stopAllTracks() {}

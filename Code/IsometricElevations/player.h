@@ -14,13 +14,12 @@
 #include "pistol.h"
 #include "levelController.h"
 
-namespace playerNS
-{
+namespace playerNS {
 	const int	X = 0;
 	const int	Y = 0;
-	const float SPEED = 32 * 300;
+	const float SPEED = 32 * 600;
 	const float NOCLIP_SPEED = 32 * 300 * 10;
-	const float FALLING_SPEED = 32 * 200;
+	const float FALLING_SPEED = 32 * 400;
 	const float MASS = 300.0f;
 	const float JUMP_HEIGHT = 32 * 2;
 	const float JUMP_SPEED = 32 * 400;
@@ -36,11 +35,9 @@ namespace playerNS
 	const enum ItemType { machineGun, shotGun, pistol };
 }
 
-
-class Player : public Entity {
-	
+class Player : public Entity
+{
 private:
-
 	bool	doubleJump = false;
 	int		orientation = Right;
 	int		healthStatus = Alive;
@@ -63,36 +60,23 @@ private:
 	bool noClipButtonReleased = true;
 
 public:
+	enum PlayerOrientation { Right, Down, Left, Up };
+	enum PlayerHealthStatus { Alive, Dead };
 	bool noClip = false;
 	bool canJump = true;
 	bool jumping = false;
 	bool canFall = true;
 	bool falling = false;
-	float playerBottomLeftX;
-	float playerBottomLeftY;
-	float playerBottomRightX;
-	float playerBottomRightY;
-	float playerTopLeftX;
-	float playerTopLeftY;
-	float playerTopRightX;
-	float playerTopRightY;
 
-	enum PlayerOrientation { Right, Down, Left, Up };
-	enum PlayerHealthStatus { Alive, Dead };
-
-	Player ();
-	~Player ();
-	virtual void draw ();
-	virtual bool initialize (Game *gamePtr, int width, int height, int ncols, TextureManager *textureM);
-	void update (float frameTime, LevelController* lc);
-	// TODO: Make player jumping and falling non-linear
-	void setFalling (bool f);
-	void damage (float amt);
-	void damage (Weapon w);
-	void damage (Projectile p);
-	void healthUpdate ();
-	void die ();
-	void updateCoords ();
+	Player();
+	~Player();
+	virtual void draw();
+	virtual bool initialize(Game *gamePtr, int width, int height, int ncols, TextureManager *textureM);
+	void update(float frameTime, LevelController* lc);
+	void setFalling(bool f);
+	void damage(float amt);
+	void healthUpdate();
+	void die();
 	void setTotalPoints(int);
 	float getHP();
 	float getMaxHP();

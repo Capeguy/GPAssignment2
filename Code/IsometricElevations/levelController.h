@@ -19,14 +19,12 @@
 #include <list>
 
 
-namespace levelControllerNS
-{
+namespace levelControllerNS {
 	const int TEXTURE_COLS = 19;
 	const int TEXTURE_SIZE = 32;
 	const int TILE_COUNT = 600;
 	// size of height change in pixels for current tile set
 	const int HEIGHT_CHANGE = 64;
-	//const int HEIGHT_CHANGE = 32;     
 	const int MAP_SIZE_X = 120;
 	const int MAP_SIZE_Y = 25;
 	const int SCREEN_X = GAME_WIDTH / 2 - TEXTURE_SIZE / 2;
@@ -133,36 +131,33 @@ namespace levelControllerNS
 using namespace levelControllerNS;
 
 class Player;
-class LevelController {
+class LevelController
+{
 
 private:
-	//std::vector<Tile> mapTile;
-	//Tile mapTile[levelControllerNS::MAP_SIZE_Y][levelControllerNS::MAP_SIZE_X];
-	//vector<vector<Tile>> mapTile[levelControllerNS::MAP_SIZE_Y][levelControllerNS::MAP_SIZE_X];
 	TextureManager* tileTexture;
-	Game* gameptr;
-	TextDX dxFont;
+	Game*	gameptr;
+	TextDX	dxFont;
 	ItemController *iController;
-	Image playerIcon;
-	// NPCController *npcController;
-	int crateCollided;
-	int crateItem;
-	float mapX = 0;
+	Image	playerIcon;
+	int		crateCollided;
+	int		crateItem;
+	float	mapX = 0;
 public:
 	std::list<Projectile*> projectiles;
 	bool debugInfo = false;
 	Tile* mapTile[levelControllerNS::MAP_SIZE_Y][levelControllerNS::MAP_SIZE_X];
-	LevelController ();
-	LevelController (Graphics*& g, Game* gp, TextureManager* tt, TextureManager* pt);
-	~LevelController ();
-	Tile* getTile (float x, float y);
+	LevelController();
+	LevelController(Graphics*& g, Game* gp, TextureManager* tt, TextureManager* pt);
+	~LevelController();
+	Tile* getTile(float x, float y);
 	Tile* getTile(VECTOR2 v);
-	void loadTiles (TextureManager* tt, Game* gameptr);
-	void renderTiles (Graphics* graphics);
+	void loadTiles(TextureManager* tt, Game* gameptr);
+	void renderTiles(Graphics* graphics);
 	void render(Graphics* graphics);
 	void renderProjectiles(Graphics* graphics);
 	void renderMinimap(Graphics* graphics);
-	void update (float frameTime, VECTOR2);
+	void update(float frameTime, VECTOR2);
 	ItemController* getIController();
 	void collisions();
 	void addProjectile(Projectile* p);

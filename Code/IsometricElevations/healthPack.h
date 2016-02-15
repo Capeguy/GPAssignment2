@@ -7,10 +7,7 @@
 #include "item.h"
 #include "entity.h"
 
-
-
-namespace healthPackNS
-{
+namespace healthPackNS {
 	const int	TEXTURE_COLS = 2;
 	const int	WIDTH = 32;
 	const int	HEIGHT = 32;
@@ -21,9 +18,10 @@ namespace healthPackNS
 	const int   COLLISION_RADIUS = 120 / 2;   // for circular collision
 }
 
-class HealthPack : public Item {
+class HealthPack : public Item
+{
 public:
-	HealthPack ();
+	HealthPack();
 	bool initialize(Game *gamePtr, TextureManager* itemTexture);
 };
 #endif#pragma once

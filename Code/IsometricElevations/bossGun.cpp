@@ -1,7 +1,6 @@
 #include "bossGun.h"
 
-BossGun::BossGun()
-{
+BossGun::BossGun() {
 	ammo = -1;
 	maxAmmo = -1;
 	cooldown = 0.4f;
@@ -10,73 +9,62 @@ BossGun::BossGun()
 	Gun();
 }
 
-BossGun::~BossGun()
-{
-}
+BossGun::~BossGun() {}
 
-void BossGun::update(float frametime, int orientation, float x, float y, Input * input, LevelController * lc, float destX, float destY, bool shouldShoot)
-{
+void BossGun::update(float frametime, int orientation, float x, float y, Input * input, LevelController * lc, float destX, float destY, bool shouldShoot) {
 	playerX = x;
 	playerY = y;
 	adjacent = destX - x;
 	opposite = destY - y;
 	angle = atan((opposite / adjacent));
 	spriteData.angle = angle;
-	if (adjacent < 0) // facing back
-	{
+	if (adjacent < 0) { // Facing back
 		setX(x);
-		setY(y+80);
+		setY(y + 80);
 		flipHorizontal(true);
-	}
-	else {
+	} else {
 		setX(x + 50);
-		setY(y+80);
+		setY(y + 80);
 		flipHorizontal(false);
 	}
 	angle = atan((destY - getY()) / (destX - getX()));
-	//fire bullet
+	// Fire bullet
 	if (shouldShoot) { // Cause AI calls this
 		Projectile* p = shoot(lc, frametime);
 		if (p != nullptr)
 			p->setOwner(Projectile::NPC);
-	}
-	else {
-		cooldowncurrent -= frametime;
+	} else {
+		cooldownCurrent -= frametime;
 	}
 	Entity::update(frametime);
 }
 
-Projectile * BossGun::shoot(LevelController * lc, float frametime)
-{
-	if (cooldowncurrent <= 0 && hasAmmo()) {
-		audio->playCue(PISTOLSHOT);
+Projectile * BossGun::shoot(LevelController * lc, float frametime) {
+	if (cooldownCurrent <= 0 && hasAmmo()) {
+		audio->playCue(PISTOL_SHOT);
 		if (ammo != -1)
 			ammo--;
-		gameptr->console->print("Remaining ammo: ");
-		gameptr->console->print(std::to_string(ammo));
-		cooldowncurrent = cooldown;
+		cooldownCurrent = cooldown;
 		bullet = new Projectile();
 		bullet->initialize(gameptr, 32, 32, 1, bulletTexture);
 		bullet->setCurrentFrame(0);
 		bullet->setSpeed(bullet_speed);
 		bullet->setDamage(damage);
 		bullet->spriteData.angle = angle;
-		D3DXVECTOR2 mousePos = D3DXVECTOR2(cos(angle), sin(angle)); // normalize the vector idk what but it works lol
-		bullet->setX(getX() + mousePos.x * gunNS::PISTOL_OFFSET); // <---- the 32 should be the gun sprites width
+		D3DXVECTOR2 mousePos = D3DXVECTOR2(cos(angle), sin(angle)); // Normalize the vector
+		bullet->setX(getX() + mousePos.x * gunNS::PISTOL_OFFSET);
 		bullet->setY(getY());
 		if (adjacent >= 0) {
 			bullet->setVelocity(mousePos);
 			bullet->spriteData.angle = angle;
-		}
-		else {
+		} else {
 			bullet->setVelocity(-mousePos);
 		}
 		lc->addProjectile(bullet);
 		bullets.push_back(bullet);
 		return bullet;
-	}
-	else {
-		cooldowncurrent -= frametime;
+	} else {
+		cooldownCurrent -= frametime;
 	}
 	return nullptr;
 }

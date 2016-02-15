@@ -16,9 +16,7 @@ Gun::Gun() {
 	bullets = std::vector<Projectile*>();
 }
 
-Gun::~Gun() {
-
-}
+Gun::~Gun() {}
 bool Gun::initialize(Game * gamePtr, int width, int height, int ncols, TextureManager * textureM) {
 	gameptr = gamePtr;
 	bulletTexture = new TextureManager();
@@ -28,11 +26,6 @@ bool Gun::initialize(Game * gamePtr, int width, int height, int ncols, TextureMa
 		throw(GameError(gameErrorNS::FATAL_ERROR, "Error initializing bullet texture"));
 	return (Entity::initialize(gamePtr, width, height, ncols, textureM));
 }
-/*
-Projectile * Gun::shoot(LevelController * lc, float frametime) {
-	return nullptr;
-}
-*/
 void Gun::update(float frametime, int orientation, float x, float y, Input* input, LevelController* lc) {
 	//change orientation of gun based on mouse position
 	playerX = x;
@@ -43,8 +36,7 @@ void Gun::update(float frametime, int orientation, float x, float y, Input* inpu
 	opposite = mouseY - y;
 	angle = atan((opposite / adjacent));
 	spriteData.angle = angle;
-	if (adjacent < 0) // facing back
-	{
+	if (adjacent < 0) {  // facing back
 		setX(x - 20);
 		setY(y + 5);
 		flipHorizontal(true);
@@ -54,11 +46,11 @@ void Gun::update(float frametime, int orientation, float x, float y, Input* inpu
 		flipHorizontal(false);
 	}
 	angle = atan((mouseY - getY()) / (mouseX - getX()));
-	//fire bullet
+	// Fire bullet
 	if (input->getMouseLButton()) {
 		shoot(lc, frametime);
 	} else {
-		cooldowncurrent -= frametime;
+		cooldownCurrent -= frametime;
 	}
 	Entity::update(frametime);
 }
@@ -71,8 +63,7 @@ void Gun::update(float frametime, int orientation, float x, float y, Input* inpu
 	opposite = destY - y;
 	angle = atan((opposite / adjacent));
 	spriteData.angle = angle;
-	if (adjacent < 0) // facing back
-	{
+	if (adjacent < 0) { // Facing back
 		setX(x - 35);
 		setY(y + 5);
 		flipHorizontal(true);
@@ -82,56 +73,37 @@ void Gun::update(float frametime, int orientation, float x, float y, Input* inpu
 		flipHorizontal(false);
 	}
 	angle = atan((destY - getY()) / (destX - getX()));
-	//fire bullet
+	// Fire bullet
 	if (shouldShoot) { // Cause AI calls this
 		Projectile* p = shoot(lc, frametime);
 		if (p != nullptr)
 			p->setOwner(Projectile::NPC);
 	} else {
-		cooldowncurrent -= frametime;
+		cooldownCurrent -= frametime;
 	}
 	Entity::update(frametime);
 }
 
 void Gun::update(float frametime, int orientation, float x, float y, Input* input, bool flip) {
-	// We should not have 2 update functions omgwtfbbq - Ben
-	//edit this to make the npc's gun awesome -clarence
-	// Gun's flipping for NPC - Ben
-	//npc's gun not flipping currently -- Fixed
-
-	//change orientation of gun based on mouse position
 	playerX = x;
 	playerY = y;
-	//mouseX = input->getMouseX();
-	//mouseY = input->getMouseY();
 	adjacent = x;
 	opposite = y;
-	//angle = atan((opposite / adjacent)); // npc's gun is facing straight
 	spriteData.angle = 0;
-	if (flip) // facing back
-	{
+	if (flip) { // Facing back
 		setX(x - 35);
 		setY(y);
-		//setX(x - 20); //follow mouse
-		//setY(y);	//follow mouse
 		flipHorizontal(true);
 	} else {
 		setX(x);
 		setY(y);
 		flipHorizontal(false);
 	}
-	//fire bullet
+	// Fire bullet
 	if (true) {
 		// npc cannot shoot yet
-	}
-	/*
-	if (input->getMouseLButton())
-	{
-		shoot(lc, frametime);
-	}
-	*/
-	else {
-		cooldowncurrent -= frametime;
+	} else {
+		cooldownCurrent -= frametime;
 	}
 	Entity::update(frametime);
 }
