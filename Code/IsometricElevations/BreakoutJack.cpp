@@ -396,7 +396,7 @@ void BreakoutJack::render() {
 			if (player->getHealthStatus() == Player::PlayerHealthStatus::Dead) {
 				audio->stopCue(BK_MUSIC);
 				audio->playCue(LOSE_MUSIC);
-				text = "         YOU LOSE\nPress any button to restart";
+				text = "         YOU LOSE\nPress any button to continue";
 				loseFont->print(text, GAME_WIDTH / 2 - 300, GAME_HEIGHT / 2);
 				for (std::list<Button*>::iterator bIter = winLoseButtonList->begin(); bIter != winLoseButtonList->end(); ++bIter) {
 					(*bIter)->draw();
@@ -406,7 +406,8 @@ void BreakoutJack::render() {
 				audio->stopCue(BK_MUSIC);
 				audio->stopCue(BOSS_MUSIC);
 				audio->playCue(VICTORY_MUSIC);
-				text = "        YOU WIN\nPress any button to continue";
+				text = "    YOU WIN, SCORE: " + std::to_string(player->getTotalPoints()) +  "\nPress any button to continue";
+				
 				levelController->releaseJack();
 				jack->setAiState(NPC::Chase);
 				loseFont->print(text, GAME_WIDTH / 2 - 300, GAME_HEIGHT / 2);
